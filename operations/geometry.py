@@ -80,25 +80,25 @@ def hflip(data, visualize = False):
 
 
 def vflip(data, visualize = False):
-    data = preprocess_data(data)
+    data = preprocess_data(data, visualize)
     data['data2d'] = kornia.vflip(data['data2d'])
     if data.keys().__contains__('data1d'):
         heigth = data['data2d'].shape[-2]
         for point in data['data1d']:
             point[1] = heigth - point[1]
-    return postprocess_data(data)
+    return postprocess_data(data, visualize)
 
 def affine(data, matrix, visualize = False):
-    data = preprocess_data(data)
+    data = preprocess_data(data, visualize)
     matrix = matrix.to(device)
     kornia.geometry.affine(data['data2d'], matrix)
     if data.keys().__contains__('data1d'):
         data['data1d'] = [torch.matmul(matrix, point) for point in data['data1d']]
         #data['data1d'] = [matrix * point for point in data['data1d']]
-    return postprocess_data(data)
+    return postprocess_data(data, visualize)
 
 def rotate(data, degrees, visualize = False):
-    data = preprocess_data(data)
+    data = preprocess_data(data, visualize)
     data['data2d'] = kornia.geometry.rotate(data['data2d'], angle=degrees*one_torch)
     center = torch.ones(1, 2).to(device)
     center[..., 0] = data['data2d'].shape[-2] // 2  # x
@@ -106,7 +106,7 @@ def rotate(data, degrees, visualize = False):
     matrix = (kornia.geometry.get_rotation_matrix2d(angle=one_torch * degrees, center = center, scale = one_torch)).reshape(2,3)
     if data.keys().__contains__('data1d'):
         data['data1d'] = [torch.matmul(matrix, point) for point in data['data1d']]
-    return postprocess_data(data)
+    return postprocess_data(data, visualize)
 
 
 def x_shear_point(point, shear_factor):
@@ -114,13 +114,13 @@ def x_shear_point(point, shear_factor):
     return point
 
 def x_shear(data, shear_factor, visualize = False):
-    data = preprocess_data(data)
+    data = preprocess_data(data, visualize)
     shear_factor_m = torch.zeros((1,2)).to(device)
     shear_factor_m[:,0]= shear_factor
     data['data2d'] = kornia.geometry.shear(data['data2d'], shear_factor_m)
     if data.keys().__contains__('data1d'):
         data['data1d'] = [x_shear_point(point, shear_factor)for point in data['data1d']]
-    return postprocess_data(data)
+    return postprocess_data(data, visualize)
 
 
 def y_shear_point(point, shear_factor, visualize = False):
@@ -128,13 +128,13 @@ def y_shear_point(point, shear_factor, visualize = False):
     return point
 
 def y_shear(data, shear_factor, visualize = False):
-    data = preprocess_data(data)
+    data = preprocess_data(data, visualize)
     shear_factor_m = torch.zeros((1, 2)).to(device)
     shear_factor_m[:, 1] = shear_factor
     data['data2d'] = kornia.geometry.shear(data['data2d'], shear_factor_m)
     if data.keys().__contains__('data1d'):
         data['data1d'] = [y_shear_point(point, shear_factor)for point in data['data1d']]
-    return postprocess_data(data)
+    return postprocess_data(data, visualize)
 
 
 def get_scale_matrix(center, scale_factor):
@@ -148,7 +148,7 @@ def get_scale_matrix(center, scale_factor):
     return matrix
 
 def scale(data, scale_factor, visualize = False):
-    data = preprocess_data(data)
+    data = preprocess_data(data, visualize)
     center = torch.ones(2)
     center[0] = data['data2d'].shape[-2] // 2  # x
     center[1] = data['data2d'].shape[-1] // 2 # y
@@ -158,7 +158,7 @@ def scale(data, scale_factor, visualize = False):
     matrix = get_scale_matrix(center, scale_factor)
     if data.keys().__contains__('data1d'):
         data['data1d'] = [torch.matmul(matrix, point) for point in data['data1d']]
-    return postprocess_data(data)
+    return postprocess_data(data, visualize)
 
 
 
@@ -168,14 +168,14 @@ def translate_point(point, translation):
     return point
 
 def translate(data, translation, visualize = False):
-    if not torch.is_tensor(translation):
+    if not torch.is_tensor(translation, visualize):
         translation = (torch.tensor(translation).float().reshape((1,2)))
     translation  = translation.to(device)
     data = preprocess_data(data)
     data['data2d'] = kornia.geometry.translate(data['data2d'], translation)
     if data.keys().__contains__('data1d'):
         data['data1d'] = [translate_point(point, translation) for point in data['data1d']]
-    return postprocess_data(data)
+    return postprocess_data(data, visualize)
 
 
 

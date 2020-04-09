@@ -1,13 +1,33 @@
 from bokeh.plotting import figure, output_file, show
 from bokeh.models import Panel, Tabs
-from bokeh.layouts import row
+from bokeh.layouts import row, column
 import cv2
 import numpy as np
 import torch
 import kornia
 import bokeh.plotting
+from bokeh.palettes import PuBu
+from bokeh.models import ColumnDataSource, ranges, LabelSet
 from operations import geometry
+from bokeh.models import ColumnDataSource, Grid, LinearAxis, Plot, VBar, HBar
 
+
+def diference_between_images_pixel(img1, img2):
+    if img1.shape != img2.shape:
+        raise Exception("Images must have the same dimensions to compare")
+    #if type(img1).__module__ != np.__name__ or type(img1).__module__ != np.__name__ :
+    #    raise Exception("Images must be numpy array")
+    dif = torch.abs(torch.sub(img1[0, 0, ...], img2[0, 0, ...]))
+    dif = dif+torch.abs(torch.sub(img1[0, 1, ...], img2[0, 1, ...]))
+    dif = dif+torch.abs(torch.sub(img1[0, 2, ...], img2[0, 2, ...]))
+    dif = dif / 3
+
+    dif_total = torch.sum(torch.sum(dif, axis=0), axis=0)
+
+    _,_,w, h = img1.shape
+    total = w * h * 256
+    diference = ( dif_total / total ) * 100
+    return diference
 
 
 def process_image(img_orig):
@@ -72,12 +92,27 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
 
 def bokeh_imshow(data, **figure_kwargs):
 
-
+    dif = diference_between_images_pixel(data['image'], data['original']['image'])
     bokeh.plotting.output_file("data_visualization.html")
 
     tabs_original = generate_tab(data['original']['image'], data['original']['keypoints'],mask = data['original']['mask'],  title='original_image')
     tabs_warped = generate_tab(data['image'], data['keypoints'], mask = data['mask'], title='warped_image')
-    bokeh.plotting.show(row(tabs_original, tabs_warped))  # open a browser
+    source = ColumnDataSource(dict(x=['Diference percentage'], y=[dif.numpy()]))
+
+    title = "Image diference pixel-values"
+    plot = figure(plot_width=300, plot_height=500, tools="",
+                  title=title,
+                  x_minor_ticks=2,
+                  x_range=source.data["x"],
+                  y_range=ranges.Range1d(start=0, end=100))
+
+    labels = LabelSet(x='x', y='y', text='y', level='glyph',
+                      x_offset=-13.5, y_offset=0, source=source, render_mode='canvas')
+
+    plot.vbar(source=source, x='x', top='y', bottom=0, width=0.3, color=PuBu[7][2])
+
+    plot.add_layout(labels)
+    bokeh.plotting.show(row(tabs_original, tabs_warped, plot))  # open a browser
 
 import numpy
 
@@ -101,64 +136,7 @@ points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 data = {'image':data, 'mask': data,  'keypoints': points}
 #input data
 
-data = geometry.hflip(data, visualize=True)
+data = geometry.vflip(data, visualize=True)
 
 bokeh_imshow(data)
 
-'''
-# Display the 32-bit RGBA image
-dim = max(xdim, ydim)
-fig = figure(title="Lena",
-             x_range=(0,dim), y_range=(0,dim),
-             # Specifying xdim/ydim isn't quire right :-(
-             # width=xdim, height=ydim,
-             )
-fig.image_rgba(image=[img], x=0, y=0, dw=xdim, dh=ydim)
-
-output_file("lena.html", title="image example")
-
-show(fig)  # open a browser
-
-
-N1 = img_warped.shape[0]
-N2 = img_warped.shape[1]
-
-img = np.zeros((N1,N2), dtype=np.uint32)
-view = img.view(dtype=np.uint8).reshape((N1, N2, 4))
-
-view[:N1,:N2,0] = img[range(N1-1,-1,-1),:N2,0]
-view[:N1,:N2,1] = img[range(N1-1,-1,-1),:N2,1]
-view[:N1,:N2,2] = img[range(N1-1,-1,-1),:N2,2]
-
-output_file("image_visualization.html")
-
-
-#Original image
-p1 = figure(title="original image",tools="pan,lasso_select,box_select,wheel_zoom",  x_range=(0,width), y_range=(0,height))
-p1.image_rgba(image=[img], x=0, y=0, dw=width, dh=height, level="image")
-#p1.image_url(url=['./gato.jpg'], x=0, y=height, w=width, h=height)
-tab1_original = Panel(child=p1, title="image")
-
-p2 = figure(title="original image",tools="pan,lasso_select,box_select,wheel_zoom", x_range=(0,width), y_range=(0,height))
-p2.image_url(url=['./gato.jpg'], x=0, y=height, w=width, h=height)
-p2.circle([1, 2, 3, 4, 5], [6, 7, 2, 4, 5], size=width, color="navy", alpha=0.5)
-tab2_original = Panel(child=p2, title="keypoints")
-
-# show the results
-tabs_original = Tabs(tabs=[ tab1_original, tab2_original ])
-
-#Warped image
-p1_w = figure(title="warped image",tools="pan,lasso_select,box_select,wheel_zoom",  x_range=(0,width), y_range=(0,height))
-p1_w.image_url(url=['./gato.jpg'], x=0, y=height, w=width, h=height)
-tab1_warped = Panel(child=p1_w, title="image")
-
-p2_w = figure(title="warped image",tools="pan,lasso_select,box_select,wheel_zoom",  x_range=(0,width), y_range=(0,height))
-p2_w.image_url(url=['./gato.jpg'], x=0, y=height, w=width, h=height)
-p2_w.circle([1, 2, 3, 4, 5], [6, 7, 2, 4, 5], size=width, color="navy", alpha=0.5)
-tab2_warped = Panel(child=p2_w, title="keypoints")
-
-# show the results
-tabs_warped = Tabs(tabs=[ tab1_warped, tab2_warped])
-
-show(row(tabs_original, tabs_warped))
-'''
