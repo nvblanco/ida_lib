@@ -136,7 +136,11 @@ points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 data = {'image':data, 'mask': data,  'keypoints': points}
 #input data
 
-data = geometry.vflip(data, visualize=True)
+
+center = torch.ones(1, 2)
+center[...,0]=100
+center[...,1]= 50
+data = geometry.rotate(data,degrees=35, visualize=True, center=center)
 
 bokeh_imshow(data)
 

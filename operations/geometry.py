@@ -97,12 +97,14 @@ def affine(data, matrix, visualize = False):
         #data['data1d'] = [matrix * point for point in data['data1d']]
     return postprocess_data(data, visualize)
 
-def rotate(data, degrees, visualize = False):
+def rotate(data, degrees, visualize = False, center = None):
+    if center is None:
+        center = torch.ones(1, 2)
+        center[..., 0] = data['data2d'].shape[-2] // 2  # x
+        center[..., 1] = data['data2d'].shape[-1] // 2 # y
+    center = center.to(device)
     data = preprocess_data(data, visualize)
-    data['data2d'] = kornia.geometry.rotate(data['data2d'], angle=degrees*one_torch)
-    center = torch.ones(1, 2).to(device)
-    center[..., 0] = data['data2d'].shape[-2] // 2  # x
-    center[..., 1] = data['data2d'].shape[-1] // 2 # y
+    data['data2d'] = kornia.geometry.rotate(data['data2d'], angle=degrees*one_torch, center=center)
     matrix = (kornia.geometry.get_rotation_matrix2d(angle=one_torch * degrees, center = center, scale = one_torch)).reshape(2,3)
     if data.keys().__contains__('data1d'):
         data['data1d'] = [torch.matmul(matrix, point) for point in data['data1d']]
@@ -147,11 +149,12 @@ def get_scale_matrix(center, scale_factor):
     matrix[1,2] = (-scale_factor[1] + 1)*center[1]
     return matrix
 
-def scale(data, scale_factor, visualize = False):
+def scale(data, scale_factor, visualize = False, center = None):
     data = preprocess_data(data, visualize)
-    center = torch.ones(2)
-    center[0] = data['data2d'].shape[-2] // 2  # x
-    center[1] = data['data2d'].shape[-1] // 2 # y
+    if center is None:
+        center = torch.ones(2)
+        center[0] = data['data2d'].shape[-2] // 2  # x
+        center[1] = data['data2d'].shape[-1] // 2 # y
     center = center.to(device)
     scale_factor = (torch.ones(1)*scale_factor).to(device)
     data['data2d'] = kornia.geometry.scale(data['data2d'], scale_factor=scale_factor , center=center)
