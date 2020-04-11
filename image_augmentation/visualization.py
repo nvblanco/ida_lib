@@ -90,12 +90,12 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
         tabs_original = Tabs(tabs=[tab1_original, tab2_original])
     return tabs_original
 
-def bokeh_imshow(data, **figure_kwargs):
+def plot_image_tranformation(data, data_original, **figure_kwargs):
 
     dif = diference_between_images_pixel(data['image'], data['original']['image'])
     bokeh.plotting.output_file("data_visualization.html")
 
-    tabs_original = generate_tab(data['original']['image'], data['original']['keypoints'],mask = data['original']['mask'],  title='original_image')
+    tabs_original = generate_tab(data_original['image'], data_original['keypoints'],mask = data_original['mask'],  title='original_image')
     tabs_warped = generate_tab(data['image'], data['keypoints'], mask = data['mask'], title='warped_image')
     source = ColumnDataSource(dict(x=['Diference percentage'], y=[dif.numpy()]))
 
@@ -140,7 +140,8 @@ data = {'image':data, 'mask': data,  'keypoints': points}
 center = torch.ones(1, 2)
 center[...,0]=100
 center[...,1]= 50
-data = geometry.rotate(data,degrees=35, visualize=True, center=center)
+data = geometry.hflip(data)
+#data = geometry.rotate(data,degrees=35, visualize=True, center=center)
 
-bokeh_imshow(data)
+#plot_image_tranformation(data)
 

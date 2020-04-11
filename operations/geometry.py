@@ -1,6 +1,8 @@
 import kornia
 import torch
 
+from . import functional
+
 data_types_2d = {"image", "mask", "heatmap"}
 data_types_1d = {"keypoints"}
 
@@ -80,13 +82,16 @@ def hflip(data, visualize = False):
 
 
 def vflip(data, visualize = False):
+    op = functional.vflip(data, visualize)
+    return op()
+    '''
     data = preprocess_data(data, visualize)
     data['data2d'] = kornia.vflip(data['data2d'])
     if data.keys().__contains__('data1d'):
         heigth = data['data2d'].shape[-2]
         for point in data['data1d']:
             point[1] = heigth - point[1]
-    return postprocess_data(data, visualize)
+    return postprocess_data(data, visualize)'''
 
 def affine(data, matrix, visualize = False):
     data = preprocess_data(data, visualize)
