@@ -91,7 +91,6 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
     return tabs_original
 
 def plot_image_tranformation(data, data_original, **figure_kwargs):
-
     dif = diference_between_images_pixel(data['image'], data['original']['image'])
     bokeh.plotting.output_file("data_visualization.html")
 
@@ -114,6 +113,8 @@ def plot_image_tranformation(data, data_original, **figure_kwargs):
     plot.add_layout(labels)
     bokeh.plotting.show(row(tabs_original, tabs_warped, plot))  # open a browser
 
+
+'''
 import numpy
 
 from PIL import Image
@@ -140,8 +141,17 @@ data = {'image':data, 'mask': data,  'keypoints': points}
 center = torch.ones(1, 2)
 center[...,0]=100
 center[...,1]= 50
-data = geometry.hflip(data)
+
+from operations import functional
+
+def vflip(data, visualize = False):
+    op = functional.vflip_class(data, visualize)
+    return op()
+
+data = vflip(data)
+#data = geometry.hflip(data)
 #data = geometry.rotate(data,degrees=35, visualize=True, center=center)
 
 #plot_image_tranformation(data)
+'''
 
