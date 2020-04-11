@@ -175,29 +175,3 @@ class translate_transformation(transform):
         if self.data1d is not None:
             self.data1d = [self.translate_point(point, self.translation) for point in self.data1d]
 
-'''
-import cv2
-import numpy as np
-img: np.ndarray = cv2.imread('../gato.jpg')
-img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-def vflip(data, visualize = False):
-    op = vflip_class(data, visualize)
-    return op()
-
-keypoints = ([img.shape[0]//2, img.shape[1]//2], [img.shape[0]//2  + 105, img.shape[1]//2 - 50])
-
-# convert to torch tensor
-data: torch.tensor = kornia.image_to_tensor(img, keepdim=False)  # BxCxHxW
-points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
-
-data = {'image':data, 'mask': data,  'keypoints': points}
-#input data
-
-
-center = torch.ones(1, 2)
-center[...,0]=100
-center[...,1]= 50
-
-vflip(data, True)
-'''
