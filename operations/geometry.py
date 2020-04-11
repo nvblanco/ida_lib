@@ -55,6 +55,8 @@ def affine(data, matrix, visualize = False):
         #data['data1d'] = [matrix * point for point in data['data1d']]
     return postprocess_data(data, visualize)'''
 
+
+'''
 def rotate(data, degrees, visualize = False, center = None):
     if center is None:
         center = torch.ones(1, 2)
@@ -137,6 +139,7 @@ def translate(data, translation, visualize = False):
     if data.keys().__contains__('data1d'):
         data['data1d'] = [translate_point(point, translation) for point in data['data1d']]
     return postprocess_data(data, visualize)
+    '''
 
 
 

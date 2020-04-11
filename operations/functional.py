@@ -107,6 +107,73 @@ class affine_transformation(transform):
             self.data1d = [torch.matmul(self.matrix, point) for point in self.data1d]
         return transform.postprocess_data(self)
 
+class rotate_transformation(transform):
+    def __init__(self, data, degrees, visualize = False, center = None):
+        transform.__init__(self, data, visualize)
+        self.degrees = degrees * one_torch
+        if center is None:
+            self.center = torch.ones(1, 2)
+            self.center[..., 0] = data['data2d'].shape[-2] // 2  # x
+            self.center[..., 1] = data['data2d'].shape[-1] // 2  # y
+        else:
+            self.center = center
+        self.center.to(device)
+    def __call__(self, *args, **kwargs):
+        self.data2d = kornia.geometry.rotate(self.data2d, angle=self.degrees , center=self.center)
+        matrix = (
+            kornia.geometry.get_rotation_matrix2d(angle=self.degrees, center=self.center, scale=one_torch)).reshape(2,
+                                                                                                                      3)
+        if self.data1d:
+            self.data1d = [torch.matmul(matrix, point) for point in self.data1d]
+        return transform.postprocess_data(self)
+
+class  scale_transformation(transform):
+    def __init__(self, data, scale_factor, visualize = False, center = None):
+        transform.__init__(self, data, visualize)
+        self.scale_factor = (torch.ones(1)*scale_factor).to(device)
+        if center is None:
+            self.center = torch.ones(1, 2)
+            self.center[..., 0] = data['data2d'].shape[-2] // 2  # x
+            self.center[..., 1] = data['data2d'].shape[-1] // 2  # y
+        else:
+            self.center = center
+        self.center.to(device)
+
+    def get_scale_matrix(center, scale_factor):
+        if isinstance(scale_factor,
+                      float) or scale_factor.dim() == 1:  # si solo se proporciona un valor; se escala por igual en ambos ejes
+            scale_factor = torch.ones(2).to(device) * scale_factor
+        matrix = torch.zeros(2, 3).to(device)
+        matrix[0, 0] = scale_factor[0]
+        matrix[1, 1] = scale_factor[1]
+        matrix[0, 2] = (-scale_factor[0] + 1) * center[0]
+        matrix[1, 2] = (-scale_factor[1] + 1) * center[1]
+        return matrix
+
+    def __call__(self, *args, **kwargs):
+        self.data2d = kornia.geometry.scale(self.data2d, scale_factor=self.scale_factor, center=self.center)
+        matrix = self.get_scale_matrix(self.center, self.scale_factor)
+        if self.data1d is not None:
+            self.data1d = [torch.matmul(matrix, point) for point in self.data1d]
+
+class translate_transformation(transform):
+    def __init__(self, data, translation, visualize = False):
+        transform.__init__(self, data, visualize)
+        self.translation = translation
+        if not torch.is_tensor(translation):
+            self.translation = (torch.tensor(translation).float().reshape((1, 2)))
+        self.translation = self.translation.to(device)
+
+    def __aply_to_point(self, point):
+        point[0] += self.translation[:, 0]
+        point[1] += self.translation[:, 1]
+        return point
+
+    def __call__(self, *args, **kwargs):
+        self.data2d = kornia.geometry.translate(self.data2d, self.translation)
+        if self.data1d is not None:
+            self.data1d = [self.translate_point(point, self.translation) for point in self.data1d]
+
 '''
 import cv2
 import numpy as np
