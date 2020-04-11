@@ -47,8 +47,8 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
     image = kornia.tensor_to_image(image.byte()[0])
     source = process_image(image)
 
-    p1 = bokeh.plotting.figure(title=title, x_range=(0, img.shape[1]), y_range=(
-        img.shape[0], 0), tools="pan,box_select,wheel_zoom", **figure_kwargs)
+    p1 = bokeh.plotting.figure(title=title, x_range=(0, image.shape[1]), y_range=(
+        image.shape[0], 0), tools="pan,box_select,wheel_zoom", **figure_kwargs)
     p1.add_tools(bokeh.models.HoverTool(
         tooltips=[
             ("(x, y)", "($x, $y)"),
@@ -57,8 +57,8 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
     p1.image_rgba(source=source, image='img', x='x', y='y', dw='dw', dh='dh')
     tab1_original = Panel(child=p1, title="image")
 
-    p2 = bokeh.plotting.figure(title=title,  x_range=(0, img.shape[1]), y_range=(
-        img.shape[0], 0), tools="pan,box_select,wheel_zoom", **figure_kwargs)
+    p2 = bokeh.plotting.figure(title=title,  x_range=(0, image.shape[1]), y_range=(
+        image.shape[0], 0), tools="pan,box_select,wheel_zoom", **figure_kwargs)
     p2.add_tools(bokeh.models.HoverTool(
         tooltips=[
             ("(x, y)", "($x, $y)"),
@@ -74,8 +74,8 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
     tab2_original = Panel(child=p2, title="keypoints")
 
     if mask is not None:
-        p3 = bokeh.plotting.figure(title=title, x_range=(0, img.shape[1]), y_range=(
-            img.shape[0], 0), tools="pan,box_select,wheel_zoom", **figure_kwargs)
+        p3 = bokeh.plotting.figure(title=title, x_range=(0, image.shape[1]), y_range=(
+            image.shape[0], 0), tools="pan,box_select,wheel_zoom", **figure_kwargs)
         p3.add_tools(bokeh.models.HoverTool(
             tooltips=[
                 ("(x, y)", "($x, $y)"),
@@ -91,11 +91,21 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
     return tabs_original
 
 def plot_image_tranformation(data, data_original, **figure_kwargs):
-    dif = diference_between_images_pixel(data['image'], data['original']['image'])
+    dif = diference_between_images_pixel(data['image'], data_original['image'])
     bokeh.plotting.output_file("data_visualization.html")
 
-    tabs_original = generate_tab(data_original['image'], data_original['keypoints'],mask = data_original['mask'],  title='original_image')
-    tabs_warped = generate_tab(data['image'], data['keypoints'], mask = data['mask'], title='warped_image')
+    if data_original.keys().__contains__('mask'):
+        mask_original = data_original['mask']
+    else:
+        mask_original = None
+    if data.keys().__contains__('mask'):
+        mask = data['mask']
+    else:
+        mask = None
+
+
+    tabs_original = generate_tab(data_original['image'], data_original['keypoints'],mask = mask_original,  title='original_image')
+    tabs_warped = generate_tab(data['image'], data['keypoints'], mask = mask, title='warped_image')
     source = ColumnDataSource(dict(x=['Diference percentage'], y=[dif.numpy()]))
 
     title = "Image diference pixel-values"

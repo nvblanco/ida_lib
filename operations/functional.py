@@ -33,6 +33,7 @@ class transform(object):
     @abc.abstractmethod
     def __init__(self, data, visualize=False):
         self.visualize = visualize
+        self.points = None
         result_data = {}
         if visualize:
             self.original = data
@@ -48,7 +49,7 @@ class transform(object):
                     self.points = data[type]
             self.data2d = compose_data.to(device)
             #self.types2d= types_2d
-            if self.points is not None: self.data1d = keypoints_to_homogeneus_functional(points)
+            if self.points is not None: self.data1d = keypoints_to_homogeneus_functional(self.points)
             return result_data
         else:
             if data.dim() < 3:

@@ -23,7 +23,7 @@ data = {'image':data, 'keypoints': points}
 #data_warped: torch.tensor = kornia.hflip(data_warped)
 #data_warped: torch.tensor = geometry.scale(data, 0.8)
 
-data_warped = geometry.hflip(data)
+data_warped = geometry.hflip(data, visualize=True)
 #data_warped: torch.tensor = geometry.rotate(data_warped, 30)
 # convert back to numpy
 img_warped: np.ndarray = kornia.tensor_to_image(data_warped['image'].byte()[0])
