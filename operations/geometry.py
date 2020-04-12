@@ -1,4 +1,4 @@
-from . import functional
+from . import geometry_functional
 
 '''
 DATA TYPES:
@@ -9,29 +9,29 @@ DATA TYPES:
     * keypoints:list of torch tensor of dims (H, W) --keypoints must be with some 2d data'''
 
 def hflip(data, visualize = False):
-    op = functional.hflip_transformation(data, visualize)
+    op = geometry_functional.hflip_transformation(data, visualize)
     return op()
 
 
 def vflip(data, visualize = False):
-    op = functional.vflip_transformation(data, visualize)
+    op = geometry_functional.vflip_transformation(data, visualize)
     return op()
 
 def affine(data, matrix, visualize = False):
-    op = functional.affine_transformation(data,matrix, visualize)
+    op = geometry_functional.affine_transformation(data, matrix, visualize)
     return op()
 
 
 def rotate(data, degrees, visualize = False, center = None):
-    op = functional.rotate_transformation(data,degrees,  visualize, center)
+    op = geometry_functional.rotate_transformation(data, degrees, visualize, center)
     return op()
 
 def scale(data, scale_factor, visualize = False, center = None):
-    op = functional.rotate_transformation(data, scale_factor, visualize, center)
+    op = geometry_functional.rotate_transformation(data, scale_factor, visualize, center)
     return op()
 
 def translate(data, translation, visualize = False):
-    op = functional.translate_transformationns(data, translation, visualize)
+    op = geometry_functional.translate_transformationns(data, translation, visualize)
     return op()
 
 '''
