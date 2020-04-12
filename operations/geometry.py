@@ -27,11 +27,11 @@ def rotate(data, degrees, visualize = False, center = None):
     return op()
 
 def scale(data, scale_factor, visualize = False, center = None):
-    op = geometry_functional.rotate_transformation(data, scale_factor, visualize, center)
+    op = geometry_functional.scale_transformation(data, scale_factor, visualize, center)
     return op()
 
 def translate(data, translation, visualize = False):
-    op = geometry_functional.translate_transformationns(data, translation, visualize)
+    op = geometry_functional.translate_transformation(data, translation, visualize)
     return op()
 
 '''

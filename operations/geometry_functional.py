@@ -32,9 +32,11 @@ class transform(object):
                     self.types_2d[type] = data[type].shape[0]
                 else:
                     self.points = data[type]
+                    self.points_matrix = data[type]
             self.data2d = compose_data.to(device)
             #self.types2d= types_2d
             if self.points is not None: self.data1d = utils.keypoints_to_homogeneus_functional(self.points)
+            if self.points is not None: self.points_matrix = utils.keypoints_to_homogeneus_and_concatenate(self.points_matrix)
             return result_data
         else:
             if data.dim() < 3:
@@ -49,8 +51,8 @@ class transform(object):
             data_split = torch.split(self.data2d,  list(self.types_2d.values()), dim=0)
             for index, type in enumerate(self.types_2d):
                 data_output[type] = data_split[index]
-            data_output['keypoints'] = [((dato.cpu())[:2, :]).reshape(2) for dato in self.data1d]
-            #if data_output.keys().__contains__('mask'): data_output['mask'] = mask_change_to_01_functional(data_output['mask'])
+            if data_output.keys().__contains__('mask'): data_output['mask'] = utils.mask_change_to_01_functional(data_output['mask'])
+            if self.__getattribute__('points_matrix') is not None: data_output['keypoints'] = [((dato.cpu())[:2, :]).reshape(2) for dato in torch.split(self.points_matrix, 1, dim=1)]
         else:
             data_output = self.data2d
         if self.visualize:
@@ -66,8 +68,8 @@ class vflip_transformation(transform):
         self.data2d = kornia.vflip(self.data2d)
         if self.data1d is not None:
             heigth = self.data2d.shape[-2]
-            for point in self.data1d:
-                point[1] = heigth - point[1]
+            if self.points_matrix is not None:
+                self.points_matrix[1] = torch.ones(1,self.points_matrix.shape[1]).to(device)*(heigth)-self.points_matrix[1]
         return transform.postprocess_data(self)
 
 class hflip_transformation(transform):
@@ -76,10 +78,11 @@ class hflip_transformation(transform):
 
     def __call__(self, *args, **kwargs):
         self.data2d = kornia.hflip(self.data2d)
-        if self.data1d is not None:
+        if self.points_matrix is not None:
             width = self.data2d.shape[-1]
-            for point in self.data1d:
-                point[0] = width - point[0]
+            if self.points_matrix is not None:
+                self.points_matrix[0] = torch.ones(1, self.points_matrix.shape[1]).to(device) * (width) - \
+                                        self.points_matrix[0]
         return transform.postprocess_data(self)
 
 class affine_transformation(transform):
@@ -88,9 +91,9 @@ class affine_transformation(transform):
         self.matrix = matrix.to(device)
 
     def __call__(self, *args, **kwargs):
-        kornia.geometry.affine(self.data2d, self.matrix)
-        if self.data1d is not None:
-            self.data1d = [torch.matmul(self.matrix, point) for point in self.data1d]
+        self.data2d = kornia.geometry.affine(self.data2d, self.matrix)
+        if self.points_matrix is not None:
+            self.points_matrix = torch.matmul(self.matrix, self.points_matrix)
         return transform.postprocess_data(self)
 
 class rotate_transformation(transform):
@@ -99,18 +102,18 @@ class rotate_transformation(transform):
         self.degrees = degrees * one_torch
         if center is None:
             self.center = torch.ones(1, 2)
-            self.center[..., 0] = data['data2d'].shape[-2] // 2  # x
-            self.center[..., 1] = data['data2d'].shape[-1] // 2  # y
+            self.center[..., 0] = self.data2d.shape[-2] // 2  # x
+            self.center[..., 1] = self.data2d.shape[-1] // 2  # y
         else:
             self.center = center
-        self.center.to(device)
+        self.center = self.center.to(device)
     def __call__(self, *args, **kwargs):
         self.data2d = kornia.geometry.rotate(self.data2d, angle=self.degrees , center=self.center)
         matrix = (
             kornia.geometry.get_rotation_matrix2d(angle=self.degrees, center=self.center, scale=one_torch)).reshape(2,
                                                                                                                       3)
-        if self.data1d:
-            self.data1d = [torch.matmul(matrix, point) for point in self.data1d]
+        if self.points_matrix is not None:
+            self.points_matrix = torch.matmul(matrix, self.points_matrix)
         return transform.postprocess_data(self)
 
 class  scale_transformation(transform):
@@ -119,28 +122,29 @@ class  scale_transformation(transform):
         self.scale_factor = (torch.ones(1)*scale_factor).to(device)
         if center is None:
             self.center = torch.ones(1, 2)
-            self.center[..., 0] = data['data2d'].shape[-2] // 2  # x
-            self.center[..., 1] = data['data2d'].shape[-1] // 2  # y
+            self.center[..., 0] = self.data2d.shape[-2] // 2  # x
+            self.center[..., 1] = self.data2d.shape[-1] // 2  # y
         else:
             self.center = center
-        self.center.to(device)
+        self.center = self.center.to(device)
 
-    def get_scale_matrix(center, scale_factor):
+    def get_scale_matrix(self, center, scale_factor):
         if isinstance(scale_factor,
                       float) or scale_factor.dim() == 1:  # si solo se proporciona un valor; se escala por igual en ambos ejes
             scale_factor = torch.ones(2).to(device) * scale_factor
         matrix = torch.zeros(2, 3).to(device)
         matrix[0, 0] = scale_factor[0]
         matrix[1, 1] = scale_factor[1]
-        matrix[0, 2] = (-scale_factor[0] + 1) * center[0]
-        matrix[1, 2] = (-scale_factor[1] + 1) * center[1]
+        matrix[0, 2] = (-scale_factor[0] + 1) * center[:,0]
+        matrix[1, 2] = (-scale_factor[1] + 1) * center[:,1]
         return matrix
 
     def __call__(self, *args, **kwargs):
         self.data2d = kornia.geometry.scale(self.data2d, scale_factor=self.scale_factor, center=self.center)
-        matrix = self.get_scale_matrix(self.center, self.scale_factor)
-        if self.data1d is not None:
-            self.data1d = [torch.matmul(matrix, point) for point in self.data1d]
+        matrix = self.get_scale_matrix( self.center, self.scale_factor)
+        if self.points_matrix is not None:
+            self.points_matrix = torch.matmul(matrix, self.points_matrix)
+        return transform.postprocess_data(self)
 
 class translate_transformation(transform):
     def __init__(self, data, translation, visualize = False):
@@ -157,6 +161,12 @@ class translate_transformation(transform):
 
     def __call__(self, *args, **kwargs):
         self.data2d = kornia.geometry.translate(self.data2d, self.translation)
-        if self.data1d is not None:
-            self.data1d = [self.translate_point(point, self.translation) for point in self.data1d]
+        if self.points_matrix is not None:
+            matrix = torch.zeros((3,self.points_matrix.shape[1])).to(device)
+            row = torch.ones((1,self.points_matrix.shape[1])).to(device)
+            matrix[0] = row* self.translation[:,0]
+            matrix[1] = row * self.translation[:, 1]
+            self.points_matrix = self.points_matrix + matrix
+        return transform.postprocess_data(self)
+
 

@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from operations import geometry
+from operations import geometry, color
 import kornia
 from matplotlib import image
 import matplotlib.pyplot as plt
@@ -14,16 +14,37 @@ img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 keypoints = ([img.shape[0]//2, img.shape[1]//2], [img.shape[0]//2  + 105, img.shape[1]//2 - 50])
 
 # convert to torch tensor
+
+
+
 data: torch.tensor = kornia.image_to_tensor(img, keepdim=False)  # BxCxHxW
 points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 
+
+from time import time
+
+
+
 data = {'image':data, 'keypoints': points}
+
+from operations import utils
+
+utils.keypoints_to_homogeneus_and_concatenate(points)
 
 #data_warped: torch.tensor = kornia.warp_affine(data.float(), M, dsize=(h, w))
 #data_warped: torch.tensor = kornia.hflip(data_warped)
 #data_warped: torch.tensor = geometry.scale(data, 0.8)
 
-data_warped = geometry.hflip(data, visualize=True)
+
+center = torch.ones(1, 2)
+center[..., 0] = img.shape[2] / 2  # x
+center[..., 1] = img.shape[1] / 2  # y
+alpha = 45.0
+angle = torch.ones(1) * alpha
+scale= torch.ones(1)
+tr = kornia.get_rotation_matrix2d(center, angle, scale).to('cuda')
+data_warped = geometry.scale(data, 2, True)
+#data_warped = geometry.rotate(data, degrees=25,visualize=True)
 #data_warped: torch.tensor = geometry.rotate(data_warped, 30)
 # convert back to numpy
 img_warped: np.ndarray = kornia.tensor_to_image(data_warped['image'].byte()[0])
