@@ -20,6 +20,8 @@ keypoints = ([img.shape[0]//2, img.shape[1]//2], [img.shape[0]//2  + 105, img.sh
 data: torch.tensor = kornia.image_to_tensor(img, keepdim=False)  # BxCxHxW
 points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 
+#data = color.change_brightness(img, 1.5)
+
 
 from time import time
 
@@ -33,7 +35,7 @@ utils.keypoints_to_homogeneus_and_concatenate(points)
 
 #data_warped: torch.tensor = kornia.warp_affine(data.float(), M, dsize=(h, w))
 #data_warped: torch.tensor = kornia.hflip(data_warped)
-#data_warped: torch.tensor = geometry.scale(data, 0.8)
+data_warped: torch.tensor = geometry.scale(data, 0.8, True)
 
 
 center = torch.ones(1, 2)
@@ -43,7 +45,7 @@ alpha = 45.0
 angle = torch.ones(1) * alpha
 scale= torch.ones(1)
 tr = kornia.get_rotation_matrix2d(center, angle, scale).to('cuda')
-data_warped = geometry.scale(data, 2, True)
+data_warped = geometry.vflip(data, True)
 #data_warped = geometry.rotate(data, degrees=25,visualize=True)
 #data_warped: torch.tensor = geometry.rotate(data_warped, 30)
 # convert back to numpy

@@ -1,5 +1,5 @@
 from bokeh.plotting import figure, output_file, show
-from bokeh.models import Panel, Tabs
+from bokeh.models import Panel, Tabs, Label, LabelSet,ColumnDataSource
 from bokeh.layouts import row, column
 import cv2
 import numpy as np
@@ -49,6 +49,7 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
 
     p1 = bokeh.plotting.figure(title=title, x_range=(0, image.shape[1]), y_range=(
         image.shape[0], 0), tools="pan,box_select,wheel_zoom", **figure_kwargs)
+    #p1.title.text_font_size = "25px"
     p1.add_tools(bokeh.models.HoverTool(
         tooltips=[
             ("(x, y)", "($x, $y)"),
@@ -67,10 +68,16 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
 
     xvalues_warped = [(value[0].numpy()).astype(int) for value in keypoints]
     yvalues_warped = [(value[1].numpy()).astype(int) for value in keypoints]
+    labels = range(xvalues_warped.__len__())
 
-    # xvalues_warped = [128 ,23]
-    # yvalues_warped = [128, 78]
+    source = ColumnDataSource(data=dict(height=yvalues_warped,
+                                        weight=xvalues_warped,
+                                        names=labels))
+
     p2.circle(xvalues_warped, yvalues_warped, size=10, color="navy", alpha=0.5)
+    labels = LabelSet(x='weight', y='height', text='names',source=source,
+                      x_offset=5, y_offset=5, render_mode='canvas')
+    p2.add_layout(labels)
     tab2_original = Panel(child=p2, title="keypoints")
 
     if mask is not None:
@@ -109,7 +116,7 @@ def plot_image_tranformation(data, data_original, **figure_kwargs):
     source = ColumnDataSource(dict(x=['Diference percentage'], y=[dif.numpy()]))
 
     title = "Image diference pixel-values"
-    plot = figure(plot_width=300, plot_height=500, tools="",
+    plot = figure(plot_width=200, plot_height=400, tools="",
                   title=title,
                   x_minor_ticks=2,
                   x_range=source.data["x"],
@@ -119,9 +126,11 @@ def plot_image_tranformation(data, data_original, **figure_kwargs):
                       x_offset=-13.5, y_offset=0, source=source, render_mode='canvas')
 
     plot.vbar(source=source, x='x', top='y', bottom=0, width=0.3, color=PuBu[7][2])
-
+    plot.margin = (205, 5, 15, 5)
     plot.add_layout(labels)
-    bokeh.plotting.show(row(tabs_original, tabs_warped, plot))  # open a browser
+    p = row(tabs_original, tabs_warped, plot)
+    p.margin= (50,0,0,100)
+    bokeh.plotting.show(p)  # open a browser
 
 
 '''
