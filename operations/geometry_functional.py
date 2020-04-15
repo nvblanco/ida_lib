@@ -62,8 +62,8 @@ class transform(object):
                 ((dato.cpu())[:2, :]).reshape(2) for dato in torch.split(self.points_matrix, 1, dim=1)]
         else:
             data_output = self.data2d
-        if self.visualize:
-            visualization.plot_image_tranformation(data_output, self.original)
+#        if self.visualize:
+#            visualization.plot_image_tranformation(data_output, self.original)
         return data_output
 
 
