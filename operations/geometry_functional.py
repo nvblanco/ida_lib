@@ -48,6 +48,10 @@ class transform(object):
                 raise Exception("Single data must be al least 3 dims")
             else:
                 self.data2d = data
+                self.data1d=None
+                self.points_matrix=None
+                self.types_2d = {}
+                self.types_2d['image']=data.shape[0]
 
     def postprocess_data(self):
         self.data2d = self.data2d.cpu()
@@ -62,8 +66,8 @@ class transform(object):
                 ((dato.cpu())[:2, :]).reshape(2) for dato in torch.split(self.points_matrix, 1, dim=1)]
         else:
             data_output = self.data2d
-#        if self.visualize:
-#            visualization.plot_image_tranformation(data_output, self.original)
+        if self.visualize:
+            visualization.plot_image_tranformation(data_output, self.original)
         return data_output
 
 

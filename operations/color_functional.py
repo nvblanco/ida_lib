@@ -11,6 +11,12 @@ device = utils.device
 
 class color_transform(object):
     def __init__(self, image, visualize = False):
+        if isinstance(image, dict):
+            self.data_type = 'dict'
+            self.data = image
+            image = image['image']
+        else:
+            self.data_type = 'image'
         if torch.is_tensor(image):
             self.image_type = 'tensor'
             image = kornia.tensor_to_image(image.byte())
@@ -21,9 +27,14 @@ class color_transform(object):
         if visualize:
             self.original = image
     def postprocess_data(self):
-        data_output = self.image
         if self.image_type == 'tensor':
-            data_output = kornia.image_to_tensor(data_output, keepdim=False)
+            self.image = kornia.image_to_tensor(self.image, keepdim=False)
+        if self.data_type == 'dict':
+            data_output = self.data
+            data_output['image'] = self.image
+        else:
+            data_output = self.image
+
         if self.visualize:
             visualization.plot_image_tranformation({'image':data_output}, {'image':self.original})
         return data_output

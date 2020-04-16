@@ -24,7 +24,7 @@ def diference_between_images_pixel(img1, img2):
 
     dif_total = torch.sum(torch.sum(dif, axis=0), axis=0)
 
-    _,_,w, h = img1.shape
+    _,w, h = img1.shape
     total = w * h * 256
     diference = ( dif_total / total ) * 100
     return diference
@@ -65,21 +65,22 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
             ("(x, y)", "($x, $y)"),
             ("RGB", "(@R, @G, @B)")]))
     p2.image_rgba(source=source, image='img', x='x', y='y', dw='dw', dh='dh')
+    tabs = [tab1_original]
+    if  keypoints is not None:
+        xvalues_warped = [(value[0].numpy()).astype(int) for value in keypoints]
+        yvalues_warped = [(value[1].numpy()).astype(int) for value in keypoints]
+        labels = range(xvalues_warped.__len__())
 
-    xvalues_warped = [(value[0].numpy()).astype(int) for value in keypoints]
-    yvalues_warped = [(value[1].numpy()).astype(int) for value in keypoints]
-    labels = range(xvalues_warped.__len__())
+        source = ColumnDataSource(data=dict(height=yvalues_warped,
+                                            weight=xvalues_warped,
+                                            names=labels))
 
-    source = ColumnDataSource(data=dict(height=yvalues_warped,
-                                        weight=xvalues_warped,
-                                        names=labels))
-
-    p2.circle(xvalues_warped, yvalues_warped, size=10, color="navy", alpha=0.5)
-    labels = LabelSet(x='weight', y='height', text='names',source=source,
-                      x_offset=5, y_offset=5, render_mode='canvas')
-    p2.add_layout(labels)
-    tab2_original = Panel(child=p2, title="keypoints")
-
+        p2.circle(xvalues_warped, yvalues_warped, size=10, color="navy", alpha=0.5)
+        labels = LabelSet(x='weight', y='height', text='names',source=source,
+                          x_offset=5, y_offset=5, render_mode='canvas')
+        p2.add_layout(labels)
+        tab2_original = Panel(child=p2, title="keypoints")
+        tabs.append(tab2_original)
     if mask is not None:
         p3 = bokeh.plotting.figure(title=title, x_range=(0, image.shape[1]), y_range=(
             image.shape[0], 0), tools="pan,box_select,wheel_zoom", **figure_kwargs)
@@ -92,13 +93,14 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
         source_mask = process_image(mask)
         p3.image_rgba(source=source_mask, image='img', x='x', y='y', dw='dw', dh='dh')
         tab3_original = Panel(child=p3, title="mask")
-        tabs_original = Tabs(tabs=[tab1_original, tab2_original, tab3_original])
-    else:
-        tabs_original = Tabs(tabs=[tab1_original, tab2_original])
+        tabs.append(tab3_original)
+    tabs_original = Tabs(tabs=tabs)
     return tabs_original
 
 def plot_image_tranformation(data, data_original, **figure_kwargs):
-    dif = diference_between_images_pixel(data['image'], data_original['image'])
+    if not torch.is_tensor(data['image']): data['image'] = (kornia.image_to_tensor(data['image'])).squeeze()
+    if not torch.is_tensor(data_original['image']): data_original['image'] = (kornia.image_to_tensor(data_original['image'])).squeeze()
+    dif = diference_between_images_pixel(data['image'].squeeze(), data_original['image'].squeeze())
     bokeh.plotting.output_file("data_visualization.html")
 
     if data_original.keys().__contains__('mask'):
@@ -110,9 +112,18 @@ def plot_image_tranformation(data, data_original, **figure_kwargs):
     else:
         mask = None
 
+    if data_original.keys().__contains__('keypoints'):
+        keypoints_original = data_original['keypoints']
+    else:
+        keypoints_original = None
+    if data.keys().__contains__('keypoints'):
+        keypoints = data['keypoints']
+    else:
+        keypoints = None
 
-    tabs_original = generate_tab(data_original['image'], data_original['keypoints'],mask = mask_original,  title='original_image')
-    tabs_warped = generate_tab(data['image'], data['keypoints'], mask = mask, title='warped_image')
+
+    tabs_original = generate_tab(data_original['image'], keypoints=keypoints_original,mask = mask_original,  title='original_image')
+    tabs_warped = generate_tab(data['image'], keypoints=keypoints, mask = mask, title='warped_image')
     source = ColumnDataSource(dict(x=['Diference percentage'], y=[dif.numpy()]))
 
     title = "Image diference pixel-values"

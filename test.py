@@ -21,12 +21,13 @@ keypoints = ([img.shape[0]//2, img.shape[1]//2], [img.shape[0]//2  + 15, img.sha
 points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 data: torch.tensor = kornia.image_to_tensor(img, keepdim=False)  # BxCxHxW
 
-data = color.inyect_spekle_noise(data)
 
 from operations import utils
 
 
 data = {'image':data, 'keypoints': points}
+data = geometry.vflip(data, visualize=True)
+
 
 from time import time
 

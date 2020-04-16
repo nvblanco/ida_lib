@@ -24,7 +24,7 @@ def inyect_gaussian_noise(data, var=0.5, visualize= False):
     op = color_functional.gaussian_noise(data, var, visualize=visualize)
     return op()
 
-def inyect_salt_and_pepper_noise(data, amount = 10, s_vs_p = 0.5, visualize= False):
+def inyect_salt_and_pepper_noise(data, amount = 0.02, s_vs_p = 0.5, visualize= False):
     op = color_functional.salt_and_peper_noise(data, amount, s_vs_p, visualize=visualize)
     return op()
 
