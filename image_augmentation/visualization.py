@@ -44,7 +44,7 @@ def process_image(img_orig):
     return source
 
 def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
-    image = kornia.tensor_to_image(image.byte()[0])
+    image = kornia.tensor_to_image(image.byte())
     source = process_image(image)
 
     p1 = bokeh.plotting.figure(title=title, x_range=(0, image.shape[1]), y_range=(
@@ -67,8 +67,8 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
     p2.image_rgba(source=source, image='img', x='x', y='y', dw='dw', dh='dh')
     tabs = [tab1_original]
     if  keypoints is not None:
-        xvalues_warped = [(value[0].numpy()).astype(int) for value in keypoints]
-        yvalues_warped = [(value[1].numpy()).astype(int) for value in keypoints]
+        xvalues_warped = [(value[0].cpu().numpy()).astype(int) for value in keypoints]
+        yvalues_warped = [(value[1].cpu().numpy()).astype(int) for value in keypoints]
         labels = range(xvalues_warped.__len__())
 
         source = ColumnDataSource(data=dict(height=yvalues_warped,
@@ -82,16 +82,19 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
         tab2_original = Panel(child=p2, title="keypoints")
         tabs.append(tab2_original)
     if mask is not None:
+        mask = kornia.tensor_to_image(mask.byte()[0])
         p3 = bokeh.plotting.figure(title=title, x_range=(0, image.shape[1]), y_range=(
             image.shape[0], 0), tools="pan,box_select,wheel_zoom", **figure_kwargs)
-        p3.add_tools(bokeh.models.HoverTool(
+        source_mask = process_image(mask)
+        p3.image_rgba(source=source_mask, image='img', x='x', y='y', dw='dw', dh='dh')
+        '''p3.add_tools(bokeh.models.HoverTool(
             tooltips=[
                 ("(x, y)", "($x, $y)"),
                 ("RGB", "(@R, @G, @B)")]))
         p3.image_rgba(source=source, image='img', x='x', y='y', dw='dw', dh='dh')
         mask = kornia.tensor_to_image(mask.byte()[0])
-        source_mask = process_image(mask)
-        p3.image_rgba(source=source_mask, image='img', x='x', y='y', dw='dw', dh='dh')
+        #source_mask = process_image(mask)
+        #p3.image_rgba(source=source_mask, image='img', x='x', y='y', dw='dw', dh='dh')'''
         tab3_original = Panel(child=p3, title="mask")
         tabs.append(tab3_original)
     tabs_original = Tabs(tabs=tabs)
@@ -143,6 +146,56 @@ def plot_image_tranformation(data, data_original, **figure_kwargs):
     p.margin= (50,0,0,100)
     bokeh.plotting.show(p)  # open a browser
 
+
+
+def plot_batch_image_tranformation(data, data_original, **figure_kwargs):
+    data = data[0]
+    data['image']=data['image'].to('cpu')
+    data_original = data_original[0]
+    if not torch.is_tensor(data['image']): data['image'] = (kornia.image_to_tensor(data['image'])).squeeze()
+    if not torch.is_tensor(data_original['image']): data_original['image'] = (kornia.image_to_tensor(data_original['image'])).squeeze()
+    dif = diference_between_images_pixel(data['image'].squeeze(), data_original['image'].squeeze())
+    bokeh.plotting.output_file("data_visualization.html")
+
+    if data_original.keys().__contains__('mask'):
+        mask_original = data_original['mask']
+    else:
+        mask_original = None
+    if data.keys().__contains__('mask'):
+        mask = data['mask']
+    else:
+        mask = None
+
+    if data_original.keys().__contains__('keypoints'):
+        keypoints_original = data_original['keypoints']
+    else:
+        keypoints_original = None
+    if data.keys().__contains__('keypoints'):
+        keypoints = data['keypoints']
+    else:
+        keypoints = None
+
+
+    tabs_original = generate_tab(data_original['image'], keypoints=keypoints_original,mask = mask_original,  title='original_image')
+    tabs_warped = generate_tab(data['image'], keypoints=keypoints, mask = mask, title='warped_image')
+    source = ColumnDataSource(dict(x=['Diference percentage'], y=[dif.numpy()]))
+
+    title = "Image diference pixel-values"
+    plot = figure(plot_width=200, plot_height=400, tools="",
+                  title=title,
+                  x_minor_ticks=2,
+                  x_range=source.data["x"],
+                  y_range=ranges.Range1d(start=0, end=100))
+
+    labels = LabelSet(x='x', y='y', text='y', level='glyph',
+                      x_offset=-13.5, y_offset=0, source=source, render_mode='canvas')
+
+    plot.vbar(source=source, x='x', top='y', bottom=0, width=0.3, color=PuBu[7][2])
+    plot.margin = (205, 5, 15, 5)
+    plot.add_layout(labels)
+    p = row(tabs_original, tabs_warped, plot)
+    p.margin= (50,0,0,100)
+    bokeh.plotting.show(p)  # open a browser
 
 '''
 import numpy

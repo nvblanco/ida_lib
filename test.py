@@ -23,11 +23,11 @@ data: torch.tensor = kornia.image_to_tensor(img, keepdim=False)  # BxCxHxW
 
 
 from operations import utils
+#data = color.equalize_histogram(data, visualize=True)
 
+data = {'image':data, 'keypoints': points, 'mask': data}
 
-data = {'image':data, 'keypoints': points}
-data = geometry.vflip(data, visualize=True)
-
+data = geometry.vflip(data, True)
 
 from time import time
 

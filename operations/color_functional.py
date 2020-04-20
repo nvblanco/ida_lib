@@ -47,7 +47,7 @@ class normalization(color_transform):
     def __call__(self, *args, **kwargs):
         norm_img = np.zeros((self.image.shape[0], self.image.shape[1]))
         self.image = cv2.normalize(self.image, None, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
-        return norm_img
+        return self.postprocess_data()
 
 
 def map(x, in_min, in_max, out_min, out_max):
@@ -60,8 +60,6 @@ class brightness(color_transform):
         #    raise Exception("Brightness factor value must be between 0 and 2 (Received {}".format(brightness))
         self.image = np.float32(self.image)
         self.brightness =  map(brightness, 0,2, -255, 255)
-        #self.brightness = -80
-        #self.contrast = constrast
         self.normalized = normalized
 
     def __call__(self, *args, **kwargs):
@@ -172,6 +170,20 @@ class spekle_noise(color_transform):
 
     def __call__(self, *args, **kwargs):
         self.image = utils._apply_spekle_noise(self.image)
+        return self.postprocess_data()
+
+class histogram_equalization(color_transform):
+    def __init__(self, image, visualize = False):
+        color_transform.__init__(self, image, visualize)
+
+    def __call__(self, *args, **kwargs):
+        self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2YUV)
+
+        # equalize the histogram of the Y channel
+        self.image[:, :, 0] = cv2.equalizeHist(self.image[:, :, 0])
+
+        # convert the YUV image back to RGB format
+        self.image = cv2.cvtColor(self.image, cv2.COLOR_YUV2BGR)
         return self.postprocess_data()
 
 
