@@ -25,6 +25,9 @@ def gamma_adjust(data, gamma=1.8,  visualize = False):
     op = color_functional.gamma(data, gamma, visualize)
     return op()
 
+def bright_lut(data, brigth = 1,  visualize = False):
+    op = color_functional.brightness_lut(data, brigth, visualize)
+    return op()
 
 ##Noise types##
 def inyect_gaussian_noise(data, var=0.5, visualize= False):

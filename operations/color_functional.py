@@ -134,6 +134,18 @@ class gamma(color_transform):
         self.image = cv2.LUT(self.image, lookUpTable)
         return self.postprocess_data()
 
+class brightness_lut(color_transform):
+    def __init__(self, image, brigthness, visualize):
+        color_transform.__init__(self, image, visualize)
+        self.brightness = brigthness
+
+    def __call__(self, *args, **kwargs):
+        lookUpTable = np.empty((1, 256), np.uint8)
+        for i in range(256):
+            lookUpTable[0, i] = np.clip(i + self.brightness, 0, 255)
+        self.image = cv2.LUT(self.image, lookUpTable)
+        return self.postprocess_data()
+
 class gaussian_noise(color_transform):
     def __init__(self, image, var=0.5,  visualize=False):
         color_transform.__init__(self, image, visualize)
