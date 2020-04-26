@@ -10,6 +10,11 @@ from bokeh.palettes import PuBu
 from bokeh.models import ColumnDataSource, ranges, LabelSet
 from operations import geometry
 from bokeh.models import ColumnDataSource, Grid, LinearAxis, Plot, VBar, HBar
+from bokeh.models import Button, Select, ColumnDataSource, CustomJS, Panel, Tabs
+from bokeh.io import curdoc
+from bokeh.models.widgets import CheckboxGroup
+
+
 
 
 def diference_between_images_pixel(img1, img2):
@@ -17,6 +22,8 @@ def diference_between_images_pixel(img1, img2):
         raise Exception("Images must have the same dimensions to compare")
     #if type(img1).__module__ != np.__name__ or type(img1).__module__ != np.__name__ :
     #    raise Exception("Images must be numpy array")
+    '''if img2.device == torch.device('cpu') : img2 = img2.to('cuda')
+    if img1.device == torch.device('cpu'): img1 = img1.to('cuda')'''
     dif = torch.abs(torch.sub(img1[0, 0, ...], img2[0, 0, ...]))
     dif = dif+torch.abs(torch.sub(img1[0, 1, ...], img2[0, 1, ...]))
     dif = dif+torch.abs(torch.sub(img1[0, 2, ...], img2[0, 2, ...]))
@@ -97,7 +104,7 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
         #p3.image_rgba(source=source_mask, image='img', x='x', y='y', dw='dw', dh='dh')'''
         tab3_original = Panel(child=p3, title="mask")
         tabs.append(tab3_original)
-    tabs_original = Tabs(tabs=tabs)
+    tabs_original = Tabs(Tabs(tabs=tabs), Tabs(tabs=tabs))
     return tabs_original
 
 def plot_image_tranformation(data, data_original, **figure_kwargs):
@@ -146,12 +153,64 @@ def plot_image_tranformation(data, data_original, **figure_kwargs):
     p.margin= (50,0,0,100)
     bokeh.plotting.show(p)  # open a browser
 
+def generate_image_tab(img, img2, img_number):
+    if torch.is_tensor(img):img = kornia.tensor_to_image(img.byte())
+    img = process_image(img)
+    if torch.is_tensor(img2):img2 = kornia.tensor_to_image(img2.byte())
+    img2 = process_image(img2)
+    plot = figure(title="holi", x_range=(0, img.data['dw'][0]), y_range=(
+        img.data['dh'][0], 0))
+    plot.image_rgba(source=img, image='image', x='x', y='y', dw='dw', dh='dh')
+    points = plot.circle([100, 90, 180], [100, 90, 180], size=10, color="navy", alpha=0.5)
+    points2 = plot.circle([150, 96, 180], [150, 60, 380], size=10, color="red", alpha=0.5)
+
+    plot2 = figure(title="holi", x_range=(0, img2.data['dw'][0]), y_range=(
+        img2.data['dh'][0], 0))
+    plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')
+    points_2 = plot2.circle([100, 90, 180], [100, 90, 180], size=10, color="navy", alpha=0.5)
+    points2_2 = plot2.circle([150, 96, 180], [150, 60, 380], size=10, color="red", alpha=0.5)
+
+    select_widget = Select(options=['uniform', 'normal'], value='uniform distribution', title='selec your choice')
+    checkboxes = CheckboxGroup(labels=list(('points1', 'points2')), active=[0, 1])
+    callback = CustomJS(code="""points.visible = false; // same xline passed in from args
+                                    points_2.visible = false;
+                                    points2_2.visible = false;
+                                    points2.visible = false;
+                                    // cb_obj injected in by the callback
+                                    if (cb_obj.active.includes(0)){points.visible = true;} // 0 index box is xline
+                                    if (cb_obj.active.includes(0)){points_2.visible = true;}
+                                    if (cb_obj.active.includes(1)){points2_2.visible = true;}
+                                    if (cb_obj.active.includes(1)){points2.visible  = true;}""",
+                        args={'points': points, 'points2': points2, 'points_2': points_2, 'points2_2': points2_2})
+    checkboxes.js_on_click(callback)
+    p = row(plot, plot2, checkboxes)
+    return Panel(child=p, title="image1")
 
 
 def plot_batch_image_tranformation(data, data_original, **figure_kwargs):
-    data = data[0]
+    data = data[3]
     data['image']=data['image'].to('cpu')
-    data_original = data_original[0]
+    data_original = data_original[3]
+    if not torch.is_tensor(data['image']): data['image'] = (kornia.image_to_tensor(data['image'])).squeeze()
+    if not torch.is_tensor(data_original['image']): data_original['image'] = (kornia.image_to_tensor(data_original['image'])).squeeze()
+    dif = diference_between_images_pixel(data['image'].squeeze(), data_original['image'].squeeze())
+    bokeh.plotting.output_file("data_visualization.html")
+
+    t1 = generate_image_tab(data['image'], data_original['image'], 5)
+    t2 = generate_image_tab(data['image'], data_original['image'], 5)
+    layout = Tabs(tabs=[t1, t2])
+    curdoc().title = "Batch visualization"
+    curdoc().add_root(layout)
+
+    import os
+
+    os.system('bokeh serve --show visualization.py')
+
+
+def plot_batch_image_tranformation_old(data, data_original, **figure_kwargs):
+    data = data[3]
+    data['image']=data['image'].to('cpu')
+    data_original = data_original[3]
     if not torch.is_tensor(data['image']): data['image'] = (kornia.image_to_tensor(data['image'])).squeeze()
     if not torch.is_tensor(data_original['image']): data_original['image'] = (kornia.image_to_tensor(data_original['image'])).squeeze()
     dif = diference_between_images_pixel(data['image'].squeeze(), data_original['image'].squeeze())
@@ -196,7 +255,6 @@ def plot_batch_image_tranformation(data, data_original, **figure_kwargs):
     p = row(tabs_original, tabs_warped, plot)
     p.margin= (50,0,0,100)
     bokeh.plotting.show(p)  # open a browser
-
 '''
 import numpy
 

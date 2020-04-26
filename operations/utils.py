@@ -89,6 +89,12 @@ def apply_brightness_contrast(input_img, brightness = 0, contrast = 0):
 
     return buf
 
+def apply_gaussian_blur(img):
+    return cv2.GaussianBlur(img, (5,5),cv2.BORDER_DEFAULT)
+
+def _apply_blur(img):
+    return cv2.blur(img, (5,5))
+
 '''source; https://stackoverflow.com/questions/22937589/how-to-add-noise-gaussian-salt-and-pepper-etc-to-image-in-python-with-opencv'''
 def noisy(noise_typ, image):
     if noise_typ == "gauss":
