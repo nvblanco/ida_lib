@@ -3,6 +3,9 @@ import math
 
 device = 'cuda'
 
+def map_value(x, in_min, in_max, out_min, out_max):
+    return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
+
 
 def keypoints_to_homogeneus_functional(keypoints):
     if keypoints[0].dim() == 1: keypoints = [point.reshape(2, 1) for point in keypoints]
@@ -26,6 +29,8 @@ import numpy as np
 import os
 import cv2
 
+def _resize_image(image, new_size):
+    return cv2.resize(image, new_size)
 
 def _apply_gaussian_noise(image, var = 20):
     gaussian_noise = np.zeros((image.shape[0], image.shape[1],1), dtype=np.uint8)
@@ -56,12 +61,10 @@ def _apply_poisson_noise(image):
     noise = np.random.poisson(40, image.shape)
     return image + noise
 
-def _apply_spekle_noise(image, intensity= 1):
-    row, col, ch = image.shape
-    streng_factor = 10 - intensity
-    gauss = np.random.randn(row, col, ch)  / streng_factor
-    gauss = gauss.reshape(row, col, ch)
-    noisy = (image + image * gauss)
+def _apply_spekle_noise(image, mean=0, var=0.01):
+    gauss = np.random.normal(mean, var ** 0.5, image.shape)
+    gauss = gauss.reshape(image.shape)
+    noisy = image + image * gauss
     return noisy
 
 def apply_brightness_contrast(input_img, brightness = 0, contrast = 0):
@@ -89,10 +92,10 @@ def apply_brightness_contrast(input_img, brightness = 0, contrast = 0):
 
     return buf
 
-def apply_gaussian_blur(img):
-    return cv2.GaussianBlur(img, (5,5),cv2.BORDER_DEFAULT)
+def apply_gaussian_blur(img, blur_size=(5, 5)):
+    return cv2.GaussianBlur(img, blur_size,cv2.BORDER_DEFAULT)
 
-def _apply_blur(img):
+def _apply_blur(img,  blur_size=(5, 5)):
     return cv2.blur(img, (5,5))
 
 '''source; https://stackoverflow.com/questions/22937589/how-to-add-noise-gaussian-salt-and-pepper-etc-to-image-in-python-with-opencv'''
