@@ -92,8 +92,6 @@ def add_tab(img, img2):
     curdoc().add_root(layout)
 
     import os
-
-    os.system('bokeh serve --show main.py')
 '''
 
 
