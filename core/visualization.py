@@ -25,10 +25,10 @@ def process_image(img_orig):
     return source
 
 
-def visualize(images, images_originals):
+def visualize(images, images_originals, max_images = 5):
     tabs = []
     for index, (data, data_original) in enumerate(zip(images, images_originals)):
-        if index == 5:
+        if index == max_images:
             break
         img = data['image']
         if torch.is_tensor(img):
