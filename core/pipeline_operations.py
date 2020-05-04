@@ -14,10 +14,20 @@ identity = torch.eye(3, 3, device=cuda)
 
 
 class pipeline_operation(ABC):
+    '''Abstract class of pipeline operations
+            probability (float) [0-1]   : probability of applying the operation
+            type (string) : internal parameter to determine how to treat each operation.
+                - Geometry      : operations that can be applied by transformation matrix
+                - Color         : operations that can be applied using a pixel-by-pixel mathematical formula
+                - Normalize     : normalization operation to be applied last within color operations
+                - Independient  : concrete operations with direct implementations
+
+    '''
     def __init__(self, type, probability=1):
         self.probability = probability
         self.type = type
 
+    ''' (Geometric operations) return the matrix that implements them'''
     @abstractmethod
     def get_op_matrix(self):
         pass
@@ -25,8 +35,16 @@ class pipeline_operation(ABC):
     def get_op_type(self):
         return self.type
 
+    ''' returns a boolean based on a random number that determines whether or not to apply the operation'''
     def apply_according_to_probability(self):
         return random.uniform(0, 1) < self.probability
+
+
+'''
+----------------------------------------------------------------------------------
+-------------------------------COLOR OPERATIONS-----------------------------------
+----------------------------------------------------------------------------------
+'''
 
 
 class contrast_pipeline(pipeline_operation):
@@ -38,9 +56,6 @@ class contrast_pipeline(pipeline_operation):
             * 0  :total contrast removal
             * 1  :dont modify
             * >1 :aument contrast
-
-    Target:
-        image
     '''
     def __init__(self, contrast_factor,  probability=1):
         pipeline_operation.__init__(self, probability=probability, type='color')
@@ -65,9 +80,6 @@ class random_contrast_pipeline(pipeline_operation):
                 * 0  :total contrast removal
                 * 1  :dont modify
                 * >1 :aument contrast
-
-        Target:
-            image
         '''
     def __init__(self, contrast_range, probability=1):
         pipeline_operation.__init__(self, probability=probability, type='color')
@@ -81,151 +93,6 @@ class random_contrast_pipeline(pipeline_operation):
     def transform_function(self, x):
         contrast = random.randint(self.contrast_range[0], self.contrast_range[1])
         return contrast * (x - 127) + 127
-
-
-class gaussian_noise_pipeline(pipeline_operation):
-    '''Add gaussian noise to the input image
-    (gaussian noise is a statistical noise having a probability density function (PDF) equal to that of the normal distribution)
-
-            Args:
-                probability (float) [0-1]   : probability of applying the transform. Default: 1.
-                var (float) [0-10 ...]      : intensity of noise (0 is no noise)
-
-            Target:
-                image
-     '''
-    def __init__(self, probability=1, var=0.5):
-        pipeline_operation.__init__(self, probability=probability, type='independent_op')
-        self.var = var
-
-    def get_op_matrix(self):
-        raise Exception("Independent operations doesnt have matrix")
-
-    def _apply_to_image_if_probability(self, img):
-        if pipeline_operation.apply_according_to_probability(self):
-            img = utils._apply_gaussian_noise(img, self.var)
-        return img
-
-
-class salt_and_pepper_noise_pipeline(pipeline_operation):
-    '''Add salt and pepper noise to the input image
-        (salt-and-pepper noise is a statistical noise compose of white (salt) and black (pepper) pixels)
-
-                Args:
-                    probability (float) [0-1]   : probability of applying the transform. Default: 1.
-                    amount (float) [0-1]        : noise percentage compared to the total number of pixels in the image
-                        0 is no noisse
-                        1 is total noise
-
-                Target:
-                    image
-         '''
-    def __init__(self, probability=1, amount=0.01, s_vs_p=0.5):
-        pipeline_operation.__init__(self, probability=probability, type='independent_op')
-        self.amount = amount
-        self.s_vs_p = s_vs_p
-
-    def get_op_matrix(self):
-        raise Exception("Independent operations doesnt have matrix")
-
-    def _apply_to_image_if_probability(self, img):
-        if pipeline_operation.apply_according_to_probability(self):
-            img = utils._apply_salt_and_pepper_noise(img, self.amount, self.s_vs_p)
-        return img
-
-
-class spekle_noise_pipeline(pipeline_operation):
-    '''Add spekle noise to the input image
-            (Speckle is a granular interference that inherently exists in and degrades the quality of the active radar,
-            synthetic aperture radar (SAR), medical ultrasound and optical coherence tomography images.
-            It is applied by adding the image multiplied by the noise matrix -> img + img * uniform_noise)
-
-                    Args:
-                        probability (float) [0-1]   : probability of applying the transform. Default: 1.
-                        mean (float, optional)      : Mean of random distribution.  default=0
-                        var (float, optional)       : Variance of random distribution. Default: 0.01
-                    Target:
-                        image
-             '''
-    def __init__(self, probability=1, mean=0, var=0.01):
-        pipeline_operation.__init__(self, probability=probability, type='independent_op')
-        self.mean = mean
-        self.var = var
-
-    def get_op_matrix(self):
-        raise Exception("Independent operations doesnt have matrix")
-
-    def _apply_to_image_if_probability(self, img):
-        if pipeline_operation.apply_according_to_probability(self):
-            img = utils._apply_spekle_noise(img)
-        return img
-
-
-class poisson_noise_pipeline(pipeline_operation):
-    '''Add poison noise to the input image
-                (Speckle is a granular interference that inherently exists in and degrades the quality of the active radar,
-                synthetic aperture radar (SAR), medical ultrasound and optical coherence tomography images.
-                It is applied by adding Poisson-distributed noise)
-
-                        Args:
-                            probability (float) [0-1]   : probability of applying the transform. Default: 1.
-                            mean (float, optional)      : Mean of random distribution.  default=0
-                            var (float, optional)       : Variance of random distribution. Default: 0.01
-                        Target:
-                            image
-                 '''
-    def __init__(self, probability=1):
-        pipeline_operation.__init__(self, probability=probability, type='independent_op')
-
-    def get_op_matrix(self):
-        raise Exception("Independent operations doesnt have matrix")
-
-    def _apply_to_image_if_probability(self, img):
-        if pipeline_operation.apply_according_to_probability(self):
-            img = utils._apply_poisson_noise(img)
-        return img
-
-
-class gaussian_blur_pipeline(pipeline_operation):
-    '''Blur input image by a Gaussian function
-                Args:
-                    probability (float) [0-1]   : probability of applying the transform. Default: 1.
-                    blur_size  (int tuple)      : size of the square os pixels used to blur each pixel Default: (5,5)
-                Target:
-                    image
-    '''
-    def __init__(self, probability=1,  blur_size = (5,5)):
-        pipeline_operation.__init__(self, probability=probability, type='independent_op')
-        self.blur_size = blur_size
-
-    def get_op_matrix(self):
-        raise Exception("Independent operations doesnt have matrix")
-
-    def _apply_to_image_if_probability(self, img):
-        if pipeline_operation.apply_according_to_probability(self):
-            img = utils.apply_gaussian_blur(img, blur_size=self.blur_size)
-        return img
-
-
-class blur_pipeline(pipeline_operation):
-    '''Blur input image ( non-weighted blur)
-                    Args:
-                        probability (float) [0-1]   : probability of applying the transform. Default: 1.
-                        blur_size  (int tuple)      : size of the square os pixels used to blur each pixel Default: (5,5)
-                    Target:
-                        image
-        '''
-    def __init__(self, probability=1,  blur_size = (5,5)):
-        pipeline_operation.__init__(self, probability=probability, type='independent_op')
-        self.blur_size = blur_size
-
-    def get_op_matrix(self):
-        raise Exception("Independent operations doesnt have matrix")
-
-    def _apply_to_image_if_probability(self, img):
-        if pipeline_operation.apply_according_to_probability(self):
-            img = utils._apply_blur(img, blur_size=self.blur_size)
-        return img
 
 class brightness_pipeline(pipeline_operation):
     '''Change brightness of the input image
@@ -351,6 +218,156 @@ class desnormalize_pipeline(pipeline_operation):
 
     def transform_function(self, x): return (x + self.old_range[0]) / (self.old_range[1] - self.old_range[0])
 
+
+
+'''
+----------------------------------------------------------------------------------
+---------------------------INDEPENDENT OPERATIONS---------------------------------
+----------------------------------------------------------------------------------
+'''
+
+
+
+class gaussian_noise_pipeline(pipeline_operation):
+    '''Add gaussian noise to the input image
+    (gaussian noise is a statistical noise having a probability density function (PDF) equal to that of the normal distribution)
+
+            Args:
+                probability (float) [0-1]   : probability of applying the transform. Default: 1.
+                var (float) [0-10 ...]      : intensity of noise (0 is no noise)
+     '''
+    def __init__(self, probability=1, var=0.5):
+        pipeline_operation.__init__(self, probability=probability, type='independent_op')
+        self.var = var
+
+    def get_op_matrix(self):
+        raise Exception("Independent operations doesnt have matrix")
+
+    def _apply_to_image_if_probability(self, img):
+        if pipeline_operation.apply_according_to_probability(self):
+            img = utils._apply_gaussian_noise(img, self.var)
+        return img
+
+
+class salt_and_pepper_noise_pipeline(pipeline_operation):
+    '''Add salt and pepper noise to the input image
+        (salt-and-pepper noise is a statistical noise compose of white (salt) and black (pepper) pixels)
+
+                Args:
+                    probability (float) [0-1]   : probability of applying the transform. Default: 1.
+                    amount (float) [0-1]        : noise percentage compared to the total number of pixels in the image
+                        0 is no noisse
+                        1 is total noise
+         '''
+    def __init__(self, probability=1, amount=0.01, s_vs_p=0.5):
+        pipeline_operation.__init__(self, probability=probability, type='independent_op')
+        self.amount = amount
+        self.s_vs_p = s_vs_p
+
+    def get_op_matrix(self):
+        raise Exception("Independent operations doesnt have matrix")
+
+    def _apply_to_image_if_probability(self, img):
+        if pipeline_operation.apply_according_to_probability(self):
+            img = utils._apply_salt_and_pepper_noise(img, self.amount, self.s_vs_p)
+        return img
+
+
+class spekle_noise_pipeline(pipeline_operation):
+    '''Add spekle noise to the input image
+            (Speckle is a granular interference that inherently exists in and degrades the quality of the active radar,
+            synthetic aperture radar (SAR), medical ultrasound and optical coherence tomography images.
+            It is applied by adding the image multiplied by the noise matrix -> img + img * uniform_noise)
+
+                    Args:
+                        probability (float) [0-1]   : probability of applying the transform. Default: 1.
+                        mean (float, optional)      : Mean of random distribution.  default=0
+                        var (float, optional)       : Variance of random distribution. Default: 0.01
+                    Target:
+                        image
+             '''
+    def __init__(self, probability=1, mean=0, var=0.01):
+        pipeline_operation.__init__(self, probability=probability, type='independent_op')
+        self.mean = mean
+        self.var = var
+
+    def get_op_matrix(self):
+        raise Exception("Independent operations doesnt have matrix")
+
+    def _apply_to_image_if_probability(self, img):
+        if pipeline_operation.apply_according_to_probability(self):
+            img = utils._apply_spekle_noise(img)
+        return img
+
+
+class poisson_noise_pipeline(pipeline_operation):
+    '''Add poison noise to the input image
+                (Speckle is a granular interference that inherently exists in and degrades the quality of the active radar,
+                synthetic aperture radar (SAR), medical ultrasound and optical coherence tomography images.
+                It is applied by adding Poisson-distributed noise)
+
+                        Args:
+                            probability (float) [0-1]   : probability of applying the transform. Default: 1.
+                            mean (float, optional)      : Mean of random distribution.  default=0
+                            var (float, optional)       : Variance of random distribution. Default: 0.01
+                        Target:
+                            image
+                 '''
+    def __init__(self, probability=1):
+        pipeline_operation.__init__(self, probability=probability, type='independent_op')
+
+    def get_op_matrix(self):
+        raise Exception("Independent operations doesnt have matrix")
+
+    def _apply_to_image_if_probability(self, img):
+        if pipeline_operation.apply_according_to_probability(self):
+            img = utils._apply_poisson_noise(img)
+        return img
+
+
+class gaussian_blur_pipeline(pipeline_operation):
+    '''Blur input image by a Gaussian function
+                Args:
+                    probability (float) [0-1]   : probability of applying the transform. Default: 1.
+                    blur_size  (int tuple)      : size of the square os pixels used to blur each pixel Default: (5,5)
+                Target:
+                    image
+    '''
+    def __init__(self, probability=1,  blur_size = (5,5)):
+        pipeline_operation.__init__(self, probability=probability, type='independent_op')
+        self.blur_size = blur_size
+
+    def get_op_matrix(self):
+        raise Exception("Independent operations doesnt have matrix")
+
+    def _apply_to_image_if_probability(self, img):
+        if pipeline_operation.apply_according_to_probability(self):
+            img = utils.apply_gaussian_blur(img, blur_size=self.blur_size)
+        return img
+
+
+class blur_pipeline(pipeline_operation):
+    '''Blur input image ( non-weighted blur)
+                    Args:
+                        probability (float) [0-1]   : probability of applying the transform. Default: 1.
+                        blur_size  (int tuple)      : size of the square os pixels used to blur each pixel Default: (5,5)
+                    Target:
+                        image
+        '''
+    def __init__(self, probability=1,  blur_size = (5,5)):
+        pipeline_operation.__init__(self, probability=probability, type='independent_op')
+        self.blur_size = blur_size
+
+    def get_op_matrix(self):
+        raise Exception("Independent operations doesnt have matrix")
+
+    def _apply_to_image_if_probability(self, img):
+        if pipeline_operation.apply_according_to_probability(self):
+            img = utils._apply_blur(img, blur_size=self.blur_size)
+        return img
+
+
+
 class resize_pipeline(pipeline_operation):
     def __init__(self, probability, new_size):
         pipeline_operation.__init__(self, probability=probability, type='independent_op')
@@ -363,6 +380,13 @@ class resize_pipeline(pipeline_operation):
         if pipeline_operation.apply_according_to_probability(self):
             img = utils._resize_image(img, self.new_size)
         return img
+
+
+'''
+----------------------------------------------------------------------------------
+---------------------------GEOMETRIC OPERATIONS---------------------------------
+----------------------------------------------------------------------------------
+'''
 
 
 class scale_pipeline(pipeline_operation):
@@ -592,9 +616,9 @@ class random_translate_pipeline(pipeline_operation):
 class shear_pipeline(pipeline_operation):
     '''Shear the input image-mask-keypoints and 2d data by the input shear factor
 
-                       Args:
-                           probability (float) [0-1]            : probability of applying the transform. Default: 1.
-                           shear (tuple float)                  : range of pixels to be apply on the shear ( shear X, shear Y).
+                Args:
+                    probability (float) [0-1]            : probability of applying the transform. Default: 1.
+                    shear (tuple float)                  : range of pixels to be apply on the shear ( shear X, shear Y).
             '''
     def __init__(self, shear, probability=1):
         pipeline_operation.__init__(self, probability=probability, type='geometry')

@@ -1,16 +1,16 @@
-from bokeh.io import curdoc
-from bokeh.plotting import figure, ColumnDataSource
-from bokeh.models import Button, Select, ColumnDataSource, CustomJS, Panel, Tabs, LabelSet
+from bokeh.models import Button, ColumnDataSource, CustomJS, Panel, Tabs, LabelSet
 from bokeh.models.widgets import CheckboxGroup
 from bokeh.io import curdoc
 from bokeh.layouts import row
 from bokeh.plotting import figure
-from numpy.random import random, normal
 import numpy as np
 import cv2
 import torch
 import kornia
 
+
+
+#Process the input image and returned a ColumnDataSource wirh the image info to display it
 def process_image(img_orig):
     img = img_orig.copy().astype(np.uint8)
     if img.ndim == 2:  # gray input
