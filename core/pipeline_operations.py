@@ -7,9 +7,7 @@ from operations import utils
 device = 'cuda'
 cuda = torch.device('cuda')
 one_torch = torch.tensor(1, device=cuda)
-one_torch = torch.ones(1, device=cuda)
 ones_torch = torch.ones(1, 2, device=cuda)
-data_types_2d = {"image", "mask", "heatmap"}
 identity = torch.eye(3, 3, device=cuda)
 
 
@@ -227,7 +225,6 @@ class desnormalize_pipeline(pipeline_operation):
 '''
 
 
-
 class gaussian_noise_pipeline(pipeline_operation):
     '''Add gaussian noise to the input image
     (gaussian noise is a statistical noise having a probability density function (PDF) equal to that of the normal distribution)
@@ -365,22 +362,6 @@ class blur_pipeline(pipeline_operation):
         if pipeline_operation.apply_according_to_probability(self):
             img = utils._apply_blur(img, blur_size=self.blur_size)
         return img
-
-
-
-class resize_pipeline(pipeline_operation):
-    def __init__(self, probability, new_size):
-        pipeline_operation.__init__(self, probability=probability, type='independent_op')
-        self.new_size = new_size
-
-    def get_op_matrix(self):
-        raise Exception("Independent operations doesnt have matrix")
-
-    def _apply_to_image_if_probability(self, img):
-        if pipeline_operation.apply_according_to_probability(self):
-            img = utils._resize_image(img, self.new_size)
-        return img
-
 
 '''
 ----------------------------------------------------------------------------------

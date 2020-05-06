@@ -3,12 +3,14 @@ import numpy as np
 import cv2
 import torch
 import functools
+from string import digits
 
 from core.pipeline_operations import *
 
 device = 'cuda'
 cuda = torch.device('cuda')
 data_types_2d = {"image", "mask", "heatmap"}
+mask_types = []
 
 
 __all__ = ['get_compose_matrix',
@@ -126,8 +128,12 @@ def preprocess_dict_data_and_data_info_with_resize(data, new_size):
     data_info = {}
     data_info['types_2d'] = {}
     compose_data = torch.tensor([])
+    remove_digits = str.maketrans('', '', digits)
     for type in data.keys():
-        if type in data_types_2d:
+        no_numbered_type = type.translate(remove_digits)
+        if no_numbered_type in data_types_2d:
+            if not type in data_types_2d: data_types_2d.add(
+                type)  # adds to the list of type names the numbered name detected in the input data
             if not data_info.keys().__contains__('shape'):
                 data_info['shape'] = (new_size[0], new_size[1], data[type].shape[2])
                 data_info['bpp'] = data[type].dtype
@@ -176,14 +182,19 @@ that allows applying the geometric operations in a single joint operation on the
 and another on the points.
  * Loads the data as tensor in GPU to prepare them as input to a neural network
  * Analyze the data info required for the transformations (shape, bpp...)
+ * Add to the predetermined list of type names numbered names like 'mask2' to make posible to have multiple mask or elements of a single type
 '''
 def preprocess_dict_data_and_data_info(data):
     p_data = {}
     data_info = {}
     data_info['types_2d'] = {}
     compose_data = torch.tensor([])
+    remove_digits = str.maketrans('', '', digits)
     for type in data.keys():
-        if type in data_types_2d:
+        no_numbered_type = type.translate(remove_digits)
+        if no_numbered_type in data_types_2d:
+            if not type in data_types_2d: data_types_2d.add(type) #adds to the list of type names the numbered name detected in the input data
+            if no_numbered_type == 'mask': mask_types.append(type)
             if not data_info.keys().__contains__('shape'):
                 data_info['shape'] = data[type].shape
                 data_info['bpp'] = data[type].dtype
@@ -211,8 +222,8 @@ def postprocess_data(batch, batch_info):
             data_split = torch.split(data['data_2d'], list(batch_info['types_2d'].values()), dim=0)
             for index, type in enumerate(batch_info['types_2d']):
                 data_output[type] = data_split[index]
-            if data_output.keys().__contains__('mask'): data_output['mask'] = utils.mask_change_to_01_functional(
-                data_output['mask'])
+            for mask in mask_types: data_output[mask] = utils.mask_change_to_01_functional(
+                data_output[mask])
             if data.keys().__contains__('points_matrix'): data_output['keypoints'] = [
                 ((dato)[:2, :]).reshape(2) for dato in torch.split(data['points_matrix'], 1, dim=1)]
         else:

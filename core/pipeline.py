@@ -94,7 +94,7 @@ class pipeline(object):
 import numpy as np
 import cv2
 
-img: np.ndarray = cv2.imread('../bird.jpg')
+img: np.ndarray = cv2.imread('../bird2.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, img.shape[1] // 2 - 50],
@@ -105,9 +105,8 @@ points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 
 
 # data = color.equalize_histogram(data, visualize=True)
-
-data = {'image': img, 'keypoints': points}
-samples = 50
+data = {'image': img, 'mask': img[:,:,0] , 'mask2': img[:,:,0] ,'keypoints': points}
+samples = 10
 
 batch = [data.copy() for _ in range(samples)]
 batch2 = [data.copy() for _ in range(samples)]
@@ -117,8 +116,8 @@ from time import time
 
 
 start_time = time()
-pip = pipeline(resize = (25, 25),  pipeline_operations=(
-    translate_pipeline(probability=0.5, translation=(3, 0.05)),
+pip = pipeline(  pipeline_operations=(
+    translate_pipeline(probability=0.5, translation=(30, 50)),
     vflip_pipeline(probability=0.5),
     hflip_pipeline(probability=0.5),
     contrast_pipeline(probability=0.5, contrast_factor=1),
@@ -130,21 +129,8 @@ pip = pipeline(resize = (25, 25),  pipeline_operations=(
     random_translate_pipeline(probability=0, translation_range=(20, 100)),
     random_shear_pipeline(probability=0, shear_range=(0, 0.5))
 ))
-''',
-  shear_pipeline(probability=0.9, shear = (0.01, 0.01)),
 
-
-  shear_pipeline(probability=0.9, shear = (0.05, 0.01)),
-  translate_pipeline(probability=0.2, translation=(0.03,0.05)),
-  vflip_pipeline(probability=1),
-  hflip_pipeline(probability=1),
-  gaussian_noisse_pipeline(probability=0),
-  salt_and_pepper_noisse_pipeline(probability=0, amount = 0.1),
-  spekle_noisse_pipeline(probability=0),
-  poisson_noisse_pipeline(probability=0),
-  gaussian_blur_pipeline(probability=0),
-  blur_pipeline(probability=1)'''
-batch = pip(batch, visualize=True)
+batch = pip(batch, visualize=False)
 
 operations = (brightness_pipeline(probability=1, brightness_factor=150),
               contrast_pipeline(probability=1, contrast_factor=2))
