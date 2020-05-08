@@ -100,7 +100,7 @@ class pipeline(object):
 import numpy as np
 import cv2
 
-img: np.ndarray = cv2.imread('../gato.jpg', )
+img: np.ndarray = cv2.imread('../oso.jpg', )
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, img.shape[1] // 2 - 50],

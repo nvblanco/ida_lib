@@ -50,6 +50,7 @@ def visualize(images, images_originals, max_images = 5):
         if torch.is_tensor(img):
             img = img.to('cpu')
             img = kornia.tensor_to_image(img.byte())
+        aspect = img.shape [0]/img.shape [1]
         points = data['keypoints']
         xvalues_warped = [(value[0].cpu().numpy()).astype(int) for value in points]
         yvalues_warped = [(value[1].cpu().numpy()).astype(int) for value in points]
@@ -67,14 +68,14 @@ def visualize(images, images_originals, max_images = 5):
         img2 = process_image(img2)
 
         plot = figure(title="transformed image", x_range=(0, img1.data['dw'][0]), y_range=(
-            img1.data['dh'][0], 0), plot_width=PLOT_SIZE[0], plot_height=PLOT_SIZE[1])
+            img1.data['dh'][0], 0), plot_width=PLOT_SIZE[0], plot_height=int(PLOT_SIZE[1]*aspect))
         plot.title.text_font_size = '12pt'
         plot.title.text_font_style = 'normal'
         plot.title.text_font = 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif'
         plot.image_rgba(source=img1, image='image', x='x', y='y', dw='dw', dh='dh')
 
         plot2 = figure(title="original image", x_range=(0, img2.data['dw'][0]), y_range=(
-            img2.data['dh'][0], 0), plot_width=PLOT_SIZE[0], plot_height=PLOT_SIZE[1])
+            img2.data['dh'][0], 0), plot_width=PLOT_SIZE[0], plot_height=int(PLOT_SIZE[1]*aspect))
         plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')
         plot2.title.text_font_size = '12pt'
         plot2.title.text_font_style = 'normal'
