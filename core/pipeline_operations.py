@@ -9,6 +9,8 @@ cuda = torch.device('cuda')
 one_torch = torch.tensor(1, device=cuda)
 ones_torch = torch.ones(1, 2, device=cuda)
 identity = torch.eye(3, 3, device=cuda)
+global pixel_value_range
+pixel_value_range = (0,127,255) #Default uint8
 
 
 class pipeline_operation(ABC):
@@ -62,11 +64,7 @@ class contrast_pipeline(pipeline_operation):
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
 
-    def transform_function(self, x):
-        contrast = random.randint(self.contrast_range[0], self.contrast_range[1])
-        return contrast * (x - 127) + 127
-
-    def transform_function(self, x): return self.contrast * (x - 127) + 127
+    def transform_function(self, x): return self.contrast * (x - pixel_value_range[1]) + pixel_value_range[1]
 
 
 class random_contrast_pipeline(pipeline_operation):
@@ -90,7 +88,7 @@ class random_contrast_pipeline(pipeline_operation):
 
     def transform_function(self, x):
         contrast = random.randint(self.contrast_range[0], self.contrast_range[1])
-        return contrast * (x - 127) + 127
+        return contrast * (x - pixel_value_range[1]) + pixel_value_range[1]
 
 class brightness_pipeline(pipeline_operation):
     '''Change brightness of the input image
@@ -103,7 +101,7 @@ class brightness_pipeline(pipeline_operation):
     '''
     def __init__(self,  brightness_factor, probability=1,):
         pipeline_operation.__init__(self, probability=probability, type='color')
-        self.brigthness = utils.map_value(brightness_factor, 0,2,-256,256)
+        self.brigthness = utils.map_value(brightness_factor, 0,2,-pixel_value_range[2],pixel_value_range[2])
 
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
@@ -127,7 +125,7 @@ class random_brightness_pipeline(pipeline_operation):
         pipeline_operation.__init__(self, probability=probability, type='color')
         if not isinstance(brightness_range, tuple) or len(brightness_range) != 2:
             raise Exception("Contrast factor must be tuple of 2 elements")
-        self.brightness_range = (utils.map_value(brightness_range[0] , 0,2,-256,256), utils.map_value(brightness_range[1], 0, 2, -256, 256))
+        self.brightness_range = (utils.map_value(brightness_range[0] , 0,2,-256,256), utils.map_value(brightness_range[1], 0, 2, -pixel_value_range[2], pixel_value_range[2]))
 
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
@@ -156,7 +154,7 @@ class gamma_pipeline(pipeline_operation):
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
 
-    def transform_function(self, x): return pow(x / 255.0, self.gamma) * 255.0
+    def transform_function(self, x): return pow(x / pixel_value_range[2], self.gamma) * pixel_value_range[2]
 
 
 class random_gamma_pipeline(pipeline_operation):
@@ -179,7 +177,7 @@ class random_gamma_pipeline(pipeline_operation):
 
     def transform_function(self, x):
         gamma = random.randint(self.gamma_range[0], self.gamma_range[1])
-        return pow(x / 255.0, gamma) * 255.0
+        return pow(x / pixel_value_range[2], gamma) * pixel_value_range[2]
 
 
 class normalize_pipeline(pipeline_operation):
@@ -189,7 +187,7 @@ class normalize_pipeline(pipeline_operation):
                             old_range (int tuple)       : actual range of pixels of the input image. Default: 0-255
                             new_range (int tuple)       : desired range of pixels of the input image. Default: 0-1
                     '''
-    def __init__(self, probability=1, old_range=(0, 255), new_range=(0, 1)):
+    def __init__(self, probability=1, old_range=(0, pixel_value_range[2]), new_range=(0, 1)):
         pipeline_operation.__init__(self, probability=probability, type='normalize')
         self.new_range = new_range
         self.old_range = old_range
@@ -206,7 +204,7 @@ class desnormalize_pipeline(pipeline_operation):
                             old_range (int tuple)       : actual range of pixels of the input image. Default: 0-1
                             new_range (int tuple)       : desired range of pixels of the input image. Default: 0-255
                         '''
-    def __init__(self, probability=1, old_range=(0, 1), new_range=(0, 255)):
+    def __init__(self, probability=1, old_range=(0, 1), new_range=(0, pixel_value_range[2])):
         pipeline_operation.__init__(self, probability=probability, type='normalize')
         self.new_range = new_range
         self.old_range = old_range

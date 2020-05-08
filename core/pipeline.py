@@ -45,6 +45,12 @@ class pipeline(object):
             if self.info_data is None:  # First iteration to configure parameters and scan data info while the first item is being processed
                 data = batch_data[0]
                 batch_data = batch_data[1:]  # exclude the first item in the batch to be processed on the second loop
+                '''set the color depth'''
+                bpp = int( data['image'].dtype.name[4:])
+                max = pow(2, bpp) - 1
+                global pixel_value_range
+                pixel_value_range = (0, max // 2, max)
+                '''get compose color functions '''
                 lut = get_compose_function(self.color_ops)
                 data['image'] = cv2.LUT(data['image'], lut)
                 for op in self.indep_ops: data['image'] = op._apply_to_image_if_probability(data['image'])
@@ -94,7 +100,7 @@ class pipeline(object):
 import numpy as np
 import cv2
 
-img: np.ndarray = cv2.imread('../bird2.jpg')
+img: np.ndarray = cv2.imread('../gato.jpg', )
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, img.shape[1] // 2 - 50],
@@ -130,7 +136,7 @@ pip = pipeline(  pipeline_operations=(
     random_shear_pipeline(probability=0, shear_range=(0, 0.5))
 ))
 
-batch = pip(batch, visualize=False)
+batch = pip(batch, visualize=True)
 
 operations = (brightness_pipeline(probability=1, brightness_factor=150),
               contrast_pipeline(probability=1, contrast_factor=2))

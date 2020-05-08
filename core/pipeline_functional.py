@@ -87,7 +87,7 @@ def get_compose_function(operations):
     lookUpTable = np.empty((1, 256), np.int16)
     for i in range(256):
         lookUpTable[0, i] = compose_function(i)
-    lookUpTable[0, :] = np.clip(lookUpTable[0, :], 0, 255)
+    lookUpTable[0, :] = np.clip(lookUpTable[0, :], 0, 256)
     return np.uint8(lookUpTable)
 
 
@@ -137,6 +137,7 @@ def preprocess_dict_data_and_data_info_with_resize(data, new_size):
             if not data_info.keys().__contains__('shape'):
                 data_info['shape'] = (new_size[0], new_size[1], data[type].shape[2])
                 data_info['bpp'] = data[type].dtype
+                bpp = (data[type].dtype)[4:]
                 data_info['resize_factor'] = (new_size[0] /data[type].shape[0] , new_size[1] /data[type].shape[1])
             data[type] = kornia.image_to_tensor(cv2.resize(data[type], new_size)) #Transform to tensor + resize data
             if data[type].dim() > 3: data[type] = data[type][0, :]
@@ -198,6 +199,11 @@ def preprocess_dict_data_and_data_info(data):
             if not data_info.keys().__contains__('shape'):
                 data_info['shape'] = data[type].shape
                 data_info['bpp'] = data[type].dtype
+                bpp = int(data[type].dtype.name[4:])
+                bpp = 16
+                max = pow(2,bpp)-1
+                global pixel_value_range
+                pixel_value_range = (0, max // 2, max)
             data[type] = kornia.image_to_tensor(data[type])
             if data[type].dim() > 3: data[type] = data[type][0, :]
             compose_data = torch.cat((compose_data, data[type]),
@@ -243,8 +249,8 @@ def postprocess_data_and_visualize(batch, data_original, batch_info):
             data_split = torch.split(data['data_2d'], list(batch_info['types_2d'].values()), dim=0)
             for index, type in enumerate(batch_info['types_2d']):
                 data_output[type] = data_split[index]
-            if data_output.keys().__contains__('mask'): data_output['mask'] = utils.mask_change_to_01_functional(
-                data_output['mask'])
+            for mask in mask_types: data_output[mask] = utils.mask_change_to_01_functional(
+                data_output[mask])
             if data.keys().__contains__('points_matrix'): data_output['keypoints'] = [
                 ((dato)[:2, :]).reshape(2) for dato in torch.split(data['points_matrix'], 1, dim=1)]
         else:
