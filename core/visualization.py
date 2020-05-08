@@ -41,7 +41,7 @@ def process_mask(img_orig):
     return source
 
 
-def visualize(images, images_originals, max_images = 5):
+def visualize(images, images_originals, mask_types,  max_images = 5):
     tabs = []
     for index, (data, data_original) in enumerate(zip(images, images_originals)):
         if index == max_images:
@@ -82,6 +82,32 @@ def visualize(images, images_originals, max_images = 5):
         plot2.title.text_font = 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif'
         list_plots = (plot2, plot)
         list_checkbox = ()
+        for mask in mask_types:
+            img = data[mask]
+            if torch.is_tensor(img):
+                img = img.to('cpu')
+                zero = torch.zeros((1, img.shape[1], img.shape[2]))
+                img = torch.cat((zero, img, img, img), 0)
+                img = kornia.tensor_to_image(img.byte())  
+            img1 = process_mask(img)
+
+            img2 = data_original[mask]
+            if torch.is_tensor(img2):
+                img2 = img2.to('cpu')
+                img2 = kornia.tensor_to_image(img2.byte())
+            img2 = img2.reshape(img2.shape[0], img2.shape[1], 1)
+            img2 = process_image(img2)
+
+            img_plot = plot.image_rgba(source=img1, image='image', x='x', y='y', dw='dw', dh='dh')        #transformed
+            img_plot2 = plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')      #original
+            checkboxes_mask = CheckboxGroup(labels=[mask], active=[0, 1])
+            callback_mask = CustomJS(code="""points.visible = false; 
+                                             points_2.visible = false;
+                                             if (cb_obj.active.includes(0)){points.visible = true;} 
+                                             if (cb_obj.active.includes(0)){points_2.visible = true;}""",
+                                args={'points': img_plot,  'points_2': img_plot2})
+            checkboxes_mask.js_on_click(callback_mask)
+            list_checkbox = (*list_checkbox, checkboxes_mask)
         if data.keys().__contains__('keypoints'):
             source = ColumnDataSource(data=dict(height=yvalues_warped,
                                                 weight=xvalues_warped,
@@ -115,33 +141,6 @@ def visualize(images, images_originals, max_images = 5):
             checkboxes.js_on_click(callback)
             #list_plots = (*list_plots, checkboxes)
             list_checkbox = (*list_checkbox, checkboxes)
-        if data.keys().__contains__('mask'):
-            img = data['mask']
-            if torch.is_tensor(img):
-                img = img.to('cpu')
-                zero = torch.zeros((1, img.shape[1], img.shape[2]))
-                img = torch.cat((zero, img, img, img), 0)
-                img = kornia.tensor_to_image(img.byte())  
-            img1 = process_mask(img)
-
-            img2 = data_original['mask']
-            if torch.is_tensor(img2):
-                img2 = img2.to('cpu')
-                img2 = kornia.tensor_to_image(img2.byte())
-            img2 = img2.reshape(img2.shape[0], img2.shape[1], 1)
-            img2 = process_image(img2)
-
-            img_plot = plot.image_rgba(source=img1, image='image', x='x', y='y', dw='dw', dh='dh')        #transformed
-            img_plot2 = plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')      #original
-            checkboxes_mask = CheckboxGroup(labels=['mask'], active=[0, 1])
-            callback_mask = CustomJS(code="""points.visible = false; 
-                                             points_2.visible = false;
-                                             if (cb_obj.active.includes(0)){points.visible = true;} 
-                                             if (cb_obj.active.includes(0)){points_2.visible = true;}""",
-                                args={'points': img_plot,  'points_2': img_plot2})
-            checkboxes_mask.js_on_click(callback_mask)
-            list_checkbox = (*list_checkbox, checkboxes_mask)
-
         title = 'image ' + str(index)
         pre = Div(text="<b>Data Elements </b><hr>",
                   style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '150%', 'color': '#17705E'})

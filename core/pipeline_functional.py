@@ -256,5 +256,5 @@ def postprocess_data_and_visualize(batch, data_original, batch_info):
         else:
             data_output = data['data_2d']
         process_data.append(data_output)
-    visualization.visualize(process_data[0:10], data_original[0:10])
+    visualization.visualize(process_data[0:10], data_original[0:10], mask_types)
     return process_data
