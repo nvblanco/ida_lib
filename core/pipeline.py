@@ -108,7 +108,7 @@ import cv2
 import imgaug
 from imgaug.augmentables.segmaps import SegmentationMapsOnImage
 
-img: np.ndarray = cv2.imread('../bird2.jpg', )
+img: np.ndarray = cv2.imread('../oso.jpg', )
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 segmap = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.int32)
@@ -127,6 +127,16 @@ segmap[10:110, 5:10, 0] = 4
 segmap[118:123, 10:110, 0] = 5'''
 #segmap2 = SegmentationMapsOnImage(segmap2, shape=img.shape)
 
+x = np.random.randn(img.shape[0]//4 * img.shape[1]//4)
+y = np.random.randn(img.shape[0]//4 * img.shape[1]//4)
+
+# Create heatmap
+heatmap, xedges, yedges = np.histogram2d(x, y, bins=(img.shape[0]//4, img.shape[1]//4))
+heatmap = heatmap / 3
+heatmap_complete = np.zeros((img.shape[0], img.shape[1], 1))
+
+heatmap_complete[0:img.shape[0]//4, 0:img.shape[1]//4, 0] = heatmap
+
 keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, img.shape[1] // 2 - 50],
              [img.shape[0] // 2 + 85, img.shape[1] // 2 - 80], [img.shape[0] // 2 - 105, img.shape[1] // 2 + 60])
 
@@ -135,7 +145,7 @@ points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 
 
 # data = color.equalize_histogram(data, visualize=True)
-data = {'image': img, 'mask': segmap2, 'mask2': segmap ,'keypoints': points, 'label': 'cat'}
+data = {'image': img, 'mask': segmap2, 'mask2': segmap ,'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
 samples = 10
 
 batch = [data.copy() for _ in range(samples)]
