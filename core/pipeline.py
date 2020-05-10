@@ -8,7 +8,13 @@ class pipeline(object):
     it applies the necessary transformations (being different on each image based on the probabilities of each operation included).
 
         Considerations:
-            1)The images must be of the same size, or the RESIZE operation must be included so that the transformations can be applied correctly
+            1)  The images must be of the same size, or the RESIZE operation must be included so that the transformations can be applied correctly
+            2)  To run the pipeline, it accepts any type of input metadata named in the input dict. In particular it gives special treatment
+                to data named as:
+                    - Mask:     it is affected by geometric transformations and its output is discretized to values of 0-1
+                    - Image:    affected by geometric and color transformations
+                    - Keypoints: geometric transformations are applied to them as coordinates.
+                    - Others:   any other metadata will not be transformed (example: 'tag', 'target'...)
 
         Example:
 
@@ -99,9 +105,27 @@ class pipeline(object):
 
 import numpy as np
 import cv2
+import imgaug
+from imgaug.augmentables.segmaps import SegmentationMapsOnImage
 
-img: np.ndarray = cv2.imread('../oso.jpg', )
+img: np.ndarray = cv2.imread('../bird2.jpg', )
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+segmap = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.int32)
+segmap[28:171, 35:85, 0] = 255
+'''segmap[10:25, 30:45, 0] = 2
+segmap[10:25, 70:85, 0] = 3
+segmap[10:110, 5:10, 0] = 4
+segmap[118:123, 10:110, 0] = 5'''
+#segmap = SegmentationMapsOnImage(segmap, shape=img.shape)
+
+segmap2 = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.int32)
+segmap2[0:150, 50:125, 0] = 255
+'''segmap[10:25, 30:45, 0] = 2
+segmap[10:25, 70:85, 0] = 3
+segmap[10:110, 5:10, 0] = 4
+segmap[118:123, 10:110, 0] = 5'''
+#segmap2 = SegmentationMapsOnImage(segmap2, shape=img.shape)
 
 keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, img.shape[1] // 2 - 50],
              [img.shape[0] // 2 + 85, img.shape[1] // 2 - 80], [img.shape[0] // 2 - 105, img.shape[1] // 2 + 60])
@@ -111,7 +135,7 @@ points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 
 
 # data = color.equalize_histogram(data, visualize=True)
-data = {'image': img, 'mask': img[:,:,0] , 'mask2': img[:,:,0] ,'keypoints': points}
+data = {'image': img, 'mask': segmap2, 'mask2': segmap ,'keypoints': points, 'label': 'cat'}
 samples = 10
 
 batch = [data.copy() for _ in range(samples)]

@@ -11,6 +11,7 @@ device = 'cuda'
 cuda = torch.device('cuda')
 data_types_2d = {"image", "mask", "heatmap"}
 mask_types = []
+other_types = []
 
 
 __all__ = ['get_compose_matrix',
@@ -106,6 +107,8 @@ def preprocess_dict_data(data):
             if data[type].dim() > 3: data[type] = data[type][0, :]
             compose_data = torch.cat((compose_data, data[type]),
                                      0)  # concatenate data into one multichannel pytoch tensor
+        elif type in other_types:
+            p_data[type] = data[type]
         else:
             p_data['points_matrix'] = data[type]
     p_data['data_2d'] = compose_data.to(device)
@@ -144,8 +147,11 @@ def preprocess_dict_data_and_data_info_with_resize(data, new_size):
             compose_data = torch.cat((compose_data, data[type]),
                                      0)  # concatenate data into one multichannel pytoch tensor
             data_info['types_2d'][type] = data[type].shape[0]
-        else:
+        elif no_numbered_type == 'keypoints':
             p_data['points_matrix'] = data[type]
+        else:
+            other_types.append(type)
+            p_data[type] = data[type]
     p_data['data_2d'] = compose_data.to(device)
     if p_data.keys().__contains__('points_matrix'):  p_data[
         'points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate_with_resize(
@@ -169,6 +175,8 @@ def preprocess_dict_data_with_resize(data, batch_info):
             if data[type].dim() > 3: data[type] = data[type][0, :]
             compose_data = torch.cat((compose_data, data[type]),
                                      0)  # concatenate data into one multichannel pytoch tensor
+        elif type in other_types:
+            p_data[type] = data[type]
         else:
             p_data['points_matrix'] = data[type]
     p_data['data_2d'] = compose_data.to(device)
@@ -209,8 +217,11 @@ def preprocess_dict_data_and_data_info(data):
             compose_data = torch.cat((compose_data, data[type]),
                                      0)  # concatenate data into one multichannel pytoch tensor
             data_info['types_2d'][type] = data[type].shape[0]
-        else:
+        elif no_numbered_type == 'keypoints':
             p_data['points_matrix'] = data[type]
+        else:
+            other_types.append(type)
+            p_data[type] = data[type]
     p_data['data_2d'] = compose_data.to(device)
     if p_data.keys().__contains__('points_matrix'):  p_data[
         'points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate(
@@ -230,6 +241,7 @@ def postprocess_data(batch, batch_info):
                 data_output[type] = data_split[index]
             for mask in mask_types: data_output[mask] = utils.mask_change_to_01_functional(
                 data_output[mask])
+            for label in other_types: data_output[label] = data[label]
             if data.keys().__contains__('points_matrix'): data_output['keypoints'] = [
                 ((dato)[:2, :]).reshape(2) for dato in torch.split(data['points_matrix'], 1, dim=1)]
         else:
@@ -251,10 +263,11 @@ def postprocess_data_and_visualize(batch, data_original, batch_info):
                 data_output[type] = data_split[index]
             for mask in mask_types: data_output[mask] = utils.mask_change_to_01_functional(
                 data_output[mask])
+            for label in other_types: data_output[label] = data[label]
             if data.keys().__contains__('points_matrix'): data_output['keypoints'] = [
                 ((dato)[:2, :]).reshape(2) for dato in torch.split(data['points_matrix'], 1, dim=1)]
         else:
             data_output = data['data_2d']
         process_data.append(data_output)
-    visualization.visualize(process_data[0:10], data_original[0:10], mask_types)
+    visualization.visualize(process_data[0:10], data_original[0:10], mask_types, other_types)
     return process_data

@@ -12,7 +12,37 @@ import os
 import sys
 
 
+__all__ = [ 'visualize']
+
+
 PLOT_SIZE = (600, 600)
+
+color_palette = [
+    #[R,G,B]
+    [45,    171,    41],
+    [41,    171,    130],
+    [140,   63,     156],
+    [196,   68,     24],
+    [247,   255,    0],
+    [0,     126,    11],
+    [128,   185,    169],
+    [0,     18,     130],
+    [255,   0,      128],
+    [88,    175,    98],
+    [140,   140,    140],
+    [153,   70,     70],
+    [115,   255,    227],
+    [255,   0,      0],
+    [0,     255,    0],
+    [0,     0,      255]
+]
+
+color_index = 0
+
+def get_next_color():
+    global color_index
+    color_index = (color_index + 1 ) % len(color_palette)
+    return color_palette[color_index]
 
 
 
@@ -41,9 +71,16 @@ def process_mask(img_orig):
     return source
 
 
-def visualize(images, images_originals, mask_types,  max_images = 5):
+def visualize(images, images_originals, mask_types, other_types,  max_images = 5):
     tabs = []
     for index, (data, data_original) in enumerate(zip(images, images_originals)):
+        #Restart palette of colors to have the same colors in each image
+        global color_index
+        color_index = 0
+
+
+        list_target = ()
+        list_checkbox = ()
         if index == max_images:
             break
         img = data['image']
@@ -81,22 +118,24 @@ def visualize(images, images_originals, mask_types,  max_images = 5):
         plot2.title.text_font_style = 'normal'
         plot2.title.text_font = 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif'
         list_plots = (plot2, plot)
-        list_checkbox = ()
         for mask in mask_types:
             img = data[mask]
+            color = get_next_color()
             if torch.is_tensor(img):
                 img = img.to('cpu')
-                zero = torch.zeros((1, img.shape[1], img.shape[2]))
-                img = torch.cat((zero, img, img, img), 0)
+                one = torch.ones((1, img.shape[1], img.shape[2]))
+                img = torch.cat((one * color[0], one * color[1], one * color[2], img* 0.8 ), 0)
                 img = kornia.tensor_to_image(img.byte())  
             img1 = process_mask(img)
 
             img2 = data_original[mask]
+            one = np.ones((img2.shape[0], img2.shape[1], 1))
+            img2 = np.concatenate((one * color[0], one * color[1], one * color[2], img2 * 0.8), 2)
+
             if torch.is_tensor(img2):
                 img2 = img2.to('cpu')
                 img2 = kornia.tensor_to_image(img2.byte())
-            img2 = img2.reshape(img2.shape[0], img2.shape[1], 1)
-            img2 = process_image(img2)
+            img2 = process_mask(img2)
 
             img_plot = plot.image_rgba(source=img1, image='image', x='x', y='y', dw='dw', dh='dh')        #transformed
             img_plot2 = plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')      #original
@@ -139,8 +178,18 @@ def visualize(images, images_originals, mask_types,  max_images = 5):
                                         if (cb_obj.active.includes(0)){points_2.visible = true;}""",
                                 args={'points': points, 'labels': labels, 'labels2': labels2, 'points_2': points_2})
             checkboxes.js_on_click(callback)
-            #list_plots = (*list_plots, checkboxes)
             list_checkbox = (*list_checkbox, checkboxes)
+        for label in other_types:
+            html = "<div style='padding: 5px; border-radius: 3px; background-color: #8ebf42'><span style='color:black;font-size:130%'>" + label + ":</span> " + data[label] + '</div>'
+            label = Div(text=html,
+                      style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif',
+                             'font-size': '100%', 'color': '#17705E'})
+            list_target = (*list_target, label)
+        if list_target is not None:
+            title_targets = pre = Div(text="<b>Targets</b><hr>",
+                      style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '100%', 'color': '#bf6800'})
+            list_checkbox = (*list_checkbox, title_targets, *list_target)
+        checkboxes_column = column(pre, *list_checkbox)
         title = 'image ' + str(index)
         pre = Div(text="<b>Data Elements </b><hr>",
                   style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '150%', 'color': '#17705E'})
@@ -148,8 +197,6 @@ def visualize(images, images_originals, mask_types,  max_images = 5):
         vertical_line = Div(text="<div></div>",
                             style={'border-right': '1px solid #e5e5e5', 'height': '100%', 'width': '30px'})
         list_plots = (*list_plots, vertical_line, checkboxes_column)
-
-
         p = row(*list_plots)
         tab = Panel(child=p, title=title)
         tabs.append(tab)
