@@ -88,7 +88,7 @@ def get_compose_function(operations):
     lookUpTable = np.empty((1, 256), np.int16)
     for i in range(256):
         lookUpTable[0, i] = compose_function(i)
-    lookUpTable[0, :] = np.clip(lookUpTable[0, :], 0, 256)
+    lookUpTable[0, :] = np.clip(lookUpTable[0, :], 0, 255)
     return np.uint8(lookUpTable)
 
 

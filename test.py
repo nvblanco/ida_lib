@@ -26,8 +26,18 @@ from operations import utils
 #data = color.equalize_histogram(data, visualize=True)
 
 data = {'image':data, 'keypoints': points, 'mask': data}
+matrix = torch.eye(2,3).to('cuda')
 
-data = geometry.vflip(data, True)
+center = torch.ones(1, 2)
+center[..., 0] = data['image'].shape[-2] // 2  # x
+center[..., 1] = data['image'].shape[-1] // 2  # y
+
+#data = geometry.translate(data, visualize = False, translation = (20,-10))
+#data = geometry.scale(data, visualize = False, scale_factor=0.75)
+#data = geometry.hflip(data, False)
+#data = geometry.affine(data, visualize=False, matrix=matrix)
+data = geometry.shear(data, visualize=False, shear_factor=(0.1,0.3))
+#data = geometry.rotate(data, visualize=False, degrees=35.8, center = center)
 
 from time import time
 

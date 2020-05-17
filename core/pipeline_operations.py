@@ -101,7 +101,7 @@ class brightness_pipeline(pipeline_operation):
     '''
     def __init__(self,  brightness_factor, probability=1,):
         pipeline_operation.__init__(self, probability=probability, type='color')
-        self.brigthness = utils.map_value(brightness_factor, 0,2,-pixel_value_range[2],pixel_value_range[2])
+        self.brigthness = utils.map_value(brightness_factor, 0,2,-256,256)
 
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
