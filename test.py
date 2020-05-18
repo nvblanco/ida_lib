@@ -36,9 +36,18 @@ center[..., 1] = data['image'].shape[-1] // 2  # y
 #data = geometry.scale(data, visualize = False, scale_factor=0.75)
 #data = geometry.hflip(data, False)
 #data = geometry.affine(data, visualize=False, matrix=matrix)
-data = geometry.shear(data, visualize=False, shear_factor=(0.1,0.3))
+#data = geometry.shear(data, visualize=False, shear_factor=(0.1,0.3))
 #data = geometry.rotate(data, visualize=False, degrees=35.8, center = center)
-
+data = color.change_brigntness(data, visualize=False, brigth=0)
+#data = color.change_contrast(data, visualize=False, contrast=0.1)
+#data = color.equalize_histogram(data, visualize=False)
+#data = color.change_gamma(data, gamma=1.5, visualize=False)
+#data = color.gaussian_blur(data)
+#data = color.blur(data)
+#data = color.inyect_salt_and_pepper_noise(data)
+#data = color.inyect_spekle_noise(data)
+#data = color.inyect_poisson_noise(data) (!!!!)
+#data['image'] = color.inyect_gaussian_noise(data['image'], var=0.5)
 from time import time
 
 

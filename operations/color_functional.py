@@ -1,3 +1,5 @@
+from functools import wraps
+
 import cv2
 import numpy as np
 from . import utils
@@ -5,10 +7,167 @@ import torch
 import kornia
 from image_augmentation import visualization
 
-
 device = utils.device
 
 
+def prepare_data_for_opencv(func):
+
+    @wraps(func)
+    def wrapped_function(image, visualize,  *args, **kwargs):
+        if isinstance(image, dict):
+            data_type = 'dict'
+            data = image
+            image = image['image']
+        else:
+            data_type = 'image'
+        if torch.is_tensor(image):
+            image_type = 'tensor'
+            image = kornia.tensor_to_image(image.byte())
+        else:
+            image_type = 'numpy'
+        if visualize:
+            original = image
+
+        image = func(image, *args, **kwargs) #Execute transform
+
+        if image_type == 'tensor':
+            image = kornia.image_to_tensor(image, keepdim=False)
+        if data_type == 'dict':
+            data_output = data
+            data_output['image'] = image
+        else:
+            data_output = image
+
+        if visualize:
+            visualization.plot_image_tranformation({'image': data_output}, {'image': original})
+        return data_output
+
+    return wrapped_function
+
+def apply_lut_by_pixel_function(function, image):
+    lookUpTable = np.empty((1, 256), np.int16)
+    for i in range(256):
+        lookUpTable[0, i] = function(i)
+    lookUpTable[0, :] = np.clip(lookUpTable[0, :], 0, 255)
+    lut =  np.uint8(lookUpTable)
+    return cv2.LUT(image, lut)
+
+
+@prepare_data_for_opencv
+def normalize_image(img, norm_type = cv2.NORM_MINMAX):
+    return cv2.normalize(img, None, alpha=0, beta=1, norm_type=norm_type, dtype=cv2.CV_32F)
+
+
+def get_brigthness_function(brightness):
+    return lambda x : x + brightness
+
+@prepare_data_for_opencv
+def change_brigthness(image, brightness):
+    brightness = utils.map_value(brightness, 0, 2, -256, 256)
+    return apply_lut_by_pixel_function(get_brigthness_function(brightness), image)
+
+
+def get_brigthness_function(brightness):
+    return lambda x : x + brightness
+
+@prepare_data_for_opencv
+def change_contrast(image, contrast):
+    return apply_lut_by_pixel_function(get_contrast_function(contrast), image)
+
+def get_contrast_function(contrast):
+    return lambda x : contrast * (x - 255) + 255
+
+
+@prepare_data_for_opencv
+def change_gamma(image, gamma):
+    return apply_lut_by_pixel_function(get_gamma_function(gamma), image)
+
+def get_gamma_function(gamma):
+    return lambda x : pow(x / 255, gamma) * 255
+
+@prepare_data_for_opencv
+def gaussian_noise(image, var = 20):
+    return _apply_gaussian_noise(image, var)
+
+@prepare_data_for_opencv
+def salt_and_pepper_noise(image, amount , s_vs_p):
+    return _apply_salt_and_pepper_noise(image, amount, s_vs_p)
+
+@prepare_data_for_opencv
+def poisson_noise(image):
+    return _apply_poisson_noise(image)
+
+@prepare_data_for_opencv
+def spekle_noise(image, mean=0, var=0.01):
+    return _apply_spekle_noise(image, mean,var)
+
+
+@prepare_data_for_opencv
+def histogram_equalization(img):
+    for channel in range(img.shape[2]): img[...,channel] = cv2.equalizeHist(img[...,channel])
+    return img
+    '''ycrcb = cv2.cvtColor(img, cv2.COLOR_BGR2YCR_CB)
+    channels = cv2.split(ycrcb)
+    cv2.equalizeHist(channels[0], channels[0])
+    cv2.merge(channels, ycrcb)
+    cv2.cvtColor(ycrcb, cv2.COLOR_YCR_CB2BGR, img)
+    return img'''
+
+@prepare_data_for_opencv
+def gaussian_blur(img, blur_size):
+    return apply_gaussian_blur(img, blur_size)
+
+@prepare_data_for_opencv
+def blur(img, blur_size):
+    return apply_gaussian_blur(img, blur_size)
+
+
+
+def apply_gaussian_blur(img, blur_size=(5, 5)):
+    return cv2.GaussianBlur(img, blur_size,cv2.BORDER_DEFAULT)
+
+def _apply_blur(img,  blur_size=(5, 5)):
+    return cv2.blur(img, (5,5))
+
+def _resize_image(image, new_size):
+    return cv2.resize(image, new_size)
+
+def _apply_gaussian_noise(image, var = 20):
+    gaussian_noise = np.zeros((image.shape[0], image.shape[1],1), dtype=np.uint8)
+    cv2.randn(gaussian_noise, 50, 20)
+    gaussian_noise = np.concatenate((gaussian_noise, gaussian_noise, gaussian_noise), axis=2)
+    gaussian_noise = (gaussian_noise * var).astype(np.uint8)
+    return cv2.add(image, gaussian_noise)
+
+def _apply_salt_and_pepper_noise(image, amount=0.05, s_vs_p = 0.5 ):
+    if not utils.is_a_normalized_image(image):
+        salt = 255
+    else:
+        salt = 1
+    pepper = 0
+    out = np.copy(image)
+    # Salt mode
+    num_salt = np.ceil(amount * image.size * s_vs_p)
+    coords = [np.random.randint(0, i - 1, int(num_salt)) for i in image.shape]
+    out[coords[0], coords[1], :] = salt
+    # Pepper mode
+    num_pepper = np.ceil(amount * image.size * (1. - s_vs_p))
+    coords = [np.random.randint(0, i - 1, int(num_pepper))
+              for i in image.shape]
+    out[coords[0], coords[1], :] = pepper
+    return out
+
+def _apply_poisson_noise(image):
+    noise = np.random.poisson(40, image.shape)
+    return image + noise
+
+def _apply_spekle_noise(image, mean=0, var=0.01):
+    gauss = np.random.normal(mean, var ** 0.5, image.shape)
+    gauss = gauss.reshape(image.shape)
+    noisy = image + image * gauss
+    return noisy
+
+'''
 class color_transform(object):
     def __init__(self, image, visualize = False):
         if isinstance(image, dict):
@@ -183,8 +342,8 @@ class spekle_noise(color_transform):
     def __call__(self, *args, **kwargs):
         self.image = utils._apply_spekle_noise(self.image)
         return self.postprocess_data()
-
-class histogram_equalization(color_transform):
+'''
+'''class histogram_equalization(color_transform):
     def __init__(self, image, visualize = False):
         color_transform.__init__(self, image, visualize)
 
@@ -196,6 +355,6 @@ class histogram_equalization(color_transform):
 
         # convert the YUV image back to RGB format
         self.image = cv2.cvtColor(self.image, cv2.COLOR_YUV2BGR)
-        return self.postprocess_data()
+        return self.postprocess_data()'''
 
 
