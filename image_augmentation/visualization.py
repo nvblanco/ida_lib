@@ -8,7 +8,7 @@ import kornia
 import bokeh.plotting
 from bokeh.palettes import PuBu
 from bokeh.models import ColumnDataSource, ranges, LabelSet
-from operations import geometry
+from operations import transforms
 from bokeh.models import ColumnDataSource, Grid, LinearAxis, Plot, VBar, HBar
 from bokeh.models import Button, Select, ColumnDataSource, CustomJS, Panel, Tabs
 from bokeh.io import curdoc
@@ -104,7 +104,7 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
         #p3.image_rgba(source=source_mask, image='img', x='x', y='y', dw='dw', dh='dh')'''
         tab3_original = Panel(child=p3, title="mask")
         tabs.append(tab3_original)
-    tabs_original = Tabs(Tabs(tabs=tabs), Tabs(tabs=tabs))
+    tabs_original = Tabs(tabs=tabs)
     return tabs_original
 
 def plot_image_tranformation(data, data_original, **figure_kwargs):

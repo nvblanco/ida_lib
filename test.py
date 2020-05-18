@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from operations import geometry, color
+from operations import transforms
 import kornia
 from matplotlib import image
 import matplotlib.pyplot as plt
@@ -34,11 +34,11 @@ center[..., 1] = data['image'].shape[-1] // 2  # y
 
 #data = geometry.translate(data, visualize = False, translation = (20,-10))
 #data = geometry.scale(data, visualize = False, scale_factor=0.75)
-#data = geometry.hflip(data, False)
+data = transforms.hflip(data, True)
 #data = geometry.affine(data, visualize=False, matrix=matrix)
 #data = geometry.shear(data, visualize=False, shear_factor=(0.1,0.3))
 #data = geometry.rotate(data, visualize=False, degrees=35.8, center = center)
-data = color.change_brigntness(data, visualize=False, brigth=0)
+#data = transforms.change_brigntness(data, visualize=False, brigth=0.8)
 #data = color.change_contrast(data, visualize=False, contrast=0.1)
 #data = color.equalize_histogram(data, visualize=False)
 #data = color.change_gamma(data, gamma=1.5, visualize=False)

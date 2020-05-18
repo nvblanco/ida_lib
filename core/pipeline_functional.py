@@ -4,12 +4,13 @@ import cv2
 import torch
 import functools
 from string import digits
+from kornia.geometry.transform.imgwarp import warp_affine
 
 from core.pipeline_operations import *
 
 device = 'cuda'
 cuda = torch.device('cuda')
-data_types_2d = {"image", "mask", "heatmap"}
+data_types_2d = {"image", "mask", "segmap", "heatmap"}
 mask_types = []
 other_types = []
 
@@ -23,7 +24,8 @@ __all__ = ['get_compose_matrix',
            'split_operations_by_type',
            'get_compose_matrix_and_configure_parameters',
            'postprocess_data_and_visualize',
-           'postprocess_data']
+           'postprocess_data',
+           'own_affine']
 
 '''
 Returns the transformation matrix composed by the multiplication in order of 
@@ -50,6 +52,40 @@ def get_compose_matrix_and_configure_parameters(operations, data_info):
         if operation.apply_according_to_probability():
             matrix = torch.matmul(operation.get_op_matrix(), matrix)
     return matrix
+
+
+def own_affine(tensor: torch.Tensor, matrix: torch.Tensor, interpolation: str = 'bilinear',
+               padding_mode: str = 'border') -> torch.Tensor:
+    """Apply an affine transformation to the image.
+
+    Args:
+        tensor (torch.Tensor): The image tensor to be warped.
+        matrix (torch.Tensor): The 2x3 affine transformation matrix.
+        interpolation (str) :interpolation mode to calculate output values
+          'bilinear' | 'nearest'. Default: 'bilinear'.
+        padding_mode (str): padding mode for outside grid values
+          'zeros' | 'border' | 'reflection'. Default: 'zeros'.
+
+    Returns:
+        torch.Tensor: The warped image.
+    """
+    # warping needs data in the shape of BCHW
+    is_unbatched: bool = tensor.ndimension() == 3
+    if is_unbatched:
+        tensor = torch.unsqueeze(tensor, dim=0)
+
+    matrix = matrix.expand(tensor.shape[0], -1, -1)
+
+    # warp the input tensor
+    height: int = tensor.shape[-2]
+    width: int = tensor.shape[-1]
+    warped: torch.Tensor = warp_affine(tensor, matrix, (height, width), flags=interpolation, padding_mode=padding_mode)
+
+    # return in the original shape
+    if is_unbatched:
+        warped = torch.squeeze(warped, dim=0)
+
+    return warped
 
 
 '''
@@ -98,20 +134,27 @@ that allows applying the geometric operations in a single joint operation on the
 and another on the points.
  * Loads the data as tensor in GPU to prepare them as input to a neural network
 '''
-def preprocess_dict_data(data):
+def preprocess_dict_data(data, batch_info):
     p_data = {}
     compose_data = torch.tensor([])
+    compose_discretized_data = torch.tensor([])
     for type in data.keys():
         if type in data_types_2d:
             data[type] = kornia.image_to_tensor(data[type])
             if data[type].dim() > 3: data[type] = data[type][0, :]
-            compose_data = torch.cat((compose_data, data[type]),
-                                     0)  # concatenate data into one multichannel pytoch tensor
+            if type in mask_types:
+                compose_discretized_data = torch.cat((compose_discretized_data, data[type]),
+                                                     0)
+            else:
+                compose_data = torch.cat((compose_data, data[type]),
+                                         0)  # concatenate data into one multichannel pytoch tensor
         elif type in other_types:
             p_data[type] = data[type]
         else:
             p_data['points_matrix'] = data[type]
     p_data['data_2d'] = compose_data.to(device)
+    if batch_info['contains_discrete_data']:
+        p_data['data_2d_discreted'] = compose_discretized_data.to(device)
     if p_data.keys().__contains__('points_matrix'):  p_data[
         'points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate(
         p_data['points_matrix'])
@@ -130,7 +173,9 @@ def preprocess_dict_data_and_data_info_with_resize(data, new_size):
     p_data = {}
     data_info = {}
     data_info['types_2d'] = {}
+    data_info['types_2d_discreted'] = {}
     compose_data = torch.tensor([])
+    compose_discretized_data = torch.tensor([])
     remove_digits = str.maketrans('', '', digits)
     for type in data.keys():
         no_numbered_type = type.translate(remove_digits)
@@ -140,12 +185,17 @@ def preprocess_dict_data_and_data_info_with_resize(data, new_size):
             if not data_info.keys().__contains__('shape'):
                 data_info['shape'] = (new_size[0], new_size[1], data[type].shape[2])
                 data_info['bpp'] = data[type].dtype
-                bpp = (data[type].dtype)[4:]
+                '''bpp = (data[type].dtype)[4:]'''
                 data_info['resize_factor'] = (new_size[0] /data[type].shape[0] , new_size[1] /data[type].shape[1])
             data[type] = kornia.image_to_tensor(cv2.resize(data[type], new_size)) #Transform to tensor + resize data
             if data[type].dim() > 3: data[type] = data[type][0, :]
-            compose_data = torch.cat((compose_data, data[type]),
-                                     0)  # concatenate data into one multichannel pytoch tensor
+            if type in mask_types:
+                data_info['types_2d_discreted'][type] = data[type].shape[0]
+                compose_discretized_data = torch.cat((compose_discretized_data, data[type]),
+                                                     0)
+            else:
+                compose_data = torch.cat((compose_data, data[type]),
+                                         0)  # concatenate data into one multichannel pytoch tensor
             data_info['types_2d'][type] = data[type].shape[0]
         elif no_numbered_type == 'keypoints':
             p_data['points_matrix'] = data[type]
@@ -153,6 +203,9 @@ def preprocess_dict_data_and_data_info_with_resize(data, new_size):
             other_types.append(type)
             p_data[type] = data[type]
     p_data['data_2d'] = compose_data.to(device)
+    data_info['contains_discrete_data'] = mask_types.__len__() != 0
+    if data_info['contains_discrete_data']:
+        p_data['data_2d_discreted'] = compose_discretized_data.to(device)
     if p_data.keys().__contains__('points_matrix'):  p_data[
         'points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate_with_resize(
         p_data['points_matrix'], data_info['resize_factor'])
@@ -173,13 +226,19 @@ def preprocess_dict_data_with_resize(data, batch_info):
         if type in data_types_2d:
             data[type] = kornia.image_to_tensor(cv2.resize(data[type], (batch_info['shape'][0],batch_info['shape'][1])))
             if data[type].dim() > 3: data[type] = data[type][0, :]
-            compose_data = torch.cat((compose_data, data[type]),
+            if type in mask_types:
+                compose_discretized_data = torch.cat((compose_data, data[type]),
+                                                     0)
+            else:
+                compose_data = torch.cat((compose_data, data[type]),
                                      0)  # concatenate data into one multichannel pytoch tensor
         elif type in other_types:
             p_data[type] = data[type]
         else:
             p_data['points_matrix'] = data[type]
     p_data['data_2d'] = compose_data.to(device)
+    if batch_info['contains_discrete_data']:
+        p_data['data_2d_discreted'] = compose_discretized_data.to(device)
     if p_data.keys().__contains__('points_matrix'):  p_data[
         'points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate_with_resize(
         p_data['points_matrix'], batch_info['resize_factor'])
@@ -197,13 +256,15 @@ def preprocess_dict_data_and_data_info(data):
     p_data = {}
     data_info = {}
     data_info['types_2d'] = {}
+    data_info['types_2d_discreted'] = {}
     compose_data = torch.tensor([])
+    compose_discretized_data = torch.tensor([])
     remove_digits = str.maketrans('', '', digits)
     for type in data.keys():
         no_numbered_type = type.translate(remove_digits)
         if no_numbered_type in data_types_2d:
             if not type in data_types_2d: data_types_2d.add(type) #adds to the list of type names the numbered name detected in the input data
-            if no_numbered_type == 'mask': mask_types.append(type)
+
             if not data_info.keys().__contains__('shape'):
                 data_info['shape'] = data[type].shape
                 data_info['bpp'] = data[type].dtype
@@ -214,15 +275,24 @@ def preprocess_dict_data_and_data_info(data):
                 pixel_value_range = (0, max // 2, max)
             data[type] = kornia.image_to_tensor(data[type])
             if data[type].dim() > 3: data[type] = data[type][0, :]
-            compose_data = torch.cat((compose_data, data[type]),
+            if no_numbered_type == 'mask' or no_numbered_type == 'segmap':
+                mask_types.append(type)
+                compose_discretized_data = torch.cat((compose_discretized_data, data[type]),
+                                     0)
+                data_info['types_2d_discreted'][type] = data[type].shape[0]
+            else:
+                compose_data = torch.cat((compose_data, data[type]),
                                      0)  # concatenate data into one multichannel pytoch tensor
-            data_info['types_2d'][type] = data[type].shape[0]
+                data_info['types_2d'][type] = data[type].shape[0]
         elif no_numbered_type == 'keypoints':
             p_data['points_matrix'] = data[type]
         else:
             other_types.append(type)
             p_data[type] = data[type]
     p_data['data_2d'] = compose_data.to(device)
+    data_info['contains_discrete_data'] = mask_types.__len__() != 0
+    if data_info['contains_discrete_data']:
+        p_data['data_2d_discreted'] = compose_discretized_data.to(device)
     if p_data.keys().__contains__('points_matrix'):  p_data[
         'points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate(
         p_data['points_matrix'])
@@ -237,10 +307,14 @@ def postprocess_data(batch, batch_info):
         if batch_info.keys().__contains__('types_2d'):
             data_output = {}
             data_split = torch.split(data['data_2d'], list(batch_info['types_2d'].values()), dim=0)
+            if batch_info['contains_discrete_data']: discreted_data_split = torch.split(data['data_2d_discreted'], list(batch_info['types_2d_discreted'].values()), dim=0)
             for index, type in enumerate(batch_info['types_2d']):
                 data_output[type] = data_split[index]
-            for mask in mask_types: data_output[mask] = utils.mask_change_to_01_functional(
-                data_output[mask])
+            for index, type in enumerate(batch_info['types_2d_discreted']):
+                data_output[type] = discreted_data_split[index]
+            '''for mask in mask_types: 
+                data_output[mask] = utils.mask_change_to_01_functional(
+                data_output[mask])'''
             for label in other_types: data_output[label] = data[label]
             if data.keys().__contains__('points_matrix'): data_output['keypoints'] = [
                 ((dato)[:2, :]).reshape(2) for dato in torch.split(data['points_matrix'], 1, dim=1)]
@@ -259,10 +333,13 @@ def postprocess_data_and_visualize(batch, data_original, batch_info):
         if batch_info.keys().__contains__('types_2d'):
             data_output = {}
             data_split = torch.split(data['data_2d'], list(batch_info['types_2d'].values()), dim=0)
+            if batch_info['contains_discrete_data']: discreted_data_split = torch.split(data['data_2d_discreted'], list(batch_info['types_2d_discreted'].values()), dim=0)
             for index, type in enumerate(batch_info['types_2d']):
                 data_output[type] = data_split[index]
-            for mask in mask_types: data_output[mask] = utils.mask_change_to_01_functional(
-                data_output[mask])
+            for index, type in enumerate(batch_info['types_2d_discreted']):
+                data_output[type] = discreted_data_split[index]
+            '''for mask in mask_types: data_output[mask] = utils.mask_change_to_01_functional(
+                data_output[mask])'''
             for label in other_types: data_output[label] = data[label]
             if data.keys().__contains__('points_matrix'): data_output['keypoints'] = [
                 ((dato)[:2, :]).reshape(2) for dato in torch.split(data['points_matrix'], 1, dim=1)]

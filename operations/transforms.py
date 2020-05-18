@@ -1,10 +1,48 @@
 from typing import Union
+import numpy as np
 
 import torch
 
-from . import color_functional
-import numpy as np
+from operations import geometry_functional, color_functional
 
+
+def hflip(data: dict, visualize : bool = False) -> dict:
+    ''' Horizontally flip the input data. '''
+    return geometry_functional.hflip_compose_data(data, visualize)
+
+def vflip(data: dict,  visualize : bool = False)-> dict:
+    ''' Vertically flip the input data. '''
+    return geometry_functional.vflip_compose_data(data, visualize)
+
+def affine(data: dict, matrix: torch.tensor,  visualize : bool = False)-> dict:
+    ''' Apply the affine transformation to each element of the input data that represents the input matrix
+            matrix: torch tensor 2x3'''
+    return geometry_functional.affine_compose_data(data, visualize, matrix)
+
+def rotate(data: dict, degrees: float,  visualize : bool = False, center: Union[None, torch.Tensor] = None)-> dict:
+    ''' Rotate each element of the input data by the indicated degrees counterclockwise'''
+    return geometry_functional.rotate_compose_data(data, visualize, degrees=degrees, center=center)
+
+def scale(data: dict, scale_factor,  visualize : bool = False, center: Union[None, torch.Tensor] = None)-> dict:
+    ''' Scale each element of the input data by the input factor.
+        * scale_factor < 1 -> output image is smaller than input one
+        * scale_factor = 1 -> output image is is the same as the input image
+        * scale_factor = 2 -> each original pixel occupies 2 pixels in the output image
+
+        If center is None, it is taken the center of the image to apply the scale'''
+    return geometry_functional.scale_compose_data(data, visualize, center=center, scale_factor=scale_factor)
+
+def translate(data: dict, translation: tuple,  visualize : bool = False)-> dict:
+    ''' Translate input by the input translation.
+            Translation: 2-tuple (axisX pixels translation, axixY pixels translation)'''
+    return geometry_functional.translate_compose_data(data, visualize, translation)
+
+def shear(data: dict, shear_factor: tuple,  visualize : bool = False)-> dict:
+    ''' Shear input data by the input shear factor
+            shear_factor: 2-tuple (axisX shearFactor, axisY shearFactor)
+                shear_factor = (0,0) -> output image is is the same as the input image
+                0 > shear_factor > 1 -> recommended values to avoid excessive deformation'''
+    return geometry_functional.shear_compose_data(data, visualize, shear_factor)
 
 def change_contrast(data: Union[dict, torch.Tensor, np.ndarray], contrast: float, visualize: bool = False) -> Union[
     dict, torch.Tensor, np.ndarray]:
@@ -76,51 +114,3 @@ def blur(data: Union[dict, torch.Tensor, np.ndarray], blur_size=(5, 5), visualiz
     dict, torch.Tensor, np.ndarray]:
     ''' Blur image.  if the input data is a dictionary, only those corresponding to an image are altered'''
     return color_functional.blur(data, blur_size=blur_size, visualize=visualize)
-
-
-'''GAMA ADJUST: op no lineal para corregir la luminancia de la imagen
-    gamma bajo -> img blanca 
-    gamma alto -> img oscura
-    gamma [0-5]'''
-
-'''
-
-def changue_contrast_and_brightness(data, contrast, brightness, visualize = False):
-    op = color_functional.brigthness_and_contrast(data, brightness=brightness,contrast=contrast)
-    return op()
-    
-def normalize(data,visualize=False):
-    op = color_functional.normalization(data, visualize)
-    return op()
-
-def gamma_adjust(data, gamma=1.8,  visualize = False):
-    op = color_functional.gamma(data, gamma, visualize)
-    return op()
-
-
-
-def bright_lut(data, brigth = 1,  visualize = False):
-    op = color_functional.brightness_lut(data, brigth, visualize)
-    return op()
-
-##Noise types##
-def inyect_gaussian_noise(data, var=0.5, visualize= False):
-    op = color_functional.gaussian_noise(data, var, visualize=visualize)
-    return op()
-
-def inyect_salt_and_pepper_noise(data, amount = 0.02, s_vs_p = 0.5, visualize= False):
-    op = color_functional.salt_and_peper_noise(data, amount, s_vs_p, visualize=visualize)
-    return op()
-
-def inyect_poisson_noise(data, visualize = False):
-    op = color_functional.poisson_noise(data)
-    return op()
-
-def inyect_spekle_noise(data, visualize = False):
-    op = color_functional.spekle_noise(data, visualize)
-    return op()
-
-
-def equalize_histogram(data, visualize = False):
-    op = color_functional.histogram_equalization(data, visualize)
-    return op'''
