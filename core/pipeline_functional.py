@@ -169,7 +169,7 @@ and another on the points.
  * Analyze the data info required for the transformations (shape, bpp...)
  * Resize the 2d data and keypoints to the new shape
 '''
-def preprocess_dict_data_and_data_info_with_resize(data, new_size):
+def preprocess_dict_data_and_data_info_with_resize(data, new_size, interpolation):
     p_data = {}
     data_info = {}
     data_info['types_2d'] = {}
@@ -189,14 +189,15 @@ def preprocess_dict_data_and_data_info_with_resize(data, new_size):
                 data_info['resize_factor'] = (new_size[0] /data[type].shape[0] , new_size[1] /data[type].shape[1])
             data[type] = kornia.image_to_tensor(cv2.resize(data[type], new_size)) #Transform to tensor + resize data
             if data[type].dim() > 3: data[type] = data[type][0, :]
-            if type in mask_types:
+            if interpolation !='nearest' and (no_numbered_type == 'mask' or no_numbered_type == 'segmap'): #Si usa el método nearest, todos los datos se agrupa juntos
+                mask_types.append(type)
                 data_info['types_2d_discreted'][type] = data[type].shape[0]
                 compose_discretized_data = torch.cat((compose_discretized_data, data[type]),
                                                      0)
             else:
                 compose_data = torch.cat((compose_data, data[type]),
                                          0)  # concatenate data into one multichannel pytoch tensor
-            data_info['types_2d'][type] = data[type].shape[0]
+                data_info['types_2d'][type] = data[type].shape[0]
         elif no_numbered_type == 'keypoints':
             p_data['points_matrix'] = data[type]
         else:
@@ -252,7 +253,7 @@ and another on the points.
  * Analyze the data info required for the transformations (shape, bpp...)
  * Add to the predetermined list of type names numbered names like 'mask2' to make posible to have multiple mask or elements of a single type
 '''
-def preprocess_dict_data_and_data_info(data):
+def preprocess_dict_data_and_data_info(data, interpolation):
     p_data = {}
     data_info = {}
     data_info['types_2d'] = {}
@@ -275,7 +276,7 @@ def preprocess_dict_data_and_data_info(data):
                 pixel_value_range = (0, max // 2, max)
             data[type] = kornia.image_to_tensor(data[type])
             if data[type].dim() > 3: data[type] = data[type][0, :]
-            if no_numbered_type == 'mask' or no_numbered_type == 'segmap':
+            if interpolation !='nearest' and (no_numbered_type == 'mask' or no_numbered_type == 'segmap'): #Si usa el método nearest, todos los datos se agrupa juntos
                 mask_types.append(type)
                 compose_discretized_data = torch.cat((compose_discretized_data, data[type]),
                                      0)

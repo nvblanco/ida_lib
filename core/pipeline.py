@@ -75,7 +75,7 @@ class pipeline(object):
                 lut = get_compose_function(self.color_ops)
                 data['image'] = cv2.LUT(data['image'], lut)
                 for op in self.indep_ops: data['image'] = op._apply_to_image_if_probability(data['image'])
-                p_data, self.info_data = preprocess_dict_data_and_data_info(data)
+                p_data, self.info_data = preprocess_dict_data_and_data_info(data, self.interpolation)
                 matrix = get_compose_matrix_and_configure_parameters(self.geom_ops, self.info_data)
                 p_data['data_2d'] = self.apply_geometry_transform_data2d(p_data['data_2d'], matrix)
                 if self.info_data['contains_discrete_data']: p_data['data_2d_discreted'] = self.apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'], matrix)
@@ -99,7 +99,7 @@ class pipeline(object):
                 lut = get_compose_function(self.color_ops)
                 data['image'] = cv2.LUT(data['image'], lut)
                 for op in self.indep_ops: data['image'] = op._apply_to_image_if_probability(data['image'])
-                p_data, self.info_data = preprocess_dict_data_and_data_info_with_resize(data, new_size=self.resize)
+                p_data, self.info_data = preprocess_dict_data_and_data_info_with_resize(data, new_size=self.resize, interpolation=self.interpolation)
                 matrix = get_compose_matrix_and_configure_parameters(self.geom_ops, self.info_data)
                 p_data['data_2d'] = self.apply_geometry_transform_data2d(p_data['data_2d'], matrix)
                 if self.info_data['contains_discrete_data']: p_data['data_2d_discreted'] = self.apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'], matrix)
@@ -165,9 +165,9 @@ points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 
 # data = color.equalize_histogram(data, visualize=True)
 data = {'image': img, 'mask': segmap2, 'mask2': segmap, 'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
-data = {'image': img, 'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
+#data = {'image': img, 'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
 
-samples = 5
+samples = 25
 
 batch = [data.copy() for _ in range(samples)]
 batch2 = [data.copy() for _ in range(samples)]
@@ -175,7 +175,7 @@ batch2 = [data.copy() for _ in range(samples)]
 from time import time
 
 start_time = time()
-pip = pipeline(resize=(25,25), pipeline_operations=(
+pip = pipeline(interpolation='nearest', pipeline_operations=(
     translate_pipeline(probability=0, translation=(3, 1)),
     vflip_pipeline(probability=0),
     hflip_pipeline(probability=0),
@@ -190,11 +190,8 @@ pip = pipeline(resize=(25,25), pipeline_operations=(
 ))
 
 batch = pip(batch, visualize=False)
+batch2 = pip(batch2, visualize=False)
 
-operations = (brightness_pipeline(probability=1, brightness_factor=150),
-              contrast_pipeline(probability=1, contrast_factor=2))
-
-get_compose_function(operations)
 consumed_time = time() - start_time
 print(consumed_time)
-print(consumed_time / samples)
+print(consumed_time / (samples*2))
