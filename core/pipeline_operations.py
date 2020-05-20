@@ -675,7 +675,7 @@ class vflip_pipeline(pipeline_operation):
         return self.config
 
     def config_parameters(self, data_info):
-        self.matrix[1, 2] = data_info['shape'][1]
+        self.matrix[1, 2] = data_info['shape'][0]
         self.config = False
 
     def get_op_matrix(self):

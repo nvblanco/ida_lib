@@ -1,4 +1,3 @@
-import visualization
 import numpy as np
 import cv2
 import torch
@@ -6,6 +5,7 @@ import functools
 from string import digits
 from kornia.geometry.transform.imgwarp import warp_affine
 
+from core import visualization
 from core.pipeline_operations import *
 
 device = 'cuda'
@@ -174,6 +174,7 @@ def preprocess_dict_data_and_data_info_with_resize(data, new_size, interpolation
     data_info = {}
     data_info['types_2d'] = {}
     data_info['types_2d_discreted'] = {}
+    data_info['contains_keypoints'] = False
     compose_data = torch.tensor([])
     compose_discretized_data = torch.tensor([])
     remove_digits = str.maketrans('', '', digits)
@@ -200,6 +201,7 @@ def preprocess_dict_data_and_data_info_with_resize(data, new_size, interpolation
                 data_info['types_2d'][type] = data[type].shape[0]
         elif no_numbered_type == 'keypoints':
             p_data['points_matrix'] = data[type]
+            data_info['contains_keypoints'] = True
         else:
             other_types.append(type)
             p_data[type] = data[type]
@@ -258,6 +260,7 @@ def preprocess_dict_data_and_data_info(data, interpolation):
     data_info = {}
     data_info['types_2d'] = {}
     data_info['types_2d_discreted'] = {}
+    data_info['contains_keypoints'] = False
     compose_data = torch.tensor([])
     compose_discretized_data = torch.tensor([])
     remove_digits = str.maketrans('', '', digits)
@@ -287,6 +290,7 @@ def preprocess_dict_data_and_data_info(data, interpolation):
                 data_info['types_2d'][type] = data[type].shape[0]
         elif no_numbered_type == 'keypoints':
             p_data['points_matrix'] = data[type]
+            data_info['contains_keypoints'] = True
         else:
             other_types.append(type)
             p_data[type] = data[type]

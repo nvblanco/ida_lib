@@ -77,8 +77,6 @@ def visualize(images, images_originals, mask_types, other_types,  max_images = 5
         #Restart palette of colors to have the same colors in each image
         global color_index
         color_index = 0
-
-
         list_target = ()
         list_checkbox = ()
         if index == max_images:
@@ -88,20 +86,12 @@ def visualize(images, images_originals, mask_types, other_types,  max_images = 5
             img = img.to('cpu')
             img = kornia.tensor_to_image(img.byte())
         aspect = img.shape [0]/img.shape [1]
-        points = data['keypoints']
-        xvalues_warped = [(value[0].cpu().numpy()).astype(int) for value in points]
-        yvalues_warped = [(value[1].cpu().numpy()).astype(int) for value in points]
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img1 = process_image(img)
 
         img2 = data_original['image']
         if torch.is_tensor(img2):
             img2 = img2.to('cpu')
             img2 = kornia.tensor_to_image(img2.byte())
-        points2 = data_original['keypoints']
-        xvalues_warped2 = [(value[0].cpu().numpy()).astype(int) for value in points2]
-        yvalues_warped2 = [(value[1].cpu().numpy()).astype(int) for value in points2]
-        img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
         img2 = process_image(img2)
 
         plot = figure(title="transformed image", x_range=(0, img1.data['dw'][0]), y_range=(
@@ -171,7 +161,7 @@ def visualize(images, images_originals, mask_types, other_types,  max_images = 5
                 img2 = img2.to('cpu')
                 img2 = kornia.tensor_to_image(img2.byte())
             img2 = process_mask(img2)
-            img2 = img1
+           # img2 = img1
             img_plot = plot.image_rgba(source=img1, image='image', x='x', y='y', dw='dw', dh='dh')        #transformed
             img_plot2 = plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')      #original
             checkboxes_heatmap = CheckboxGroup(labels=['heatmap'], active=[0, 1])
@@ -183,6 +173,17 @@ def visualize(images, images_originals, mask_types, other_types,  max_images = 5
             checkboxes_heatmap.js_on_click(callback_heatmap)
             list_checkbox = (*list_checkbox, checkboxes_heatmap)
         if data.keys().__contains__('keypoints'):
+            points = data['keypoints']
+            xvalues_warped = [(value[0].cpu().numpy()).astype(int) for value in points]
+            yvalues_warped = [(value[1].cpu().numpy()).astype(int) for value in points]
+
+            points2 = data_original['keypoints']
+            if type(points2) is np.ndarray:
+                xvalues_warped2 = points2[:,0]
+                yvalues_warped2 = points2[:,1]
+            else:
+                xvalues_warped2 = [(value[0].cpu().numpy()).astype(int) for value in points2]
+                yvalues_warped2 = [(value[1].cpu().numpy()).astype(int) for value in points2]
             source = ColumnDataSource(data=dict(height=yvalues_warped,
                                                 weight=xvalues_warped,
                                                 names=range(xvalues_warped.__len__())))
@@ -239,7 +240,8 @@ def visualize(images, images_originals, mask_types, other_types,  max_images = 5
 
     layout = Tabs(tabs=tabs)
 
-    icon_img: np.ndarray = cv2.imread('icon2.png' )
+    ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+    icon_img: np.ndarray = cv2.imread(os.path.join(ROOT_DIR, 'icon2.png') )
     icon_img = cv2.cvtColor(icon_img, cv2.COLOR_BGR2RGB)
     icon_img = process_image(icon_img)
     icon = figure( x_range=(0, icon_img.data['dw'][0]), y_range=(

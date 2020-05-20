@@ -1,4 +1,5 @@
 from torch import tensor
+import cv2
 
 from core.pipeline_operations import *
 from core.pipeline_functional import *
@@ -32,7 +33,7 @@ class pipeline(object):
     '''
 
     def __init__(self, pipeline_operations, resize=None, interpolation: str = 'bilinear',
-               padding_mode: str = 'zeros'):
+                 padding_mode: str = 'zeros'):
         ''' * resize: tuple of desired output size. Example (25,25)
             * interpolation (str) :interpolation mode to calculate output values
                     'bilinear' | 'nearest'. Default: 'bilinear'.
@@ -60,6 +61,7 @@ class pipeline(object):
             is analyzed and the different pipeline parameters are set (size of the images, labels, bits per pixel..)'''
 
     def __call__(self, batch_data, visualize=False):
+        if not isinstance(batch_data, list): batch_data = [batch_data]
         if visualize: original = [d.copy() for d in batch_data]  # copy the original batch to diplay on visualization
         self.process_data = []
         if self.resize is None:
@@ -78,8 +80,11 @@ class pipeline(object):
                 p_data, self.info_data = preprocess_dict_data_and_data_info(data, self.interpolation)
                 matrix = get_compose_matrix_and_configure_parameters(self.geom_ops, self.info_data)
                 p_data['data_2d'] = self.apply_geometry_transform_data2d(p_data['data_2d'], matrix)
-                if self.info_data['contains_discrete_data']: p_data['data_2d_discreted'] = self.apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'], matrix)
-                p_data['points_matrix'] = self.apply_geometry_transform_points(p_data['points_matrix'], matrix)
+                if self.info_data['contains_discrete_data']: p_data[
+                    'data_2d_discreted'] = self.apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'],
+                                                                                          matrix)
+                if self.info_data['contains_keypoints']: p_data['points_matrix'] = self.apply_geometry_transform_points(
+                    p_data['points_matrix'], matrix)
                 self.process_data.append(p_data)
 
             for data in batch_data:
@@ -89,8 +94,11 @@ class pipeline(object):
                 p_data = preprocess_dict_data(data, self.info_data)
                 matrix = get_compose_matrix(self.geom_ops)
                 p_data['data_2d'] = self.apply_geometry_transform_data2d(p_data['data_2d'], matrix)
-                if self.info_data['contains_discrete_data']: p_data['data_2d_discreted'] = self.apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'], matrix)
-                p_data['points_matrix'] = self.apply_geometry_transform_points(p_data['points_matrix'], matrix)
+                if self.info_data['contains_discrete_data']: p_data[
+                    'data_2d_discreted'] = self.apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'],
+                                                                                          matrix)
+                if self.info_data['contains_keypoints']: p_data['points_matrix'] = self.apply_geometry_transform_points(
+                    p_data['points_matrix'], matrix)
                 self.process_data.append(p_data)
         else:
             if self.info_data is None:  # First iteration to configure parameters and scan data info while the first item is being processed
@@ -99,11 +107,15 @@ class pipeline(object):
                 lut = get_compose_function(self.color_ops)
                 data['image'] = cv2.LUT(data['image'], lut)
                 for op in self.indep_ops: data['image'] = op._apply_to_image_if_probability(data['image'])
-                p_data, self.info_data = preprocess_dict_data_and_data_info_with_resize(data, new_size=self.resize, interpolation=self.interpolation)
+                p_data, self.info_data = preprocess_dict_data_and_data_info_with_resize(data, new_size=self.resize,
+                                                                                        interpolation=self.interpolation)
                 matrix = get_compose_matrix_and_configure_parameters(self.geom_ops, self.info_data)
                 p_data['data_2d'] = self.apply_geometry_transform_data2d(p_data['data_2d'], matrix)
-                if self.info_data['contains_discrete_data']: p_data['data_2d_discreted'] = self.apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'], matrix)
-                p_data['points_matrix'] = self.apply_geometry_transform_points(p_data['points_matrix'], matrix)
+                if self.info_data['contains_discrete_data']: p_data[
+                    'data_2d_discreted'] = self.apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'],
+                                                                                          matrix)
+                if self.info_data['contains_keypoints']: p_data['points_matrix'] = self.apply_geometry_transform_points(
+                    p_data['points_matrix'], matrix)
                 self.process_data.append(p_data)
 
             for data in batch_data:
@@ -113,8 +125,11 @@ class pipeline(object):
                 p_data = preprocess_dict_data_with_resize(data, self.info_data)
                 matrix = get_compose_matrix(self.geom_ops)
                 p_data['data_2d'] = self.apply_geometry_transform_data2d(p_data['data_2d'], matrix)
-                if self.info_data['contains_discrete_data']: p_data['data_2d_discreted'] = self.apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'], matrix)
-                p_data['points_matrix'] = self.apply_geometry_transform_points(p_data['points_matrix'], matrix)
+                if self.info_data['contains_discrete_data']: p_data[
+                    'data_2d_discreted'] = self.apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'],
+                                                                                          matrix)
+                if self.info_data['contains_keypoints']: p_data['points_matrix'] = self.apply_geometry_transform_points(
+                    p_data['points_matrix'], matrix)
                 self.process_data.append(p_data)
         if visualize:
             return postprocess_data_and_visualize(self.process_data, original, self.info_data)
@@ -122,7 +137,7 @@ class pipeline(object):
             return postprocess_data(self.process_data, self.info_data)
 
 
-import numpy as np
+'''import numpy as np
 import cv2
 import imgaug
 from imgaug.augmentables.segmaps import SegmentationMapsOnImage
@@ -132,18 +147,18 @@ img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 segmap = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.int32)
 segmap[28:171, 35:485, 0] = 1
-'''segmap[10:25, 30:45, 0] = 2
+segmap[10:25, 30:45, 0] = 2
 segmap[10:25, 70:85, 0] = 3
 segmap[10:110, 5:10, 0] = 4
-segmap[118:123, 10:110, 0] = 5'''
+segmap[118:123, 10:110, 0] = 5
 # segmap = SegmentationMapsOnImage(segmap, shape=img.shape)
 
 segmap2 = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.int32)
 segmap2[0:150, 50:125, 0] = 1
-'''segmap[10:25, 30:45, 0] = 2
+segmap[10:25, 30:45, 0] = 2
 segmap[10:25, 70:85, 0] = 3
 segmap[10:110, 5:10, 0] = 4
-segmap[118:123, 10:110, 0] = 5'''
+segmap[118:123, 10:110, 0] = 5
 # segmap2 = SegmentationMapsOnImage(segmap2, shape=img.shape)
 
 x = np.random.randn(img.shape[0] // 4 * img.shape[1] // 4)
@@ -165,7 +180,7 @@ points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 
 # data = color.equalize_histogram(data, visualize=True)
 data = {'image': img, 'mask': segmap2, 'mask2': segmap, 'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
-#data = {'image': img, 'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
+# data = {'image': img, 'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
 
 samples = 25
 
@@ -194,4 +209,4 @@ batch2 = pip(batch2, visualize=False)
 
 consumed_time = time() - start_time
 print(consumed_time)
-print(consumed_time / (samples*2))
+print(consumed_time / (samples * 2))'''
