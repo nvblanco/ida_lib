@@ -1,31 +1,8 @@
 from image_augmentation.DataLoader import *
 
-'''class test_dataset(custom_Dataset):
-    def __init__(self, pipeline, csv_file, root_dir):
-        custom_Dataset.__init__(self, pipeline)
-        self.landmarks_frame = pd.read_csv(csv_file)
-        self.root_dir = root_dir
 
-    def __len__(self):
-        return len(self.landmarks_frame)
-
-    def custom_getitem(self, idx):
-        if torch.is_tensor(idx):
-            idx = idx.tolist()
-
-        img_name = os.path.join(self.root_dir,
-                                self.landmarks_frame.iloc[idx, 0])
-        image = io.imread(img_name)
-        landmarks = self.landmarks_frame.iloc[idx, 1:]
-        landmarks = np.array([landmarks])
-        landmarks = landmarks.astype('float').reshape(-1, 2)
-        sample = {'image': image, 'keypoints': landmarks}
-        return sample'''
-
-
-class test_dataloader(augment_dataLoader):
+class test_dataloader(DataAugmentDataLoader):
     def init_dataset(self, csv_file, root_dir):
-        #custom_Dataset.__init__(self)
         self.landmarks_frame = pd.read_csv(csv_file)
         self.root_dir = root_dir
 
@@ -68,9 +45,7 @@ pip = pipeline(interpolation='nearest', pipeline_operations=(
 ))
 
 
-#torch.multiprocessing.set_start_method('spawn')
 dataloader = test_dataloader(batch_size=4,
-                             num_workers=0,
                              shuffle=True,
                              pipeline_operations=(
                                  translatePipeline(probability=0, translation=(3, 1)),

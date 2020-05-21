@@ -14,7 +14,6 @@ data_types_2d = {"image", "mask", "segmap", "heatmap"}
 mask_types = []
 other_types = []
 
-
 __all__ = ['get_compose_matrix',
            'get_compose_function',
            'preprocess_dict_data',
@@ -31,12 +30,15 @@ __all__ = ['get_compose_matrix',
 Returns the transformation matrix composed by the multiplication in order of 
 the input operations (according to their probability)
 '''
-def get_compose_matrix(operations):
+
+
+def get_compose_matrix(operations: list) -> torch.tensor:
     matrix = identity.clone()
     for operation in operations:
         if operation.apply_according_to_probability():
             matrix = torch.matmul(operation.get_op_matrix(), matrix)
     return matrix
+
 
 '''
 Returns the transformation matrix composed by the multiplication in order of 
@@ -44,7 +46,9 @@ the input operations (according to their probability).
 
 Go through the operations by entering the necessary information about the images (image center, shape..)
 '''
-def get_compose_matrix_and_configure_parameters(operations, data_info):
+
+
+def get_compose_matrix_and_configure_parameters(operations: list, data_info: dict) -> torch.tensor:
     matrix = identity.clone()
     for operation in operations:
         if operation.need_data_info():
@@ -92,8 +96,10 @@ def own_affine(tensor: torch.Tensor, matrix: torch.Tensor, interpolation: str = 
 Split input operations into sub-lists of each transformation type
 *   the normalization operation is placed last to apply correctly the other operations
 '''
-def split_operations_by_type(operations):
-    color, geometry, independent = [], [],  []
+
+
+def split_operations_by_type(operations: list) -> tuple:
+    color, geometry, independent = [], [], []
     normalize = None
     for op in operations:
         if op.get_op_type() == 'color':
@@ -104,12 +110,15 @@ def split_operations_by_type(operations):
             normalize = op
         else:
             independent.append(op)
-    if normalize is not None: color.append(normalize) #normalization must be last color operation
+    if normalize is not None: color.append(normalize)  # normalization must be last color operation
     return color, geometry, independent
+
 
 '''
 Return lambda function that represent the composition of the input functions
 '''
+
+
 def compose(*functions):
     return functools.reduce(lambda f, g: lambda x: f(g(x)), functions, lambda x: x)
 
@@ -118,7 +127,9 @@ def compose(*functions):
 returns the LUT table with the correspondence of each possible value 
 according to the color operations to be implemented (according to their probability)
 '''
-def get_compose_function(operations):
+
+
+def get_compose_function(operations: list) -> np.ndarray:
     funcs = [op.transform_function for op in operations if op.apply_according_to_probability()]
     compose_function = functools.reduce(lambda f, g: lambda x: f(g(x)), tuple(funcs), lambda x: x)
     lookUpTable = np.empty((1, 256), np.int16)
@@ -134,7 +145,9 @@ that allows applying the geometric operations in a single joint operation on the
 and another on the points.
  * Loads the data as tensor in GPU to prepare them as input to a neural network
 '''
-def preprocess_dict_data(data, batch_info):
+
+
+def preprocess_dict_data(data: list, batch_info: dict) -> list:
     p_data = {}
     compose_data = torch.tensor([])
     compose_discretized_data = torch.tensor([])
@@ -169,7 +182,9 @@ and another on the points.
  * Analyze the data info required for the transformations (shape, bpp...)
  * Resize the 2d data and keypoints to the new shape
 '''
-def preprocess_dict_data_and_data_info_with_resize(data, new_size, interpolation):
+
+
+def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, interpolation: str) -> list:
     p_data = {}
     data_info = {}
     data_info['types_2d'] = {}
@@ -187,10 +202,11 @@ def preprocess_dict_data_and_data_info_with_resize(data, new_size, interpolation
                 data_info['shape'] = (new_size[0], new_size[1], data[type].shape[2])
                 data_info['bpp'] = data[type].dtype
                 '''bpp = (data[type].dtype)[4:]'''
-                data_info['resize_factor'] = (new_size[0] /data[type].shape[0] , new_size[1] /data[type].shape[1])
-            data[type] = kornia.image_to_tensor(cv2.resize(data[type], new_size)) #Transform to tensor + resize data
+                data_info['resize_factor'] = (new_size[0] / data[type].shape[0], new_size[1] / data[type].shape[1])
+            data[type] = kornia.image_to_tensor(cv2.resize(data[type], new_size))  # Transform to tensor + resize data
             if data[type].dim() > 3: data[type] = data[type][0, :]
-            if interpolation !='nearest' and (no_numbered_type == 'mask' or no_numbered_type == 'segmap'): #Si usa el método nearest, todos los datos se agrupa juntos
+            if interpolation != 'nearest' and (
+                    no_numbered_type == 'mask' or no_numbered_type == 'segmap'):  # Si usa el método nearest, todos los datos se agrupa juntos
                 mask_types.append(type)
                 data_info['types_2d_discreted'][type] = data[type].shape[0]
                 compose_discretized_data = torch.cat((compose_discretized_data, data[type]),
@@ -222,19 +238,22 @@ and another on the points.
  * Loads the data as tensor in GPU to prepare them as input to a neural network
  * Resize the 2d data and keypoints to the new shape
 '''
-def preprocess_dict_data_with_resize(data, batch_info):
+
+
+def preprocess_dict_data_with_resize(data: list, batch_info: dict) -> list:
     p_data = {}
     compose_data = torch.tensor([])
     for type in data.keys():
         if type in data_types_2d:
-            data[type] = kornia.image_to_tensor(cv2.resize(data[type], (batch_info['shape'][0],batch_info['shape'][1])))
+            data[type] = kornia.image_to_tensor(
+                cv2.resize(data[type], (batch_info['shape'][0], batch_info['shape'][1])))
             if data[type].dim() > 3: data[type] = data[type][0, :]
             if type in mask_types:
                 compose_discretized_data = torch.cat((compose_data, data[type]),
                                                      0)
             else:
                 compose_data = torch.cat((compose_data, data[type]),
-                                     0)  # concatenate data into one multichannel pytoch tensor
+                                         0)  # concatenate data into one multichannel pytoch tensor
         elif type in other_types:
             p_data[type] = data[type]
         else:
@@ -247,6 +266,7 @@ def preprocess_dict_data_with_resize(data, batch_info):
         p_data['points_matrix'], batch_info['resize_factor'])
     return p_data
 
+
 '''
 It combines the 2d information in a tensor and the points in a homogeneous coordinate matrix 
 that allows applying the geometric operations in a single joint operation on the data 
@@ -255,7 +275,9 @@ and another on the points.
  * Analyze the data info required for the transformations (shape, bpp...)
  * Add to the predetermined list of type names numbered names like 'mask2' to make posible to have multiple mask or elements of a single type
 '''
-def preprocess_dict_data_and_data_info(data, interpolation):
+
+
+def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
     p_data = {}
     data_info = {}
     data_info['types_2d'] = {}
@@ -267,26 +289,28 @@ def preprocess_dict_data_and_data_info(data, interpolation):
     for type in data.keys():
         no_numbered_type = type.translate(remove_digits)
         if no_numbered_type in data_types_2d:
-            if not type in data_types_2d: data_types_2d.add(type) #adds to the list of type names the numbered name detected in the input data
+            if not type in data_types_2d: data_types_2d.add(
+                type)  # adds to the list of type names the numbered name detected in the input data
 
             if not data_info.keys().__contains__('shape'):
                 data_info['shape'] = data[type].shape
                 data_info['bpp'] = data[type].dtype
                 bpp = int(data[type].dtype.name[4:])
                 bpp = 16
-                max = pow(2,bpp)-1
+                max = pow(2, bpp) - 1
                 global pixel_value_range
                 pixel_value_range = (0, max // 2, max)
             data[type] = kornia.image_to_tensor(data[type])
             if data[type].dim() > 3: data[type] = data[type][0, :]
-            if interpolation !='nearest' and (no_numbered_type == 'mask' or no_numbered_type == 'segmap'): #Si usa el método nearest, todos los datos se agrupa juntos
+            if interpolation != 'nearest' and (
+                    no_numbered_type == 'mask' or no_numbered_type == 'segmap'):  # Si usa el método nearest, todos los datos se agrupa juntos
                 mask_types.append(type)
                 compose_discretized_data = torch.cat((compose_discretized_data, data[type]),
-                                     0)
+                                                     0)
                 data_info['types_2d_discreted'][type] = data[type].shape[0]
             else:
                 compose_data = torch.cat((compose_data, data[type]),
-                                     0)  # concatenate data into one multichannel pytoch tensor
+                                         0)  # concatenate data into one multichannel pytoch tensor
                 data_info['types_2d'][type] = data[type].shape[0]
         elif no_numbered_type == 'keypoints':
             p_data['points_matrix'] = data[type]
@@ -303,16 +327,20 @@ def preprocess_dict_data_and_data_info(data, interpolation):
         p_data['points_matrix'])
     return p_data, data_info
 
+
 '''
 Restores the data to the original form; separating the matrix into the different 2d input data and point coordinates.
 '''
-def postprocess_data(batch, batch_info):
+
+
+def postprocess_data(batch: list, batch_info: dict) -> list:
     process_data = []
     for data in batch:
         if batch_info.keys().__contains__('types_2d'):
             data_output = {}
             data_split = torch.split(data['data_2d'], list(batch_info['types_2d'].values()), dim=0)
-            if batch_info['contains_discrete_data']: discreted_data_split = torch.split(data['data_2d_discreted'], list(batch_info['types_2d_discreted'].values()), dim=0)
+            if batch_info['contains_discrete_data']: discreted_data_split = torch.split(data['data_2d_discreted'], list(
+                batch_info['types_2d_discreted'].values()), dim=0)
             for index, type in enumerate(batch_info['types_2d']):
                 data_output[type] = data_split[index]
             for index, type in enumerate(batch_info['types_2d_discreted']):
@@ -328,17 +356,21 @@ def postprocess_data(batch, batch_info):
         process_data.append(data_output)
     return process_data
 
+
 '''
 Restores the data to the original form; separating the matrix into the different 2d input data and point coordinates.
 * Call the visualization tool with the original and transformated data
 '''
-def postprocess_data_and_visualize(batch, data_original, batch_info):
+
+
+def postprocess_data_and_visualize(batch: list, data_original: list, batch_info: dict) -> list:
     process_data = []
     for data in batch:
         if batch_info.keys().__contains__('types_2d'):
             data_output = {}
             data_split = torch.split(data['data_2d'], list(batch_info['types_2d'].values()), dim=0)
-            if batch_info['contains_discrete_data']: discreted_data_split = torch.split(data['data_2d_discreted'], list(batch_info['types_2d_discreted'].values()), dim=0)
+            if batch_info['contains_discrete_data']: discreted_data_split = torch.split(data['data_2d_discreted'], list(
+                batch_info['types_2d_discreted'].values()), dim=0)
             for index, type in enumerate(batch_info['types_2d']):
                 data_output[type] = data_split[index]
             for index, type in enumerate(batch_info['types_2d_discreted']):

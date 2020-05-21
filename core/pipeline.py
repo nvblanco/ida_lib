@@ -1,3 +1,5 @@
+from typing import Union
+
 from torch import tensor
 import cv2
 
@@ -32,7 +34,7 @@ class pipeline(object):
                                         ))
     '''
 
-    def __init__(self, pipeline_operations, resize=None, interpolation: str = 'bilinear',
+    def __init__(self, pipeline_operations: list, resize: tuple=None, interpolation: str = 'bilinear',
                  padding_mode: str = 'zeros'):
         ''' * resize: tuple of desired output size. Example (25,25)
             * interpolation (str) :interpolation mode to calculate output values
@@ -46,13 +48,13 @@ class pipeline(object):
         self.interpolation = interpolation
         self.padding_mode = padding_mode
 
-    def apply_geometry_transform_data2d(self, image, matrix):
+    def apply_geometry_transform_data2d(self, image: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         return own_affine(image, matrix[:2, :], interpolation=self.interpolation, padding_mode=self.padding_mode)
 
-    def apply_geometry_transform_discreted_data2d(self, image, matrix):
+    def apply_geometry_transform_discreted_data2d(self, image: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         return own_affine(image, matrix[:2, :], interpolation='nearest', padding_mode=self.padding_mode)
 
-    def apply_geometry_transform_points(self, points_matrix, matrix):
+    def apply_geometry_transform_points(self, points_matrix: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         return torch.matmul(matrix, points_matrix)
 
     '''
@@ -60,7 +62,7 @@ class pipeline(object):
         *   If it is the first batch entered into the pipeline, the information about the type of input data 
             is analyzed and the different pipeline parameters are set (size of the images, labels, bits per pixel..)'''
 
-    def __call__(self, batch_data, visualize=False):
+    def __call__(self, batch_data: Union[ list, dict], visualize: bool=False) -> Union[dict, list]:
         if not isinstance(batch_data, list): batch_data = [batch_data]
         if visualize: original = [d.copy() for d in batch_data]  # copy the original batch to diplay on visualization
         self.process_data = []

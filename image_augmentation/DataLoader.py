@@ -1,42 +1,53 @@
-import os
-from skimage import io
-import numpy as np
-from abc import ABC, abstractmethod
-import matplotlib.pyplot as plt
-
-import pandas as pd
+from _ctypes import Union
 from torch.utils.data import Dataset, DataLoader
-
 from core.pipeline import pipeline
 from core.pipeline_operations import *
 
 
-class augment_dataLoader(DataLoader):
+class DataAugmentDataLoader(ABC, DataLoader):
+    ''' The DataAugmentDataLoader class implements a Pytorch DataLoader but groups it into one class:
+            * The Dataset object that takes care of reading the data (methods must be implemented by the user)
+            * The iterative DataLoader object that will serve as an input system for a neural network.
+            * A pipeline that applies data image Augmentation operations over the input data.
+
+        To make use of this class, it is necessary to overwrite the methods corresponding to the dataset class (init_dataset,
+        len_dataet, get_item_dataset) to make a personalized reading of your data.
+        The arguments you pass to your init_dataset method will have to be passed when you initialize your custom AugmentDataloader'''
 
     @abstractmethod
-    def init_dataset(self,  *args, **kwargs):
+    def init_dataset(self, *args, **kwargs):
+        '''(Abstract method to be implemented)
+        Dataset initialization, called only once. It is useful to open files and read data that are not too large in memory in this
+        method and store all the necessary parameters'''
         pass
 
     @abstractmethod
-    def len_dataset(self,  *args, **kwargs):
+    def len_dataset(self, *args, **kwargs) -> int:
+        '''(Abstract method to be implemented)
+        Returns the number of elements in the dataset'''
         pass
 
     @abstractmethod
-    def get_item_dataset(self,  *args, **kwargs):
+    def get_item_dataset(self, *args, **kwargs) -> Union[dict, np.ndarray]:
+        '''(Abstract method to be implemented)
+           Return an item from the dataset. If it includes compound data, it must be a dict with elements like:
+            'image', 'keypoints', 'label'...
+            Read pipeline object for more detailed information'''
         pass
 
-    def pipe_through(self, item):
+    def pipe_through(self, item: dict):
+        '''Private method that passes a data element through the pipeline of input pipeline_operations '''
         return self.pipeline(item, visualize=False)
 
     class inner_Dataset(Dataset):
-        def __init__(self, outer,  *args, **kwargs):
+        def __init__(self, outer: DataLoader, *args, **kwargs):
             self.outer = outer
             outer.init_dataset(*args, **kwargs)
 
         def __len__(self):
             return self.outer.len_dataset()
 
-        def __getitem__(self,  idx):
+        def __getitem__(self, idx: int):
             if self.outer.pipeline is not None:
                 return self.outer.pipe_through(self.outer.get_item_dataset(idx))
             else:
@@ -44,7 +55,6 @@ class augment_dataLoader(DataLoader):
 
     def __init__(self,
                  batch_size,
-                 num_workers,
                  shuffle=True,
                  pipeline_operations=None,
                  resize=None,
@@ -52,7 +62,7 @@ class augment_dataLoader(DataLoader):
                  padding_mode: str = 'zeros',
                  *args,
                  **kwargs):
-        self.dataset = self.inner_Dataset(outer = self, *args, **kwargs)
+        self.dataset = self.inner_Dataset(outer=self, *args, **kwargs)
         if pipeline_operations is not None:
             self.pipeline = pipeline(resize=resize,
                                      interpolation=interpolation,
@@ -60,13 +70,7 @@ class augment_dataLoader(DataLoader):
                                      pipeline_operations=pipeline_operations)
         else:
             self.pipeline = None
-        sample = self.dataset[1]
-        DataLoader.__init__(self, dataset=self.dataset,  batch_size=batch_size, num_workers= num_workers, shuffle= shuffle)
-
-
-
-
-
+        DataLoader.__init__(self, dataset=self.dataset, batch_size=batch_size, num_workers=0, shuffle=shuffle)
 
 
 '''class custom_Dataset(Dataset):
@@ -85,8 +89,6 @@ class augment_dataLoader(DataLoader):
      def __getitem__(self, idx):
         return self.pipeline(self.custom_getitem(idx), visualize=True)
 '''
-
-
 
 '''fig = plt.figure()
 
