@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import torch
 import kornia
 import random
+import numpy as np
 from operations import utils
 
 device = 'cuda'
@@ -10,7 +11,7 @@ one_torch = torch.tensor(1, device=cuda)
 ones_torch = torch.ones(1, 2, device=cuda)
 identity = torch.eye(3, 3, device=cuda)
 global pixel_value_range
-pixel_value_range = (0,127,255) #Default uint8
+pixel_value_range = (0, 127, 255)  # Default uint8
 
 
 class pipelineOperation(ABC):
@@ -23,11 +24,13 @@ class pipelineOperation(ABC):
                 - Independient  : concrete operations with direct implementations
 
     '''
-    def __init__(self, type, probability=1):
+
+    def __init__(self, type: str, probability: float = 1):
         self.probability = probability
         self.type = type
 
     ''' (Geometric operations) return the matrix that implements them'''
+
     @abstractmethod
     def get_op_matrix(self):
         pass
@@ -36,6 +39,7 @@ class pipelineOperation(ABC):
         return self.type
 
     ''' returns a boolean based on a random number that determines whether or not to apply the operation'''
+
     def apply_according_to_probability(self):
         return random.uniform(0, 1) < self.probability
 
@@ -57,14 +61,16 @@ class contrastPipeline(pipelineOperation):
             * 1  :dont modify
             * >1 :aument contrast
     '''
-    def __init__(self, contrast_factor,  probability=1):
+
+    def __init__(self, contrast_factor: float, probability: float = 1):
         pipelineOperation.__init__(self, probability=probability, type='color')
         self.contrast = contrast_factor
 
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
 
-    def transform_function(self, x): return self.contrast * (x - pixel_value_range[1]) + pixel_value_range[1]
+    def transform_function(self, x: int) -> float: return self.contrast * (x - pixel_value_range[1]) + \
+                                                          pixel_value_range[1]
 
 
 class randomContrastPipeline(pipelineOperation):
@@ -77,7 +83,8 @@ class randomContrastPipeline(pipelineOperation):
                 * 1  :dont modify
                 * >1 :aument contrast
         '''
-    def __init__(self, contrast_range, probability=1):
+
+    def __init__(self, contrast_range: tuple, probability: float = 1):
         pipelineOperation.__init__(self, probability=probability, type='color')
         if not isinstance(contrast_range, tuple) or len(contrast_range) != 2:
             raise Exception("Contrast factor must be tuple of 2 elements")
@@ -90,6 +97,7 @@ class randomContrastPipeline(pipelineOperation):
         contrast = random.randint(self.contrast_range[0], self.contrast_range[1])
         return contrast * (x - pixel_value_range[1]) + pixel_value_range[1]
 
+
 class brightnessPipeline(pipelineOperation):
     '''Change brightness of the input image
             Args:
@@ -99,9 +107,10 @@ class brightnessPipeline(pipelineOperation):
                         1 - same
                         2 - max brightness
     '''
-    def __init__(self,  brightness_factor, probability=1,):
+
+    def __init__(self, brightness_factor: float, probability: float = 1):
         pipelineOperation.__init__(self, probability=probability, type='color')
-        self.brigthness = utils.map_value(brightness_factor, 0,2,-256,256)
+        self.brigthness = utils.map_value(brightness_factor, 0, 2, -256, 256)
 
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
@@ -109,7 +118,7 @@ class brightnessPipeline(pipelineOperation):
     def get_op_type(self):
         return 'color'
 
-    def transform_function(self, x): return x + self.brigthness
+    def transform_function(self, x: int) -> float: return x + self.brigthness
 
 
 class randomBrightnessPipeline(pipelineOperation):
@@ -121,11 +130,14 @@ class randomBrightnessPipeline(pipelineOperation):
                             1 - same
                             2 - max brightness
         '''
-    def __init__(self, probability, brightness_range):
+
+    def __init__(self, probability: float, brightness_range: tuple):
         pipelineOperation.__init__(self, probability=probability, type='color')
         if not isinstance(brightness_range, tuple) or len(brightness_range) != 2:
             raise Exception("Contrast factor must be tuple of 2 elements")
-        self.brightness_range = (utils.map_value(brightness_range[0] , 0,2,-256,256), utils.map_value(brightness_range[1], 0, 2, -pixel_value_range[2], pixel_value_range[2]))
+        self.brightness_range = (utils.map_value(brightness_range[0], 0, 2, -256, 256),
+                                 utils.map_value(brightness_range[1], 0, 2, -pixel_value_range[2],
+                                                 pixel_value_range[2]))
 
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
@@ -133,7 +145,7 @@ class randomBrightnessPipeline(pipelineOperation):
     def get_op_type(self):
         return 'color'
 
-    def transform_function(self, x):
+    def transform_function(self, x: int) -> float:
         brigthness = random.uniform(self.brightness_range[0], self.brightness_range[1])
         return x + brigthness
 
@@ -147,14 +159,16 @@ class gammaPipeline(pipelineOperation):
                                 1  - same
                                 >1 - more luminance
             '''
-    def __init__(self, gamma_factor, probability=1):
+
+    def __init__(self, gamma_factor: float, probability: float = 1):
         pipelineOperation.__init__(self, probability=probability, type='color')
         self.gamma = gamma_factor
 
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
 
-    def transform_function(self, x): return pow(x / pixel_value_range[2], self.gamma) * pixel_value_range[2]
+    def transform_function(self, x: int) -> float: return pow(x / pixel_value_range[2], self.gamma) * pixel_value_range[
+        2]
 
 
 class randomGammaPipeline(pipelineOperation):
@@ -166,7 +180,8 @@ class randomGammaPipeline(pipelineOperation):
                                     1  - same
                                     >1 - more luminance
                 '''
-    def __init__(self, gamma_range, probability=1):
+
+    def __init__(self, gamma_range: tuple, probability: float = 1):
         pipelineOperation.__init__(self, probability=probability, type='color')
         if not isinstance(gamma_range, tuple) or len(gamma_range) != 2:
             raise Exception("Contrast factor must be tuple of 2 elements")
@@ -175,7 +190,7 @@ class randomGammaPipeline(pipelineOperation):
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
 
-    def transform_function(self, x):
+    def transform_function(self, x: int) -> float:
         gamma = random.randint(self.gamma_range[0], self.gamma_range[1])
         return pow(x / pixel_value_range[2], gamma) * pixel_value_range[2]
 
@@ -187,7 +202,8 @@ class normalizePipeline(pipelineOperation):
                             old_range (int tuple)       : actual range of pixels of the input image. Default: 0-255
                             new_range (int tuple)       : desired range of pixels of the input image. Default: 0-1
                     '''
-    def __init__(self, probability=1, old_range=(0, pixel_value_range[2]), new_range=(0, 1)):
+
+    def __init__(self, probability: float = 1, old_range: tuple = (0, pixel_value_range[2]), new_range: tuple = (0, 1)):
         pipelineOperation.__init__(self, probability=probability, type='normalize')
         self.new_range = new_range
         self.old_range = old_range
@@ -195,7 +211,9 @@ class normalizePipeline(pipelineOperation):
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
 
-    def transform_function(self, x): return (x + self.old_range[0]) / (self.old_range[1] - self.old_range[0])
+    def transform_function(self, x: int) -> float: return (x + self.old_range[0]) / (
+                self.old_range[1] - self.old_range[0])
+
 
 class desnormalizePipeline(pipelineOperation):
     '''Desnormalize pixel values
@@ -204,7 +222,8 @@ class desnormalizePipeline(pipelineOperation):
                             old_range (int tuple)       : actual range of pixels of the input image. Default: 0-1
                             new_range (int tuple)       : desired range of pixels of the input image. Default: 0-255
                         '''
-    def __init__(self, probability=1, old_range=(0, 1), new_range=(0, pixel_value_range[2])):
+
+    def __init__(self, probability: float = 1, old_range: tuple = (0, 1), new_range: tuple = (0, pixel_value_range[2])):
         pipelineOperation.__init__(self, probability=probability, type='normalize')
         self.new_range = new_range
         self.old_range = old_range
@@ -212,8 +231,8 @@ class desnormalizePipeline(pipelineOperation):
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
 
-    def transform_function(self, x): return (x + self.old_range[0]) / (self.old_range[1] - self.old_range[0])
-
+    def transform_function(self, x: int) -> float: return (x + self.old_range[0]) / (
+                self.old_range[1] - self.old_range[0])
 
 
 '''
@@ -231,14 +250,15 @@ class gaussianNoisePipeline(pipelineOperation):
                 probability (float) [0-1]   : probability of applying the transform. Default: 1.
                 var (float) [0-10 ...]      : intensity of noise (0 is no noise)
      '''
-    def __init__(self, probability=1, var=0.5):
+
+    def __init__(self, probability: float = 1, var: float = 0.5):
         pipelineOperation.__init__(self, probability=probability, type='independent_op')
         self.var = var
 
     def get_op_matrix(self):
         raise Exception("Independent operations doesnt have matrix")
 
-    def _apply_to_image_if_probability(self, img):
+    def _apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if pipelineOperation.apply_according_to_probability(self):
             img = utils._apply_gaussian_noise(img, self.var)
         return img
@@ -254,6 +274,7 @@ class saltAndPepperNoisePipeline(pipelineOperation):
                         0 is no noisse
                         1 is total noise
          '''
+
     def __init__(self, probability=1, amount=0.01, s_vs_p=0.5):
         pipelineOperation.__init__(self, probability=probability, type='independent_op')
         self.amount = amount
@@ -262,7 +283,7 @@ class saltAndPepperNoisePipeline(pipelineOperation):
     def get_op_matrix(self):
         raise Exception("Independent operations doesnt have matrix")
 
-    def _apply_to_image_if_probability(self, img):
+    def _apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if pipelineOperation.apply_according_to_probability(self):
             img = utils._apply_salt_and_pepper_noise(img, self.amount, self.s_vs_p)
         return img
@@ -281,7 +302,8 @@ class spekleNoisePipeline(pipelineOperation):
                     Target:
                         image
              '''
-    def __init__(self, probability=1, mean=0, var=0.01):
+
+    def __init__(self, probability: float = 1, mean: float = 0, var: float = 0.01):
         pipelineOperation.__init__(self, probability=probability, type='independent_op')
         self.mean = mean
         self.var = var
@@ -289,7 +311,7 @@ class spekleNoisePipeline(pipelineOperation):
     def get_op_matrix(self):
         raise Exception("Independent operations doesnt have matrix")
 
-    def _apply_to_image_if_probability(self, img):
+    def _apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if pipelineOperation.apply_according_to_probability(self):
             img = utils._apply_spekle_noise(img)
         return img
@@ -308,13 +330,14 @@ class poissonNoisePipeline(pipelineOperation):
                         Target:
                             image
                  '''
-    def __init__(self, probability=1):
+
+    def __init__(self, probability: float = 1):
         pipelineOperation.__init__(self, probability=probability, type='independent_op')
 
     def get_op_matrix(self):
         raise Exception("Independent operations doesnt have matrix")
 
-    def _apply_to_image_if_probability(self, img):
+    def _apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if pipelineOperation.apply_according_to_probability(self):
             img = utils._apply_poisson_noise(img)
         return img
@@ -328,14 +351,15 @@ class gaussianBlurPipeline(pipelineOperation):
                 Target:
                     image
     '''
-    def __init__(self, probability=1,  blur_size = (5,5)):
+
+    def __init__(self, probability: float = 1, blur_size: tuple = (5, 5)):
         pipelineOperation.__init__(self, probability=probability, type='independent_op')
         self.blur_size = blur_size
 
     def get_op_matrix(self):
         raise Exception("Independent operations doesnt have matrix")
 
-    def _apply_to_image_if_probability(self, img):
+    def _apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if pipelineOperation.apply_according_to_probability(self):
             img = utils.apply_gaussian_blur(img, blur_size=self.blur_size)
         return img
@@ -349,17 +373,19 @@ class blurPipeline(pipelineOperation):
                     Target:
                         image
         '''
-    def __init__(self, probability=1,  blur_size = (5,5)):
+
+    def __init__(self, probability: float = 1, blur_size: tuple = (5, 5)):
         pipelineOperation.__init__(self, probability=probability, type='independent_op')
         self.blur_size = blur_size
 
     def get_op_matrix(self):
         raise Exception("Independent operations doesnt have matrix")
 
-    def _apply_to_image_if_probability(self, img):
+    def _apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if pipelineOperation.apply_according_to_probability(self):
             img = utils._apply_blur(img, blur_size=self.blur_size)
         return img
+
 
 '''
 ----------------------------------------------------------------------------------
@@ -377,7 +403,8 @@ class scalePipeline(pipelineOperation):
             center (torch tensor)       : coordinates of the center of scaling. Default: center of the image
 
     '''
-    def __init__(self,  scale_factor, probability=1, center=None):
+
+    def __init__(self, scale_factor: float, probability: float = 1, center: torch.tensor = None):
         pipelineOperation.__init__(self, probability=probability, type='geometry')
         if center is None:
             self.config = True
@@ -395,7 +422,7 @@ class scalePipeline(pipelineOperation):
             self.scale_factor[0] *= scale_factor[0]
             self.scale_factor[1] *= scale_factor[1]
 
-    def config_parameters(self, data_info):
+    def config_parameters(self, data_info: dict):
         self.config = False
         self.center[..., 1] = data_info['shape'][-1] // 2
         self.center[..., 0] = data_info['shape'][-2] // 2
@@ -421,7 +448,9 @@ class randomScalePipeline(pipelineOperation):
                 center desviation (int)     : produces random deviations at the scaling center. The deviations will be a maximum of the number of pixels indicated in this parameter
                 keep_aspect (boolean)       : whether the scaling should be the same on the X axis and on the Y axis. Default: true
         '''
-    def __init__(self, probability, scale_range, keep_aspect=True, center_desviation=None, center=None):
+
+    def __init__(self, probability: float, scale_range: tuple, keep_aspect: bool = True, center_desviation: int = None,
+                 center:torch.tensor  = None):
         pipelineOperation.__init__(self, probability=probability, type='geometry')
         self.keep_aspect = keep_aspect
         if center is None:
@@ -440,12 +469,12 @@ class randomScalePipeline(pipelineOperation):
             self.scale_factor[1] = one_torch * scale_range[1]
         self.center_desviation = center_desviation
 
-    def config_parameters(self, data_info):
+    def config_parameters(self, data_info: dict):
         self.config = False
         self.center[..., 1] = data_info['shape'][-1] // 2
         self.center[..., 0] = data_info['shape'][-2] // 2
 
-    def get_op_matrix(self):
+    def get_op_matrix(self) -> torch.tensor:
         scale_factor_x = random.uniform(self.scale_factor[0], self.scale_factor[1])
         if self.keep_aspect:
             scale_factor_y = scale_factor_x
@@ -456,15 +485,15 @@ class randomScalePipeline(pipelineOperation):
         if self.center_desviation is not None:
             self.center[:, 0] += random.randint(0, self.center_desviation)
             self.matrix[0, 2] = (-scale_factor_x + 1) * (
-                        self.center[:, 0] + random.randint(-self.center_desviation, self.center_desviation))
+                    self.center[:, 0] + random.randint(-self.center_desviation, self.center_desviation))
             self.matrix[1, 2] = (-scale_factor_y + 1) * (
-                        self.center[:, 1] + random.randint(-self.center_desviation, self.center_desviation))
+                    self.center[:, 1] + random.randint(-self.center_desviation, self.center_desviation))
         else:
             self.matrix[0, 2] = (-scale_factor_x + 1) * self.center[:, 0]
             self.matrix[1, 2] = (-scale_factor_y + 1) * self.center[:, 1]
         return self.matrix
 
-    def need_data_info(self):
+    def need_data_info(self) -> bool:
         return self.config
 
 
@@ -476,7 +505,8 @@ class rotatePipeline(pipelineOperation):
                degrees (float)             : degrees of the rotation
                center (torch tensor)       : coordinates of the center of scaling. Default: center of the image
        '''
-    def __init__(self, degrees, center=None, probability=1):
+
+    def __init__(self, degrees: int, center: torch.tensor  = None, probability: float = 1):
         pipelineOperation.__init__(self, probability=probability, type='geometry')
         self.degrees = degrees
         self.degrees = degrees * one_torch
@@ -488,14 +518,14 @@ class rotatePipeline(pipelineOperation):
             self.config = False
             self.center = center
 
-    def get_op_matrix(self):
+    def get_op_matrix(self) -> torch.tensor:
         return torch.cat(((kornia.geometry.get_rotation_matrix2d(angle=self.degrees, center=self.center,
                                                                  scale=one_torch)).reshape(2, 3), self.new_row))
 
-    def need_data_info(self):
+    def need_data_info(self) -> bool:
         return self.config
 
-    def config_parameters(self, data_info):
+    def config_parameters(self, data_info: dict):
         self.center[..., 0] = data_info['shape'][-2] // 2  # x
         self.center[..., 1] = data_info['shape'][-1] // 2
         self.config = False
@@ -510,7 +540,8 @@ class randomRotatePipeline(pipelineOperation):
                    center (torch tensor)       : coordinates of the center of scaling. Default: center of the image
                    center desviation (int)     : produces random deviations at the rotating center. The deviations will be a maximum of the number of pixels indicated in this parameter
            '''
-    def __init__(self, degrees_range,  probability=1 ,center_desviation=None, center=None):
+
+    def __init__(self, degrees_range: tuple, probability: float=1, center_desviation: int =None, center: torch.tensor =None):
         pipelineOperation.__init__(self, probability=probability, type='geometry')
         self.center_desviation = center_desviation
         if not isinstance(degrees_range, tuple):
@@ -524,7 +555,7 @@ class randomRotatePipeline(pipelineOperation):
             self.config = False
             self.center = center
 
-    def get_op_matrix(self):
+    def get_op_matrix(self) -> torch.tensor:
         degrees = random.randint(self.degrees_range[0], self.degrees_range[1]) * one_torch
         center = self.center
         if self.center_desviation is not None:
@@ -532,10 +563,10 @@ class randomRotatePipeline(pipelineOperation):
         return torch.cat(((kornia.geometry.get_rotation_matrix2d(angle=degrees, center=center,
                                                                  scale=one_torch)).reshape(2, 3), self.new_row))
 
-    def need_data_info(self):
+    def need_data_info(self) -> bool:
         return self.config
 
-    def config_parameters(self, data_info):
+    def config_parameters(self, data_info: dict):
         self.center[..., 0] = data_info['shape'][-2] // 2  # x
         self.center[..., 1] = data_info['shape'][-1] // 2
         self.config = False
@@ -548,19 +579,21 @@ class translatePipeline(pipelineOperation):
                    probability (float) [0-1] : probability of applying the transform. Default: 1.
                    translation (tuple float) : pixels to be translated ( translation X, translation Y)
     '''
-    def __init__(self, translation, probability=1):
+
+    def __init__(self, translation: tuple, probability: float = 1):
         pipelineOperation.__init__(self, probability=probability, type='geometry')
         self.translation_x = translation[0] * one_torch
         self.translation_y = translation[1] * one_torch
         self.matrix = identity.clone()
 
-    def get_op_matrix(self):
+    def get_op_matrix(self) -> torch.tensor:
         self.matrix[0, 2] = self.translation_x
         self.matrix[1, 2] = self.translation_y
         return self.matrix
 
-    def need_data_info(self):
+    def need_data_info(self) -> bool:
         return False
+
 
 class randomTranslatePipeline(pipelineOperation):
     '''Translate the input image-mask-keypoints and 2d data by a random translation value calculated within the input range
@@ -570,7 +603,8 @@ class randomTranslatePipeline(pipelineOperation):
                        translation (tuple float)            : range of pixels to be translated ( min translation, max translation). Translation X and translation Y are calculated within this range
                        same_translation_on_axis (boolean)   : whether the translation must be equal in both axes
         '''
-    def __init__(self, probability, translation_range, same_translation_on_axis = False):
+
+    def __init__(self, probability: float, translation_range: tuple, same_translation_on_axis: bool = False):
         pipelineOperation.__init__(self, probability=probability, type='geometry')
         if not isinstance(translation_range, tuple):
             raise Exception("Translation range must be a tuple (min, max)")
@@ -588,7 +622,7 @@ class randomTranslatePipeline(pipelineOperation):
         self.matrix[1, 2] = translation_y
         return self.matrix
 
-    def need_data_info(self):
+    def need_data_info(self) -> bool:
         return False
 
 
@@ -599,19 +633,21 @@ class shearPipeline(pipelineOperation):
                     probability (float) [0-1]            : probability of applying the transform. Default: 1.
                     shear (tuple float)                  : range of pixels to be apply on the shear ( shear X, shear Y).
             '''
-    def __init__(self, shear, probability=1):
+
+    def __init__(self, shear: tuple, probability: float = 1):
         pipelineOperation.__init__(self, probability=probability, type='geometry')
         self.shear_x = shear[0]
         self.shear_y = shear[1]
         self.matrix = identity.clone()
 
-    def get_op_matrix(self):
+    def get_op_matrix(self) -> torch.tensor:
         self.matrix[0, 1] = self.shear_x
         self.matrix[1, 0] = self.shear_y
         return self.matrix
 
-    def need_data_info(self):
+    def need_data_info(self) -> bool:
         return False
+
 
 class randomShearPipeline(pipelineOperation):
     '''Shear the input image-mask-keypoints and 2d data by a random shear value calculated within the input range
@@ -620,19 +656,20 @@ class randomShearPipeline(pipelineOperation):
                   probability (float) [0-1]      : probability of applying the transform. Default: 1.
                   shear (tuple float)            : range of pixels to be apply on the shear ( shear X, shear Y).
                 '''
-    def __init__(self, probability, shear_range):
+
+    def __init__(self, probability: float, shear_range: tuple):
         pipelineOperation.__init__(self, probability=probability, type='geometry')
         if not isinstance(shear_range, tuple):
             raise Exception("Translation range must be a tuple (min, max)")
         self.shear_range = shear_range
         self.matrix = identity.clone()
 
-    def get_op_matrix(self):
-        self.matrix[0, 1] = random.uniform(self.shear_range[0], self.shear_range[1]) #x
-        self.matrix[1, 0] = random.uniform(self.shear_range[0], self.shear_range[1]) #y
+    def get_op_matrix(self) -> torch.tensor:
+        self.matrix[0, 1] = random.uniform(self.shear_range[0], self.shear_range[1])  # x
+        self.matrix[1, 0] = random.uniform(self.shear_range[0], self.shear_range[1])  # y
         return self.matrix
 
-    def need_data_info(self):
+    def need_data_info(self) -> bool:
         return False
 
 
@@ -641,21 +678,22 @@ class hflipPipeline(pipelineOperation):
              Args:
                   probability (float) [0-1]      : probability of applying the transform. Default: 1.
     '''
-    def __init__(self, probability=1):
+
+    def __init__(self, probability: float = 1):
         pipelineOperation.__init__(self, probability=probability, type='geometry')
         self.config = True
         self.matrix = identity.clone()
         self.matrix[0, 0] = -1
         # self.matrix[0, 2] = self.width
 
-    def need_data_info(self):
+    def need_data_info(self) -> bool:
         return self.config
 
-    def config_parameters(self, data_info):
+    def config_parameters(self, data_info: dict):
         self.matrix[0, 2] = data_info['shape'][1]
         self.config = False
 
-    def get_op_matrix(self):
+    def get_op_matrix(self) -> torch.tensor:
         return self.matrix
 
 
@@ -664,19 +702,20 @@ class vflipPipeline(pipelineOperation):
                  Args:
                       probability (float) [0-1]      : probability of applying the transform. Default: 1.
         '''
-    def __init__(self, probability, heigth=256):
+
+    def __init__(self, probability: float, heigth: int = 256):
         pipelineOperation.__init__(self, probability=probability, type='geometry')
         self.matrix = identity.clone()
         self.config = True
         self.matrix[1, 1] = -1
         self.matrix[1, 2] = heigth
 
-    def need_data_info(self):
+    def need_data_info(self) -> bool:
         return self.config
 
-    def config_parameters(self, data_info):
+    def config_parameters(self, data_info: dict):
         self.matrix[1, 2] = data_info['shape'][0]
         self.config = False
 
-    def get_op_matrix(self):
+    def get_op_matrix(self) -> torch.tensor:
         return self.matrix
