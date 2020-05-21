@@ -34,7 +34,7 @@ class augment_dataLoader(DataLoader):
             outer.init_dataset(*args, **kwargs)
 
         def __len__(self):
-            return augment_dataLoader.len_dataset(self)
+            return self.outer.len_dataset()
 
         def __getitem__(self,  idx):
             if self.outer.pipeline is not None:
@@ -61,7 +61,7 @@ class augment_dataLoader(DataLoader):
         else:
             self.pipeline = None
         sample = self.dataset[1]
-        DataLoader.__init__(dataset=self.dataset,  batch_size=batch_size, num_workers= num_workers, shuffle= shuffle)
+        DataLoader.__init__(self, dataset=self.dataset,  batch_size=batch_size, num_workers= num_workers, shuffle= shuffle)
 
 
 

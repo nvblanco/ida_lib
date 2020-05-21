@@ -54,27 +54,29 @@ def show_landmarks(image, landmarks):
 
 
 pip = pipeline(interpolation='nearest', pipeline_operations=(
-    translate_pipeline(probability=0, translation=(3, 1)),
-    vflip_pipeline(probability=1),
-    hflip_pipeline(probability=1),
-    contrast_pipeline(probability=0, contrast_factor=1),
-    random_brightness_pipeline(probability=0, brightness_range=(1, 1.2)),
-    gamma_pipeline(probability=0, gamma_factor=0),
-    random_translate_pipeline(probability=0, translation_range=(-90, 90)),
-    random_scale_pipeline(probability=0, scale_range=(0.5, 1.5), center_desviation=20),
-    random_rotate_pipeline(probability=0, degrees_range=(-50, 50), center_desviation=20),
-    random_translate_pipeline(probability=0, translation_range=(20, 100)),
-    random_shear_pipeline(probability=0, shear_range=(0, 0.5))
+    translatePipeline(probability=0, translation=(3, 1)),
+    vflipPipeline(probability=1),
+    hflipPipeline(probability=1),
+    contrastPipeline(probability=0, contrast_factor=1),
+    randomBrightnessPipeline(probability=0, brightness_range=(1, 1.2)),
+    gammaPipeline(probability=0, gamma_factor=0),
+    randomTranslatePipeline(probability=0, translation_range=(-90, 90)),
+    randomScalePipeline(probability=0, scale_range=(0.5, 1.5), center_desviation=20),
+    randomRotatePipeline(probability=0, degrees_range=(-50, 50), center_desviation=20),
+    randomTranslatePipeline(probability=0, translation_range=(20, 100)),
+    randomShearPipeline(probability=0, shear_range=(0, 0.5))
 ))
 
+
+#torch.multiprocessing.set_start_method('spawn')
 dataloader = test_dataloader(batch_size=4,
-                             num_workers=1,
+                             num_workers=0,
                              shuffle=True,
                              pipeline_operations=(
-                                 translate_pipeline(probability=0, translation=(3, 1)),
-                                 vflip_pipeline(probability=1),
-                                 hflip_pipeline(probability=1)),
-                             resize=None,
+                                 translatePipeline(probability=0, translation=(3, 1)),
+                                 vflipPipeline(probability=1),
+                                 hflipPipeline(probability=1)),
+                             resize=(500, 326),
                              interpolation='bilinear',
                              padding_mode='zeros',
                              csv_file='faces/face_landmarks.csv',
@@ -83,6 +85,5 @@ dataloader = test_dataloader(batch_size=4,
 
 # sample = face_dataset[1]
 for i_batch, sample_batched in enumerate(dataloader):
-    print(i_batch, sample_batched['image'].size(),
-          sample_batched['landmarks'].size())
+    print(i_batch, )
 print('holi')

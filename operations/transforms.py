@@ -5,6 +5,23 @@ import torch
 
 from operations import geometry_functional, color_functional
 
+__all__ = ['hflip',
+           'vflip',
+           'affine',
+           'rotate',
+           'shear',
+           'scale',
+           'translate',
+           'change_gamma',
+           'change_contrast',
+           'change_brigntness',
+           'equalize_histogram',
+           'inyect_gaussian_noise',
+           'inyect_poisson_noise',
+           'inyect_spekle_noise',
+           'inyect_salt_and_pepper_noise',
+           'blur',
+           'gaussian_blur']
 
 def hflip(data: dict, visualize : bool = False) -> dict:
     ''' Horizontally flip the input data. '''
