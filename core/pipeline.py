@@ -34,13 +34,16 @@ class pipeline(object):
                                         ))
     '''
 
-    def __init__(self, pipeline_operations: list, resize: tuple=None, interpolation: str = 'bilinear',
+    def __init__(self, pipeline_operations: list, resize: tuple = None, interpolation: str = 'bilinear',
                  padding_mode: str = 'zeros'):
-        ''' * resize: tuple of desired output size. Example (25,25)
-            * interpolation (str) :interpolation mode to calculate output values
-                    'bilinear' | 'nearest'. Default: 'bilinear'.
-            * padding_mode (str): padding mode for outside grid values
-                    'zeros' | 'border' | 'reflection'. Default: 'zeros'.'''
+        '''
+        :param pipeline_operations: list of pipeline initialized operations (see pipeline_operations.py)
+        :param resize: tuple of desired output size. Example (25,25)
+        :param interpolation (str) :interpolation mode to calculate output values
+                'bilinear' | 'nearest'. Default: 'bilinear'.
+        :param padding_mode(str): padding mode for outside grid values
+                'zeros' | 'border' | 'reflection'. Default: 'zeros'
+        '''
         self.color_ops, self.geom_ops, self.indep_ops = split_operations_by_type(pipeline_operations)
         self.geom_ops.reverse()  # to apply matrix multiplication in the user order
         self.info_data = None
@@ -49,20 +52,43 @@ class pipeline(object):
         self.padding_mode = padding_mode
 
     def apply_geometry_transform_data2d(self, image: torch.tensor, matrix: torch.tensor) -> torch.tensor:
+        '''
+        (Private method) Applies the input transform to the image by the padding and interpolation mode configured on the pipeline
+        :param image (torch.tensor)         : image to transform
+        :param matrix (torch.tensor)        : transformation matrix that represent the operation to be applied
+        :return (torch.tensor)              : transformed image
+        '''
         return own_affine(image, matrix[:2, :], interpolation=self.interpolation, padding_mode=self.padding_mode)
 
     def apply_geometry_transform_discreted_data2d(self, image: torch.tensor, matrix: torch.tensor) -> torch.tensor:
+        '''
+        (Private method) Applies the input transform to the image by the padding mode configured on the pipeline and 'nearest' interpolation to preserve discrete values of segmaps or masks
+        :param image (torch.tensor)         : image to transform
+        :param matrix (torch.tensor)        : transformation matrix that represent the operation to be applied
+        :return (torch.tensor)              : transformed image
+        '''
         return own_affine(image, matrix[:2, :], interpolation='nearest', padding_mode=self.padding_mode)
 
     def apply_geometry_transform_points(self, points_matrix: torch.tensor, matrix: torch.tensor) -> torch.tensor:
+        '''
+        (Private method) Applies the input tranform to a matrix of points coordinates (matrix multiplication)
+        :param points_matrix (torch.tensor) : matrix of points coordinates
+        :param matrix (torch.tensor)        : transformation matrix that represent the operation to be applied
+        :return (torch.tensor)              : matrix of trasnsformed points coordinates
+        '''
         return torch.matmul(matrix, points_matrix)
+
+    def get_data_types(self) -> tuple :
+        ''' Returns the tuple of data types identified on the input data'''
+        return self.info_data['present_types']
 
     '''
     Applies the transformations to the input image batch. 
         *   If it is the first batch entered into the pipeline, the information about the type of input data 
             is analyzed and the different pipeline parameters are set (size of the images, labels, bits per pixel..)'''
 
-    def __call__(self, batch_data: Union[ list, dict], visualize: bool=False) -> Union[dict, list]:
+    def __call__(self, batch_data: Union[list, dict], visualize: bool = False) -> Union[dict, list]:
+
         if not isinstance(batch_data, list): batch_data = [batch_data]
         if visualize: original = [d.copy() for d in batch_data]  # copy the original batch to diplay on visualization
         self.process_data = []
@@ -149,18 +175,18 @@ img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 segmap = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.int32)
 segmap[28:171, 35:485, 0] = 1
-segmap[10:25, 30:45, 0] = 2
-segmap[10:25, 70:85, 0] = 3
-segmap[10:110, 5:10, 0] = 4
-segmap[118:123, 10:110, 0] = 5
+segmap[10:25, 30:245, 0] = 2
+segmap[10:25, 70:385, 0] = 3
+segmap[10:110, 5:210, 0] = 4
+segmap[18:223, 10:110, 0] = 5
 # segmap = SegmentationMapsOnImage(segmap, shape=img.shape)
 
 segmap2 = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.int32)
 segmap2[0:150, 50:125, 0] = 1
-segmap[10:25, 30:45, 0] = 2
-segmap[10:25, 70:85, 0] = 3
-segmap[10:110, 5:10, 0] = 4
-segmap[118:123, 10:110, 0] = 5
+segmap2[10:25, 30:45, 0] = 2
+segmap2[10:25, 70:85, 0] = 3
+segmap2[10:110, 5:10, 0] = 4
+segmap2[118:123, 10:110, 0] = 5
 # segmap2 = SegmentationMapsOnImage(segmap2, shape=img.shape)
 
 x = np.random.randn(img.shape[0] // 4 * img.shape[1] // 4)
@@ -182,9 +208,8 @@ points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 
 # data = color.equalize_histogram(data, visualize=True)
 data = {'image': img, 'mask': segmap2, 'mask2': segmap, 'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
-# data = {'image': img, 'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
-
-samples = 25
+data = {'image': img, 'mask': segmap}
+samples = 50
 
 batch = [data.copy() for _ in range(samples)]
 batch2 = [data.copy() for _ in range(samples)]
@@ -193,20 +218,14 @@ from time import time
 
 start_time = time()
 pip = pipeline(interpolation='nearest', pipeline_operations=(
-    translate_pipeline(probability=0, translation=(3, 1)),
-    vflip_pipeline(probability=0),
-    hflip_pipeline(probability=0),
-    contrast_pipeline(probability=0, contrast_factor=1),
-    random_brightness_pipeline(probability=1, brightness_range=(1, 1.2)),
-    gamma_pipeline(probability=0, gamma_factor=0),
-    random_translate_pipeline(probability=0, translation_range=(-90, 90)),
-    random_scale_pipeline(probability=0, scale_range=(0.5, 1.5), center_desviation=20),
-    random_rotate_pipeline(probability=0, degrees_range=(-50, 50), center_desviation=20),
-    random_translate_pipeline(probability=0, translation_range=(20, 100)),
-    random_shear_pipeline(probability=0, shear_range=(0, 0.5))
-))
+    translatePipeline(probability=0, translation=(3, 1)),
+    vflipPipeline(probability=0),
+    hflipPipeline(probability=0),
+    contrastPipeline(probability=0, contrast_factor=1),
+    randomBrightnessPipeline(probability=0, brightness_range=(1, 1.2)))
+               )
 
-batch = pip(batch, visualize=False)
+batch = pip(batch, visualize=True)
 batch2 = pip(batch2, visualize=False)
 
 consumed_time = time() - start_time

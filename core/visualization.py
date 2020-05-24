@@ -114,13 +114,13 @@ def visualize(images, images_originals, mask_types, other_types,  max_images = 5
             if torch.is_tensor(img):
                 img = img.to('cpu')
                 one = torch.ones((1, img.shape[1], img.shape[2]))
-                img = torch.cat((one * color[0], one * color[1], one * color[2], img * 204), 0)
+                img = torch.cat((img * color[0] , img * color[1], img * color[2], np.clip(img * 204, 0, 204)), 0)
                 img = kornia.tensor_to_image(img.byte())  
             img1 = process_mask(img)
 
             img2 = data_original[mask]
             one = np.ones((img2.shape[0], img2.shape[1], 1))
-            img2 = np.concatenate((one * color[0], one * color[1], one * color[2], img2 * 204), 2)
+            img2 = np.concatenate((img2 * color[0], one * color[1], one * color[2], img2 * 204), 2)
 
             if torch.is_tensor(img2):
                 img2 = img2.to('cpu')
@@ -161,7 +161,6 @@ def visualize(images, images_originals, mask_types, other_types,  max_images = 5
                 img2 = img2.to('cpu')
                 img2 = kornia.tensor_to_image(img2.byte())
             img2 = process_mask(img2)
-           # img2 = img1
             img_plot = plot.image_rgba(source=img1, image='image', x='x', y='y', dw='dw', dh='dh')        #transformed
             img_plot2 = plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')      #original
             checkboxes_heatmap = CheckboxGroup(labels=['heatmap'], active=[0, 1])
@@ -223,7 +222,7 @@ def visualize(images, images_originals, mask_types, other_types,  max_images = 5
                       style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif',
                              'font-size': '100%', 'color': '#17705E'})
             list_target = (*list_target, label)
-        if list_target is not None:
+        if len(list_target) != 0:
             title_targets = pre = Div(text="<b>Targets</b><hr>",
                       style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '100%', 'color': '#bf6800'})
             list_checkbox = (*list_checkbox, title_targets, *list_target)

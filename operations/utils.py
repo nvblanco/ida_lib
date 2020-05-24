@@ -1,6 +1,31 @@
+import kornia
 import torch
 
 device = 'cuda'
+
+
+def save_im(tensor, title):
+    tensor = tensor.cpu()
+    img = kornia.tensor_to_image(tensor.byte())
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    cv2.imwrite(title, img)
+
+def element_to_dict_csv_format(item, name):
+    output_dict = {}
+    if isinstance(item, list) or isinstance(item, np.ndarray):
+        for index, item in enumerate(item):
+            label = name + '_' + str(index)
+            if isinstance(item, list) or isinstance(item, np.ndarray):
+                labelx = label + '_x'
+                labely = label + '_y'
+                output_dict[labelx] = item[0]
+                output_dict[labely] = item[1]
+            else:
+                output_dict[label] = item
+    else:
+        output_dict[name] = item
+    return output_dict
+
 
 '''Returns a tensor (two-dimensional) of the coordinates of the center of the input image '''
 def get_torch_image_center(data):
