@@ -1,27 +1,40 @@
 from skimage import io
-from operations.utils import save_im, element_to_dict_csv_format
-import torchvision
-from tqdm import tqdm, trange
+from operations.utils import save_im
+from tqdm import trange
 import os
 import csv
 import pandas as pd
-
 from torch.utils.data import Dataset
 from core.pipeline import *
 
 
 class AgmentToDisk(object):
+    '''
+    The AgmentToDisk object allows to perform Data Image Augmentation directly to disk. That is, to save the images generated to disk to be used in future processes.
+    '''
     def __init__(self,
                  dataset: Dataset,
-                 samples_per_item=2,
-                 operations=None,
-                 interpolation='bilinear',
-                 padding_mode='zeros',
-                 resize=None,
-                 output_extension = '.jpg',
-                 output_csv_path='anotations.csv',
-                 output_path = './augmented'
+                 samples_per_item: int=2,
+                 operations: Union[list, None] =None,
+                 interpolation: str ='bilinear',
+                 padding_mode: str='zeros',
+                 resize: Union[tuple, None] =None,
+                 output_extension: str = '.jpg',
+                 output_csv_path: str='anotations.csv',
+                 output_path: str = './augmented'
                  ):
+        '''
+
+        :param dataset          (Dataset)   : input dataset in charge of reading the input data
+        :param samples_per_item (int)       : number of desired output samples per input element
+        :param output_extension (str)       : desired image extension for the generated images  ( '.jpg' | '.png' | '.gif' | '.jpeg' ... )
+        :param output_csv_path  (str)       : path to the csv file (if is needed) to save anotations of the augmented data
+        :param output_path      (str)       : path to the directory in which to save the generated data
+        :param operations       (list)      : list of pipeline initialized operations (see pipeline_operations.py)
+        :param resize           (tuple)     : tuple of desired output size. Example (25,25)
+        :param interpolation    (str)       : interpolation mode to calculate output values         ('bilinear' | 'nearest') .              Default: 'bilinear'.
+        :param padding_mode     (str)       : padding mode for outside grid values                  ('zeros' | 'border' | 'reflection'.)    Default: 'zeros'
+        '''
         self.dataset = dataset
         self.samples_per_item = samples_per_item
         self.output_extension = output_extension
@@ -38,7 +51,21 @@ class AgmentToDisk(object):
         if not os.path.exists(output_path):
             os.makedirs(output_path)
 
-    def save_item(self, item, index, output_path, types_2d, other_types):
+    def save_item(self, item: dict, index: int, output_path: str, types_2d: list, other_types: list):
+        '''
+                ***This method can be overwritten to make a customized saving of the items according to the interests of the user***
+        Method that implements the way to save to disk each of the generated elements. By default it saves all the generated images in the specified path.
+        The samples are organized by name following the form:
+            * images:                       <id_image>_<sample number> <extension>
+            * other two-dimensional types:  <id_image>-<data_type>_<sample number> <extension>
+        Annotations on the data, such as labels, or point coordinates are stored in dictionaries that will be written when all the images have been processed.
+
+        :param item         (dict)  : input element to be saved to disk
+        :param index        (int)   : sample number to which the input item corresponds
+        :param output_path  (str)   : path to the directory in which to save the generated data
+        :param types_2d     (list)  : list of types of two dimensional data of the input item
+        :param other_types  (list)  : list of types that are not two-dimensional elements
+        '''
         item['id'] = item['id'] + '_' + str(index)
         for type in types_2d:
             if 'image' in type:
@@ -48,7 +75,14 @@ class AgmentToDisk(object):
             save_im(tensor=item[type], title=(name + self.output_extension))
         self.output_csv.append(dict((label, item[label]) for label in (other_types)))
 
-    def final_save(self,):
+    def final_save(self):
+        '''
+                ***This method can be overwritten to make a customized saving of the items according to the interests of the user***
+        Method that runs only once, once all the images have been processed. Useful for writing csv with image annotations. By default the annotations of all images
+        are saved in the same file. The csv file will have one row for each generated element, identified by its id. Each column will correspond with the labels
+        associated to each generated element. In the case of coordinate lists, their coordinates are arranged in columns separating the x and y coordinates in each
+        element (point0_x, point0_y, point1_x, ..., pointn_y)
+        '''
         csv_columns = self.output_csv[0].keys()
         try:
             with open(self.output_csv_path, 'w') as csvfile:
