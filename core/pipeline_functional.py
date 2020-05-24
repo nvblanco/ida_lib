@@ -1,23 +1,19 @@
-import numpy as np
 import cv2
-import torch
 import functools
 from string import digits
 from kornia.geometry.transform.imgwarp import warp_affine
-
 from core import visualization
 from core.pipeline_operations import *
 
 device = 'cuda'
 cuda = torch.device('cuda')
 data_types_2d = {"image", "mask", "segmap", "heatmap"}
-present_2d_types =  []
+present_2d_types = []
 mask_types = []
 other_types = []
 internal_type = torch.float32
 
-__all__ = ['get_data_types',
-           'get_compose_matrix',
+__all__ = ['get_compose_matrix',
            'get_compose_function',
            'preprocess_dict_data',
            'preprocess_dict_data_and_data_info',
@@ -29,17 +25,15 @@ __all__ = ['get_data_types',
            'postprocess_data',
            'own_affine']
 
-def get_data_types():
-    return data_types_2d, other_types
-
-
-'''
-Returns the transformation matrix composed by the multiplication in order of 
-the input operations (according to their probability)
-'''
-
 
 def get_compose_matrix(operations: list) -> torch.tensor:
+    '''
+    Returns the transformation matrix composed by the multiplication in order of
+    the input operations (according to their probability)
+
+    :param operations   (list)  : list of pipeline operations
+    :return             (tensor): torch tensor of the transform matrix
+    '''
     matrix = identity.clone()
     for operation in operations:
         if operation.apply_according_to_probability():
@@ -47,15 +41,17 @@ def get_compose_matrix(operations: list) -> torch.tensor:
     return matrix
 
 
-'''
-Returns the transformation matrix composed by the multiplication in order of 
-the input operations (according to their probability).
-
-Go through the operations by entering the necessary information about the images (image center, shape..)
-'''
-
 
 def get_compose_matrix_and_configure_parameters(operations: list, data_info: dict) -> torch.tensor:
+    '''
+    Returns the transformation matrix composed by the multiplication in order of
+    the input operations (according to their probability).
+
+    Go through the operations by entering the necessary information about the images (image center, shape..)
+    :param operations   (list)  : list of pipeline operations
+    :param data_info    (dict)  : dict with data info to configure operations parameters
+    :return             (tensor): torch tensor of the transform matrix
+    '''
     matrix = identity.clone()
     for operation in operations:
         if operation.need_data_info():
@@ -69,43 +65,38 @@ def own_affine(tensor: torch.Tensor, matrix: torch.Tensor, interpolation: str = 
                padding_mode: str = 'border') -> torch.Tensor:
     """Apply an affine transformation to the image.
 
-    Args:
-        tensor (torch.Tensor): The image tensor to be warped.
-        matrix (torch.Tensor): The 2x3 affine transformation matrix.
-        interpolation (str) :interpolation mode to calculate output values
+    :param tensor           (torch.Tensor)  : The image tensor to be warped.
+    :param matrix           (torch.Tensor)  : The 2x3 affine transformation matrix.
+    :param interpolation    (str)           : interpolation mode to calculate output values
           'bilinear' | 'nearest'. Default: 'bilinear'.
-        padding_mode (str): padding mode for outside grid values
+    :param padding_mode     (str)           : padding mode for outside grid values
           'zeros' | 'border' | 'reflection'. Default: 'zeros'.
 
-    Returns:
-        torch.Tensor: The warped image.
+    :return                 (torch.Tensor)  : The warped image.
     """
     # warping needs data in the shape of BCHW
     is_unbatched: bool = tensor.ndimension() == 3
     if is_unbatched:
         tensor = torch.unsqueeze(tensor, dim=0)
-
     matrix = matrix.expand(tensor.shape[0], -1, -1)
-
     # warp the input tensor
     height: int = tensor.shape[-2]
     width: int = tensor.shape[-1]
     warped: torch.Tensor = warp_affine(tensor, matrix, (height, width), flags=interpolation, padding_mode=padding_mode)
-
     # return in the original shape
     if is_unbatched:
         warped = torch.squeeze(warped, dim=0)
-
     return warped
 
 
-'''
-Split input operations into sub-lists of each transformation type
-*   the normalization operation is placed last to apply correctly the other operations
-'''
-
 
 def split_operations_by_type(operations: list) -> tuple:
+    '''
+    Split input operations into sub-lists of each transformation type
+*   the normalization operation is placed last to apply correctly the other operations
+    :param operations   (list)  : list of pipeline operations
+    :return             (tuple) : tuple of lists of the operations separated into color, geometry and independent
+    '''
     color, geometry, independent = [], [], []
     normalize = None
     for op in operations:
@@ -121,22 +112,22 @@ def split_operations_by_type(operations: list) -> tuple:
     return color, geometry, independent
 
 
-'''
-Return lambda function that represent the composition of the input functions
-'''
-
-
 def compose(*functions):
+    '''
+    Return lambda function that represent the composition of the input functions
+    :param functions: math functions to be composed
+    :return: compose function
+    '''
     return functools.reduce(lambda f, g: lambda x: f(g(x)), functions, lambda x: x)
 
 
-'''
-returns the LUT table with the correspondence of each possible value 
-according to the color operations to be implemented (according to their probability)
-'''
-
-
 def get_compose_function(operations: list) -> np.ndarray:
+    '''
+    returns the LUT table with the correspondence of each possible value
+    according to the color operations to be implemented (according to their probability)
+    :param operations   (list)  : list of pipeline operations
+    :return:
+    '''
     funcs = [op.transform_function for op in operations if op.apply_according_to_probability()]
     compose_function = functools.reduce(lambda f, g: lambda x: f(g(x)), tuple(funcs), lambda x: x)
     lookUpTable = np.empty((1, 256), np.int16)
@@ -146,15 +137,16 @@ def get_compose_function(operations: list) -> np.ndarray:
     return np.uint8(lookUpTable)
 
 
-'''
-Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix 
-that allows applying the geometric operations in a single joint operation on the data 
-and another on the points.
- * Loads the data as tensor in GPU to prepare them as input to a neural network
-'''
-
-
 def preprocess_dict_data(data: list, batch_info: dict) -> list:
+    '''
+    Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix
+    that allows applying the geometric operations in a single joint operation on the data
+    and another on the points.
+    * Loads the data as tensor in GPU to prepare them as input to a neural network
+    :param data:
+    :param batch_info:
+    :return:
+    '''
     p_data = {}
     compose_data = torch.tensor([])
     compose_discretized_data = torch.tensor([])
@@ -181,17 +173,19 @@ def preprocess_dict_data(data: list, batch_info: dict) -> list:
     return p_data
 
 
-'''
-Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix 
-that allows applying the geometric operations in a single joint operation on the data 
-and another on the points.
- * Loads the data as tensor in GPU to prepare them as input to a neural network
- * Analyze the data info required for the transformations (shape, bpp...)
- * Resize the 2d data and keypoints to the new shape
-'''
-
-
 def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, interpolation: str) -> list:
+    '''
+    Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix
+    that allows applying the geometric operations in a single joint operation on the data
+    and another on the points.
+     * Loads the data as tensor in GPU to prepare them as input to a neural network
+     * Analyze the data info required for the transformations (shape, bpp...)
+     * Resize the 2d data and keypoints to the new shape
+    :param data:
+    :param new_size:
+    :param interpolation:
+    :return:
+    '''
     p_data = {}
     data_info = {}
     data_info['types_2d'] = {}
@@ -242,16 +236,18 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
     return p_data, data_info
 
 
-'''
-Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix 
-that allows applying the geometric operations in a single joint operation on the data 
-and another on the points.
- * Loads the data as tensor in GPU to prepare them as input to a neural network
- * Resize the 2d data and keypoints to the new shape
-'''
-
 
 def preprocess_dict_data_with_resize(data: list, batch_info: dict) -> list:
+    '''
+    Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix
+    that allows applying the geometric operations in a single joint operation on the data
+    and another on the points.
+    * Loads the data as tensor in GPU to prepare them as input to a neural network
+    * Resize the 2d data and keypoints to the new shape
+    :param data:
+    :param batch_info:
+    :return:
+    '''
     p_data = {}
     compose_data = torch.tensor([], dtype=internal_type)
     for type in data.keys():
@@ -278,17 +274,19 @@ def preprocess_dict_data_with_resize(data: list, batch_info: dict) -> list:
     return p_data
 
 
-'''
-It combines the 2d information in a tensor and the points in a homogeneous coordinate matrix 
-that allows applying the geometric operations in a single joint operation on the data 
-and another on the points.
- * Loads the data as tensor in GPU to prepare them as input to a neural network
- * Analyze the data info required for the transformations (shape, bpp...)
- * Add to the predetermined list of type names numbered names like 'mask2' to make posible to have multiple mask or elements of a single type
-'''
-
 
 def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
+    '''
+    It combines the 2d information in a tensor and the points in a homogeneous coordinate matrix
+    that allows applying the geometric operations in a single joint operation on the data
+    and another on the points.
+        * Loads the data as tensor in GPU to prepare them as input to a neural network
+        * Analyze the data info required for the transformations (shape, bpp...)
+        * Add to the predetermined list of type names numbered names like 'mask2' to make posible to have multiple mask or elements of a single type
+    :param data:
+    :param interpolation:
+    :return:
+    '''
     p_data = {}
     data_info = {}
     data_info['types_2d'] = {}
@@ -344,12 +342,14 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
     return p_data, data_info
 
 
-'''
-Restores the data to the original form; separating the matrix into the different 2d input data and point coordinates.
-'''
-
 
 def postprocess_data(batch: list, batch_info: dict) -> list:
+    '''
+    Restores the data to the original form; separating the matrix into the different 2d input data and point coordinates.
+    :param batch:
+    :param batch_info:
+    :return:
+    '''
     process_data = []
     for data in batch:
         if batch_info.keys().__contains__('types_2d'):
@@ -373,13 +373,16 @@ def postprocess_data(batch: list, batch_info: dict) -> list:
     return process_data
 
 
-'''
-Restores the data to the original form; separating the matrix into the different 2d input data and point coordinates.
-* Call the visualization tool with the original and transformated data
-'''
-
 
 def postprocess_data_and_visualize(batch: list, data_original: list, batch_info: dict) -> list:
+    '''
+    Restores the data to the original form; separating the matrix into the different 2d input data and point coordinates.
+    * Call the visualization tool with the original and transformated data
+    :param batch:
+    :param data_original:
+    :param batch_info:
+    :return:
+    '''
     process_data = []
     for data in batch:
         if batch_info.keys().__contains__('types_2d'):

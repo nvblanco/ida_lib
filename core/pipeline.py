@@ -1,8 +1,5 @@
 from typing import Union
-
-from torch import tensor
 import cv2
-
 from core.pipeline_operations import *
 from core.pipeline_functional import *
 

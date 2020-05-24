@@ -27,13 +27,16 @@ class AgmentToDisk(object):
 
         :param dataset          (Dataset)   : input dataset in charge of reading the input data
         :param samples_per_item (int)       : number of desired output samples per input element
-        :param output_extension (str)       : desired image extension for the generated images  ( '.jpg' | '.png' | '.gif' | '.jpeg' ... )
+        :param output_extension (str)       : desired image extension for the generated images
+            ( '.jpg' | '.png' | '.gif' | '.jpeg' ... )
         :param output_csv_path  (str)       : path to the csv file (if is needed) to save anotations of the augmented data
         :param output_path      (str)       : path to the directory in which to save the generated data
         :param operations       (list)      : list of pipeline initialized operations (see pipeline_operations.py)
         :param resize           (tuple)     : tuple of desired output size. Example (25,25)
-        :param interpolation    (str)       : interpolation mode to calculate output values         ('bilinear' | 'nearest') .              Default: 'bilinear'.
-        :param padding_mode     (str)       : padding mode for outside grid values                  ('zeros' | 'border' | 'reflection'.)    Default: 'zeros'
+        :param interpolation    (str)       : interpolation mode to calculate output values
+            ('bilinear' | 'nearest') .              Default: 'bilinear'.
+        :param padding_mode     (str)       : padding mode for outside grid values
+            ('zeros' | 'border' | 'reflection'.)    Default: 'zeros'
         '''
         self.dataset = dataset
         self.samples_per_item = samples_per_item
@@ -53,12 +56,13 @@ class AgmentToDisk(object):
 
     def save_item(self, item: dict, index: int, output_path: str, types_2d: list, other_types: list):
         '''
-                ***This method can be overwritten to make a customized saving of the items according to the interests of the user***
-        Method that implements the way to save to disk each of the generated elements. By default it saves all the generated images in the specified path.
-        The samples are organized by name following the form:
+            ***This method can be overwritten to make a customized saving of the items according to the interests of the user***
+        Method that implements the way to save to disk each of the generated elements. By default it saves all the generated
+        images in the specified path. The samples are organized by name following the form:
             * images:                       <id_image>_<sample number> <extension>
             * other two-dimensional types:  <id_image>-<data_type>_<sample number> <extension>
-        Annotations on the data, such as labels, or point coordinates are stored in dictionaries that will be written when all the images have been processed.
+        Annotations on the data, such as labels, or point coordinates are stored in dictionaries that will be written when all
+        the images have been processed.
 
         :param item         (dict)  : input element to be saved to disk
         :param index        (int)   : sample number to which the input item corresponds
@@ -77,11 +81,11 @@ class AgmentToDisk(object):
 
     def final_save(self):
         '''
-                ***This method can be overwritten to make a customized saving of the items according to the interests of the user***
-        Method that runs only once, once all the images have been processed. Useful for writing csv with image annotations. By default the annotations of all images
-        are saved in the same file. The csv file will have one row for each generated element, identified by its id. Each column will correspond with the labels
-        associated to each generated element. In the case of coordinate lists, their coordinates are arranged in columns separating the x and y coordinates in each
-        element (point0_x, point0_y, point1_x, ..., pointn_y)
+            ***This method can be overwritten to make a customized saving of the items according to the interests of the user***
+        Method that runs only once, once all the images have been processed. Useful for writing csv with image annotations. By default
+        the annotations of all images are saved in the same file. The csv file will have one row for each generated element, identified
+        by its id. Each column will correspond with the labels associated to each generated element. In the case of coordinate lists,
+        their coordinates are arranged in columns separating the x and y coordinates in each element (point0_x, point0_y, point1_x, ..., pointn_y)
         '''
         csv_columns = self.output_csv[0].keys()
         try:
