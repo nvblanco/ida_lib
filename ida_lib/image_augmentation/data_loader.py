@@ -1,4 +1,5 @@
 from _ctypes import Union
+from abc import ABC
 from torch.utils.data import Dataset, DataLoader
 from ida_lib.core.pipeline import pipeline
 from ida_lib.core.pipeline_operations import *
