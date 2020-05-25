@@ -1,44 +1,43 @@
-from abc import ABC, abstractmethod
-from typing import Union
-
+from _ctypes import Union
+from abc import ABC
 from torch.utils.data import Dataset, DataLoader
-import numpy as np
 from ida_lib.core.pipeline import pipeline
+from ida_lib.core.pipeline_operations import *
 
 
 class DataAugmentDataLoader(ABC, DataLoader):
-    """ The DataAugmentDataLoader class implements a Pytorch DataLoader but groups it into one class:
+    ''' The DataAugmentDataLoader class implements a Pytorch DataLoader but groups it into one class:
             * The Dataset object that takes care of reading the data (methods must be implemented by the user)
             * The iterative DataLoader object that will serve as an input system for a neural network.
             * A pipeline that applies data image Augmentation operations over the input data.
 
         To make use of this class, it is necessary to overwrite the methods corresponding to the dataset class (init_dataset,
         len_dataet, get_item_dataset) to make a personalized reading of your data.
-        The arguments you pass to your init_dataset method will have to be passed when you initialize your custom AugmentDataloader"""
+        The arguments you pass to your init_dataset method will have to be passed when you initialize your custom AugmentDataloader'''
 
     @abstractmethod
     def init_dataset(self, *args, **kwargs):
-        """(Abstract method to be implemented)
+        '''(Abstract method to be implemented)
         Dataset initialization, called only once. It is useful to open files and read data that are not too large in memory in this
-        method and store all the necessary parameters"""
+        method and store all the necessary parameters'''
         pass
 
     @abstractmethod
     def len_dataset(self, *args, **kwargs) -> int:
-        """(Abstract method to be implemented)
-        Returns the number of elements in the dataset"""
+        '''(Abstract method to be implemented)
+        Returns the number of elements in the dataset'''
         pass
 
     @abstractmethod
     def get_item_dataset(self, *args, **kwargs) -> Union[dict, np.ndarray]:
-        """(Abstract method to be implemented)
+        '''(Abstract method to be implemented)
            Return an item from the dataset. If it includes compound data, it must be a dict with elements like:
             'image', 'keypoints', 'label'...
-            Read pipeline object for more detailed information"""
+            Read pipeline object for more detailed information'''
         pass
 
-    def _pipe_through(self, item: dict):
-        """Method that passes a data element through the pipeline of input pipeline_operations """
+    def pipe_through(self, item: dict):
+        '''Private method that passes a data element through the pipeline of input pipeline_operations '''
         return self.pipeline(item, visualize=False)
 
     class inner_Dataset(Dataset):
@@ -51,7 +50,7 @@ class DataAugmentDataLoader(ABC, DataLoader):
 
         def __getitem__(self, idx: int):
             if self.outer.pipeline is not None:
-                return self.outer._pipe_through(self.outer.get_item_dataset(idx))
+                return self.outer.pipe_through(self.outer.get_item_dataset(idx))
             else:
                 return self.outer.get_item_dataset(idx)
 
@@ -75,7 +74,7 @@ class DataAugmentDataLoader(ABC, DataLoader):
         DataLoader.__init__(self, dataset=self.dataset, batch_size=batch_size, num_workers=0, shuffle=shuffle)
 
 
-"""class custom_Dataset(Dataset):
+'''class custom_Dataset(Dataset):
      @abstractmethod
      def __init__(self, pipeline):
         self.pipeline = pipeline
@@ -90,9 +89,9 @@ class DataAugmentDataLoader(ABC, DataLoader):
 
      def __getitem__(self, idx):
         return self.pipeline(self.custom_getitem(idx), visualize=True)
-"""
+'''
 
-"""fig = plt.figure()
+'''fig = plt.figure()
 
 for i in range(len(face_dataset)):
     sample = face_dataset[i]
@@ -107,4 +106,4 @@ for i in range(len(face_dataset)):
 
     if i == 3:
         plt.show()
-        break"""
+        break'''
