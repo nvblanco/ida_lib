@@ -54,8 +54,8 @@ dataloader = test_dataloader(batch_size=4,
                              resize=(500, 326),
                              interpolation='bilinear',
                              padding_mode='zeros',
-                             csv_file='examples/faces/face_landmarks.csv',
-                             root_dir='examples/faces/'
+                             csv_file='ida_lib/faces/face_landmarks.csv',
+                             root_dir='ida_lib/faces/'
                              )
 
 # sample = face_dataset[1]
