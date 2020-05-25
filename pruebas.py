@@ -1,4 +1,4 @@
-from ida_lib.image_augmentation.DataLoader import *
+from ida_lib.image_augmentation.data_loader import *
 
 
 class test_dataloader(DataAugmentDataLoader):
