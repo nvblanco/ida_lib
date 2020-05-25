@@ -1,4 +1,5 @@
 <img src="https://github.com/raquelvilas18/ida_lib/blob/master/ida_lib/static/idaLib.png" alt="tittle" width="70%"/>
+<div style="text-align: right"> your-text-here </div>
 
 **IDA LIB (Image Data Augmentation Library)** es una librería escrita en Python destinada a optimizar la tarea de *Image Data Augmentation*. Esta herramienta permite convertir tu Dataset de entrada en uno más grande y diverso de manera eficiente, rápida y sencilla. 
 
@@ -94,4 +95,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Hat tip to anyone whose code was used
 * Inspiration
 * etc
-
+</div>
