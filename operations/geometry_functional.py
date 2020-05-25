@@ -87,6 +87,10 @@ def vflip_coordiantes_matrix(matrix: torch.tensor, heigth: int)-> torch.tensor:
 
 @prepare_data
 def vflip_compose_data(data: dict)->dict:
+    '''
+    :param data (dict) : dict of elements to be transformed
+    :return: transformed data
+    '''
     data['data2d'] = vflip_image(data['data2d'])
     heigth = data['data2d'].shape[-2]
     if data.keys().__contains__('points_matrix'):
@@ -105,6 +109,10 @@ def hflip_coordinates_matrix(matrix: torch.tensor, width: int)-> torch.tensor:
 
 @prepare_data
 def hflip_compose_data(data: dict) -> dict:
+    '''
+    :param data (dict) : dict of elements to be transformed
+    :return: transformed data
+    '''
     data['data2d'] = hflip_image(data['data2d'])
     width = data['data2d'].shape[-1]
     if data.keys().__contains__('points_matrix'):
@@ -121,6 +129,11 @@ def affine_coordinates_matrix(matrix_coordinates: torch.tensor, matrix_transform
 
 @prepare_data
 def affine_compose_data(data: dict, matrix: torch.tensor) -> dict:
+    '''
+    :param data     (dict)          : dict of elements to be transformed
+    :param matrix   (torch.tensor)  : matrix of transformation
+    :return: transformed data
+    '''
     matrix = matrix.to(device)
     data['data2d'] = affine_image(data['data2d'], matrix)
     if data.keys().__contains__('points_matrix'):
@@ -139,6 +152,12 @@ def rotate_coordinates_matrix(matrix_coordinates: torch.tensor, matrix: torch.te
 
 @prepare_data
 def rotate_compose_data(data: dict, degrees: torch.tensor, center: torch.tensor):
+    '''
+    :param data     (dict)          : dict of elements to be transformed
+    :param degrees  (torch.tensor)  : counterclockwise degrees of rotation
+    :param center   (torch.tensor)  : center of rotation. Default, center of the image
+    :return: transformed data
+    '''
     degrees = degrees * one_torch
     if center is None:
         center = utils.get_torch_image_center(data['data2d'])
@@ -151,7 +170,7 @@ def rotate_compose_data(data: dict, degrees: torch.tensor, center: torch.tensor)
         data['points_matrix'] = rotate_coordinates_matrix(data['points_matrix'], matrix)
     return data
 
-''' ---Scale Transform'''
+''' ---Scale Transform----'''
 def get_scale_matrix(center: torch.tensor, scale_factor: Union[float, torch.tensor]):
     if isinstance(scale_factor,
                   float) or scale_factor.dim() == 1:  # si solo se proporciona un valor; se escala por igual en ambos ejes
@@ -171,6 +190,12 @@ def scale_coordinates_matrix(matrix_coordinates: torch.tensor, matrix: torch.ten
 
 @prepare_data
 def scale_compose_data(data: dict, scale_factor: Union[float, torch.tensor], center: Union[torch.tensor, None]=None) -> dict:
+    '''
+    :param data         (dict)          : dict of elements to be transformed
+    :param scale_factor (float)         : factor of scaling
+    :param center       (torch tensor)  : center of scaling. By default its taken the center of the image
+    :return: transformed data
+    '''
     scale_factor = (torch.ones(1) * scale_factor).to(device)
     if center is None:
         center = utils.get_torch_image_center(data['data2d'])
@@ -194,6 +219,11 @@ def translate_coordinates_matrix(matrix_coordinates: torch.tensor, translation: 
 
 @prepare_data
 def translate_compose_data(data: dict, translation: Union[int, torch.tensor]) -> dict:
+    '''
+    :param data         (dict)          : dict of elements to be transformed
+    :param translation  (torch.tensor)  : number of pixels to translate
+    :return: transformed data
+    '''
     if not torch.is_tensor(translation):
         translation = (torch.tensor(translation).float().reshape((1, 2)))
     translation = translation.to(device)
@@ -218,6 +248,12 @@ def shear_coordinates_matrix(matrix_coordinates: torch.tensor, matrix: torch.ten
 
 @prepare_data
 def shear_compose_data(data: dict, shear_factor: Union[float, torch.tensor]) -> dict:
+    '''
+
+    :param data         (dict)          : dict of elements to be transformed
+    :param shear_factor (torch.tensor)  : pixels of shearing
+    :return:
+    '''
     shear_factor = (torch.tensor(shear_factor).reshape(1,2)).to(device)
     matrix = get_shear_matrix(shear_factor)
     data['data2d'] = shear_image(data['data2d'], matrix)
