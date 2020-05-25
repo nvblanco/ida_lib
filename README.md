@@ -1,6 +1,6 @@
 # IDA LIB (Image Data Augmentation Library)
 
-![alt text](https://github.com/raquelvilas18/ida_lib/blob/master/ida_lib/static/idaLib.png =100x20)
+![alt text](https://github.com/raquelvilas18/ida_lib/blob/master/ida_lib/static/idaLib.png=100x20)
 
 Una librería para el *Image Data Augmentation* de manera eficiente, rápida y sencilla. Ida Lib permite la realización de gran variedad de operaciones para dotar de la mayor diversidad posible al dataset de entrada. 
 
