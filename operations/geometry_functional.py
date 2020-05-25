@@ -1,10 +1,9 @@
 from functools import wraps
+from typing import Union
 
 import kornia
 from string import digits
-import numpy as np
 import torch
-
 from image_augmentation import visualization
 from . import utils
 
@@ -16,12 +15,20 @@ one_torch = torch.ones(1).to(device)
 
 
 def prepare_data(func):
+    '''
+    Decorator that prepares the input data to apply the geometric transformation. For this purpose, it concatenates all
+    the two-dimensional elements of the input data in the same tensor on which a single transformation is applied.  If
+    the input data contains point coordinates, they are grouped in a matrix as homogeneous coordinates, over which a
+    single matrix multiplication is performed.
+
+    :param func: geometric function to be applied to the data
+    :return: processed data
+    '''
 
     @wraps(func)
-    def wrapped_function(data, visualize,  *args, **kwargs):
+    def wrapped_function(data: dict, visualize: bool,  *args, **kwargs):
         process_data = {}
         process_data['points'] = None
-        result_data = {}
         if visualize:
             process_data['original'] = data
         if isinstance(data, dict):
@@ -49,7 +56,7 @@ def prepare_data(func):
                 process_data['types_2d'] = {}
                 process_data['types_2d']['image'] = data.shape[0]
         data_output = func(process_data, *args, **kwargs) #Execute transform
-        #return result
+
         data_output['data2d'] = data_output['data2d'].cpu()
         if data_output.keys().__contains__('types_2d'):
             data_process = {}
@@ -70,16 +77,16 @@ def prepare_data(func):
 
 
 '''---Vertical Flip---'''
-def vflip_image(img):
+def vflip_image(img: torch.tensor)-> torch.tensor:
     return kornia.vflip(img)
 
-def vflip_coordiantes_matrix(matrix, heigth):
+def vflip_coordiantes_matrix(matrix: torch.tensor, heigth: int)-> torch.tensor:
     matrix[1] = torch.ones(1, matrix.shape[1]).to(device) * (heigth) - \
     matrix[1]
     return matrix
 
 @prepare_data
-def vflip_compose_data(data):
+def vflip_compose_data(data: dict)->dict:
     data['data2d'] = vflip_image(data['data2d'])
     heigth = data['data2d'].shape[-2]
     if data.keys().__contains__('points_matrix'):
@@ -88,16 +95,16 @@ def vflip_compose_data(data):
 
 '''--- Horizontal Flip---'''
 
-def hflip_image(img):
+def hflip_image(img: torch.tensor)-> torch.tensor:
     return kornia.hflip(img)
 
-def hflip_coordinates_matrix(matrix, width):
+def hflip_coordinates_matrix(matrix: torch.tensor, width: int)-> torch.tensor:
     matrix[0] = torch.ones(1, matrix.shape[1]).to(device) * (width) - \
                                matrix[0]
     return matrix
 
 @prepare_data
-def hflip_compose_data(data):
+def hflip_compose_data(data: dict) -> dict:
     data['data2d'] = hflip_image(data['data2d'])
     width = data['data2d'].shape[-1]
     if data.keys().__contains__('points_matrix'):
@@ -106,14 +113,14 @@ def hflip_compose_data(data):
 
 ''' --- Afine transform ---'''
 
-def affine_image(img, matrix):
+def affine_image(img: torch.tensor, matrix: torch.tensor)-> torch.tensor:
     return  kornia.geometry.affine(img, matrix)
 
-def affine_coordinates_matrix(matrix_coordinates, matrix_transformation):
+def affine_coordinates_matrix(matrix_coordinates: torch.tensor, matrix_transformation: torch.tensor) -> torch.tensor:
     return torch.matmul(matrix_transformation, matrix_coordinates)
 
 @prepare_data
-def affine_compose_data(data, matrix):
+def affine_compose_data(data: dict, matrix: torch.tensor) -> dict:
     matrix = matrix.to(device)
     data['data2d'] = affine_image(data['data2d'], matrix)
     if data.keys().__contains__('points_matrix'):
@@ -121,17 +128,17 @@ def affine_compose_data(data, matrix):
     return data
 
 ''' --- Rotate transform --- '''
-def get_rotation_matrix(center, degrees):
+def get_rotation_matrix(center: torch.tensor, degrees: torch.tensor):
     return ( kornia.geometry.get_rotation_matrix2d(angle=degrees, center=center, scale=one_torch)).reshape(2, 3)
 
-def rotate_image(img, degrees, center):
+def rotate_image(img: torch.tensor, degrees: torch.tensor, center: torch.tensor)-> torch.tensor:
     return  kornia.geometry.rotate(img, angle=degrees, center=center)
 
-def rotate_coordinates_matrix(matrix_coordinates, matrix):
+def rotate_coordinates_matrix(matrix_coordinates: torch.tensor, matrix: torch.tensor)-> torch.tensor:
     return torch.matmul(matrix, matrix_coordinates)
 
 @prepare_data
-def rotate_compose_data(data, degrees, center):
+def rotate_compose_data(data: dict, degrees: torch.tensor, center: torch.tensor):
     degrees = degrees * one_torch
     if center is None:
         center = utils.get_torch_image_center(data['data2d'])
@@ -145,7 +152,7 @@ def rotate_compose_data(data, degrees, center):
     return data
 
 ''' ---Scale Transform'''
-def get_scale_matrix(center, scale_factor):
+def get_scale_matrix(center: torch.tensor, scale_factor: Union[float, torch.tensor]):
     if isinstance(scale_factor,
                   float) or scale_factor.dim() == 1:  # si solo se proporciona un valor; se escala por igual en ambos ejes
         scale_factor = torch.ones(2).to(device) * scale_factor
@@ -156,14 +163,14 @@ def get_scale_matrix(center, scale_factor):
     matrix[1, 2] = (-scale_factor[1] + 1) * center[:, 1]
     return matrix
 
-def scale_image(img, scale_factor, center):
+def scale_image(img: torch.tensor, scale_factor: torch.tensor, center: torch.tensor) -> torch.tensor:
     return  kornia.geometry.scale(img, scale_factor=scale_factor, center=center)
 
-def scale_coordinates_matrix(matrix_coordinates, matrix):
+def scale_coordinates_matrix(matrix_coordinates: torch.tensor, matrix: torch.tensor) -> torch.tensor:
     return torch.matmul(matrix, matrix_coordinates)
 
 @prepare_data
-def scale_compose_data(data, scale_factor, center=None):
+def scale_compose_data(data: dict, scale_factor: Union[float, torch.tensor], center: Union[torch.tensor, None]=None) -> dict:
     scale_factor = (torch.ones(1) * scale_factor).to(device)
     if center is None:
         center = utils.get_torch_image_center(data['data2d'])
@@ -175,10 +182,10 @@ def scale_compose_data(data, scale_factor, center=None):
     return data
 
 ''' --- Translation transform ---'''
-def translate_image(img, translation):
+def translate_image(img: torch.tensor, translation: torch.tensor)-> torch.tensor:
     return kornia.geometry.translate(img, translation)
 
-def translate_coordinates_matrix(matrix_coordinates, translation):
+def translate_coordinates_matrix(matrix_coordinates: torch.tensor, translation: torch.tensor) -> torch.tensor:
     matrix = torch.zeros((3, matrix_coordinates.shape[1])).to(device)
     row = torch.ones((1, matrix_coordinates.shape[1])).to(device)
     matrix[0] = row * translation[:, 0]
@@ -186,7 +193,7 @@ def translate_coordinates_matrix(matrix_coordinates, translation):
     return  matrix_coordinates + matrix
 
 @prepare_data
-def translate_compose_data(data, translation):
+def translate_compose_data(data: dict, translation: Union[int, torch.tensor]) -> dict:
     if not torch.is_tensor(translation):
         translation = (torch.tensor(translation).float().reshape((1, 2)))
     translation = translation.to(device)
@@ -197,20 +204,20 @@ def translate_compose_data(data, translation):
 
 
 ''' --- Shear Transform ---'''
-def get_shear_matrix(shear_factor):
+def get_shear_matrix(shear_factor: torch.tensor) -> torch.tensor:
     matrix = torch.eye(2, 3).to(device)
     matrix[0, 1] = shear_factor[...,0]
     matrix[1, 0] = shear_factor[...,1]
     return matrix
 
-def shear_image(img, shear_factor):
+def shear_image(img: torch.tensor, shear_factor: torch.tensor) -> torch.tensor:
     return kornia.geometry.affine(img, shear_factor)
 
-def shear_coordinates_matrix(matrix_coordinates, matrix):
+def shear_coordinates_matrix(matrix_coordinates: torch.tensor, matrix: torch.tensor) -> torch.tensor:
     return  torch.matmul(matrix, matrix_coordinates)
 
 @prepare_data
-def shear_compose_data(data, shear_factor):
+def shear_compose_data(data: dict, shear_factor: Union[float, torch.tensor]) -> dict:
     shear_factor = (torch.tensor(shear_factor).reshape(1,2)).to(device)
     matrix = get_shear_matrix(shear_factor)
     data['data2d'] = shear_image(data['data2d'], matrix)
