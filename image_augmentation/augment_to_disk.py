@@ -12,16 +12,17 @@ class AgmentToDisk(object):
     '''
     The AgmentToDisk object allows to perform Data Image Augmentation directly to disk. That is, to save the images generated to disk to be used in future processes.
     '''
+
     def __init__(self,
-                 dataset: Dataset,
-                 samples_per_item: int=2,
-                 operations: Union[list, None] =None,
-                 interpolation: str ='bilinear',
-                 padding_mode: str='zeros',
-                 resize: Union[tuple, None] =None,
-                 output_extension: str = '.jpg',
-                 output_csv_path: str='anotations.csv',
-                 output_path: str = './augmented'
+                 dataset:           Dataset,
+                 samples_per_item:  int = 2,
+                 operations:        Union[list, None] = None,
+                 interpolation:     str = 'bilinear',
+                 padding_mode:      str = 'zeros',
+                 resize:            Union[tuple, None] = None,
+                 output_extension:  str = '.jpg',
+                 output_csv_path:   str = 'anotations.csv',
+                 output_path:       str = './augmented'
                  ):
         '''
 
@@ -107,13 +108,14 @@ class AgmentToDisk(object):
             if self.types2d is None:
                 self.types2d, self.other_types = self.pipeline.get_data_types()
             for index, item in enumerate(augmented):
-                self.save_item(item, index, types_2d=self.types2d, other_types=self.other_types, output_path=self.output_path)
+                self.save_item(item, index, types_2d=self.types2d, other_types=self.other_types,
+                               output_path=self.output_path)
         self.final_save()
         total_images = len(self.dataset) * self.samples_per_item
         print("Generated " + str(total_images) + " new images from the original dataset.")
 
 
-#samples_per_item = 5
+# samples_per_item = 5
 
 
 class FaceLandmarksDataset(Dataset):
@@ -153,17 +155,17 @@ class FaceLandmarksDataset(Dataset):
 face_dataset = FaceLandmarksDataset(csv_file='../faces/face_landmarks.csv',
                                     root_dir='../faces/')
 
-augmentor = AgmentToDisk(dataset = face_dataset,
-                 samples_per_item=50,
-                 operations=(randomScalePipeline(probability=0.6, scale_range=(0.8, 1.2), center_desviation=20),
-                             hflipPipeline(probability=0.5),
-                             randomContrastPipeline(probability=0.5, contrast_range=(1,1.5))),
-                 interpolation='nearest',
-                 padding_mode='zeros',
-                 resize=None,
-                 output_extension = '.jpg',
-                 output_csv_path='anotations.csv',
-                 output_path = './augmented_custom')
+augmentor = AgmentToDisk(dataset=face_dataset,
+                         samples_per_item=50,
+                         operations=(randomScalePipeline(probability=0.6, scale_range=(0.8, 1.2), center_desviation=20),
+                                     hflipPipeline(probability=0.5),
+                                     randomContrastPipeline(probability=0.5, contrast_range=(1, 1.5))),
+                         interpolation='nearest',
+                         padding_mode='zeros',
+                         resize=None,
+                         output_extension='.jpg',
+                         output_csv_path='anotations.csv',
+                         output_path='./augmented_custom')
 
 augmentor()
 

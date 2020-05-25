@@ -126,7 +126,7 @@ def get_compose_function(operations: list) -> np.ndarray:
     returns the LUT table with the correspondence of each possible value
     according to the color operations to be implemented (according to their probability)
     :param operations   (list)  : list of pipeline operations
-    :return:
+    :return: compose function
     '''
     funcs = [op.transform_function for op in operations if op.apply_according_to_probability()]
     compose_function = functools.reduce(lambda f, g: lambda x: f(g(x)), tuple(funcs), lambda x: x)
@@ -143,9 +143,9 @@ def preprocess_dict_data(data: list, batch_info: dict) -> list:
     that allows applying the geometric operations in a single joint operation on the data
     and another on the points.
     * Loads the data as tensor in GPU to prepare them as input to a neural network
-    :param data:
-    :param batch_info:
-    :return:
+    :param data             (list)  : list of elements to be tranformed through the pipe
+    :param batch_info       (dict)  : dict with necesary information about the batch data
+    :return: preprocessed data
     '''
     p_data = {}
     compose_data = torch.tensor([])
@@ -181,10 +181,10 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
      * Loads the data as tensor in GPU to prepare them as input to a neural network
      * Analyze the data info required for the transformations (shape, bpp...)
      * Resize the 2d data and keypoints to the new shape
-    :param data:
-    :param new_size:
-    :param interpolation:
-    :return:
+    :param data             (list)  : list of elements to be tranformed through the pipe
+    :param new_size         (tuple) : desired output size for bidimensional data
+    :param interpolation    (str)   : desired interpolation mode to be applied
+    :return: preprocessed and resized data, and dict with batch info
     '''
     p_data = {}
     data_info = {}
@@ -244,9 +244,9 @@ def preprocess_dict_data_with_resize(data: list, batch_info: dict) -> list:
     and another on the points.
     * Loads the data as tensor in GPU to prepare them as input to a neural network
     * Resize the 2d data and keypoints to the new shape
-    :param data:
-    :param batch_info:
-    :return:
+    :param data         (list)  : list of elements to be tranformed through the pipe
+    :param batch_info   (dict)  : dict with necesary information about the batch data
+    :return: preprocessed and resized data
     '''
     p_data = {}
     compose_data = torch.tensor([], dtype=internal_type)
@@ -283,9 +283,9 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
         * Loads the data as tensor in GPU to prepare them as input to a neural network
         * Analyze the data info required for the transformations (shape, bpp...)
         * Add to the predetermined list of type names numbered names like 'mask2' to make posible to have multiple mask or elements of a single type
-    :param data:
-    :param interpolation:
-    :return:
+    :param data             (list)  : list of elements to be tranformed through the pipe
+    :param interpolation    (str)   : type of interpolation to be applied
+    :return: preprocesed data and dict of data info
     '''
     p_data = {}
     data_info = {}
@@ -346,9 +346,9 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
 def postprocess_data(batch: list, batch_info: dict) -> list:
     '''
     Restores the data to the original form; separating the matrix into the different 2d input data and point coordinates.
-    :param batch:
-    :param batch_info:
-    :return:
+    :param batch        (list) : list of elements to be tranformed through the pipe
+    :param batch_info   (dict) : dict with necesary information about the batch data
+    :return: processed data
     '''
     process_data = []
     for data in batch:
@@ -378,10 +378,10 @@ def postprocess_data_and_visualize(batch: list, data_original: list, batch_info:
     '''
     Restores the data to the original form; separating the matrix into the different 2d input data and point coordinates.
     * Call the visualization tool with the original and transformated data
-    :param batch:
-    :param data_original:
-    :param batch_info:
-    :return:
+    :param batch          (list)    : list of elements to be tranformed through the pipe
+    :param data_original  (list)    : list of original batch elements
+    :param batch_info     (dict)    : dict with necesary information about the batch data
+    :return: processed data
     '''
     process_data = []
     for data in batch:

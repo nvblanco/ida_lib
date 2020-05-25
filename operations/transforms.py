@@ -82,9 +82,9 @@ def change_brigntness(data: Union[dict, torch.Tensor, np.ndarray], brigth=1, vis
 def change_gamma(data: Union[dict, torch.Tensor, np.ndarray], gamma, visualize: bool = False) -> Union[
     dict, torch.Tensor, np.ndarray]:
     ''' adjust image's gamma (luminance correction) . if the input data is a dictionary, only those corresponding to an image are altered
-              * gamma = 0 -> removes image brigthness (balck output image)
+              * gamma = 0 -> removes image luminance (balck output image)
               * gamma = 1 -> remains unchanged
-              * gamma > 1 -> increases brigthness'''
+              * gamma > 1 -> increases luminance'''
     return color_functional.change_gamma(data, gamma=gamma, visualize=visualize)
 
 

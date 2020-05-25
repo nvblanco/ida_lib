@@ -79,12 +79,16 @@ class pipeline(object):
         ''' Returns the tuple of data types identified on the input data'''
         return self.info_data['present_types']
 
-    '''
-    Applies the transformations to the input image batch. 
-        *   If it is the first batch entered into the pipeline, the information about the type of input data 
-            is analyzed and the different pipeline parameters are set (size of the images, labels, bits per pixel..)'''
 
     def __call__(self, batch_data: Union[list, dict], visualize: bool = False) -> Union[dict, list]:
+        '''
+        Applies the transformations to the input image batch.
+        *   If it is the first batch entered into the pipeline, the information about the type of input data
+            is analyzed and the different pipeline parameters are set (size of the images, labels, bits per pixel..)
+        :param batch_data (list)    : list of elements to be tranformed through the pipe
+        :param visualize  (bool)    : it allows to display the web visualization tool of performed transformations
+        :return: transformed batch
+        '''
 
         if not isinstance(batch_data, list): batch_data = [batch_data]
         if visualize: original = [d.copy() for d in batch_data]  # copy the original batch to diplay on visualization
