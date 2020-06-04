@@ -1,4 +1,12 @@
+from ida_lib.core.pipeline_operations import *
 from ida_lib.image_augmentation.data_loader import *
+import matplotlib.pyplot as plt
+import torch
+from skimage import io
+import kornia
+import pandas as pd
+import os
+import numpy as np
 
 
 class test_dataloader(DataAugmentDataLoader):
@@ -19,14 +27,17 @@ class test_dataloader(DataAugmentDataLoader):
         landmarks = self.landmarks_frame.iloc[idx, 1:]
         landmarks = np.array([landmarks])
         landmarks = landmarks.astype('float').reshape(-1, 2)
-        sample = {'image': image, 'keypoints': landmarks}
+        sample = {'id': self.landmarks_frame.iloc[idx, 0], 'image': image, 'keypoints': landmarks}
         return sample
 
 
 def show_landmarks(image, landmarks):
     """Show image with landmarks"""
-    plt.imshow(image)
-    plt.scatter(landmarks[:, 0], landmarks[:, 1], s=10, marker='.', c='r')
+    img= kornia.tensor_to_image(image.byte())
+    plt.imshow(img)
+    landmarks = landmarks.cpu().numpy()
+    plt.scatter(landmarks[:, 0], landmarks[:, 1], s=10, marker='o', c='r')
+    plt.show()
     plt.pause(0.001)  # pause a bit so that plots are updated
 
 
@@ -49,16 +60,18 @@ dataloader = test_dataloader(batch_size=4,
                              shuffle=True,
                              pipeline_operations=(
                                  TranslatePipeline(probability=0, translation=(3, 1)),
-                                 VflipPipeline(probability=1),
-                                 HflipPipeline(probability=1)),
+                                 VflipPipeline(probability=0),
+                                 HflipPipeline(probability=0)),
                              resize=(500, 326),
                              interpolation='bilinear',
                              padding_mode='zeros',
-                             csv_file='ida_lib/faces/face_landmarks.csv',
-                             root_dir='ida_lib/faces/'
+                             csv_file='./faces/face_landmarks.csv',
+                             root_dir='./faces/'
                              )
 
-# sample = face_dataset[1]
+#sample = dataloader[1]
 for i_batch, sample_batched in enumerate(dataloader):
     print(i_batch, )
+    keypoints = sample_batched[0]['keypoints'][0,:,:]
+    show_landmarks(sample_batched[0]['image'][0], keypoints)
 print('holi')

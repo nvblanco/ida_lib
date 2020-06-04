@@ -1,8 +1,6 @@
 import numpy as np
 from ida_lib.core.pipeline import *
-from ida_lib.core.pipeline_geometric_ops import  *
-from ida_lib.core.pipeline_local_ops import  *
-
+from ida_lib.core.pipeline_operations import *
 
 img: np.ndarray = cv2.imread('../micky.jpg', )
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -42,7 +40,7 @@ points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 
 # data = color.equalize_histogram(data, visualize=True)
 #data = {'image': img, 'mask': segmap2, 'mask2': segmap, 'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
-data = {'image': img, 'mask': segmap, 'keypoints': points, 'heatmap': heatmap_complete}
+data = {'image': img, 'mask': segmap}
 samples = 20
 
 batch = [data.copy() for _ in range(samples)]
@@ -51,14 +49,21 @@ batch2 = [data.copy() for _ in range(samples)]
 from time import time
 
 start_time = time()
+'''pip = pipeline(ipadding_mode='zeros', pipeline_operations=(
+    TranslatePipeline(probability=0, translation=(3, 1)),
+    VflipPipeline(probability=0.5),
+    HflipPipeline(probability=0.5),
+    ContrastPipeline(probability=0.6, contrast_factor=1),
+    RandomBrightnessPipeline(probability=0.7, brightness_range=(1, 1.2)))
+)
+'''
 
 pip = pipeline(interpolation='bilinear', pipeline_operations=(
-    ScalePipeline(probability=0, scale_factor=0.5),
-    RotatePipeline(probability=0, degrees=40),
-SpekleNoisePipeline(probability=1)))
+    ScalePipeline(probability=1, scale_factor=0.5),
+    RotatePipeline(probability=0, degrees=40)))
 
 batch = pip(batch, visualize=True)
-batch2 = pip(batch2, visualize=False)
+#batch2 = pip(batch2, visualize=False)
 
 consumed_time = time() - start_time
 print(consumed_time)
