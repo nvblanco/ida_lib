@@ -27,7 +27,7 @@ def element_to_dict_csv_format(item, name):
     return output_dict
 
 
-'''Returns a tensor (two-dimensional) of the coordinates of the center of the input image '''
+"""Returns a tensor (two-dimensional) of the coordinates of the center of the input image """
 def get_torch_image_center(data):
     center = torch.ones(1, 2)
     center[..., 0] = data.shape[-2] // 2  # x
@@ -41,6 +41,14 @@ def map_value(x, in_min, in_max, out_min, out_max):
 def keypoints_to_homogeneus_functional(keypoints):
     if keypoints[0].dim() == 1: keypoints = [point.reshape(2, 1) for point in keypoints]
     return tuple([torch.cat((point.float(), torch.ones(1, 1)), axis=0).to(device) for point in keypoints])
+
+def homogeneus_points_to_matrix(keypoints):
+    return torch.transpose(keypoints[:2,:], 0, 1)
+    """matrix = kornia.tensor_to_image(keypoints)
+    return (matrix[:2, :]).transpose()"""
+
+def homogeneus_points_to_list(keypoints):
+    return [((dato)[:2, :]).reshape(2) for dato in torch.split(keypoints, 1, dim=1)]
 
 
 def keypoints_to_homogeneus_and_concatenate(keypoints):
@@ -57,9 +65,9 @@ def keypoints_to_homogeneus_and_concatenate(keypoints):
 
 def keypoints_to_homogeneus_and_concatenate_with_resize(keypoints, resize_factor):
     if type(keypoints) is np.ndarray:
-        keypoints = keypoints.reshape(keypoints.shape[1], keypoints.shape[0])
+        keypoints = keypoints.transpose()
         ones = np.ones((1, keypoints.shape[1]))
-        compose_data = torch.tensor(np.concatenate((keypoints, ones), axis=0), dtype=torch.float).to(device)
+        compose_data = torch.tensor(np.concatenate(((keypoints[0,:] * resize_factor[0]).reshape(1,keypoints.shape[1]),(keypoints[1,:] * resize_factor[1]).reshape(1,keypoints.shape[1]),  ones), axis=0), dtype=torch.float).to(device)
     else:
         if keypoints[0].dim() == 1: keypoints = [point.reshape(2, 1) for point in keypoints]
         keypoints = tuple([(torch.cat((torch.tensor((point[0].float() * resize_factor[0] , point[1].float() * resize_factor[1])).reshape(2,1) , torch.ones(1, 1)), axis=0).to(device)) for point in keypoints])
@@ -144,7 +152,7 @@ def apply_gaussian_blur(img, blur_size=(5, 5)):
 def _apply_blur(img,  blur_size=(5, 5)):
     return cv2.blur(img, (5,5))
 
-'''source; https://stackoverflow.com/questions/22937589/how-to-add-noise-gaussian-salt-and-pepper-etc-to-image-in-python-with-opencv'''
+"""source; https://stackoverflow.com/questions/22937589/how-to-add-noise-gaussian-salt-and-pepper-etc-to-image-in-python-with-opencv"""
 def noisy(noise_typ, image):
     if noise_typ == "gauss":
         row, col, ch = image.shape

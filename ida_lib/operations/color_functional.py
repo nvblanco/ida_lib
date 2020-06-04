@@ -12,11 +12,11 @@ device = utils.device
 
 
 def prepare_data_for_opencv(func):
-    '''
+    """
     Decorator that prepares the input data to apply the transformation that only affects the image (color).
     :param func: color function to be applied to the data
     :return: processed data
-    '''
+    """
 
     @wraps(func)
     def wrapped_function(image: Union[dict, torch.tensor, np.ndarray], visualize: bool, *args, **kwargs) -> Union[
@@ -53,12 +53,12 @@ def prepare_data_for_opencv(func):
 
 
 def apply_lut_by_pixel_function(function, image: np.ndarray) -> np.ndarray:
-    '''
+    """
     Applies the input operation to the image using a LUT
     :param function (lambda func)   : Mathematical function that represents the operation to carry out in each pixel of the image
     :param image    (ndarray)       : input image
     :return:
-    '''
+    """
     lookUpTable = np.empty((1, 256), np.int16)
     for i in range(256):
         lookUpTable[0, i] = function(i)
@@ -69,27 +69,27 @@ def apply_lut_by_pixel_function(function, image: np.ndarray) -> np.ndarray:
 
 @prepare_data_for_opencv
 def normalize_image(img: np.ndarray, norm_type: int = cv2.NORM_MINMAX) -> np.ndarray:
-    '''
+    """
     Normalize the input image
     :param img          (ndarray)   : input image to be normalized
     :param norm_type    (int)       : opencv normalization type (' cv2.NORM_MINMAX' |cv2.NORM_HAMMING |cv2.NORM_HAMMING2 |cv2.NORM_INF |cv2.NORM_RELATIVE ...)
     :return: normalized image
-    '''
+    """
     return cv2.normalize(img, None, alpha=0, beta=1, norm_type=norm_type, dtype=cv2.CV_32F)
 
 
 def get_brigthness_function(brightness: int):
-    '''
+    """
     :param brightness: brigthness factor
     :return:    Return the lambda function of the brigthness operation
-    '''
+    """
     return lambda x: x + brightness
 
 
 @prepare_data_for_opencv
 def change_brigthness(image: Union[dict, torch.tensor, np.ndarray], brightness: int) -> Union[
     dict, torch.tensor, np.ndarray]:
-    '''
+    """
     Change the brigthness of the input image.
     :param image        (ndarray)   : input image to be normalized
     :param brightness   (float)     : desired amount of brightness for the image
@@ -97,14 +97,14 @@ def change_brigthness(image: Union[dict, torch.tensor, np.ndarray], brightness: 
                  1 - same
                  2 - max brightness
     :return: trasnformed image
-    '''
+    """
     brightness = utils.map_value(brightness, 0, 2, -256, 256)
     return apply_lut_by_pixel_function(get_brigthness_function(brightness), image)
 
 
 @prepare_data_for_opencv
 def change_contrast(image: Union[dict, torch.tensor, np.ndarray], contrast) -> Union[dict, torch.tensor, np.ndarray]:
-    '''
+    """
 
     :param image        (ndarray)   : input image to be transformed
     :param contrast_factor (float) : modification factor to be applied to the image contrast
@@ -112,119 +112,119 @@ def change_contrast(image: Union[dict, torch.tensor, np.ndarray], contrast) -> U
             * 1  - dont modify
             * >1 - aument contrast
     :return: returns the transformed image
-    '''
+    """
     return apply_lut_by_pixel_function(get_contrast_function(contrast), image)
 
 
 def get_contrast_function(contrast: float):
-    '''
+    """
 
     :param contrast_factor (float) : modification factor to be applied to the image contrast
     :return: Return the lambda function of the contrast operation
-    '''
+    """
     return lambda x: contrast * (x - 255) + 255
 
 
 @prepare_data_for_opencv
 def change_gamma(image: Union[dict, torch.tensor, np.ndarray], gamma : float) -> Union[dict, torch.tensor, np.ndarray]:
-    '''
+    """
     :param image        (ndarray)   : input image to be transformed
     :param gamma        (float)     : desired factor gamma
             * gamma = 0 -> removes image luminance (balck output image)
             * gamma = 1 -> remains unchanged
             * gamma > 1 -> increases luminance
     :return: returns the transformed image
-    '''
+    """
     return apply_lut_by_pixel_function(get_gamma_function(gamma), image)
 
 
 def get_gamma_function(gamma):
-    '''
+    """
     :param gamma        (float)     : desired factor gamma
     :return: Returns the lambda function of the gamma adjust operation
-    '''
+    """
     return lambda x: pow(x / 255, gamma) * 255
 
 
 @prepare_data_for_opencv
 def gaussian_noise(image: Union[dict, torch.tensor, np.ndarray], var=20) -> Union[dict, torch.tensor, np.ndarray]:
-    '''
+    """
     :param image        (ndarray)   : input image to be transformed
     :param var          (float)     : var of the gaussian distribution of noise
     :return: returns the transformed image
-    '''
+    """
     return _apply_gaussian_noise(image, var)
 
 
 @prepare_data_for_opencv
 def salt_and_pepper_noise(image: Union[dict, torch.tensor, np.ndarray], amount, s_vs_p) -> Union[
     dict, torch.tensor, np.ndarray]:
-    '''
+    """
     :param image        (ndarray)   : input image to be transformed
     :param amount       (float)     : percentage of image's pixels to be occupied by noise
     :param s_vs_p       (float)     : percentage of salt respect total noise. Default same salt (white pixel) as pepper (black pixels)
     :return: returns the transformed image
-    '''
+    """
     return _apply_salt_and_pepper_noise(image, amount, s_vs_p)
 
 
 @prepare_data_for_opencv
 def poisson_noise(image: Union[dict, torch.tensor, np.ndarray]) -> Union[dict, torch.tensor, np.ndarray]:
-    '''
+    """
     :param image        (ndarray)   : input image to be transformed
     :return: returns the transformed image
-    '''
+    """
     return _apply_poisson_noise(image)
 
 
 @prepare_data_for_opencv
 def spekle_noise(image: Union[dict, torch.tensor, np.ndarray], mean=0, var=0.01) -> Union[
     dict, torch.tensor, np.ndarray]:
-    '''
+    """
     :param image        (ndarray)   : input image to be transformed
     :param mean         (float)     : mean of noise distribution
     :param var          (float)     : varianze of noise distribution
     :return: returns the transformed image
-    '''
+    """
     return _apply_spekle_noise(image, mean, var)
 
 
 @prepare_data_for_opencv
 def histogram_equalization(img: Union[dict, torch.tensor, np.ndarray]) -> Union[dict, torch.tensor, np.ndarray]:
-    '''
+    """
     :param img          (ndarray)   : input image to be transformed
     :return: returns the transformed image
-    '''
+    """
     for channel in range(img.shape[2]): img[..., channel] = cv2.equalizeHist(img[..., channel])
     return img
 
 
 @prepare_data_for_opencv
 def gaussian_blur(img: Union[dict, torch.tensor, np.ndarray], blur_size) -> Union[dict, torch.tensor, np.ndarray]:
-    '''
+    """
     :param img          (ndarray)   : input image to be transformed
     :param blur_size    (tuple)     : number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)
     :return: returns the transformed image
-    '''
+    """
     return apply_gaussian_blur(img, blur_size)
 
 
 @prepare_data_for_opencv
 def blur(img: Union[dict, torch.tensor, np.ndarray], blur_size) -> Union[dict, torch.tensor, np.ndarray]:
-    '''
+    """
     :param img          (ndarray)   : input image to be transformed
     :param blur_size    (tuple)     : number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)
     :return: returns the transformed image
-    '''
+    """
     return apply_gaussian_blur(img, blur_size)
 
 
 def apply_gaussian_blur(img, blur_size=(5, 5)):
-    '''
+    """
     :param img          (ndarray)   : input image to be transformed
     :param blur_size    (tuple)     :
     :return:
-    '''
+    """
     return cv2.GaussianBlur(img, blur_size, cv2.BORDER_DEFAULT)
 
 
@@ -275,7 +275,7 @@ def _apply_spekle_noise(image, mean=0, var=0.01):
     return noisy
 
 
-'''
+"""
 class color_transform(object):
     def __init__(self, image, visualize = False):
         if isinstance(image, dict):
@@ -450,8 +450,8 @@ class spekle_noise(color_transform):
     def __call__(self, *args, **kwargs):
         self.image = utils._apply_spekle_noise(self.image)
         return self.postprocess_data()
-'''
-'''class histogram_equalization(color_transform):
+"""
+"""class histogram_equalization(color_transform):
     def __init__(self, image, visualize = False):
         color_transform.__init__(self, image, visualize)
 
@@ -463,4 +463,4 @@ class spekle_noise(color_transform):
 
         # convert the YUV image back to RGB format
         self.image = cv2.cvtColor(self.image, cv2.COLOR_YUV2BGR)
-        return self.postprocess_data()'''
+        return self.postprocess_data()"""
