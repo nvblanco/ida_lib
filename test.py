@@ -51,7 +51,7 @@ data = transforms.hflip(data, True)
 from time import time
 
 
-'''
+"""
 
 
 from operations import utils
@@ -74,7 +74,7 @@ data_warped = geometry.vflip(data, True)
 #data_warped = geometry.rotate(data, degrees=25,visualize=True)
 #data_warped: torch.tensor = geometry.rotate(data_warped, 30)
 # convert back to numpy
-img_warped: np.ndarray = kornia.tensor_to_image(data_warped['image'].byte()[0])'''
+img_warped: np.ndarray = kornia.tensor_to_image(data_warped['image'].byte()[0])"""
 
 # create the plot
 img_warped: np.ndarray = kornia.tensor_to_image(data['image'].byte()[0])
@@ -98,7 +98,7 @@ plt.show()
 
 
 
-'''
+"""
 image = torch.rand(2, 50 , 50)
 keypoints = (torch.rand(1,2), torch.rand(1,2))
 
@@ -138,4 +138,4 @@ degrees = 20
 data= kornia.geometry.rotate(image, angle=degrees*torch.ones(1))
 
 
-'''
+"""

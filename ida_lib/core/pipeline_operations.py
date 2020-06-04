@@ -40,10 +40,10 @@ pixel_value_range = (0, 127, 255)  # Default uint8
 
 
 class PipelineOperation(ABC):
-    '''Abstract class of pipeline operations'''
+    """Abstract class of pipeline operations"""
 
     def __init__(self, type: str, probability: float = 1):
-        '''
+        """
         :param type (str) : internal parameter to determine how to treat each operation.
             'geometry' | 'color' | 'Normalize' | 'Independient'
                 - Geometry      : operations that can be applied by transformation matrix
@@ -51,7 +51,7 @@ class PipelineOperation(ABC):
                 - Normalize     : normalization operation to be applied last within color operations
                 - Independient  : concrete operations with direct implementations
         :param probability (float) : probability of applying the transform. Default: 1.
-        '''
+        """
         self.probability = probability
         self.type = type
 
@@ -63,30 +63,30 @@ class PipelineOperation(ABC):
     def get_op_type(self):
         return self.type
 
-    ''' returns a boolean based on a random number that determines whether or not to apply the operation'''
+    """ returns a boolean based on a random number that determines whether or not to apply the operation"""
 
     def apply_according_to_probability(self) -> bool:
         return random.uniform(0, 1) < self.probability
 
 
-'''
+"""
 --------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------COLOR OPERATIONS-------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------
-'''
+"""
 
 
 class ContrastPipeline(PipelineOperation):
-    '''Change the contrast of the input image.'''
+    """Change the contrast of the input image."""
 
     def __init__(self, contrast_factor: float, probability: float = 1):
-        '''
+        """
         :param probability             : probability of applying the transform. Default: 1.
         :param contrast_factor (float) : modification factor to be applied to the image contrast
             * 0  :total contrast removal
             * 1  :dont modify
             * >1 :aument contrast
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='color')
         self.contrast = contrast_factor
 
@@ -98,16 +98,16 @@ class ContrastPipeline(PipelineOperation):
 
 
 class RandomContrastPipeline(PipelineOperation):
-    '''Change the contrast of the input image with a random contrast factor calculated within the input range'''
+    """Change the contrast of the input image with a random contrast factor calculated within the input range"""
 
     def __init__(self, contrast_range: tuple, probability: float = 1):
-        '''
+        """
         :param probability (float) [0-1]       : probability of applying the transform. Default: 1.
         :param contrast_range (float tuple)    : range  of modification factor to be applied to the image contrast
                 * 0  :total contrast removal
                 * 1  :dont modify
                 * >1 :aument contrast
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='color')
         if not isinstance(contrast_range, tuple) or len(contrast_range) != 2:
             raise Exception("Contrast factor must be tuple of 2 elements")
@@ -122,16 +122,16 @@ class RandomContrastPipeline(PipelineOperation):
 
 
 class BrightnessPipeline(PipelineOperation):
-    '''Change brightness of the input image '''
+    """Change brightness of the input image """
 
     def __init__(self, brightness_factor: float, probability: float = 1):
-        '''
+        """
         :param probability (float) [0-1]       : probability of applying the transform. Default: 1.
         :param brightness_factor (float) [0-2] : desired amount of brightness for the image
                  0 - no brightness
                  1 - same
                  2 - max brightness
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='color')
         self.brigthness = utils.map_value(brightness_factor, 0, 2, -256, 256)
 
@@ -145,20 +145,20 @@ class BrightnessPipeline(PipelineOperation):
 
 
 class RandomBrightnessPipeline(PipelineOperation):
-    '''Change brightness of the input image to random amount calculated within the input range
+    """Change brightness of the input image to random amount calculated within the input range
                 Args:
                     probability (float) [0-1]       : probability of applying the transform. Default: 1.
                     brightness_factor (float) [0-2] :
-        '''
+        """
 
     def __init__(self, probability: float, brightness_range: tuple):
-        '''
+        """
         :param probability (float) [0-1]       : probability of applying the transform. Default: 1.
         :param brightness_range (tuple)        : range of desired amount of brightness for the image
                             0 - no brightness
                             1 - same
                             2 - max brightness
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='color')
         if not isinstance(brightness_range, tuple) or len(brightness_range) != 2:
             raise Exception("Contrast factor must be tuple of 2 elements")
@@ -178,16 +178,16 @@ class RandomBrightnessPipeline(PipelineOperation):
 
 
 class GammaPipeline(PipelineOperation):
-    '''Change the luminance of the input image '''
+    """Change the luminance of the input image """
 
     def __init__(self, gamma_factor: float, probability: float = 1):
-        '''
+        """
         :param probability (float) [0-1]       : probability of applying the transform. Default: 1.
         :param gamma_factor (float) (0-5..]    : desired amount of factor gamma for the image
                                 0  - no contrast
                                 1  - same
                                 >1 - more luminance
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='color')
         self.gamma = gamma_factor
 
@@ -199,16 +199,16 @@ class GammaPipeline(PipelineOperation):
 
 
 class RandomGammaPipeline(PipelineOperation):
-    '''Change the luminance of the input image by a random gamma factor calculated within the input range'''
+    """Change the luminance of the input image by a random gamma factor calculated within the input range"""
 
     def __init__(self, gamma_range: tuple, probability: float = 1):
-        '''
+        """
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.
         :param gamma_range (float) (0-5..] : range of desired amount of factor gamma for the image
                             0  - no contrast
                             1  - same
                             >1 - more luminance
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='color')
         if not isinstance(gamma_range, tuple) or len(gamma_range) != 2:
             raise Exception("Contrast factor must be tuple of 2 elements")
@@ -223,14 +223,14 @@ class RandomGammaPipeline(PipelineOperation):
 
 
 class NormalizePipeline(PipelineOperation):
-    '''Change the pixels value to a normalize range'''
+    """Change the pixels value to a normalize range"""
 
     def __init__(self, probability: float = 1, old_range: tuple = (0, pixel_value_range[2]), new_range: tuple = (0, 1)):
-        '''
+        """
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.
         :param old_range (int tuple)       : actual range of pixels of the input image. Default: 0-255
         :param new_range (int tuple)       : desired range of pixels of the input image. Default: 0-1
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='normalize')
         self.new_range = new_range
         self.old_range = old_range
@@ -243,14 +243,14 @@ class NormalizePipeline(PipelineOperation):
 
 
 class DesnormalizePipeline(PipelineOperation):
-    '''Desnormalize pixel value'''
+    """Desnormalize pixel value"""
 
     def __init__(self, probability: float = 1, old_range: tuple = (0, 1), new_range: tuple = (0, pixel_value_range[2])):
-        '''
+        """
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.
         :param old_range (int tuple)       : actual range of pixels of the input image. Default: 0-1
         :param new_range (int tuple)       : desired range of pixels of the input image. Default: 0-255
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='normalize')
         self.new_range = new_range
         self.old_range = old_range
@@ -262,22 +262,22 @@ class DesnormalizePipeline(PipelineOperation):
                 self.old_range[1] - self.old_range[0])
 
 
-'''
+"""
 --------------------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------INDEPENDENT OPERATIONS-----------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------------
-'''
+"""
 
 
 class GaussianNoisePipeline(PipelineOperation):
-    '''Add gaussian noise to the input image
-    (gaussian noise is a statistical noise having a probability density function (PDF) equal to that of the normal distribution)'''
+    """Add gaussian noise to the input image
+    (gaussian noise is a statistical noise having a probability density function (PDF) equal to that of the normal distribution)"""
 
     def __init__(self, probability: float = 1, var: float = 0.5):
-        '''
+        """
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.:
         :param var (float) [0-10 ...]      : intensity of noise (0 is no noise)
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='independent_op')
         self.var = var
 
@@ -291,17 +291,17 @@ class GaussianNoisePipeline(PipelineOperation):
 
 
 class SaltAndPepperNoisePipeline(PipelineOperation):
-    '''Add salt and pepper noise to the input image
-    (salt-and-pepper noise is a statistical noise compose of white (salt) and black (pepper) pixels)'''
+    """Add salt and pepper noise to the input image
+    (salt-and-pepper noise is a statistical noise compose of white (salt) and black (pepper) pixels)"""
 
     def __init__(self, probability=1, amount=0.01, s_vs_p=0.5):
-        '''
+        """
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.
         :param amount (float) [0-1]        : noise percentage compared to the total number of pixels in the image
                * 0 is no noisse
                * 1 is total noise
         :param s_vs_p (float) [0-1]         : percentage of salt (white pixels) res
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='independent_op')
         self.amount = amount
         self.s_vs_p = s_vs_p
@@ -316,17 +316,17 @@ class SaltAndPepperNoisePipeline(PipelineOperation):
 
 
 class SpekleNoisePipeline(PipelineOperation):
-    '''Add spekle noise to the input image
+    """Add spekle noise to the input image
             (Speckle is a granular interference that inherently exists in and degrades the quality of the active radar,
             synthetic aperture radar (SAR), medical ultrasound and optical coherence tomography images.
-            It is applied by adding the image multiplied by the noise matrix -> img + img * uniform_noise)'''
+            It is applied by adding the image multiplied by the noise matrix -> img + img * uniform_noise)"""
 
     def __init__(self, probability: float = 1, mean: float = 0, var: float = 0.01):
-        '''
+        """
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.
         :param mean (float, optional)      : Mean of random distribution.  default=0
         :param var (float, optional)       : Variance of random distribution. Default: 0.01
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='independent_op')
         self.mean = mean
         self.var = var
@@ -341,15 +341,15 @@ class SpekleNoisePipeline(PipelineOperation):
 
 
 class PoissonNoisePipeline(PipelineOperation):
-    '''Add poison noise to the input image
+    """Add poison noise to the input image
         (Speckle is a granular interference that inherently exists in and degrades the quality of the active radar,
         synthetic aperture radar (SAR), medical ultrasound and optical coherence tomography images.
-        It is applied by adding Poisson-distributed noise)'''
+        It is applied by adding Poisson-distributed noise)"""
 
     def __init__(self, probability: float = 1):
-        '''
+        """
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='independent_op')
 
     def get_op_matrix(self):
@@ -362,13 +362,13 @@ class PoissonNoisePipeline(PipelineOperation):
 
 
 class GaussianBlurPipeline(PipelineOperation):
-    '''Blur input image by a Gaussian function'''
+    """Blur input image by a Gaussian function"""
 
     def __init__(self, probability: float = 1, blur_size: tuple = (5, 5)):
-        '''
+        """
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.
         :param blur_size  (int tuple)      : size of the square os pixels used to blur each pixel Default: (5,5)
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='independent_op')
         self.blur_size = blur_size
 
@@ -382,13 +382,13 @@ class GaussianBlurPipeline(PipelineOperation):
 
 
 class BlurPipeline(PipelineOperation):
-    '''Blur input image ( non-weighted blur) '''
+    """Blur input image ( non-weighted blur) """
 
     def __init__(self, probability: float = 1, blur_size: tuple = (5, 5)):
-        '''
+        """
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.
         :param blur_size  (int tuple)      : size of the square os pixels used to blur each pixel Default: (5,5)
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='independent_op')
         self.blur_size = blur_size
 
@@ -401,22 +401,22 @@ class BlurPipeline(PipelineOperation):
         return img
 
 
-'''
+"""
 ---------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------GEOMETRIC OPERATIONS---------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------
-'''
+"""
 
 
 class ScalePipeline(PipelineOperation):
-    '''Scale the input image-mask-keypoints and 2d data by the input scaling value'''
+    """Scale the input image-mask-keypoints and 2d data by the input scaling value"""
 
     def __init__(self, scale_factor: float, probability: float = 1, center: torch.tensor = None):
-        '''
+        """
         :param scale_factor (float)        : scale value
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.
         :param center (torch tensor)       : coordinates of the center of scaling. Default: center of the image
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         if center is None:
             self.config = True
@@ -427,12 +427,13 @@ class ScalePipeline(PipelineOperation):
         self.matrix = identity.clone()
         self.ones_2 = torch.ones(2, device=cuda)
         self.scale_factor = self.ones_2
-        if isinstance(self.scale_factor,
-                      float):  # si solo se proporciona un valor; se escala por igual en ambos ejes
+        if isinstance(scale_factor,
+                      float) or isinstance(scale_factor,
+                      int):  # si solo se proporciona un valor; se escala por igual en ambos ejes
             self.scale_factor = self.ones_2 * scale_factor
         else:
-            self.scale_factor[0] *= scale_factor[0]
-            self.scale_factor[1] *= scale_factor[1]
+            self.scale_factor[0] = one_torch * scale_factor[0]
+            self.scale_factor[1] = one_torch * scale_factor[1]
 
     def config_parameters(self, data_info: dict):
         self.config = False
@@ -451,17 +452,17 @@ class ScalePipeline(PipelineOperation):
 
 
 class RandomScalePipeline(PipelineOperation):
-    '''Scale the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range'''
+    """Scale the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range"""
 
     def __init__(self, probability: float, scale_range: tuple, keep_aspect: bool = True, center_desviation: int = None,
                  center:torch.tensor  = None):
-        '''
+        """
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.
         :param scale_factor (float)        : scale value
         :param keep_aspect (boolean)       : whether the scaling should be the same on the X axis and on the Y axis. Default: true
         :param center desviation (int)     : produces random deviations at the scaling center. The deviations will be a maximum of the number of pixels indicated in this parameter
         :param center (torch tensor)       : coordinates of the center of scaling. Default: center of the image
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         self.keep_aspect = keep_aspect
         if center is None:
@@ -509,14 +510,14 @@ class RandomScalePipeline(PipelineOperation):
 
 
 class RotatePipeline(PipelineOperation):
-    '''Rotate the input image-mask-keypoints and 2d data by the input degrees'''
+    """Rotate the input image-mask-keypoints and 2d data by the input degrees"""
 
     def __init__(self, degrees: int, center: torch.tensor  = None, probability: float = 1):
-        '''
+        """
         :param degrees (float)             : degrees of the rotation
         :param center (torch tensor)       : coordinates of the center of scaling. Default: center of the image
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         self.degrees = degrees
         self.degrees = degrees * one_torch
@@ -529,8 +530,8 @@ class RotatePipeline(PipelineOperation):
             self.center = center
 
     def get_op_matrix(self) -> torch.tensor:
-        return torch.cat(((kornia.geometry.get_rotation_matrix2d(angle=self.degrees, center=self.center,
-                                                                 scale=one_torch)).reshape(2, 3), self.new_row))
+        return torch.cat(((kornia.geometry.get_rotation_matrix2d(angle=self.degrees.reshape(1), center=self.center,
+                                                                 scale=one_torch.reshape(1))).reshape(2, 3), self.new_row))
 
     def need_data_info(self) -> bool:
         return self.config
@@ -542,16 +543,16 @@ class RotatePipeline(PipelineOperation):
 
 
 class RandomRotatePipeline(PipelineOperation):
-    '''Rotate the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range'''
+    """Rotate the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range"""
 
     def __init__(self, degrees_range: tuple, probability: float=1, center_desviation: int =None, center: torch.tensor =None):
-        '''
+        """
 
         :param degrees_range (float)       : range of degrees to apply
         :param probability (float) [0-1]   : probability of applying the transform. Default: 1.
         :param center desviation (int)     : produces random deviations at the rotating center. The deviations will be a maximum of the number of pixels indicated in this parameter
         :param center (torch tensor)       : coordinates of the center of scaling. Default: center of the image
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         self.center_desviation = center_desviation
         if not isinstance(degrees_range, tuple):
@@ -583,14 +584,14 @@ class RandomRotatePipeline(PipelineOperation):
 
 
 class TranslatePipeline(PipelineOperation):
-    '''Translate the input image-mask-keypoints and 2d data by the input translation'''
+    """Translate the input image-mask-keypoints and 2d data by the input translation"""
 
     def __init__(self, translation: tuple, probability: float = 1):
-        '''
+        """
 
         :param translation (tuple float) : pixels to be translated ( translation X, translation Y)
         :param probability (float) [0-1] : probability of applying the transform. Default: 1.
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         self.translation_x = translation[0] * one_torch
         self.translation_y = translation[1] * one_torch
@@ -606,15 +607,15 @@ class TranslatePipeline(PipelineOperation):
 
 
 class RandomTranslatePipeline(PipelineOperation):
-    '''Translate the input image-mask-keypoints and 2d data by a random translation value calculated within the input range'''
+    """Translate the input image-mask-keypoints and 2d data by a random translation value calculated within the input range"""
 
     def __init__(self, probability: float, translation_range: tuple, same_translation_on_axis: bool = False):
-        '''
+        """
 
         :param probability (float) [0-1]            : probability of applying the transform. Default: 1.
         :param translation_range(tuple float)       : range of pixels to be translated ( min translation, max translation). Translation X and translation Y are calculated within this range
         :param same_translation_on_axis (boolean)   : whether the translation must be equal in both axes
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         if not isinstance(translation_range, tuple):
             raise Exception("Translation range must be a tuple (min, max)")
@@ -637,14 +638,14 @@ class RandomTranslatePipeline(PipelineOperation):
 
 
 class ShearPipeline(PipelineOperation):
-    '''Shear the input image-mask-keypoints and 2d data by the input shear factor'''
+    """Shear the input image-mask-keypoints and 2d data by the input shear factor"""
 
     def __init__(self, shear: tuple, probability: float = 1):
-        '''
+        """
 
         :param shear (tuple float)                  : range of pixels to be apply on the shear ( shear X, shear Y).
         :param probability (float) [0-1]            : probability of applying the transform. Default: 1.
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         self.shear_x = shear[0]
         self.shear_y = shear[1]
@@ -660,14 +661,14 @@ class ShearPipeline(PipelineOperation):
 
 
 class RandomShearPipeline(PipelineOperation):
-    '''Shear the input image-mask-keypoints and 2d data by a random shear value calculated within the input range'''
+    """Shear the input image-mask-keypoints and 2d data by a random shear value calculated within the input range"""
 
     def __init__(self, probability: float, shear_range: tuple):
-        '''
+        """
 
         :param probability (float) [0-1]      : probability of applying the transform. Default: 1.
         :param shear (tuple float)            : range of pixels to be apply on the shear ( shear X, shear Y).
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         if not isinstance(shear_range, tuple):
             raise Exception("Translation range must be a tuple (min, max)")
@@ -684,13 +685,13 @@ class RandomShearPipeline(PipelineOperation):
 
 
 class HflipPipeline(PipelineOperation):
-    '''Horizontally flip the input image-mask-keypoints and 2d data'''
+    """Horizontally flip the input image-mask-keypoints and 2d data"""
 
     def __init__(self, probability: float = 1):
-        '''
+        """
 
         :param probability (float) [0-1]      : probability of applying the transform. Default: 1.
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         self.config = True
         self.matrix = identity.clone()
@@ -708,14 +709,14 @@ class HflipPipeline(PipelineOperation):
 
 
 class VflipPipeline(PipelineOperation):
-    '''Vertically flip the input image-mask-keypoints and 2d data'''
+    """Vertically flip the input image-mask-keypoints and 2d data"""
 
     def __init__(self, probability: float):
-        '''
+        """
 
         :param probability (float) [0-1]      : probability of applying the transform. Default: 1.
         :param heigth:
-        '''
+        """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         self.matrix = identity.clone()
         self.config = True

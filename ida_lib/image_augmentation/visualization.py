@@ -22,8 +22,8 @@ def diference_between_images_pixel(img1, img2):
         raise Exception("Images must have the same dimensions to compare")
     #if type(img1).__module__ != np.__name__ or type(img1).__module__ != np.__name__ :
     #    raise Exception("Images must be numpy array")
-    '''if img2.device == torch.device('cpu') : img2 = img2.to('cuda')
-    if img1.device == torch.device('cpu'): img1 = img1.to('cuda')'''
+    """if img2.device == torch.device('cpu') : img2 = img2.to('cuda')
+    if img1.device == torch.device('cpu'): img1 = img1.to('cuda')"""
     dif = torch.abs(torch.sub(img1[0, 0, ...], img2[0, 0, ...]))
     dif = dif+torch.abs(torch.sub(img1[0, 1, ...], img2[0, 1, ...]))
     dif = dif+torch.abs(torch.sub(img1[0, 2, ...], img2[0, 2, ...]))
@@ -94,14 +94,14 @@ def generate_tab(image, keypoints,mask=None,  title=None,  **figure_kwargs):
             image.shape[0], 0), tools="pan,box_select,wheel_zoom", **figure_kwargs)
         source_mask = process_image(mask)
         p3.image_rgba(source=source_mask, image='img', x='x', y='y', dw='dw', dh='dh')
-        '''p3.add_tools(bokeh.models.HoverTool(
+        """p3.add_tools(bokeh.models.HoverTool(
             tooltips=[
                 ("(x, y)", "($x, $y)"),
                 ("RGB", "(@R, @G, @B)")]))
         p3.image_rgba(source=source, image='img', x='x', y='y', dw='dw', dh='dh')
         mask = kornia.tensor_to_image(mask.byte()[0])
         #source_mask = process_image(mask)
-        #p3.image_rgba(source=source_mask, image='img', x='x', y='y', dw='dw', dh='dh')'''
+        #p3.image_rgba(source=source_mask, image='img', x='x', y='y', dw='dw', dh='dh')"""
         tab3_original = Panel(child=p3, title="mask")
         tabs.append(tab3_original)
     tabs_original = Tabs(tabs=tabs)
@@ -255,7 +255,7 @@ def plot_batch_image_tranformation_old(data, data_original, **figure_kwargs):
     p = row(tabs_original, tabs_warped, plot)
     p.margin= (50,0,0,100)
     bokeh.plotting.show(p)  # open a browser
-'''
+"""
 import numpy
 
 from PIL import Image
@@ -294,5 +294,5 @@ data = vflip(data)
 #data = geometry.rotate(data,degrees=35, visualize=True, center=center)
 
 #plot_image_tranformation(data)
-'''
+"""
 
