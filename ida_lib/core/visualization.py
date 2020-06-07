@@ -1,8 +1,9 @@
+from string import digits
+
 from bokeh.models import  ColumnDataSource, CustomJS, Panel, Tabs, LabelSet,  Div
 from bokeh.models.widgets import CheckboxGroup
 from bokeh.io import curdoc
 from bokeh.layouts import row, column
-from ida_lib.core.pipeline_functional import get_image_types
 from bokeh.plotting import figure
 import numpy as np
 import cv2
@@ -50,6 +51,28 @@ def _restart_color_palette():
     global color_index
     color_index = 0
 
+
+
+def _get_image_types(image:dict):
+    remove_digits = str.maketrans('', '', digits)
+    heatmap_labels = []
+    image_labels = []
+    mask_types = []
+    points_types = []
+    other_types = []
+    for label in image.keys():
+        no_numbered_type = label.translate(remove_digits)
+        if no_numbered_type == 'image':
+            image_labels.append(label)
+        elif no_numbered_type == 'mask' or no_numbered_type == 'segmap':
+            mask_types.append(label)
+        elif no_numbered_type == 'heatmap':
+            heatmap_labels.append(label)
+        elif no_numbered_type == 'keypoints':
+            points_types.append(label)
+        else:
+            other_types.append(label)
+    return image_labels, heatmap_labels, mask_types, points_types, other_types
 
 #Process the input image and returned a ColumnDataSource wirh the image info to display it
 def _process_image(img_orig):
@@ -207,7 +230,7 @@ def visualize(images: dict, images_originals: dict, mask_types: list, other_type
     :param max_images: max number of tabs to be shown
     '''
     tabs = []
-    heatmap_labels, mask_types, points_types, other_types = get_image_types(images[0])
+    image_labels, heatmap_labels, mask_types, points_types, other_types = _get_image_types(images[0])
     #loop through the input elements to create the tabs
     for index, (data, data_original) in enumerate(zip(images, images_originals)):
         #Restart palette of colors to have the same colors in each image

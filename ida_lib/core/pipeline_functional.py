@@ -377,22 +377,5 @@ def postprocess_data(batch: list, batch_info: dict,  data_original: Optional[lis
     return process_data
 
 
-def get_image_types(image:dict):
-    remove_digits = str.maketrans('', '', digits)
-    heatmap_labels = []
-    mask_types = []
-    points_types = []
-    other_types = []
-    for label in image.keys():
-        no_numbered_type = label.translate(remove_digits)
-        if no_numbered_type == 'mask' or no_numbered_type == 'segmap':
-            mask_types.append(label)
-        elif no_numbered_type == 'heatmap':
-            heatmap_labels.append(label)
-        elif no_numbered_type == 'keypoints':
-            points_types.append(label)
-        else:
-            other_types.append(label)
-    return heatmap_labels, mask_types, points_types, other_types
 
 
