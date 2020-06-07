@@ -2,7 +2,11 @@ from typing import Union
 import cv2
 import torch
 
-from ida_lib.core.pipeline_functional import *
+from ida_lib.core.pipeline_functional import (split_operations_by_type,
+                                              own_affine, get_compose_function,
+                                              preprocess_data,
+                                              get_compose_matrix_and_configure_parameters,
+                                              get_compose_matrix, postprocess_data)
 
 
 class pipeline(object):
@@ -37,9 +41,9 @@ class pipeline(object):
         """
         :param pipeline_operations: list of pipeline initialized operations (see pipeline_operations.py)
         :param resize: tuple of desired output size. Example (25,25)
-        :param interpolation (str) :interpolation mode to calculate output values
+        :param interpolation:interpolation mode to calculate output values
                 'bilinear' | 'nearest'. Default: 'bilinear'.
-        :param padding_mode(str): padding mode for outside grid values
+        :param padding_mode: padding mode for outside grid values
                 'zeros' | 'border' | 'reflection'. Default: 'zeros'
         """
         self.color_ops, self.geom_ops, self.indep_ops = split_operations_by_type(pipeline_operations)
@@ -52,27 +56,27 @@ class pipeline(object):
     def _apply_geometry_transform_data2d(self, image: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         """
         Applies the input transform to the image by the padding and interpolation mode configured on the pipeline
-        :param image (torch.tensor)         : image to transform
-        :param matrix (torch.tensor)        : transformation matrix that represent the operation to be applied
-        :return (torch.tensor)              : transformed image
+        :param image :  image to transform
+        :param matrix : transformation matrix that represent the operation to be applied
+        :return :       transformed image
         """
         return own_affine(image, matrix[:2, :], interpolation=self.interpolation, padding_mode=self.padding_mode)
 
     def _apply_geometry_transform_discreted_data2d(self, image: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         """
         Applies the input transform to the image by the padding mode configured on the pipeline and 'nearest' interpolation to preserve discrete values of segmaps or masks
-        :param image (torch.tensor)         : image to transform
-        :param matrix (torch.tensor)        : transformation matrix that represent the operation to be applied
-        :return (torch.tensor)              : transformed image
+        :param image:  image to transform
+        :param matrix: transformation matrix that represent the operation to be applied
+        :return:       transformed image
         """
         return own_affine(image, matrix[:2, :], interpolation='nearest', padding_mode=self.padding_mode)
 
     def _apply_geometry_transform_points(self, points_matrix: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         """
         Applies the input tranform to a matrix of points coordinates (matrix multiplication)
-        :param points_matrix (torch.tensor) : matrix of points coordinates
-        :param matrix (torch.tensor)        : transformation matrix that represent the operation to be applied
-        :return (torch.tensor)              : matrix of trasnsformed points coordinates
+        :param points_matrix: matrix of points coordinates
+        :param matrix:        transformation matrix that represent the operation to be applied
+        :return :             matrix of trasnsformed points coordinates
         """
         return torch.matmul(matrix, points_matrix)
 
@@ -86,83 +90,33 @@ class pipeline(object):
         Applies the transformations to the input image batch.
         *   If it is the first batch entered into the pipeline, the information about the type of input data
             is analyzed and the different pipeline parameters are set (size of the images, labels, bits per pixel..)
-        :param batch_data (list)    : list of elements to be tranformed through the pipe
-        :param visualize  (bool)    : it allows to display the web visualization tool of performed transformations
-        :return: transformed batch
+        :param batch_data: list of elements to be tranformed through the pipe
+        :param visualize:  it allows to display the web visualization tool of performed transformations
+        :return:           transformed batch
         """
 
         if not isinstance(batch_data, list): batch_data = [batch_data]
-        if visualize: original = [d.copy() for d in batch_data]  # copy the original batch to diplay on visualization
-        self.process_data = []
-        if self.resize is None:
-            if self.info_data is None:  # First iteration to configure parameters and scan data info while the first item is being processed
-                data = batch_data[0]
-                batch_data = batch_data[1:]  # exclude the first item in the batch to be processed on the second loop
-                """set the color depth"""
-                """bpp = int( data['image'].dtype.name[4:])
-                max = pow(2, bpp) - 1
-                global pixel_value_range
-                pixel_value_range = (0, max // 2, max)"""
-                """get compose color functions """
-                lut = get_compose_function(self.color_ops)
-                data['image'] = cv2.LUT(data['image'], lut)
-                for op in self.indep_ops: data['image'] = op._apply_to_image_if_probability(data['image'])
-                p_data, self.info_data = preprocess_dict_data_and_data_info(data, self.interpolation)
-                matrix = get_compose_matrix_and_configure_parameters(self.geom_ops, self.info_data)
-                p_data['data_2d'] = self._apply_geometry_transform_data2d(p_data['data_2d'], matrix)
-                if self.info_data['contains_discrete_data']: p_data[
-                    'data_2d_discreted'] = self._apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'],
-                                                                                           matrix)
-                if self.info_data['contains_keypoints']: p_data['points_matrix'] = self._apply_geometry_transform_points(
-                    p_data['points_matrix'], matrix)
-                self.process_data.append(p_data)
-
-            for data in batch_data:
-                lut = get_compose_function(self.color_ops)
-                data['image'] = cv2.LUT(data['image'], lut)
-                for op in self.indep_ops: data['image'] = op._apply_to_image_if_probability(data['image'])
-                p_data = preprocess_dict_data(data, self.info_data)
-                matrix = get_compose_matrix(self.geom_ops)
-                p_data['data_2d'] = self._apply_geometry_transform_data2d(p_data['data_2d'], matrix)
-                if self.info_data['contains_discrete_data']: p_data[
-                    'data_2d_discreted'] = self._apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'],
-                                                                                           matrix)
-                if self.info_data['contains_keypoints']: p_data['points_matrix'] = self._apply_geometry_transform_points(
-                    p_data['points_matrix'], matrix)
-                self.process_data.append(p_data)
-        else:
-            if self.info_data is None:  # First iteration to configure parameters and scan data info while the first item is being processed
-                data = batch_data[0]
-                batch_data = batch_data[1:]  # exclude the first item in the batch to be processed on the second loop
-                lut = get_compose_function(self.color_ops)
-                data['image'] = cv2.LUT(data['image'], lut)
-                for op in self.indep_ops: data['image'] = op._apply_to_image_if_probability(data['image'])
-                p_data, self.info_data = preprocess_dict_data_and_data_info_with_resize(data, new_size=self.resize,
-                                                                                        interpolation=self.interpolation)
-                matrix = get_compose_matrix_and_configure_parameters(self.geom_ops, self.info_data)
-                p_data['data_2d'] = self._apply_geometry_transform_data2d(p_data['data_2d'], matrix)
-                if self.info_data['contains_discrete_data']: p_data[
-                    'data_2d_discreted'] = self._apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'],
-                                                                                           matrix)
-                if self.info_data['contains_keypoints']: p_data['points_matrix'] = self._apply_geometry_transform_points(
-                    p_data['points_matrix'], matrix)
-                self.process_data.append(p_data)
-
-            for data in batch_data:
-                lut = get_compose_function(self.color_ops)
-                data['image'] = cv2.LUT(data['image'], lut)
-                for op in self.indep_ops: data['image'] = op._apply_to_image_if_probability(data['image'])
-                p_data = preprocess_dict_data_with_resize(data, self.info_data)
-                matrix = get_compose_matrix(self.geom_ops)
-                p_data['data_2d'] = self._apply_geometry_transform_data2d(p_data['data_2d'], matrix)
-                if self.info_data['contains_discrete_data']: p_data[
-                    'data_2d_discreted'] = self._apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'],
-                                                                                           matrix)
-                if self.info_data['contains_keypoints']: p_data['points_matrix'] = self._apply_geometry_transform_points(
-                    p_data['points_matrix'], matrix)
-                self.process_data.append(p_data)
+        original = None
         if visualize:
-            return postprocess_data_and_visualize(self.process_data, original, self.info_data)
-        else:
-            return postprocess_data(self.process_data, self.info_data)
+            original = [d.copy() for d in batch_data]  # copy the original batch to diplay on visualization
+        self.process_data = []
+        for index, data in enumerate(batch_data):
+            lut = get_compose_function(self.color_ops)  #
+            data['image'] = cv2.LUT(data['image'], lut)  #
+            for op in self.indep_ops: data['image'] = op.apply_to_image_if_probability(data['image'])  #
+            if self.info_data is None:
+                p_data, self.info_data = preprocess_data(data, interpolation=self.interpolation, resize=self.resize)
+                matrix = get_compose_matrix_and_configure_parameters(self.geom_ops, self.info_data)
+            else:
+                p_data = preprocess_data(data, batch_info=self.info_data, resize=self.resize)
+                matrix = get_compose_matrix(self.geom_ops)
+            p_data['data_2d'] = self._apply_geometry_transform_data2d(p_data['data_2d'], matrix)
+            if self.info_data['contains_discrete_data']: p_data[
+                'data_2d_discreted'] = self._apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'],
+                                                                                       matrix)
+            if self.info_data['contains_keypoints']: p_data['points_matrix'] = self._apply_geometry_transform_points(
+                p_data['points_matrix'], matrix)
+            self.process_data.append(p_data)
+        return postprocess_data(batch=self.process_data, batch_info=self.info_data, data_original=original,  visualize=visualize)
+
 
