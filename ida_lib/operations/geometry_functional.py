@@ -59,14 +59,15 @@ def prepare_data(func):
         data_output = func(process_data, *args, **kwargs) #Execute transform
 
         data_output['data2d'] = data_output['data2d'].cpu()
-        if data_output.keys().__contains__('types_2d'):
+        if 'types_2d' in  data_output:
             data_process = {}
             data_split = torch.split(data_output['data2d'], list(data_output['types_2d'].values()), dim=0)
             for index, type in enumerate(data_output['types_2d']):
                 data_process[type] = data_split[index]
-            if data_process.keys().__contains__('mask'): data_process['mask'] = utils.mask_change_to_01_functional(
+            if 'mask' in data_process: data_process['mask'] = utils.mask_change_to_01_functional(
                 data_process['mask'])
-            if data_output.keys().__contains__('points_matrix'): data_process['keypoints'] = [
+            if 'points_matrix' in data_output:
+                data_process['keypoints'] = [
                 ((dato.cpu())[:2, :]).reshape(2) for dato in torch.split(data_output['points_matrix'], 1, dim=1)]
         else:
             data_process = data_output['data2d']
@@ -89,12 +90,12 @@ def vflip_coordiantes_matrix(matrix: torch.tensor, heigth: int)-> torch.tensor:
 @prepare_data
 def vflip_compose_data(data: dict)->dict:
     """
-    :param data (dict) : dict of elements to be transformed
+    :param data : dict of elements to be transformed
     :return: transformed data
     """
     data['data2d'] = vflip_image(data['data2d'])
     heigth = data['data2d'].shape[-2]
-    if data.keys().__contains__('points_matrix'):
+    if 'mask'in data:
         data['points_matrix'] = vflip_coordiantes_matrix(data['points_matrix'], heigth)
     return data
 
@@ -111,12 +112,12 @@ def hflip_coordinates_matrix(matrix: torch.tensor, width: int)-> torch.tensor:
 @prepare_data
 def hflip_compose_data(data: dict) -> dict:
     """
-    :param data (dict) : dict of elements to be transformed
+    :param data : dict of elements to be transformed
     :return: transformed data
     """
     data['data2d'] = hflip_image(data['data2d'])
     width = data['data2d'].shape[-1]
-    if data.keys().__contains__('points_matrix'):
+    if 'points_matrix' in data:
         data['points_matrix'] = hflip_coordinates_matrix(data['points_matrix'], width)
     return data
 
@@ -131,13 +132,13 @@ def affine_coordinates_matrix(matrix_coordinates: torch.tensor, matrix_transform
 @prepare_data
 def affine_compose_data(data: dict, matrix: torch.tensor) -> dict:
     """
-    :param data     (dict)          : dict of elements to be transformed
-    :param matrix   (torch.tensor)  : matrix of transformation
+    :param data : dict of elements to be transformed
+    :param matrix : matrix of transformation
     :return: transformed data
     """
     matrix = matrix.to(device)
     data['data2d'] = affine_image(data['data2d'], matrix)
-    if data.keys().__contains__('points_matrix'):
+    if 'points_matrix' in data:
         data['points_matrix'] = affine_coordinates_matrix(data['points_matrix'], matrix)
     return data
 
@@ -154,9 +155,9 @@ def rotate_coordinates_matrix(matrix_coordinates: torch.tensor, matrix: torch.te
 @prepare_data
 def rotate_compose_data(data: dict, degrees: torch.tensor, center: torch.tensor):
     """
-    :param data     (dict)          : dict of elements to be transformed
-    :param degrees  (torch.tensor)  : counterclockwise degrees of rotation
-    :param center   (torch.tensor)  : center of rotation. Default, center of the image
+    :param data : dict of elements to be transformed
+    :param degrees : counterclockwise degrees of rotation
+    :param center : center of rotation. Default, center of the image
     :return: transformed data
     """
     degrees = degrees * one_torch
@@ -167,7 +168,7 @@ def rotate_compose_data(data: dict, degrees: torch.tensor, center: torch.tensor)
     center = center.to(device)
     data['data2d'] = rotate_image(data['data2d'], degrees, center)
     matrix = get_rotation_matrix(center, degrees)
-    if data.keys().__contains__('points_matrix'):
+    if 'points_matrix' in data:
         data['points_matrix'] = rotate_coordinates_matrix(data['points_matrix'], matrix)
     return data
 
@@ -192,9 +193,9 @@ def scale_coordinates_matrix(matrix_coordinates: torch.tensor, matrix: torch.ten
 @prepare_data
 def scale_compose_data(data: dict, scale_factor: Union[float, torch.tensor], center: Union[torch.tensor, None]=None) -> dict:
     """
-    :param data         (dict)          : dict of elements to be transformed
-    :param scale_factor (float)         : factor of scaling
-    :param center       (torch tensor)  : center of scaling. By default its taken the center of the image
+    :param data: dict of elements to be transformed
+    :param scale_factor  : factor of scaling
+    :param center : center of scaling. By default its taken the center of the image
     :return: transformed data
     """
     scale_factor = (torch.ones(1) * scale_factor).to(device)
@@ -203,7 +204,7 @@ def scale_compose_data(data: dict, scale_factor: Union[float, torch.tensor], cen
     center = center.to(device)
     data['data2d'] = scale_image(data['data2d'], scale_factor, center)
     matrix = get_scale_matrix(center, scale_factor)
-    if data.keys().__contains__('points_matrix'):
+    if 'points_matrix' in data:
         data['points_matrix'] = scale_coordinates_matrix( data['points_matrix'], matrix)
     return data
 
@@ -221,15 +222,15 @@ def translate_coordinates_matrix(matrix_coordinates: torch.tensor, translation: 
 @prepare_data
 def translate_compose_data(data: dict, translation: Union[int, torch.tensor]) -> dict:
     """
-    :param data         (dict)          : dict of elements to be transformed
-    :param translation  (torch.tensor)  : number of pixels to translate
+    :param data : dict of elements to be transformed
+    :param translation : number of pixels to translate
     :return: transformed data
     """
     if not torch.is_tensor(translation):
         translation = (torch.tensor(translation).float().reshape((1, 2)))
     translation = translation.to(device)
     data['data2d'] = translate_image(data['data2d'], translation)
-    if data.keys().__contains__('points_matrix'):
+    if 'points_matrix' in data:
         data['points_matrix'] =  translate_coordinates_matrix(data['points_matrix'], translation)
     return data
 
@@ -250,197 +251,15 @@ def shear_coordinates_matrix(matrix_coordinates: torch.tensor, matrix: torch.ten
 @prepare_data
 def shear_compose_data(data: dict, shear_factor: Union[float, torch.tensor]) -> dict:
     """
-
-    :param data         (dict)          : dict of elements to be transformed
-    :param shear_factor (torch.tensor)  : pixels of shearing
+    :param data : dict of elements to be transformed
+    :param shear_factor : pixels of shearing
     :return:
     """
     shear_factor = (torch.tensor(shear_factor).reshape(1,2)).to(device)
     matrix = get_shear_matrix(shear_factor)
     data['data2d'] = shear_image(data['data2d'], matrix)
     matrix = get_shear_matrix(shear_factor)
-    if data.keys().__contains__('points_matrix'):
+    if 'points_matrix' in data:
         data['points_matrix'] =  shear_coordinates_matrix(data['points_matrix'], matrix)
     return data
 
-
-
-"""
-class transform(object):
-    __metaclass__ = ABCMeta
-
-    @abc.abstractmethod
-    def __init__(self, data, visualize=False):
-        self.visualize = visualize
-        self.points = None
-        result_data = {}
-        if visualize:
-            self.original = data
-        if isinstance(data, dict):
-            self.types_2d = {}
-            compose_data = torch.tensor([])
-            for type in data.keys():
-                if type in data_types_2d:
-                    #if type(data[type]).__module__ == np.__name_:
-                    #    data[type] = kornia.image_to_tensor(data[type], keepdim=False)
-                    compose_data = torch.cat((compose_data, data[type]),
-                                             0)  # concatenate data into one multichannel pytoch tensor
-                    self.types_2d[type] = data[type].shape[0]
-                else:
-                    self.points = data[type]
-                    self.points_matrix = data[type]
-            self.data2d = compose_data.to(device)
-            # self.types2d= types_2d
-            if self.points is not None: self.data1d = utils.keypoints_to_homogeneus_functional(self.points)
-            if self.points is not None: self.points_matrix = utils.keypoints_to_homogeneus_and_concatenate(
-                self.points_matrix)
-            return result_data
-        else:
-            if data.dim() < 3:
-                raise Exception("Single data must be al least 3 dims")
-            else:
-                self.data2d = data
-                self.data1d=None
-                self.points_matrix=None
-                self.types_2d = {}
-                self.types_2d['image']=data.shape[0]
-
-    def postprocess_data(self):
-        self.data2d = self.data2d.cpu()
-        if self.types_2d is not None:
-            data_output = {}
-            data_split = torch.split(self.data2d, list(self.types_2d.values()), dim=0)
-            for index, type in enumerate(self.types_2d):
-                data_output[type] = data_split[index]
-            if data_output.keys().__contains__('mask'): data_output['mask'] = utils.mask_change_to_01_functional(
-                data_output['mask'])
-            if self.__getattribute__('points_matrix') is not None: data_output['keypoints'] = [
-                ((dato.cpu())[:2, :]).reshape(2) for dato in torch.split(self.points_matrix, 1, dim=1)]
-        else:
-            data_output = self.data2d
-        if self.visualize:
-            visualization.plot_image_tranformation(data_output, self.original)
-        return data_output
-
-
-class vflip_transformation(transform):
-    def __init__(self, data, visualize=False):
-        transform.__init__(self, data, visualize)
-
-    def __call__(self, *args, **kwargs):
-        self.data2d = kornia.vflip(self.data2d)
-        if self.data1d is not None:
-            heigth = self.data2d.shape[-2]
-            if self.points_matrix is not None:
-                self.points_matrix[1] = torch.ones(1, self.points_matrix.shape[1]).to(device) * (heigth) - \
-                                        self.points_matrix[1]
-        return transform.postprocess_data(self)
-
-
-class hflip_transformation(transform):
-    def __init__(self, data, visualize=False):
-        transform.__init__(self, data, visualize)
-
-    def __call__(self, *args, **kwargs):
-        self.data2d = kornia.hflip(self.data2d)
-        if self.points_matrix is not None:
-            width = self.data2d.shape[-1]
-            if self.points_matrix is not None:
-                self.points_matrix[0] = torch.ones(1, self.points_matrix.shape[1]).to(device) * (width) - \
-                                        self.points_matrix[0]
-        return transform.postprocess_data(self)
-
-
-class affine_transformation(transform):
-    def __init__(self, data, matrix, visualize=False):
-        transform.__init__(self, data, visualize)
-        self.matrix = matrix.to(device)
-
-    def __call__(self, *args, **kwargs):
-        self.data2d = kornia.geometry.affine(self.data2d, self.matrix)
-        if self.points_matrix is not None:
-            self.points_matrix = torch.matmul(self.matrix, self.points_matrix)
-        return transform.postprocess_data(self)
-
-
-class rotate_transformation(transform):
-    def __init__(self, data, degrees, visualize=False, center=None):
-        transform.__init__(self, data, visualize)
-        self.degrees = degrees * one_torch
-        if center is None:
-            self.center = torch.ones(1, 2)
-            self.center[..., 0] = self.data2d.shape[-2] // 2  # x
-            self.center[..., 1] = self.data2d.shape[-1] // 2  # y
-        else:
-            self.center = center
-        self.center = self.center.to(device)
-
-    def __call__(self, *args, **kwargs):
-        self.data2d = kornia.geometry.rotate(self.data2d, angle=self.degrees, center=self.center)
-        matrix = (
-            kornia.geometry.get_rotation_matrix2d(angle=self.degrees, center=self.center, scale=one_torch)).reshape(2,
-                                                                                                                    3)
-        if self.points_matrix is not None:
-            self.points_matrix = torch.matmul(matrix, self.points_matrix)
-        return transform.postprocess_data(self)
-
-
-class scale_transformation(transform):
-    def __init__(self, data, scale_factor, visualize=False, center=None):
-        transform.__init__(self, data, visualize)
-        self.scale_factor = (torch.ones(1) * scale_factor).to(device)
-        if center is None:
-            self.center = torch.ones(1, 2)
-            self.center[..., 0] = self.data2d.shape[-2] // 2  # x
-            self.center[..., 1] = self.data2d.shape[-1] // 2  # y
-        else:
-            self.center = center
-        self.center = self.center.to(device)
-
-    def get_scale_matrix(self, center, scale_factor):
-        if isinstance(scale_factor,
-                      float) or scale_factor.dim() == 1:  # si solo se proporciona un valor; se escala por igual en ambos ejes
-            scale_factor = torch.ones(2).to(device) * scale_factor
-        matrix = torch.zeros(2, 3).to(device)
-        matrix[0, 0] = scale_factor[0]
-        matrix[1, 1] = scale_factor[1]
-        matrix[0, 2] = (-scale_factor[0] + 1) * center[:, 0]
-        matrix[1, 2] = (-scale_factor[1] + 1) * center[:, 1]
-        return matrix
-
-    def __call__(self, *args, **kwargs):
-        self.data2d = kornia.geometry.scale(self.data2d, scale_factor=self.scale_factor, center=self.center)
-        matrix = self.get_scale_matrix(self.center, self.scale_factor)
-        if self.points_matrix is not None:
-            self.points_matrix = torch.matmul(matrix, self.points_matrix)
-        return transform.postprocess_data(self)
-
-
-class translate_transformation(transform):
-    def __init__(self, data, translation, visualize=False):
-        transform.__init__(self, data, visualize)
-        self.translation = translation
-        if not torch.is_tensor(translation):
-            self.translation = (torch.tensor(translation).float().reshape((1, 2)))
-        self.translation = self.translation.to(device)
-
-    def __aply_to_point(self, point):
-        point[0] += self.translation[:, 0]
-        point[1] += self.translation[:, 1]
-        return point
-
-    def __call__(self, *args, **kwargs):
-        self.data2d = kornia.geometry.translate(self.data2d, self.translation)
-        if self.points_matrix is not None:
-            matrix = torch.zeros((3, self.points_matrix.shape[1])).to(device)
-            row = torch.ones((1, self.points_matrix.shape[1])).to(device)
-            matrix[0] = row * self.translation[:, 0]
-            matrix[1] = row * self.translation[:, 1]
-            self.points_matrix = self.points_matrix + matrix
-        return transform.postprocess_data(self)
-
-class shear_transformation(transform):
-    def __init__(self, data, shear_factor, visualize = False):
-        transform.__init__(self, data, visualize)
-        self.shear_factor = shear_factor
-"""

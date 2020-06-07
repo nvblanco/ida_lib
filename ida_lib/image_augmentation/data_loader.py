@@ -51,7 +51,7 @@ class DataAugmentDataLoader(ABC, DataLoader):
 
         def __getitem__(self, idx: int):
             if self.outer.pipeline is not None:
-                return self.outer.pipe_through(self.outer.get_item_dataset(idx))
+                return self.outer._pipe_through(self.outer.get_item_dataset(idx))
             else:
                 return self.outer.get_item_dataset(idx)
 

@@ -27,18 +27,18 @@ class AgmentToDisk(object):
                  ):
         """
 
-        :param dataset          (Dataset)   : input dataset in charge of reading the input data
-        :param samples_per_item (int)       : number of desired output samples per input element
-        :param total_output_samples (int)   : number of desired output total samples  (Optional)
-        :param output_extension (str)       : desired image extension for the generated images
+        :param dataset : input dataset in charge of reading the input data
+        :param samples_per_item: number of desired output samples per input element
+        :param total_output_samples: number of desired output total samples  (Optional)
+        :param output_extension: desired image extension for the generated images
             ( '.jpg' | '.png' | '.gif' | '.jpeg' ... )
-        :param output_csv_path  (str)       : path to the csv file (if is needed) to save anotations of the augmented data
-        :param output_path      (str)       : path to the directory in which to save the generated data
-        :param operations       (list)      : list of pipeline initialized operations (see pipeline_operations.py)
-        :param resize           (tuple)     : tuple of desired output size. Example (25,25)
-        :param interpolation    (str)       : interpolation mode to calculate output values
+        :param output_csv_path : path to the csv file (if is needed) to save anotations of the augmented data
+        :param output_path : path to the directory in which to save the generated data
+        :param operations  : list of pipeline initialized operations (see pipeline_operations.py)
+        :param resize : tuple of desired output size. Example (25,25)
+        :param interpolation: interpolation mode to calculate output values
             ('bilinear' | 'nearest') .              Default: 'bilinear'.
-        :param padding_mode     (str)       : padding mode for outside grid values
+        :param padding_mode : padding mode for outside grid values
             ('zeros' | 'border' | 'reflection'.)    Default: 'zeros'
         """
         self.dataset = dataset
@@ -67,11 +67,11 @@ class AgmentToDisk(object):
         Annotations on the data, such as labels, or point coordinates are stored in dictionaries that will be written when all
         the images have been processed.
 
-        :param item         (dict)  : input element to be saved to disk
-        :param index        (int)   : sample number to which the input item corresponds
-        :param output_path  (str)   : path to the directory in which to save the generated data
-        :param types_2d     (list)  : list of types of two dimensional data of the input item
-        :param other_types  (list)  : list of types that are not two-dimensional elements
+        :param item :        input element to be saved to disk
+        :param index :       sample number to which the input item corresponds
+        :param output_path : path to the directory in which to save the generated data
+        :param types_2d :    list of types of two dimensional data of the input item
+        :param other_types : list of types that are not two-dimensional elements
         """
         item['id'] = item['id'] + '_' + str(index)
         for type in types_2d:

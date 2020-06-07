@@ -1,4 +1,6 @@
-from ida_lib.core.pipeline_operations import *
+from ida_lib.core.pipeline_geometric_ops import *
+from ida_lib.core.pipeline_local_ops import *
+from ida_lib.core.pipeline_pixel_ops import *
 from ida_lib.image_augmentation.data_loader import *
 import matplotlib.pyplot as plt
 import torch
@@ -44,24 +46,24 @@ def show_landmarks(image, landmarks):
 pip = pipeline(interpolation='nearest', pipeline_operations=(
     TranslatePipeline(probability=0, translation=(3, 1)),
     VflipPipeline(probability=1),
-    HflipPipeline(probability=1),
-    ContrastPipeline(probability=0, contrast_factor=1),
-    RandomBrightnessPipeline(probability=0, brightness_range=(1, 1.2)),
-    GammaPipeline(probability=0, gamma_factor=0),
-    RandomTranslatePipeline(probability=0, translation_range=(-90, 90)),
-    RandomScalePipeline(probability=0, scale_range=(0.5, 1.5), center_desviation=20),
+    HflipPipeline(probability=0.3),
+    ContrastPipeline(probability=0.4, contrast_factor=1),
+    RandomBrightnessPipeline(probability=0.5, brightness_range=(1, 1.2)),
+    GammaPipeline(probability=0.3, gamma_factor=0),
+    RandomTranslatePipeline(probability=0.3, translation_range=(-90, 90)),
+    RandomScalePipeline(probability=0.5, scale_range=(0.5, 1.5), center_desviation=20),
     RandomRotatePipeline(probability=0, degrees_range=(-50, 50), center_desviation=20),
     RandomTranslatePipeline(probability=0, translation_range=(20, 100)),
     RandomShearPipeline(probability=0, shear_range=(0, 0.5))
 ))
 
 
-dataloader = test_dataloader(batch_size=4,
+dataloader = test_dataloader(batch_size=1,
                              shuffle=True,
                              pipeline_operations=(
                                  TranslatePipeline(probability=0, translation=(3, 1)),
                                  VflipPipeline(probability=0),
-                                 HflipPipeline(probability=0)),
+                                 HflipPipeline(probability=1)),
                              resize=(500, 326),
                              interpolation='bilinear',
                              padding_mode='zeros',
