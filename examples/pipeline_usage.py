@@ -42,7 +42,7 @@ points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 
 # data = color.equalize_histogram(data, visualize=True)
 #data = {'image': img, 'mask': segmap2, 'mask2': segmap, 'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
-data = {'image': img, 'mask': segmap}
+data = {'image': img, 'mask': segmap, 'keypoints': points, 'heatmap': heatmap_complete}
 samples = 20
 
 batch = [data.copy() for _ in range(samples)]

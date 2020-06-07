@@ -1,5 +1,4 @@
-from bokeh.io.state import curstate
-from bokeh.models import Button, ColumnDataSource, CustomJS, Panel, Tabs, LabelSet, PreText, Div
+from bokeh.models import  ColumnDataSource, CustomJS, Panel, Tabs, LabelSet,  Div
 from bokeh.models.widgets import CheckboxGroup
 from bokeh.io import curdoc
 from bokeh.layouts import row, column
@@ -13,7 +12,6 @@ import sys
 
 
 __all__ = [ 'visualize']
-
 
 PLOT_SIZE = (550, 550)
 
@@ -39,15 +37,20 @@ color_palette = [
 
 color_index = 0
 
-def get_next_color():
+
+#Changes the actual color index
+def _get_next_color():
     global color_index
     color_index = (color_index + 1 ) % len(color_palette)
     return color_palette[color_index]
 
+def _restart_color_palette():
+    global color_index
+    color_index = 0
 
 
 #Process the input image and returned a ColumnDataSource wirh the image info to display it
-def process_image(img_orig):
+def _process_image(img_orig):
     img = img_orig.copy().astype(np.uint8)
     if img.ndim == 2:  # gray input
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGBA)
@@ -60,8 +63,8 @@ def process_image(img_orig):
         R=[img[::-1, :, 0]], G=[img[::-1, :, 1]], B=[img[::-1, :, 2]]))
     return source
 
-
-def process_mask(img_orig):
+#Process the input mask and returned a ColumnDataSource with the mask info to display it
+def _process_mask(img_orig):
     img = img_orig.copy().astype(np.uint8)
     img = np.flipud(img)
     source = ColumnDataSource(data=dict(
@@ -70,158 +73,199 @@ def process_mask(img_orig):
         R=[img[::-1, :, 0]], G=[img[::-1, :, 1]], B=[img[::-1, :, 2]]))
     return source
 
+def _process_points(points):
+    if type(points) is np.ndarray:
+        xvalues_warped = points[:, 0]
+        yvalues_warped = points[:, 1]
+    else:
+        xvalues_warped = [(value[0].cpu().numpy()).astype(int) for value in points]
+        yvalues_warped = [(value[1].cpu().numpy()).astype(int) for value in points]
+    source = ColumnDataSource(data=dict(height=yvalues_warped,
+                                         weight=xvalues_warped,
+                                         names=range(xvalues_warped.__len__())))
+    return (xvalues_warped, yvalues_warped, source)
 
-def visualize(images, images_originals, mask_types, other_types,  max_images = 5):
+def _generate_image_plot(img, tittle):
+    if torch.is_tensor(img):
+        img = img.to('cpu')
+        img = kornia.tensor_to_image(img.byte())
+    aspect = img.shape[0] / img.shape[1]
+    img = _process_image(img)
+
+    plot = figure(title=tittle, x_range=(0, img.data['dw'][0]), y_range=(
+        img.data['dh'][0], 0), plot_width=PLOT_SIZE[0], plot_height=int(PLOT_SIZE[1] * aspect))
+    plot.title.text_font_size = '12pt'
+    plot.title.text_font_style = 'normal'
+    plot.title.text_font = 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif'
+    plot.image_rgba(source=img, image='image', x='x', y='y', dw='dw', dh='dh')
+    return plot
+
+def _add_mask_plot_and_checkbox(img, img2, color, mask, plot, plot2):
+    if torch.is_tensor(img):
+        img = img.to('cpu')
+        img = torch.cat((img * color[0], img * color[1], img * color[2], np.clip(img * 204, 0, 204)), 0)
+        img = kornia.tensor_to_image(img.byte())
+    img1 = _process_mask(img)
+
+    img2 = np.concatenate((img2 * color[0], img2 * color[1], img2 * color[2], np.clip(img2 * 204, 0, 204)), 2)
+
+    if torch.is_tensor(img2):
+        img2 = img2.to('cpu')
+        img2 = kornia.tensor_to_image(img2.byte())
+    img2 = _process_mask(img2)
+
+    img_plot = plot.image_rgba(source=img1, image='image', x='x', y='y', dw='dw', dh='dh')  # transformed
+    img_plot2 = plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')  # original
+    checkboxes_mask = CheckboxGroup(labels=[mask], active=[0, 1])
+    callback_mask = CustomJS(code="""points.visible = false; 
+                                     points_2.visible = false;
+                                     if (cb_obj.active.includes(0)){points.visible = true;} 
+                                     if (cb_obj.active.includes(0)){points_2.visible = true;}""",
+                             args={'points': img_plot, 'points_2': img_plot2})
+    checkboxes_mask.js_on_click(callback_mask)
+    return checkboxes_mask
+
+def _add_heatmap_plot(img, img2, plot, plot2):
+    if torch.is_tensor(img):
+        img = img.to('cpu')
+        img = kornia.tensor_to_image(img.byte())
+        one = np.ones((img.shape[0], img.shape[1], 1))
+        img_256 = img.reshape(img.shape[0], img.shape[1], 1) * 255
+        img = np.concatenate((one * img_256, one * (255 - img_256), one * 25, img_256 * 0.9), 2)
+    img1 = _process_mask(img)
+
+    if len(img2.shape) == 2:
+        img2.reshape(img2.shape[0], img2.shape[1], 1)
+    img2_256 = img2.reshape(img2.shape[0], img2.shape[1], 1) * 256
+    one = np.ones((img2.shape[0], img2.shape[1], 1))
+    img2 = np.concatenate((one * img2_256, one * (255 - img2_256), one * 25, img2_256 * 0.9), 2)
+
+    if torch.is_tensor(img2):
+        img2 = img2.to('cpu')
+        img2 = kornia.tensor_to_image(img2.byte())
+    img2 = _process_mask(img2)
+    img_plot = plot.image_rgba(source=img1, image='image', x='x', y='y', dw='dw', dh='dh')  # transformed
+    img_plot2 = plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')  # original
+    checkboxes_heatmap = CheckboxGroup(labels=['heatmap'], active=[0, 1])
+    callback_heatmap = CustomJS(code="""points.visible = false; 
+                                                 points_2.visible = false;
+                                                 if (cb_obj.active.includes(0)){points.visible = true;} 
+                                                 if (cb_obj.active.includes(0)){points_2.visible = true;}""",
+                                args={'points': img_plot, 'points_2': img_plot2})
+    checkboxes_heatmap.js_on_click(callback_heatmap)
+    return checkboxes_heatmap
+
+def _add_points_plot(points1, points2, plot, plot2):
+    xval1, yval1, source = _process_points(points1)
+    xval2, yval2, source2 = _process_points(points2)
+    points = plot.circle(xval1, yval1, size=10, color="navy", alpha=0.8)
+    points_2 = plot2.circle(xval2, yval2, size=10, color="navy", alpha=0.8)
+    labels = LabelSet(x='weight', y='height', text='names', source=source,
+                      x_offset=5, y_offset=5, render_mode='canvas')
+    labels2 = LabelSet(x='weight', y='height', text='names', source=source2,
+                       x_offset=5, y_offset=5, render_mode='canvas')
+    plot.add_layout(labels)
+    plot2.add_layout(labels2)
+
+    checkboxes = CheckboxGroup(labels=['points'], active=[0, 1])
+    callback = CustomJS(code="""points.visible = false; 
+                                            labels.visible = false;
+                                            labels2.visible = false;
+                                            points_2.visible = false;
+                                            if (cb_obj.active.includes(0)){points.visible = true;} 
+                                            if (cb_obj.active.includes(0)){labels.visible = true;}
+                                            if (cb_obj.active.includes(0)){labels2.visible = true;}
+                                            if (cb_obj.active.includes(0)){points_2.visible = true;}""",
+                        args={'points': points, 'labels': labels, 'labels2': labels2, 'points_2': points_2})
+    checkboxes.js_on_click(callback)
+    return checkboxes
+
+def _add_label_plot(label):
+    if not isinstance(label, str): data_label = str(label)
+    html = "<div style='padding: 5px; border-radius: 3px; background-color: #8ebf42'><span style='color:black;font-size:130%'>" + label + ":</span> " + data_label + '</div>'
+    return Div(text=html,
+                style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif',
+                       'font-size': '100%', 'color': '#17705E'})
+
+def _generate_icon():
+    ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+    icon_img: np.ndarray = cv2.imread(os.path.join(ROOT_DIR, '../static/icon2.png'))
+    icon_img = cv2.cvtColor(icon_img, cv2.COLOR_BGR2RGB)
+    icon_img = _process_image(icon_img)
+    icon = figure(x_range=(0, icon_img.data['dw'][0]), y_range=(
+        icon_img.data['dh'][0], 0), plot_width=130, plot_height=130)
+    icon.margin = (25, 50, 20, 20)
+
+    icon.xaxis.visible = False
+    icon.yaxis.visible = False
+    icon.min_border = 0
+    icon.toolbar.logo = None
+    icon.toolbar_location = None
+    icon.xgrid.visible = False
+    icon.ygrid.visible = False
+    icon.outline_line_color = None
+    icon.image_rgba(source=icon_img, image='image', x='x', y='y', dw='dw', dh='dh')
+    return icon
+
+
+def generate_title_template():
+    icon = _generate_icon()
+    pre = Div(text="<b><div style='color:#224a42;font-size:280%' >IDALIB.</div>   image data augmentation</b>",
+              style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '250%',
+                     'width': '5000', 'color': '#17705E'})
+    pre.width = 1000
+    description = Div(
+        text="<b>This is the visualization tool of the IDALIB image data augmentation library. The first 5 samples of the image batch are shown with the corresponding pipeline transformations. You can select to make visible or not each of the data elements in the right column</b>",
+        style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '100%',
+               'font-weight': 'lighter', 'width': '5000', 'color': '#939393'})
+    title = column(row(icon, pre), description)
+    title.margin = (0, 0, 20, 20)
+    return title
+
+def visualize(images: dict, images_originals: dict, mask_types: list, other_types:list,  max_images:int = 5):
+    '''
+    Generate the bokeh plot of the input batch transformation
+    :param images: list of transformed items (dict of image and other  objects)
+    :param images_originals: list of original items (dict of image and other  objects)
+    :param mask_types: list of types shown as segmentation maps
+    :param other_types: list of not bidimensional types
+    :param max_images: max number of tabs to be shown
+    '''
     tabs = []
+    #loop through the input elements to create the tabs
     for index, (data, data_original) in enumerate(zip(images, images_originals)):
         #Restart palette of colors to have the same colors in each image
-        global color_index
-        color_index = 0
-        list_target = ()
-        list_checkbox = ()
         if index == max_images:
             break
+        _restart_color_palette()
+        list_target = ()
+        list_checkbox = ()
         img = data['image']
-        if torch.is_tensor(img):
-            img = img.to('cpu')
-            img = kornia.tensor_to_image(img.byte())
-        aspect = img.shape [0]/img.shape [1]
-        img1 = process_image(img)
-
+        plot = _generate_image_plot(img, 'transformed image') #Generate plot of transformed image
         img2 = data_original['image']
-        if torch.is_tensor(img2):
-            img2 = img2.to('cpu')
-            img2 = kornia.tensor_to_image(img2.byte())
-        img2 = process_image(img2)
-
-        plot = figure(title="transformed image", x_range=(0, img1.data['dw'][0]), y_range=(
-            img1.data['dh'][0], 0), plot_width=PLOT_SIZE[0], plot_height=int(PLOT_SIZE[1]*aspect))
-        plot.title.text_font_size = '12pt'
-        plot.title.text_font_style = 'normal'
-        plot.title.text_font = 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif'
-        plot.image_rgba(source=img1, image='image', x='x', y='y', dw='dw', dh='dh')
-
-        plot2 = figure(title="original image", x_range=(0, img2.data['dw'][0]), y_range=(
-            img2.data['dh'][0], 0), plot_width=PLOT_SIZE[0], plot_height=int(PLOT_SIZE[1]*aspect))
-        plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')
-        plot2.title.text_font_size = '12pt'
-        plot2.title.text_font_style = 'normal'
-        plot2.title.text_font = 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif'
-        list_plots = (plot2, plot)
-        for mask in mask_types:
+        plot2 = _generate_image_plot(img2, 'original_image') #Generate plot of original image
+        list_plots = (plot2, plot) #Add plots to the list of output plots
+        for mask in mask_types:#Loop through mask types of the input element
             img = data[mask]
-            color = get_next_color()
-            if torch.is_tensor(img):
-                img = img.to('cpu')
-                one = torch.ones((1, img.shape[1], img.shape[2]))
-                img = torch.cat((img * color[0] , img * color[1], img * color[2], np.clip(img * 204, 0, 204)), 0)
-                img = kornia.tensor_to_image(img.byte())  
-            img1 = process_mask(img)
-
             img2 = data_original[mask]
-            one = np.ones((img2.shape[0], img2.shape[1], 1))
-            img2 = np.concatenate((img2 * color[0], one * color[1], one * color[2], img2 * 204), 2)
-
-            if torch.is_tensor(img2):
-                img2 = img2.to('cpu')
-                img2 = kornia.tensor_to_image(img2.byte())
-            img2 = process_mask(img2)
-
-            img_plot = plot.image_rgba(source=img1, image='image', x='x', y='y', dw='dw', dh='dh')        #transformed
-            img_plot2 = plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')      #original
-            checkboxes_mask = CheckboxGroup(labels=[mask], active=[0, 1])
-            callback_mask = CustomJS(code="""points.visible = false; 
-                                             points_2.visible = false;
-                                             if (cb_obj.active.includes(0)){points.visible = true;} 
-                                             if (cb_obj.active.includes(0)){points_2.visible = true;}""",
-                                args={'points': img_plot,  'points_2': img_plot2})
-            checkboxes_mask.js_on_click(callback_mask)
+            color = _get_next_color()
+            checkboxes_mask = _add_mask_plot_and_checkbox(img, img2, color, mask, plot, plot2)
             list_checkbox = (*list_checkbox, checkboxes_mask)
-        if data.keys().__contains__('heatmap'):
+        if 'heatmap' in data: #Plotting of heatmap
             img = data['heatmap']
-            if torch.is_tensor(img):
-                img = img.to('cpu')
-                img_256 = img * 255
-                one = torch.ones((1, img.shape[1], img.shape[2]))
-                #img = torch.cat((one * img_256 , one * (255-img_256), one * 25, img_256* 0.9 ), 0)
-                img = kornia.tensor_to_image(img.byte())
-                one = np.ones((img.shape[0], img.shape[1], 1))
-                img_256 = img.reshape(img.shape[0], img.shape[1], 1)  * 255
-                img = np.concatenate((one * img_256, one * (255 - img_256), one * 25, img_256 * 0.9), 2)
-            img1 = process_mask(img)
-
             img2 = data_original['heatmap']
-            if len(img2.shape) == 2:
-                img2.reshape(img2.shape[0], img2.shape[1], 1)
-            img2_256 = img2.reshape(img2.shape[0], img2.shape[1], 1) * 256
-            one = np.ones((img2.shape[0], img2.shape[1], 1))
-            img2 = np.concatenate((one * img2_256 , one * (255-img2_256), one * 25, img2_256* 0.9 ), 2)
-
-            if torch.is_tensor(img2):
-                img2 = img2.to('cpu')
-                img2 = kornia.tensor_to_image(img2.byte())
-            img2 = process_mask(img2)
-            img_plot = plot.image_rgba(source=img1, image='image', x='x', y='y', dw='dw', dh='dh')        #transformed
-            img_plot2 = plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')      #original
-            checkboxes_heatmap = CheckboxGroup(labels=['heatmap'], active=[0, 1])
-            callback_heatmap = CustomJS(code="""points.visible = false; 
-                                             points_2.visible = false;
-                                             if (cb_obj.active.includes(0)){points.visible = true;} 
-                                             if (cb_obj.active.includes(0)){points_2.visible = true;}""",
-                                args={'points': img_plot,  'points_2': img_plot2})
-            checkboxes_heatmap.js_on_click(callback_heatmap)
+            checkboxes_heatmap = _add_heatmap_plot(img, img2, plot, plot2)
             list_checkbox = (*list_checkbox, checkboxes_heatmap)
-        if data.keys().__contains__('keypoints'):
+        if 'keypoints' in data:#Plotting of keypoints
             points = data['keypoints']
-            xvalues_warped = [(value[0].cpu().numpy()).astype(int) for value in points]
-            yvalues_warped = [(value[1].cpu().numpy()).astype(int) for value in points]
-
             points2 = data_original['keypoints']
-            if type(points2) is np.ndarray:
-                xvalues_warped2 = points2[:,0]
-                yvalues_warped2 = points2[:,1]
-            else:
-                xvalues_warped2 = [(value[0].cpu().numpy()).astype(int) for value in points2]
-                yvalues_warped2 = [(value[1].cpu().numpy()).astype(int) for value in points2]
-            source = ColumnDataSource(data=dict(height=yvalues_warped,
-                                                weight=xvalues_warped,
-                                                names=range(xvalues_warped.__len__())))
-
-            points = plot.circle(xvalues_warped, yvalues_warped, size=10, color="navy", alpha=0.8)
-            labels = LabelSet(x='weight', y='height', text='names', source=source,
-                              x_offset=5, y_offset=5, render_mode='canvas')
-            plot.add_layout(labels)
-
-
-            source2 = ColumnDataSource(data=dict(height=yvalues_warped2,
-                                                 weight=xvalues_warped2,
-                                                 names=range(xvalues_warped2.__len__())))
-
-            points_2 = plot2.circle(xvalues_warped2, yvalues_warped2, size=10, color="navy", alpha=0.8)
-            labels2 = LabelSet(x='weight', y='height', text='names', source=source2,
-                               x_offset=5, y_offset=5, render_mode='canvas')
-            plot2.add_layout(labels2)
-
-            checkboxes = CheckboxGroup(labels=['points'], active=[0, 1])
-            callback = CustomJS(code="""points.visible = false; 
-                                        labels.visible = false;
-                                        labels2.visible = false;
-                                        points_2.visible = false;
-                                        if (cb_obj.active.includes(0)){points.visible = true;} 
-                                        if (cb_obj.active.includes(0)){labels.visible = true;}
-                                        if (cb_obj.active.includes(0)){labels2.visible = true;}
-                                        if (cb_obj.active.includes(0)){points_2.visible = true;}""",
-                                args={'points': points, 'labels': labels, 'labels2': labels2, 'points_2': points_2})
-            checkboxes.js_on_click(callback)
+            checkboxes = _add_points_plot(points, points2, plot, plot2)
             list_checkbox = (*list_checkbox, checkboxes)
-        for label in other_types:
+        for label in other_types:#Plotting of labels
             data_label = data[label]
-            if not isinstance(data[label], str): data_label = str(data[label])
-            html = "<div style='padding: 5px; border-radius: 3px; background-color: #8ebf42'><span style='color:black;font-size:130%'>" + label + ":</span> " + data_label + '</div>'
-            label = Div(text=html,
-                      style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif',
-                             'font-size': '100%', 'color': '#17705E'})
+            label = _add_label_plot(data_label)
             list_target = (*list_target, label)
+        #Configure tab elements
         if len(list_target) != 0:
             title_targets = pre = Div(text="<b>Targets</b><hr>",
                       style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '100%', 'color': '#bf6800'})
@@ -237,35 +281,13 @@ def visualize(images, images_originals, mask_types, other_types,  max_images = 5
         tab = Panel(child=p, title=title)
         tabs.append(tab)
 
+    #Generate output document
     layout = Tabs(tabs=tabs)
-
-    ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-    icon_img: np.ndarray = cv2.imread(os.path.join(ROOT_DIR, '../static/icon2.png') )
-    icon_img = cv2.cvtColor(icon_img, cv2.COLOR_BGR2RGB)
-    icon_img = process_image(icon_img)
-    icon = figure( x_range=(0, icon_img.data['dw'][0]), y_range=(
-        icon_img.data['dh'][0], 0), plot_width=130, plot_height=130)
-    icon.margin = (25, 50,20,20)
-
-    icon.xaxis.visible = False
-    icon.yaxis.visible = False
-    icon.min_border = 0
-    icon.toolbar.logo = None
-    icon.toolbar_location = None
-    icon.xgrid.visible = False
-    icon.ygrid.visible = False
-    icon.outline_line_color = None
-    icon.image_rgba(source=icon_img, image='image', x='x', y='y', dw='dw', dh='dh')
-
-    pre = Div(text="<b><div style='color:#224a42;font-size:280%' >IDALIB.</div>   image data augmentation</b>", style={'font-family':'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '250%', 'width':'5000', 'color': '#17705E'})
-    pre.width = 1000
-    description = Div(text="<b>This is the visualization tool of the IDALIB image data augmentation library. The first 5 samples of the image batch are shown with the corresponding pipeline transformations. You can select to make visible or not each of the data elements in the right column</b>", style={'font-family':'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '100%', 'font-weight': 'lighter', 'width':'5000', 'color': '#939393'})
-    title = column(row(icon, pre), description)
-    title.margin =(0,0,20,20)
-
+    title = generate_title_template()
     layout = column(title, layout)
     curdoc().title = "Batch visualization"
     curdoc().add_root(layout)
 
+    #Run  bokeh server to show the visualization window
     command = 'bokeh serve --show ' + sys.argv[0]
     os.system(command)
