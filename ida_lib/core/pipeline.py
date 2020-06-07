@@ -2,6 +2,8 @@ from typing import Union
 import cv2
 import torch
 
+import numpy as np
+
 from ida_lib.core.pipeline_functional import (split_operations_by_type,
                                               own_affine, get_compose_function,
                                               preprocess_data,

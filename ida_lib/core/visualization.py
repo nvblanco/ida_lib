@@ -2,6 +2,7 @@ from bokeh.models import  ColumnDataSource, CustomJS, Panel, Tabs, LabelSet,  Di
 from bokeh.models.widgets import CheckboxGroup
 from bokeh.io import curdoc
 from bokeh.layouts import row, column
+from ida_lib.core.pipeline_functional import get_image_types
 from bokeh.plotting import figure
 import numpy as np
 import cv2
@@ -44,6 +45,7 @@ def _get_next_color():
     color_index = (color_index + 1 ) % len(color_palette)
     return color_palette[color_index]
 
+#Restart the color palette (to use the same colors in each item)
 def _restart_color_palette():
     global color_index
     color_index = 0
@@ -72,6 +74,7 @@ def _process_mask(img_orig):
         dw=[img.shape[1]], dh=[img.shape[0]],
         R=[img[::-1, :, 0]], G=[img[::-1, :, 1]], B=[img[::-1, :, 2]]))
     return source
+
 
 def _process_points(points):
     if type(points) is np.ndarray:
@@ -125,35 +128,7 @@ def _add_mask_plot_and_checkbox(img, img2, color, mask, plot, plot2):
     checkboxes_mask.js_on_click(callback_mask)
     return checkboxes_mask
 
-def _add_heatmap_plot(img, img2, plot, plot2):
-    if torch.is_tensor(img):
-        img = img.to('cpu')
-        img = kornia.tensor_to_image(img.byte())
-        one = np.ones((img.shape[0], img.shape[1], 1))
-        img_256 = img.reshape(img.shape[0], img.shape[1], 1) * 255
-        img = np.concatenate((one * img_256, one * (255 - img_256), one * 25, img_256 * 0.9), 2)
-    img1 = _process_mask(img)
 
-    if len(img2.shape) == 2:
-        img2.reshape(img2.shape[0], img2.shape[1], 1)
-    img2_256 = img2.reshape(img2.shape[0], img2.shape[1], 1) * 256
-    one = np.ones((img2.shape[0], img2.shape[1], 1))
-    img2 = np.concatenate((one * img2_256, one * (255 - img2_256), one * 25, img2_256 * 0.9), 2)
-
-    if torch.is_tensor(img2):
-        img2 = img2.to('cpu')
-        img2 = kornia.tensor_to_image(img2.byte())
-    img2 = _process_mask(img2)
-    img_plot = plot.image_rgba(source=img1, image='image', x='x', y='y', dw='dw', dh='dh')  # transformed
-    img_plot2 = plot2.image_rgba(source=img2, image='image', x='x', y='y', dw='dw', dh='dh')  # original
-    checkboxes_heatmap = CheckboxGroup(labels=['heatmap'], active=[0, 1])
-    callback_heatmap = CustomJS(code="""points.visible = false; 
-                                                 points_2.visible = false;
-                                                 if (cb_obj.active.includes(0)){points.visible = true;} 
-                                                 if (cb_obj.active.includes(0)){points_2.visible = true;}""",
-                                args={'points': img_plot, 'points_2': img_plot2})
-    checkboxes_heatmap.js_on_click(callback_heatmap)
-    return checkboxes_heatmap
 
 def _add_points_plot(points1, points2, plot, plot2):
     xval1, yval1, source = _process_points(points1)
@@ -232,6 +207,7 @@ def visualize(images: dict, images_originals: dict, mask_types: list, other_type
     :param max_images: max number of tabs to be shown
     '''
     tabs = []
+    heatmap_labels, mask_types, points_types, other_types = get_image_types(images[0])
     #loop through the input elements to create the tabs
     for index, (data, data_original) in enumerate(zip(images, images_originals)):
         #Restart palette of colors to have the same colors in each image
@@ -251,14 +227,15 @@ def visualize(images: dict, images_originals: dict, mask_types: list, other_type
             color = _get_next_color()
             checkboxes_mask = _add_mask_plot_and_checkbox(img, img2, color, mask, plot, plot2)
             list_checkbox = (*list_checkbox, checkboxes_mask)
-        if 'heatmap' in data: #Plotting of heatmap
-            img = data['heatmap']
-            img2 = data_original['heatmap']
-            checkboxes_heatmap = _add_heatmap_plot(img, img2, plot, plot2)
+        for heatmap in heatmap_labels: #Plotting of heatmap
+            img = data[heatmap]
+            img2 = data_original[heatmap]
+            color = _get_next_color()
+            checkboxes_heatmap = _add_mask_plot_and_checkbox(img, img2, color, heatmap, plot, plot2)
             list_checkbox = (*list_checkbox, checkboxes_heatmap)
-        if 'keypoints' in data:#Plotting of keypoints
-            points = data['keypoints']
-            points2 = data_original['keypoints']
+        for keypoints in points_types:#Plotting of keypoints
+            points = data[keypoints]
+            points2 = data_original[keypoints]
             checkboxes = _add_points_plot(points, points2, plot, plot2)
             list_checkbox = (*list_checkbox, checkboxes)
         for label in other_types:#Plotting of labels
