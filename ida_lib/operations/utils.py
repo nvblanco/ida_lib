@@ -1,9 +1,59 @@
+from string import digits
+
 import cv2
 import kornia
 import numpy as np
 import torch
 
-device = 'cuda'
+from ida_lib.global_parameters import device, data_types_2d
+
+
+def remove_digits(label:str):
+    remove_digits = str.maketrans('', '', digits)
+    return label.translate(remove_digits)
+
+def add_new_axis(arr: np.ndarray):
+    return arr[...,np.newaxis]
+
+def get_principal_type(data: dict):
+    if 'image' in data:
+        return 'image'
+    for label in data.keys():
+        no_numbered = remove_digits(label)
+        if no_numbered in data_types_2d:
+            return label
+
+def dtype_to_torch_type(type: np.dtype):
+    '''
+    Maps the numpy type to the equivalent torch.type
+    :param type: numpy type
+    :return: torch.type
+    '''
+    if type == np.dtype('uint8'):
+        return torch.uint8
+    elif type == np.dtype('int8'):
+        return torch.int8
+    elif type == np.dtype('int16'):
+        return torch.int16
+    elif type == np.dtype('int32'):
+        return torch.int
+    elif type == np.dtype('int64'):
+        return torch.int64
+    elif type == np.dtype('float32'):
+        return torch.float
+    elif type == np.dtype('float64'):
+        return torch.float64
+    else:
+        return torch.uint8
+
+
+def get_principal_type(data: dict):
+    if 'image' in data:
+        return 'image'
+    for label in data.keys():
+        no_numbered = remove_digits(label)
+        if no_numbered in data_types_2d:
+            return label
 
 
 def save_im(tensor, title):
@@ -53,7 +103,6 @@ def homogeneus_points_to_list(keypoints):
     return [((dato)[:2, :]).reshape(2) for dato in torch.split(keypoints, 1, dim=1)]
 
 
-
 def keypoints_to_homogeneus_and_concatenate(keypoints, resize_factor=None):
     if resize_factor is None:
         if type(keypoints) is np.ndarray:
@@ -81,13 +130,9 @@ def mask_change_to_01_functional(mask):
     return (mask // 0.5)
 
 
-
 def _resize_image(image, new_size):
     return cv2.resize(image, new_size)
 
 def is_a_normalized_image(image):
     return image.min() >= 0 and image.max() <=1
 
-
-def is_color_image(image):
-    return len(image.shape) == 3 and image.shape[2] == 3

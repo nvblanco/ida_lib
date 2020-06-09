@@ -14,6 +14,8 @@ from bokeh.plotting import figure
 
 __all__ = [ 'visualize']
 
+from ida_lib.operations.utils import get_principal_type
+
 PLOT_SIZE = (550, 550)
 
 color_palette = [
@@ -254,7 +256,6 @@ def visualize(images: dict, images_originals: dict, mask_types: list, other_type
         _restart_color_palette()
         list_target = ()
         list_checkbox = ()
-        from ida_lib.core.pipeline_functional import get_principal_type
         type = get_principal_type(data)
         img = data[type]
         plot = _generate_image_plot(img, 'transformed image') #Generate plot of transformed image

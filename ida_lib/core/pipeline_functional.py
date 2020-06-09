@@ -1,100 +1,49 @@
 import functools
-from string import digits
 from typing import Optional
-
 import cv2
 import kornia
 import numpy as np
 import torch
-from kornia.geometry.transform.imgwarp import warp_affine
 
 from ida_lib.core import visualization
+from ida_lib.global_parameters import data_types_2d, device, internal_type, identity
+from ida_lib.operations.utils import remove_digits, add_new_axis
 from ida_lib.operations import utils
 
 __all__ = ['get_compose_matrix',
            'get_compose_function',
            'preprocess_data',
-           'preprocess_dict_data',
-           'preprocess_dict_data_and_data_info',
-           'preprocess_dict_data_and_data_info_with_resize',
            'split_operations_by_type',
-           'get_compose_matrix_and_configure_parameters',
-           'postprocess_data',
-           'own_affine',
-           'dtype_to_torch_type',
-           'get_principal_type']
+           'postprocess_data']
 
 
-device = 'cuda'
-cuda = torch.device('cuda')
-data_types_2d = {"image", "mask", "segmap", "heatmap"}
-present_2d_types = []
 mask_types = []
 other_types = []
-internal_type = torch.float32
-identity = torch.eye(3, 3, device=cuda)
 
-def get_compose_matrix(operations: list) -> torch.tensor:
+
+def get_compose_matrix(operations: list, data_info: Optional[dict] = None) -> torch.tensor:
     """
     Returns the transformation matrix composed by the multiplication in order of
     the input operations (according to their probability)
 
+    If data_info is not None, go through the operations by entering the necessary information about the images (image center, shape..)
+
     :param operations : list of pipeline operations
-    :return : torch tensor of the transform matrix
-    """
-    matrix = identity.clone()
-    for operation in operations:
-        if operation.apply_according_to_probability():
-            matrix = torch.matmul(operation.get_op_matrix(), matrix)
-    return matrix
-
-
-
-def get_compose_matrix_and_configure_parameters(operations: list, data_info: dict) -> torch.tensor:
-    """
-    Returns the transformation matrix composed by the multiplication in order of
-    the input operations (according to their probability).
-
-    Go through the operations by entering the necessary information about the images (image center, shape..)
-    :param operations: list of pipeline operations
     :param data_info : dict with data info to configure operations parameters
     :return : torch tensor of the transform matrix
     """
     matrix = identity.clone()
-    for operation in operations:
-        if operation.need_data_info():
-            operation.config_parameters(data_info)
-        if operation.apply_according_to_probability():
-            matrix = torch.matmul(operation.get_op_matrix(), matrix)
+    if data_info:
+        for operation in operations:
+            if operation.need_data_info():
+                operation.config_parameters(data_info)
+            if operation.apply_according_to_probability():
+                matrix = torch.matmul(operation.get_op_matrix(), matrix)
+    else:
+        for operation in operations:
+            if operation.apply_according_to_probability():
+                matrix = torch.matmul(operation.get_op_matrix(), matrix)
     return matrix
-
-
-def own_affine(tensor: torch.Tensor, matrix: torch.Tensor, interpolation: str = 'bilinear',
-               padding_mode: str = 'border') -> torch.Tensor:
-    """Apply an affine transformation to the image.
-
-    :param tensor :     The image tensor to be warped.
-    :param matrix :     The 2x3 affine transformation matrix.
-    :param interpolation : interpolation mode to calculate output values
-          'bilinear' | 'nearest'. Default: 'bilinear'.
-    :param padding_mode : padding mode for outside grid values
-          'zeros' | 'border' | 'reflection'. Default: 'zeros'.
-
-    :return : The warped image.
-    """
-    # warping needs data in the shape of BCHW
-    is_unbatched: bool = tensor.ndimension() == 3
-    if is_unbatched:
-        tensor = torch.unsqueeze(tensor, dim=0)
-    matrix = matrix.expand(tensor.shape[0], -1, -1)
-    # warp the input tensor
-    height: int = tensor.shape[-2]
-    width: int = tensor.shape[-1]
-    warped: torch.Tensor = warp_affine(tensor, matrix, (height, width), flags=interpolation, padding_mode=padding_mode)
-    # return in the original shape
-    if is_unbatched:
-        warped = torch.squeeze(warped, dim=0)
-    return warped
 
 
 
@@ -189,7 +138,7 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
     compose_data = torch.tensor([], dtype=internal_type)
     compose_discretized_data = torch.tensor([], dtype=internal_type)
 
-    for actual_type in data.keys():
+    for actual_type in data:
         no_numbered_type = remove_digits(actual_type)
         if no_numbered_type in data_types_2d:
             if len(data[actual_type].shape) == 2:
@@ -247,7 +196,7 @@ def preprocess_dict_data(data: list, batch_info: dict, resize:bool = False) -> l
     p_data = {}
     compose_data = torch.tensor([])
     compose_discretized_data = torch.tensor([])
-    for actual_type in data.keys():
+    for actual_type in data:
         if actual_type in data_types_2d:
             if len(data[actual_type].shape) == 2:
                 data[actual_type] = add_new_axis(data[actual_type])
@@ -303,7 +252,7 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
     data_info['contains_keypoints'] = False
     compose_data = torch.tensor([], dtype=internal_type)
     compose_discretized_data = torch.tensor([], dtype = internal_type)
-    for actual_type in data.keys():
+    for actual_type in data:
         no_numbered_type = remove_digits(actual_type)
         if no_numbered_type in data_types_2d:
             if not actual_type in data_types_2d: data_types_2d.add(
@@ -347,11 +296,11 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
 
 
 
-def postprocess_data(batch: list, batch_info: dict,  data_original: Optional[list]=None, visualize:bool = False, original_type: torch.dtype=torch.uint8) -> list:
+def postprocess_data(batch: list, batch_info: dict,  data_original: Optional[list]=None, visualize:bool = False, original_type: torch.dtype=torch.uint8, output_format: str = 'dict') -> list:
     """
     Restores the data to the original form; separating the matrix into the different 2d input data and point coordinates.
-    :param batch        (list) : list of elements to be tranformed through the pipe
-    :param batch_info   (dict) : dict with necesary information about the batch data
+    :param batch : list of elements to be tranformed through the pipe
+    :param batch_info: dict with necesary information about the batch data
     :return: processed data
     """
     process_data = []
@@ -371,45 +320,20 @@ def postprocess_data(batch: list, batch_info: dict,  data_original: Optional[lis
             data_output = data['data_2d']
         process_data.append(data_output)
     if visualize:
-        visualization.visualize(process_data[0:10], data_original[0:10], mask_types, other_types)
-    return process_data
-
-
-def dtype_to_torch_type(type: np.dtype):
-    '''
-    Maps the numpy type to the equivalent torch.type
-    :param type: numpy type
-    :return: torch.type
-    '''
-    if type == np.dtype('uint8'):
-        return torch.uint8
-    elif type == np.dtype('int8'):
-        return torch.int8
-    elif type == np.dtype('int16'):
-        return torch.int16
-    elif type == np.dtype('int32'):
-        return torch.int
-    elif type == np.dtype('int64'):
-        return torch.int64
-    elif type == np.dtype('float32'):
-        return torch.float
-    elif type == np.dtype('float64'):
-        return torch.float64
+        visualization.visualize(process_data[0:5], data_original[0:5], mask_types, other_types)
+    if len(process_data) == 1: #if the output is a single item, the list is removed
+        process_data = process_data[0]
+        if output_format == 'tuple':
+            return tuple(process_data.values())
+        return process_data
     else:
-        return torch.uint8
+        if output_format == 'tuple':
+            return [tuple(d.values()) for d in process_data]
+        return process_data
 
 
-def add_new_axis(arr: np.ndarray):
-    return arr[...,np.newaxis]
 
-def get_principal_type(data: dict):
-    if 'image' in data:
-        return 'image'
-    for label in data.keys():
-        no_numbered = remove_digits(label)
-        if no_numbered in data_types_2d:
-            return label
 
-def remove_digits(label:str):
-    remove_digits = str.maketrans('', '', digits)
-    return label.translate(remove_digits)
+
+
+

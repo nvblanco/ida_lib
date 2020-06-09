@@ -1,7 +1,4 @@
 from __future__ import print_function
-
-import cv2
-import kornia
 from PIL import Image
 import os
 import os.path
@@ -15,7 +12,6 @@ else:
 
 import torch.utils.data as data
 from torchvision.datasets.utils import download_url, check_integrity
-
 
 
 class custom_CIFAR10(data.Dataset):
@@ -118,6 +114,15 @@ class custom_CIFAR10(data.Dataset):
         else:
             img, target = self.test_data[index], self.test_labels[index]
 
+        # doing this so that it is consistent with all other datasets
+        # to return a PIL Image
+        img = Image.fromarray(img)
+
+        if self.transform is not None:
+            img = self.transform(img)
+
+        if self.target_transform is not None:
+            target = self.target_transform(target)
         item = {'image': img, 'target': target}
         return item ########################modified to return a dict instead of a tuple
 
@@ -153,154 +158,3 @@ class custom_CIFAR10(data.Dataset):
         tar.extractall()
         tar.close()
         os.chdir(cwd)
-
-
-import torch
-import torch.optim as optim
-import torchvision
-import torchvision.transforms as transforms
-
-import torch.nn as nn
-import torch.nn.functional as F
-
-
-from ida_lib.core.pipeline_geometric_ops import TranslatePipeline, VflipPipeline, HflipPipeline, RandomShearPipeline
-from ida_lib.core.pipeline_pixel_ops import ContrastPipeline, NormalizePipeline
-from ida_lib.image_augmentation.data_loader import AugmentDataLoader
-
-
-trainset = custom_CIFAR10(root='./data', train=True,
-                                        download=True)
-#trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
-#                                          shuffle=True, num_workers=2)
-
-trainloader = AugmentDataLoader(dataset=trainset,
-                  batch_size=4,
-                  shuffle=True,
-                  pipeline_operations=(
-                      TranslatePipeline(probability=1, translation=(30, 10)),
-                      VflipPipeline(probability=0),
-                      HflipPipeline(probability=0),
-                      ContrastPipeline(probability=0, contrast_factor=1),
-                      RandomShearPipeline(probability=0, shear_range=(0, 0.5))),
-                  resize=(500, 500),
-                  interpolation='bilinear',
-                  padding_mode='zeros',
-                  output_format='tuple'
-                  )
-
-testset = custom_CIFAR10(root='./data', train=False,
-                                       download=True)
-testloader = torch.utils.data.DataLoader(testset, batch_size=4,
-                                         shuffle=False, num_workers=2)
-
-classes = ('plane', 'car', 'bird', 'cat',
-           'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-# functions to show an image
-
-def plot_dict_batch(batch):
-    batch_size = batch['image'].shape[0]
-    images = [item['image'][i, ...].cpu() for i in range(item[0]['image'].shape[0])]
-    labels = [item['target'][i, ...].cpu() for i in range(item[0]['target'].shape[0])]
-
-    fig, axs = plt.subplots(1, batch_size, figsize=(16, 10))
-    for i in range(batch_size):
-        axs[i].axis('off')
-        axs[i].set_title(classes[labels[i].item()])
-        img: np.ndarray = kornia.tensor_to_image(images[i].byte())
-        axs[i].imshow(img)
-    plt.show()
-
-def plot_tuple_batch(images, labels):
-    batch_size = images.shape[0]
-    images = images.cpu()
-    labels = labels.cpu()
-
-    fig, axs = plt.subplots(1, batch_size, figsize=(16, 10))
-    for i in range(batch_size):
-        axs[i].axis('off')
-        axs[i].set_title(classes[labels[i].item()])
-        img: np.ndarray = kornia.tensor_to_image(images[i].byte())
-        axs[i].imshow(img)
-    plt.show()
-
-# get some random training images
-dataiter = iter(trainloader)
-images, labels = dataiter.next()
-
-plot_tuple_batch(images, labels)
-
-
-#defining the net
-
-class Net(nn.Module):
-    def __init__(self):
-        super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(3, 6, 5)
-        self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(16 * 5 * 5, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 10)
-
-    def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        x = x.view(-1, 16 * 5 * 5)
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
-        return x
-
-
-net = Net()
-#net = net.cuda()
-
-#Configure parameters
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
-
-#TRAIN
-for epoch in range(2):  # loop over the dataset multiple times
-    running_loss = 0.0
-    for i, data in enumerate(trainloader, 0):
-        # get the inputs; data is a list of [inputs, labels]
-        inputs, labels = data
-        #labels = labels.to('cuda')
-        inputs = inputs.cpu()
-        # zero the parameter gradients
-        optimizer.zero_grad()
-
-        # forward + backward + optimize
-        outputs = net(inputs)
-        loss = criterion(outputs, labels)
-        loss.backward()
-        optimizer.step()
-
-        # print statistics
-        running_loss += loss.item()
-        if i % 2000 == 1999:    # print every 2000 mini-batches
-            print('[%d, %5d] loss: %.3f' %
-                  (epoch + 1, i + 1, running_loss / 2000))
-            running_loss = 0.0
-
-print('Finished Training')
-
-
-PATH = './cifar_net.pth'
-torch.save(net.state_dict(), PATH)
-
-dataiter = iter(testloader)
-item = dataiter.next()
-
-# print images
-#plot_train_images(item)
-print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(4)))
-
-
-net = Net()
-net.load_state_dict(torch.load(PATH))

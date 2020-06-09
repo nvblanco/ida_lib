@@ -39,7 +39,7 @@ keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, im
 
 points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 #data = {'image': img, 'mask': segmap2, 'mask2': segmap, 'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
-data = { 'keypoints': points, 'heatmap': heatmap_complete}
+data = { 'image': img, 'keypoints': points, 'heatmap': heatmap_complete}
 samples = 20
 
 batch = [data.copy() for _ in range(samples)]
@@ -50,7 +50,8 @@ from time import time
 start_time = time()
 
 pip = pipeline(interpolation='bilinear', pipeline_operations=(
-    ScalePipeline(probability=0, scale_factor=0.5),
+    ScalePipeline(probability=0.3, scale_factor=0.5),
+    HflipPipeline(probability=0.6),
     RotatePipeline(probability=0, degrees=40),
     SpekleNoisePipeline(probability=0)))
 

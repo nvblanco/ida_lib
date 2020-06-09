@@ -59,19 +59,19 @@ face_dataset = FaceLandmarksDataset(csv_file='faces/face_landmarks.csv',
                                     root_dir='faces/')
 
 #initialite the custom dataloader
-dataloader = DataAugmentDataLoader( dataset=face_dataset,
-                                    batch_size=1,
-                                    shuffle=True,
-                                    pipeline_operations=(
+dataloader = AugmentDataLoader(dataset=face_dataset,
+                               batch_size=1,
+                               shuffle=True,
+                               pipeline_operations=(
                                         TranslatePipeline(probability=1, translation=(30, 10)),
                                         VflipPipeline(probability=0),
                                         HflipPipeline(probability=0),
                                         ContrastPipeline(probability=0, contrast_factor=1),
                                         RandomShearPipeline(probability=0, shear_range=(0, 0.5))),
-                                    resize=(500, 500),
-                                    interpolation='bilinear',
-                                    padding_mode='zeros'
-                                    )
+                               resize=(500, 500),
+                               interpolation='bilinear',
+                               padding_mode='zeros'
+                               )
 
 number_of_iterations = 3 #number of times the entire dataset is processed
 for epoch in range(number_of_iterations-1):

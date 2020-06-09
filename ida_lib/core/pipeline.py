@@ -1,15 +1,12 @@
 from typing import Union
-
 import cv2
 import torch
-
-from ida_lib.core.pipeline_functional import (split_operations_by_type,
-                                              own_affine, get_compose_function,
+from ida_lib.operations.geometryOps_functional import own_affine
+from ida_lib.operations.utils import get_principal_type, dtype_to_torch_type
+from ida_lib.core.pipeline_functional import (split_operations_by_type, get_compose_function,
                                               preprocess_data,
-                                              get_compose_matrix_and_configure_parameters,
-                                              get_compose_matrix, postprocess_data, dtype_to_torch_type,
-                                              get_principal_type)
-
+                                              get_compose_matrix,
+                                              postprocess_data)
 
 class pipeline(object):
     """
@@ -39,7 +36,7 @@ class pipeline(object):
     """
 
     def __init__(self, pipeline_operations: list, resize: tuple = None, interpolation: str = 'bilinear',
-                 padding_mode: str = 'zeros'):
+                 padding_mode: str = 'zeros', output_format: str = 'dict'):
         """
         :param pipeline_operations: list of pipeline initialized operations (see pipeline_operations.py)
         :param resize: tuple of desired output size. Example (25,25)
@@ -47,6 +44,8 @@ class pipeline(object):
                 'bilinear' | 'nearest'. Default: 'bilinear'.
         :param padding_mode: padding mode for outside grid values
                 'zeros' | 'border' | 'reflection'. Default: 'zeros'
+        :param output_format: desired format for each output item in the pipeline
+                'dict' (each item accompanied by its type name) | 'tuple'
         """
         self.color_ops, self.geom_ops, self.indep_ops = split_operations_by_type(pipeline_operations)
         self.geom_ops.reverse()  # to apply matrix multiplication in the user order
@@ -54,6 +53,7 @@ class pipeline(object):
         self.resize = resize
         self.interpolation = interpolation
         self.padding_mode = padding_mode
+        self.output_format = output_format
 
     def _apply_geometry_transform_data2d(self, image: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         """
@@ -106,12 +106,12 @@ class pipeline(object):
         original_type = dtype_to_torch_type(batch_data[0][principal_type].dtype)
         for index, data in enumerate(batch_data):
             if 'image' in data:
-                lut = get_compose_function(self.color_ops)  #
-                data['image'] = cv2.LUT(data['image'].astype('uint8'), lut)  #
-                for op in self.indep_ops: data['image'] = op.apply_to_image_if_probability(data['image'])  #
+                lut = get_compose_function(self.color_ops)
+                data['image'] = cv2.LUT(data['image'].astype('uint8'), lut)
+                for op in self.indep_ops: data['image'] = op.apply_to_image_if_probability(data['image'])
             if self.info_data is None:
                 p_data, self.info_data = preprocess_data(data, interpolation=self.interpolation, resize=self.resize)
-                matrix = get_compose_matrix_and_configure_parameters(self.geom_ops, self.info_data)
+                matrix = get_compose_matrix(self.geom_ops, self.info_data) #calculates the composite matrix and configures the necessary parameters (causes by batch_info as a parameter)
             else:
                 p_data = preprocess_data(data, batch_info=self.info_data, resize=self.resize)
                 matrix = get_compose_matrix(self.geom_ops)
@@ -122,6 +122,6 @@ class pipeline(object):
             if self.info_data['contains_keypoints']: p_data['points_matrix'] = self._apply_geometry_transform_points(
                 p_data['points_matrix'], matrix)
             self.process_data.append(p_data)
-        return postprocess_data(batch=self.process_data, batch_info=self.info_data, data_original=original,  visualize=visualize, original_type = original_type)
+        return postprocess_data(batch=self.process_data, batch_info=self.info_data, data_original=original,  visualize=visualize, original_type = original_type, output_format = self.output_format)
 
 

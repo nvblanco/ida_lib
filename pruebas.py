@@ -1,7 +1,7 @@
 from ida_lib.image_augmentation.data_loader import *
 
 
-class test_dataloader(DataAugmentDataLoader):
+class test_dataloader(AugmentDataLoader):
     def init_dataset(self, csv_file, root_dir):
         self.landmarks_frame = pd.read_csv(csv_file)
         self.root_dir = root_dir
