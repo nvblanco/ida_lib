@@ -1,7 +1,7 @@
 from typing import Union
 import cv2
 import torch
-from ida_lib.operations.geometryOps_functional import own_affine
+from ida_lib.operations.geometry_ops_functional import own_affine
 from ida_lib.operations.utils import get_principal_type, dtype_to_torch_type
 from ida_lib.core.pipeline_functional import (split_operations_by_type, get_compose_function,
                                               preprocess_data,

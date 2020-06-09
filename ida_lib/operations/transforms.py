@@ -3,7 +3,7 @@ from typing import Union
 import numpy as np
 import torch
 
-from ida_lib.operations import geometryOps_functional, pixelOps_functional
+from ida_lib.operations import geometry_ops_functional, pixel_ops_functional
 
 __all__ = ['hflip',
            'vflip',
@@ -30,7 +30,7 @@ def hflip(data: dict, visualize : bool = False) -> dict:
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return geometryOps_functional.hflip_compose_data(data, visualize)
+    return geometry_ops_functional.hflip_compose_data(data, visualize)
 
 def vflip(data: dict,  visualize : bool = False)-> dict:
     """
@@ -39,7 +39,7 @@ def vflip(data: dict,  visualize : bool = False)-> dict:
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return geometryOps_functional.vflip_compose_data(data, visualize)
+    return geometry_ops_functional.vflip_compose_data(data, visualize)
 
 def affine(data: dict, matrix: torch.tensor,  visualize : bool = False)-> dict:
     """
@@ -49,7 +49,7 @@ def affine(data: dict, matrix: torch.tensor,  visualize : bool = False)-> dict:
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return geometryOps_functional.affine_compose_data(data, visualize, matrix)
+    return geometry_ops_functional.affine_compose_data(data, visualize, matrix)
 
 def rotate(data: dict, degrees: float,  visualize : bool = False, center: Union[None, torch.Tensor] = None)-> dict:
     """
@@ -60,7 +60,7 @@ def rotate(data: dict, degrees: float,  visualize : bool = False, center: Union[
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return geometryOps_functional.rotate_compose_data(data, visualize, degrees=degrees, center=center)
+    return geometry_ops_functional.rotate_compose_data(data, visualize, degrees=degrees, center=center)
 
 def scale(data: dict, scale_factor,  visualize : bool = False, center: Union[None, torch.Tensor] = None)-> dict:
     """
@@ -74,7 +74,7 @@ def scale(data: dict, scale_factor,  visualize : bool = False, center: Union[Non
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return geometryOps_functional.scale_compose_data(data, visualize, center=center, scale_factor=scale_factor)
+    return geometry_ops_functional.scale_compose_data(data, visualize, center=center, scale_factor=scale_factor)
 
 def translate(data: dict, translation: tuple,  visualize : bool = False)-> dict:
     """
@@ -84,7 +84,7 @@ def translate(data: dict, translation: tuple,  visualize : bool = False)-> dict:
     :param visualize  : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return geometryOps_functional.translate_compose_data(data, visualize, translation)
+    return geometry_ops_functional.translate_compose_data(data, visualize, translation)
 
 def shear(data: dict, shear_factor: tuple,  visualize : bool = False)-> dict:
     """
@@ -94,7 +94,7 @@ def shear(data: dict, shear_factor: tuple,  visualize : bool = False)-> dict:
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return geometryOps_functional.shear_compose_data(data, visualize, shear_factor)
+    return geometry_ops_functional.shear_compose_data(data, visualize, shear_factor)
 
 def change_contrast(data: Union[dict, torch.Tensor, np.ndarray], contrast: float, visualize: bool = False) -> Union[
     dict, torch.Tensor, np.ndarray]:
@@ -108,7 +108,7 @@ def change_contrast(data: Union[dict, torch.Tensor, np.ndarray], contrast: float
     :param visualize  : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return pixelOps_functional.change_contrast(data, visualize=visualize, contrast=contrast)
+    return pixel_ops_functional.change_contrast(data, visualize=visualize, contrast=contrast)
 
 
 def change_brigntness(data: Union[dict, torch.Tensor, np.ndarray], brigth=1, visualize: bool = False) -> Union[
@@ -123,7 +123,7 @@ def change_brigntness(data: Union[dict, torch.Tensor, np.ndarray], brigth=1, vis
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return pixelOps_functional.change_brigthness(data, brightness=brigth, visualize=visualize)
+    return pixel_ops_functional.change_brigthness(data, brightness=brigth, visualize=visualize)
 
 
 def change_gamma(data: Union[dict, torch.Tensor, np.ndarray], gamma, visualize: bool = False) -> Union[
@@ -138,7 +138,7 @@ def change_gamma(data: Union[dict, torch.Tensor, np.ndarray], gamma, visualize: 
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return pixelOps_functional.change_gamma(data, gamma=gamma, visualize=visualize)
+    return pixel_ops_functional.change_gamma(data, gamma=gamma, visualize=visualize)
 
 
 def equalize_histogram(data: Union[dict, torch.Tensor, np.ndarray], visualize: bool = False) -> Union[
@@ -149,7 +149,7 @@ def equalize_histogram(data: Union[dict, torch.Tensor, np.ndarray], visualize: b
     :param visualize: if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return pixelOps_functional.histogram_equalization(data, visualize=visualize)
+    return pixel_ops_functional.histogram_equalization(data, visualize=visualize)
 
 
 def inyect_gaussian_noise(data: Union[dict, torch.Tensor, np.ndarray], var=0.5, visualize: bool = False) -> Union[
@@ -161,7 +161,7 @@ def inyect_gaussian_noise(data: Union[dict, torch.Tensor, np.ndarray], var=0.5, 
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return pixelOps_functional.gaussian_noise(data, var=var, visualize=visualize)
+    return pixel_ops_functional.gaussian_noise(data, var=var, visualize=visualize)
 
 
 def inyect_salt_and_pepper_noise(data: Union[dict, torch.Tensor, np.ndarray], amount=0.05, s_vs_p=0.5, visualize: bool = False) -> Union[
@@ -174,7 +174,7 @@ def inyect_salt_and_pepper_noise(data: Union[dict, torch.Tensor, np.ndarray], am
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return pixelOps_functional.salt_and_pepper_noise(data, amount=amount, s_vs_p=s_vs_p, visualize=visualize)
+    return pixel_ops_functional.salt_and_pepper_noise(data, amount=amount, s_vs_p=s_vs_p, visualize=visualize)
 
 
 def inyect_poisson_noise(data: Union[dict, torch.Tensor, np.ndarray], visualize: bool = False) -> Union[
@@ -185,7 +185,7 @@ def inyect_poisson_noise(data: Union[dict, torch.Tensor, np.ndarray], visualize:
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return pixelOps_functional.poisson_noise(data, visualize=visualize)
+    return pixel_ops_functional.poisson_noise(data, visualize=visualize)
 
 
 def inyect_spekle_noise(data: Union[dict, torch.Tensor, np.ndarray], mean=0, var=0.01, visualize: bool = False) -> Union[
@@ -198,7 +198,7 @@ def inyect_spekle_noise(data: Union[dict, torch.Tensor, np.ndarray], mean=0, var
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return pixelOps_functional.spekle_noise(data, mean=mean, var=var, visualize=visualize)
+    return pixel_ops_functional.spekle_noise(data, mean=mean, var=var, visualize=visualize)
 
 
 def gaussian_blur(data: Union[dict, torch.Tensor, np.ndarray], blur_size=(5, 5), visualize: bool = False) -> Union[
@@ -210,7 +210,7 @@ def gaussian_blur(data: Union[dict, torch.Tensor, np.ndarray], blur_size=(5, 5),
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return pixelOps_functional.gaussian_blur(data, blur_size=blur_size, visualize=visualize)
+    return pixel_ops_functional.gaussian_blur(data, blur_size=blur_size, visualize=visualize)
 
 
 def blur(data: Union[dict, torch.Tensor, np.ndarray], blur_size=(5, 5), visualize: bool = False) -> Union[
@@ -222,4 +222,4 @@ def blur(data: Union[dict, torch.Tensor, np.ndarray], blur_size=(5, 5), visualiz
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return pixelOps_functional.blur(data, blur_size=blur_size, visualize=visualize)
+    return pixel_ops_functional.blur(data, blur_size=blur_size, visualize=visualize)

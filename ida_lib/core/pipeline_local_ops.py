@@ -3,7 +3,7 @@ from typing import Optional
 import numpy as np
 
 from ida_lib.core.pipeline_operations import PipelineOperation
-from ida_lib.operations import pixelOps_functional
+from ida_lib.operations import pixel_ops_functional
 
 __all__ = [ 'BlurPipeline',
            'GaussianBlurPipeline',
@@ -29,7 +29,7 @@ class GaussianNoisePipeline(PipelineOperation):
 
     def apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if PipelineOperation.apply_according_to_probability(self):
-            img = pixelOps_functional._apply_gaussian_noise(img, self.var)
+            img = pixel_ops_functional._apply_gaussian_noise(img, self.var)
         return img
 
 
@@ -54,7 +54,7 @@ class SaltAndPepperNoisePipeline(PipelineOperation):
 
     def apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if PipelineOperation.apply_according_to_probability(self):
-            img = pixelOps_functional._apply_salt_and_pepper_noise(img, self.amount, self.s_vs_p)
+            img = pixel_ops_functional._apply_salt_and_pepper_noise(img, self.amount, self.s_vs_p)
         return img
 
 
@@ -79,7 +79,7 @@ class SpekleNoisePipeline(PipelineOperation):
 
     def apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if PipelineOperation.apply_according_to_probability(self):
-            img = pixelOps_functional._apply_spekle_noise(img)
+            img = pixel_ops_functional._apply_spekle_noise(img)
         return img
 
 
@@ -100,7 +100,7 @@ class PoissonNoisePipeline(PipelineOperation):
 
     def apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if PipelineOperation.apply_according_to_probability(self):
-            img = pixelOps_functional._apply_poisson_noise(img)
+            img = pixel_ops_functional._apply_poisson_noise(img)
         return img
 
 
@@ -120,7 +120,7 @@ class GaussianBlurPipeline(PipelineOperation):
 
     def apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if PipelineOperation.apply_according_to_probability(self):
-            img = pixelOps_functional.apply_gaussian_blur(img, blur_size=self.blur_size)
+            img = pixel_ops_functional.apply_gaussian_blur(img, blur_size=self.blur_size)
         return img
 
 
@@ -140,5 +140,5 @@ class BlurPipeline(PipelineOperation):
 
     def  apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if PipelineOperation.apply_according_to_probability(self):
-            img = pixelOps_functional._apply_blur(img, blur_size=self.blur_size)
+            img = pixel_ops_functional._apply_blur(img, blur_size=self.blur_size)
         return img
