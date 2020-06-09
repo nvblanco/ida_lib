@@ -1,3 +1,6 @@
+from typing import Optional
+
+import torch
 from torch.utils.data import Dataset, DataLoader
 
 from ida_lib.core.pipeline import pipeline
@@ -42,6 +45,7 @@ class AugmentDataLoader(DataLoader):
                  interpolation: str = 'bilinear',
                  padding_mode: str = 'zeros',
                  output_format: str = 'dict',
+                 output_type: Optional[torch.dtype] = None,
                  *args,
                  **kwargs):
 
@@ -51,7 +55,8 @@ class AugmentDataLoader(DataLoader):
                                      interpolation=interpolation,
                                      padding_mode=padding_mode,
                                      pipeline_operations=pipeline_operations,
-                                     output_format=output_format)
+                                     output_format=output_format,
+                                     output_type=output_type)
         else:
             self.pipeline = None
         self.dataset = self.__inner_Dataset(pipeline=self.pipeline, dataset=dataset)

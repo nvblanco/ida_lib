@@ -87,11 +87,12 @@ def get_compose_function(operations: list) -> np.ndarray:
     """
     funcs = [op.transform_function for op in operations if op.apply_according_to_probability()]
     compose_function = functools.reduce(lambda f, g: lambda x: f(g(x)), tuple(funcs), lambda x: x)
-    lookUpTable = np.empty((1, 256), np.int16)
+    lookUpTable = np.empty((1, 256), np.float)
     for i in range(256):
         lookUpTable[0, i] = compose_function(i)
     lookUpTable[0, :] = np.clip(lookUpTable[0, :], 0, 255)
-    return np.uint8(lookUpTable)
+    return lookUpTable
+   # return np.uint8(lookUpTable)
 
 
 def preprocess_data(data:list, batch_info: dict=None,  interpolation: str=None, resize: Optional[tuple]=None) ->list:

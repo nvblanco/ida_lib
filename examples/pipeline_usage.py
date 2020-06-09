@@ -50,9 +50,9 @@ from time import time
 start_time = time()
 
 pip = pipeline(interpolation='bilinear', pipeline_operations=(
-    ScalePipeline(probability=0.3, scale_factor=0.5),
-    HflipPipeline(probability=0.6),
-    RotatePipeline(probability=0, degrees=40),
+    ScalePipeline(probability=0, scale_factor=0.5),
+    HflipPipeline(probability=1),
+    RotatePipeline(probability=1, degrees=20),
     SpekleNoisePipeline(probability=0)))
 
 batch = pip(batch, visualize=True)

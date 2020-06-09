@@ -127,21 +127,6 @@ def _generate_image_plot(img, tittle):
     plot.image_rgba(source=img, image='image', x='x', y='y', dw='dw', dh='dh')
     return plot
 
-'''def _generate_plot(tittle, data):
-    from ida_lib.core.pipeline_functional import get_principal_type
-    type = get_principal_type(data)
-    dw = data[type].shape[2]
-    dh = data[type].shape[1]
-    img = np.zeros((dw, dh, 3))
-    img = _process_image(img)
-    aspect = dh / dw
-    plot = figure(title=tittle, x_range=(0, img.data['dw'][0]), y_range=(
-        img.data['dh'][0], 0), plot_width=PLOT_SIZE[0], plot_height=int(PLOT_SIZE[1] * aspect))
-    plot.title.text_font_size = '12pt'
-    plot.title.text_font_style = 'normal'
-    plot.title.text_font = 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif'
-    plot.image_rgba(source=img, image='image', x='x', y='y', dw='dw', dh='dh')
-    return plot'''
 
 def _add_mask_plot_and_checkbox(img, img2, color, mask, plot, plot2):
     if torch.is_tensor(img):

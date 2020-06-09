@@ -169,8 +169,9 @@ class NormalizePipeline(PipelineOperation):
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
 
-    def transform_function(self, x: int) -> float: return (x + self.old_range[0]) / (
-                self.old_range[1] - self.old_range[0])
+    def transform_function(self, x: int) -> float: return x / 255
+    '''def transform_function(self, x: int) -> float: return (x + self.old_range[0]) / (
+                self.old_range[1] - self.old_range[0])'''
 
 
 class DesnormalizePipeline(PipelineOperation):

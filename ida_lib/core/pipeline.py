@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Optional
 import cv2
 import torch
 from ida_lib.operations.geometry_ops_functional import own_affine
@@ -36,7 +36,7 @@ class pipeline(object):
     """
 
     def __init__(self, pipeline_operations: list, resize: tuple = None, interpolation: str = 'bilinear',
-                 padding_mode: str = 'zeros', output_format: str = 'dict'):
+                 padding_mode: str = 'zeros', output_format: str = 'dict', output_type: Optional[torch.dtype] = torch.float32):
         """
         :param pipeline_operations: list of pipeline initialized operations (see pipeline_operations.py)
         :param resize: tuple of desired output size. Example (25,25)
@@ -46,6 +46,8 @@ class pipeline(object):
                 'zeros' | 'border' | 'reflection'. Default: 'zeros'
         :param output_format: desired format for each output item in the pipeline
                 'dict' (each item accompanied by its type name) | 'tuple'
+        :param: output_type: desired type for the bidimensional oputput items. If it is None, output type will be the same as input's type
+
         """
         self.color_ops, self.geom_ops, self.indep_ops = split_operations_by_type(pipeline_operations)
         self.geom_ops.reverse()  # to apply matrix multiplication in the user order
@@ -54,6 +56,7 @@ class pipeline(object):
         self.interpolation = interpolation
         self.padding_mode = padding_mode
         self.output_format = output_format
+        self.output_type = output_type
 
     def _apply_geometry_transform_data2d(self, image: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         """
@@ -103,7 +106,8 @@ class pipeline(object):
             original = [d.copy() for d in batch_data]  # copy the original batch to diplay on visualization
         self.process_data = []
         principal_type = get_principal_type(batch_data[0])
-        original_type = dtype_to_torch_type(batch_data[0][principal_type].dtype)
+        if self.output_type is None:
+            self.output_type = dtype_to_torch_type(batch_data[0][principal_type].dtype)
         for index, data in enumerate(batch_data):
             if 'image' in data:
                 lut = get_compose_function(self.color_ops)
@@ -122,6 +126,6 @@ class pipeline(object):
             if self.info_data['contains_keypoints']: p_data['points_matrix'] = self._apply_geometry_transform_points(
                 p_data['points_matrix'], matrix)
             self.process_data.append(p_data)
-        return postprocess_data(batch=self.process_data, batch_info=self.info_data, data_original=original,  visualize=visualize, original_type = original_type, output_format = self.output_format)
+        return postprocess_data(batch=self.process_data, batch_info=self.info_data, data_original=original,  visualize=visualize, original_type = self.output_type, output_format = self.output_format)
 
 

@@ -8,6 +8,10 @@ import torch
 from ida_lib.global_parameters import device, data_types_2d
 
 
+def round_torch(arr: torch.tensor, n_digits: int=3):
+    return torch.round(arr * 10 ** n_digits) / (10 ** n_digits)
+
+
 def remove_digits(label:str):
     remove_digits = str.maketrans('', '', digits)
     return label.translate(remove_digits)

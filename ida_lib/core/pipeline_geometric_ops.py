@@ -3,6 +3,7 @@ import kornia
 import torch
 
 from ida_lib.core.pipeline_operations import PipelineOperation
+from ida_lib.operations.utils import round_torch
 
 device = 'cuda'
 cuda = torch.device('cuda')
@@ -135,6 +136,7 @@ class RotatePipeline(PipelineOperation):
         self.degrees = degrees
         self.degrees = degrees * one_torch
         self.new_row = torch.Tensor(1, 3).to(device)
+        self.new_row[:, 2] = 1
         if center is None:
             self.config = True
             self.center = ones_torch.clone()
@@ -172,6 +174,7 @@ class RandomRotatePipeline(PipelineOperation):
             raise Exception("Degrees range must be a tuple (min, max)")
         self.degrees_range = degrees_range
         self.new_row = torch.Tensor(1, 3).to(device)
+        self.new_row[:, 2] = 1
         if center is None:
             self.config = True
             self.center = ones_torch.clone()
@@ -185,7 +188,7 @@ class RandomRotatePipeline(PipelineOperation):
         if self.center_desviation is not None:
             center += random.randint(-self.center_desviation, self.center_desviation)
         return torch.cat(((kornia.geometry.get_rotation_matrix2d(angle=degrees.resize_(1), center=center,
-                                                                 scale=one_torch)).reshape(2, 3), self.new_row))
+                                                                 scale=one_torch.reshape(1))).reshape(2, 3), self.new_row))
 
     def need_data_info(self) -> bool:
         return self.config
