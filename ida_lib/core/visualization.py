@@ -1,17 +1,16 @@
-from string import digits
-
-from bokeh.models import  ColumnDataSource, CustomJS, Panel, Tabs, LabelSet,  Div
-from bokeh.models.widgets import CheckboxGroup
-from bokeh.io import curdoc
-from bokeh.layouts import row, column
-from bokeh.plotting import figure
-import numpy as np
-import cv2
-import torch
-import kornia
 import os
 import sys
+from string import digits
 
+import cv2
+import kornia
+import numpy as np
+import torch
+from bokeh.io import curdoc
+from bokeh.layouts import row, column
+from bokeh.models import ColumnDataSource, CustomJS, Panel, Tabs, LabelSet, Div
+from bokeh.models.widgets import CheckboxGroup
+from bokeh.plotting import figure
 
 __all__ = [ 'visualize']
 
@@ -126,6 +125,22 @@ def _generate_image_plot(img, tittle):
     plot.image_rgba(source=img, image='image', x='x', y='y', dw='dw', dh='dh')
     return plot
 
+'''def _generate_plot(tittle, data):
+    from ida_lib.core.pipeline_functional import get_principal_type
+    type = get_principal_type(data)
+    dw = data[type].shape[2]
+    dh = data[type].shape[1]
+    img = np.zeros((dw, dh, 3))
+    img = _process_image(img)
+    aspect = dh / dw
+    plot = figure(title=tittle, x_range=(0, img.data['dw'][0]), y_range=(
+        img.data['dh'][0], 0), plot_width=PLOT_SIZE[0], plot_height=int(PLOT_SIZE[1] * aspect))
+    plot.title.text_font_size = '12pt'
+    plot.title.text_font_style = 'normal'
+    plot.title.text_font = 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif'
+    plot.image_rgba(source=img, image='image', x='x', y='y', dw='dw', dh='dh')
+    return plot'''
+
 def _add_mask_plot_and_checkbox(img, img2, color, mask, plot, plot2):
     if torch.is_tensor(img):
         img = img.to('cpu')
@@ -239,9 +254,11 @@ def visualize(images: dict, images_originals: dict, mask_types: list, other_type
         _restart_color_palette()
         list_target = ()
         list_checkbox = ()
-        img = data['image']
+        from ida_lib.core.pipeline_functional import get_principal_type
+        type = get_principal_type(data)
+        img = data[type]
         plot = _generate_image_plot(img, 'transformed image') #Generate plot of transformed image
-        img2 = data_original['image']
+        img2 = data_original[type]
         plot2 = _generate_image_plot(img2, 'original_image') #Generate plot of original image
         list_plots = (plot2, plot) #Add plots to the list of output plots
         for mask in mask_types:#Loop through mask types of the input element

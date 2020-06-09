@@ -1,12 +1,13 @@
 import numpy as np
-from ida_lib.core.pipeline import *
-from ida_lib.core.pipeline_geometric_ops import  *
-from ida_lib.core.pipeline_local_ops import  *
 
+from ida_lib.core.pipeline import *
+from ida_lib.core.pipeline_geometric_ops import *
+from ida_lib.core.pipeline_local_ops import *
 
 img: np.ndarray = cv2.imread('../micky.jpg', )
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
+img = img.astype('float32')
+img = img[...,0]
 '''segmap = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.int32)
 segmap[28:171, 35:485, 0] = 1
 segmap[10:25, 30:245, 0] = 2
@@ -31,18 +32,14 @@ heatmap, xedges, yedges = np.histogram2d(x, y, bins=(img.shape[0] // 4, img.shap
 heatmap = heatmap / 3
 heatmap_complete = np.zeros((img.shape[0], img.shape[1], 1))
 
-heatmap_complete[0:img.shape[0] // 4, 0:img.shape[1] // 4, 0] = heatmap
+heatmap_complete[0:img.shape[0] // 4, 0:img.shape[1] // 4, 0] = 1
 
 keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, img.shape[1] // 2 - 50],
              [img.shape[0] // 2 + 85, img.shape[1] // 2 - 80], [img.shape[0] // 2 - 105, img.shape[1] // 2 + 60])
 
 points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
-# data: torch.tensor = kornia.image_to_tensor(img, keepdim=False)  # BxCxHxW
-
-
-# data = color.equalize_histogram(data, visualize=True)
 #data = {'image': img, 'mask': segmap2, 'mask2': segmap, 'keypoints': points, 'label': 5, 'heatmap': heatmap_complete}
-data = {'image': img, 'keypoints': points, 'heatmap': heatmap_complete}
+data = { 'keypoints': points, 'heatmap': heatmap_complete}
 samples = 20
 
 batch = [data.copy() for _ in range(samples)]
@@ -55,7 +52,7 @@ start_time = time()
 pip = pipeline(interpolation='bilinear', pipeline_operations=(
     ScalePipeline(probability=0, scale_factor=0.5),
     RotatePipeline(probability=0, degrees=40),
-SpekleNoisePipeline(probability=0)))
+    SpekleNoisePipeline(probability=0)))
 
 batch = pip(batch, visualize=True)
 batch2 = pip(batch2, visualize=False)

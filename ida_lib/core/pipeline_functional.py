@@ -1,15 +1,15 @@
+import functools
+from string import digits
 from typing import Optional
 
 import cv2
-import functools
-from string import digits
-import numpy as np
-from ida_lib.operations import utils
-import torch
 import kornia
+import numpy as np
+import torch
 from kornia.geometry.transform.imgwarp import warp_affine
-from ida_lib.core import visualization
 
+from ida_lib.core import visualization
+from ida_lib.operations import utils
 
 __all__ = ['get_compose_matrix',
            'get_compose_function',
@@ -21,7 +21,8 @@ __all__ = ['get_compose_matrix',
            'get_compose_matrix_and_configure_parameters',
            'postprocess_data',
            'own_affine',
-           'get_image_types']
+           'dtype_to_torch_type',
+           'get_principal_type']
 
 
 device = 'cuda'
@@ -144,7 +145,7 @@ def get_compose_function(operations: list) -> np.ndarray:
     return np.uint8(lookUpTable)
 
 
-def preprocess_data(data:list, batch_info: dict=None,  new_size: tuple=None, interpolation: str=None, resize:bool=False) ->list:
+def preprocess_data(data:list, batch_info: dict=None,  interpolation: str=None, resize: Optional[tuple]=None) ->list:
     """
     Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix
     that allows applying the geometric operations in a single joint operation on the data
@@ -153,13 +154,13 @@ def preprocess_data(data:list, batch_info: dict=None,  new_size: tuple=None, int
      * Analyze the data info required for the transformations (shape, bpp...)
      * Resize the 2d data and keypoints to the new shape
     :param data:        list of elements to be tranformed through the pipe
-    :param new_size :   desired output size for bidimensional data
+    :param resize :   if it is wanted to resize the data, indicate the new size
     :param interpolation: desired interpolation mode to be applied
     :return: preprocessed and resized data, and dict with batch info
     """
     if batch_info is None:
         if resize is not None:
-            return preprocess_dict_data_and_data_info_with_resize(data, new_size, interpolation)
+            return preprocess_dict_data_and_data_info_with_resize(data, resize, interpolation)
         else:
             return preprocess_dict_data_and_data_info(data, interpolation)
     else:
@@ -187,17 +188,17 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
     data_info['contains_keypoints'] = False
     compose_data = torch.tensor([], dtype=internal_type)
     compose_discretized_data = torch.tensor([], dtype=internal_type)
-    remove_digits = str.maketrans('', '', digits)
+
     for actual_type in data.keys():
-        no_numbered_type = actual_type.translate(remove_digits)
+        no_numbered_type = remove_digits(actual_type)
         if no_numbered_type in data_types_2d:
+            if len(data[actual_type].shape) == 2:
+                data[actual_type] = add_new_axis(data[actual_type])
             original_shape = data[actual_type].shape
             if not actual_type in data_types_2d: data_types_2d.add(
                 actual_type)  # adds to the list of type names the numbered name detected in the input data
             if not 'shape' in data_info:
                 data_info['shape'] = (new_size[0], new_size[1], data[actual_type].shape[2])
-                data_info['bpp'] = data[actual_type].dtype
-                """bpp = (data[type].dtype)[4:]"""
                 data_info['new_size'] = new_size
             data[actual_type] = (kornia.image_to_tensor(cv2.resize(data[actual_type], new_size))).type(internal_type)  # Transform to tensor + resize data
             if data[actual_type].dim() > 3: data[actual_type] = data[actual_type][0, :]
@@ -223,12 +224,13 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
             other_types.append(actual_type)
             p_data[actual_type] = data[actual_type]
     p_data['data_2d'] = compose_data.to(device)
-    data_info['contains_discrete_data'] = mask_types.__len__() != 0
+    data_info['contains_discrete_data'] = len(mask_types) != 0
     if data_info['contains_discrete_data']:
         p_data['data_2d_discreted'] = compose_discretized_data.to(device)
     if 'points_matrix' in p_data:
         p_data['points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate(
         p_data['points_matrix'], (new_size[0] / original_shape[1], new_size[1] / original_shape[0]))
+    data_info['present_types'] = ([*data_info['types_2d']] + mask_types, other_types)
     return p_data, data_info
 
 
@@ -247,6 +249,8 @@ def preprocess_dict_data(data: list, batch_info: dict, resize:bool = False) -> l
     compose_discretized_data = torch.tensor([])
     for actual_type in data.keys():
         if actual_type in data_types_2d:
+            if len(data[actual_type].shape) == 2:
+                data[actual_type] = add_new_axis(data[actual_type])
             if resize:
                 original_shape = data[actual_type].shape
                 data[actual_type] = (kornia.image_to_tensor(
@@ -299,16 +303,15 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
     data_info['contains_keypoints'] = False
     compose_data = torch.tensor([], dtype=internal_type)
     compose_discretized_data = torch.tensor([], dtype = internal_type)
-    remove_digits = str.maketrans('', '', digits)
     for actual_type in data.keys():
-        no_numbered_type = actual_type.translate(remove_digits)
+        no_numbered_type = remove_digits(actual_type)
         if no_numbered_type in data_types_2d:
             if not actual_type in data_types_2d: data_types_2d.add(
                 actual_type)  # adds to the list of type names the numbered name detected in the input data
-
-            if not data_info.keys().__contains__('shape'):
+            if len(data[actual_type].shape) == 2:
+                data[actual_type] = add_new_axis(data[actual_type])
+            if not 'shape' in data_info:
                 data_info['shape'] = data[actual_type].shape
-                data_info['bpp'] = data[actual_type].dtype
             data[actual_type] = (kornia.image_to_tensor(data[actual_type])).type(internal_type)
             if data[actual_type].dim() > 3: data[actual_type] = data[actual_type][0, :]
             if (no_numbered_type == 'mask' or no_numbered_type == 'segmap'):
@@ -333,7 +336,7 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
             other_types.append(actual_type)
             p_data[actual_type] = data[actual_type]
     p_data['data_2d'] = compose_data.to(device)
-    data_info['contains_discrete_data'] = (mask_types.__len__() != 0 and interpolation != 'nearest')
+    data_info['contains_discrete_data'] = (len(mask_types) != 0 and interpolation != 'nearest')
     if data_info['contains_discrete_data']:
         p_data['data_2d_discreted'] = compose_discretized_data.to(device)
     if 'points_matrix' in p_data:  p_data[
@@ -344,7 +347,7 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
 
 
 
-def postprocess_data(batch: list, batch_info: dict,  data_original: Optional[list]=None, visualize:bool = False) -> list:
+def postprocess_data(batch: list, batch_info: dict,  data_original: Optional[list]=None, visualize:bool = False, original_type: torch.dtype=torch.uint8) -> list:
     """
     Restores the data to the original form; separating the matrix into the different 2d input data and point coordinates.
     :param batch        (list) : list of elements to be tranformed through the pipe
@@ -353,21 +356,16 @@ def postprocess_data(batch: list, batch_info: dict,  data_original: Optional[lis
     """
     process_data = []
     for data in batch:
-        if batch_info.keys().__contains__('types_2d'):
+        if 'types_2d' in batch_info:
             data_output = {}
             data_split = torch.split(data['data_2d'], list(batch_info['types_2d'].values()), dim=0)
             if batch_info['contains_discrete_data']: discreted_data_split = torch.split(data['data_2d_discreted'], list(
                 batch_info['types_2d_discreted'].values()), dim=0)
             for index, actual_type in enumerate(batch_info['types_2d']):
-                data_output[actual_type] = data_split[index]
+                data_output[actual_type] = data_split[index].type(original_type)
             for index, actual_type in enumerate(batch_info['types_2d_discreted']):
-                data_output[actual_type] = discreted_data_split[index]
-            """for mask in mask_types: 
-                data_output[mask] = utils.mask_change_to_01_functional(
-                data_output[mask])"""
+                data_output[actual_type] = discreted_data_split[index].type(original_type)
             for label in other_types: data_output[label] = data[label]
-            """if data.keys().__contains__('points_matrix'): data_output['keypoints'] = [
-                ((dato)[:2, :]).reshape(2) for dato in torch.split(data['points_matrix'], 1, dim=1)]"""
             if 'points_matrix' in data: data_output['keypoints'] = utils.homogeneus_points_to_matrix(data['points_matrix'])
         else:
             data_output = data['data_2d']
@@ -377,5 +375,41 @@ def postprocess_data(batch: list, batch_info: dict,  data_original: Optional[lis
     return process_data
 
 
+def dtype_to_torch_type(type: np.dtype):
+    '''
+    Maps the numpy type to the equivalent torch.type
+    :param type: numpy type
+    :return: torch.type
+    '''
+    if type == np.dtype('uint8'):
+        return torch.uint8
+    elif type == np.dtype('int8'):
+        return torch.int8
+    elif type == np.dtype('int16'):
+        return torch.int16
+    elif type == np.dtype('int32'):
+        return torch.int
+    elif type == np.dtype('int64'):
+        return torch.int64
+    elif type == np.dtype('float32'):
+        return torch.float
+    elif type == np.dtype('float64'):
+        return torch.float64
+    else:
+        return torch.uint8
 
 
+def add_new_axis(arr: np.ndarray):
+    return arr[...,np.newaxis]
+
+def get_principal_type(data: dict):
+    if 'image' in data:
+        return 'image'
+    for label in data.keys():
+        no_numbered = remove_digits(label)
+        if no_numbered in data_types_2d:
+            return label
+
+def remove_digits(label:str):
+    remove_digits = str.maketrans('', '', digits)
+    return label.translate(remove_digits)

@@ -1,6 +1,6 @@
 from typing import Union
-import numpy as np
 
+import numpy as np
 import torch
 
 from ida_lib.operations import geometry_functional, color_functional

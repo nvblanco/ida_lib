@@ -1,20 +1,16 @@
-from bokeh.plotting import figure, output_file, show
-from bokeh.models import Panel, Tabs, Label, LabelSet,ColumnDataSource
-from bokeh.layouts import row, column
+import bokeh.plotting
 import cv2
+import kornia
 import numpy as np
 import torch
-import kornia
-import bokeh.plotting
-from bokeh.palettes import PuBu
-from bokeh.models import ColumnDataSource, ranges, LabelSet
-from ida_lib.operations import transforms
-from bokeh.models import ColumnDataSource, Grid, LinearAxis, Plot, VBar, HBar
-from bokeh.models import Button, Select, ColumnDataSource, CustomJS, Panel, Tabs
 from bokeh.io import curdoc
+from bokeh.layouts import row
+from bokeh.models import Panel
+from bokeh.models import Select, ColumnDataSource, CustomJS, Panel, Tabs
+from bokeh.models import ranges, LabelSet
 from bokeh.models.widgets import CheckboxGroup
-
-
+from bokeh.palettes import PuBu
+from bokeh.plotting import figure
 
 
 def diference_between_images_pixel(img1, img2):

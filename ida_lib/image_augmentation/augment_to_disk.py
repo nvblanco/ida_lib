@@ -1,11 +1,11 @@
-from skimage import io
-from ida_lib.operations.utils import save_im
-from tqdm import trange
-import os
 import csv
-import pandas as pd
+import os
+
 from torch.utils.data import Dataset
+from tqdm import trange
+
 from ida_lib.core.pipeline import *
+from ida_lib.operations.utils import save_im
 
 
 class AgmentToDisk(object):
@@ -119,57 +119,6 @@ class AgmentToDisk(object):
 
 # samples_per_item = 5
 
-
-class FaceLandmarksDataset(Dataset):
-    """Face Landmarks dataset."""
-
-    def __init__(self, csv_file, root_dir, transform=None):
-        """
-        Args:
-            csv_file (string): Path to the csv file with annotations.
-            root_dir (string): Directory with all the images.
-            transform (callable, optional): Optional transform to be applied
-                on a sample.
-        """
-        self.landmarks_frame = pd.read_csv(csv_file)
-        self.root_dir = root_dir
-        self.transform = transform
-
-    def __len__(self):
-        return len(self.landmarks_frame)
-
-    def __getitem__(self, idx):
-        if torch.is_tensor(idx):
-            idx = idx.tolist()
-
-        img_name = os.path.join(self.root_dir,
-                                self.landmarks_frame.iloc[idx, 0])
-        id = (self.landmarks_frame.iloc[idx, 0]).split('.')[0]
-        image = io.imread(img_name)
-        landmarks = self.landmarks_frame.iloc[idx, 1:]
-        landmarks = np.array([landmarks])
-        landmarks = landmarks.astype('float').reshape(-1, 2)
-        sample = {'id': id, 'image': image, 'landmarks': landmarks}
-
-        return sample
-
-
-face_dataset = FaceLandmarksDataset(csv_file='../../examples/faces/face_landmarks.csv',
-                                    root_dir='../../examples/faces/')
-
-augmentor = AgmentToDisk(dataset=face_dataset,
-                         samples_per_item=50,
-                         operations=(RandomScalePipeline(probability=0.6, scale_range=(0.8, 1.2), center_desviation=20),
-                                     HflipPipeline(probability=0.5),
-                                     RandomContrastPipeline(probability=0.5, contrast_range=(1, 1.5))),
-                         interpolation='nearest',
-                         padding_mode='zeros',
-                         resize=None,
-                         output_extension='.jpg',
-                         output_csv_path='anotations.csv',
-                         output_path='./augmented_custom')
-
-augmentor()
 
 """output_csv = []
 output_path = './augmented'

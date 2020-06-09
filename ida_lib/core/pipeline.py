@@ -1,14 +1,14 @@
 from typing import Union
+
 import cv2
 import torch
-
-import numpy as np
 
 from ida_lib.core.pipeline_functional import (split_operations_by_type,
                                               own_affine, get_compose_function,
                                               preprocess_data,
                                               get_compose_matrix_and_configure_parameters,
-                                              get_compose_matrix, postprocess_data)
+                                              get_compose_matrix, postprocess_data, dtype_to_torch_type,
+                                              get_principal_type)
 
 
 class pipeline(object):
@@ -102,10 +102,13 @@ class pipeline(object):
         if visualize:
             original = [d.copy() for d in batch_data]  # copy the original batch to diplay on visualization
         self.process_data = []
+        principal_type = get_principal_type(batch_data[0])
+        original_type = dtype_to_torch_type(batch_data[0][principal_type].dtype)
         for index, data in enumerate(batch_data):
-            lut = get_compose_function(self.color_ops)  #
-            data['image'] = cv2.LUT(data['image'], lut)  #
-            for op in self.indep_ops: data['image'] = op.apply_to_image_if_probability(data['image'])  #
+            if 'image' in data:
+                lut = get_compose_function(self.color_ops)  #
+                data['image'] = cv2.LUT(data['image'].astype('uint8'), lut)  #
+                for op in self.indep_ops: data['image'] = op.apply_to_image_if_probability(data['image'])  #
             if self.info_data is None:
                 p_data, self.info_data = preprocess_data(data, interpolation=self.interpolation, resize=self.resize)
                 matrix = get_compose_matrix_and_configure_parameters(self.geom_ops, self.info_data)
@@ -119,6 +122,6 @@ class pipeline(object):
             if self.info_data['contains_keypoints']: p_data['points_matrix'] = self._apply_geometry_transform_points(
                 p_data['points_matrix'], matrix)
             self.process_data.append(p_data)
-        return postprocess_data(batch=self.process_data, batch_info=self.info_data, data_original=original,  visualize=visualize)
+        return postprocess_data(batch=self.process_data, batch_info=self.info_data, data_original=original,  visualize=visualize, original_type = original_type)
 
 

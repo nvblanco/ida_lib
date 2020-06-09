@@ -2,11 +2,12 @@ from functools import wraps
 from typing import Union
 
 import cv2
-import numpy as np
-from . import utils
-import torch
 import kornia
+import numpy as np
+import torch
+
 from ida_lib.image_augmentation import visualization
+from . import utils
 
 device = utils.device
 

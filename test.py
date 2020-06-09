@@ -1,11 +1,9 @@
+import cv2
+import kornia
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from operations import transforms
-import kornia
-from matplotlib import image
-import matplotlib.pyplot as plt
-import cv2
-
 
 # read the image with OpenCV
 img: np.ndarray = cv2.imread('./gato.jpg')
@@ -21,8 +19,6 @@ keypoints = ([img.shape[0]//2, img.shape[1]//2], [img.shape[0]//2  + 15, img.sha
 points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 data: torch.tensor = kornia.image_to_tensor(img, keepdim=False)  # BxCxHxW
 
-
-from operations import utils
 #data = color.equalize_histogram(data, visualize=True)
 
 data = {'image':data, 'keypoints': points, 'mask': data}
@@ -48,7 +44,6 @@ data = transforms.hflip(data, True)
 #data = color.inyect_spekle_noise(data)
 #data = color.inyect_poisson_noise(data) (!!!!)
 #data['image'] = color.inyect_gaussian_noise(data['image'], var=0.5)
-from time import time
 
 
 """
