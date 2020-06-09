@@ -16,7 +16,7 @@ else:
 import torch.utils.data as data
 from torchvision.datasets.utils import download_url, check_integrity
 
-
+'''https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#define-a-convolutional-neural-network'''
 
 class custom_CIFAR10(data.Dataset):
     """`CIFAR10 <https://www.cs.toronto.edu/~kriz/cifar.html>`_ Dataset.
@@ -176,6 +176,7 @@ trainset = custom_CIFAR10(root='./data', train=True,
 trainloader = AugmentDataLoader(dataset=trainset,
                   batch_size=4,
                   shuffle=True,
+                  resize=(500, 500),
                   pipeline_operations=(NormalizePipeline(probability=1),
                         HflipPipeline(probability=1),
                         RandomRotatePipeline(probability=0, degrees_range=(-15, 15)),
