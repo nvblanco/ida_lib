@@ -330,7 +330,7 @@ def postprocess_data(batch: list, batch_info: dict, data_original: Optional[list
             data_output = {}
             data_split = torch.split(data['data_2d'], list(batch_info['types_2d'].values()), dim=0)
             if batch_info['contains_discrete_data']:
-                discreted_data_split = torch.split(data['data_2d_discreted'], list( batch_info['types_2d_discreted']
+                discreted_data_split = torch.split(data['data_2d_discreted'], list(batch_info['types_2d_discreted']
                                                                                     .values()), dim=0)
             for index, actual_type in enumerate(batch_info['types_2d']):
                 data_output[actual_type] = data_split[index].type(original_type)

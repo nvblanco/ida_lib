@@ -19,7 +19,7 @@ def prepare_data_for_opencv(func):
 
     @wraps(func)
     def wrapped_function(image: Union[dict, torch.tensor, np.ndarray], visualize: bool, *args, **kwargs) -> Union[
-        dict, torch.tensor, np.ndarray]:
+                        dict, torch.tensor, np.ndarray]:
         if isinstance(image, dict):
             data_type = 'dict'
             data = image
@@ -87,7 +87,7 @@ def get_brigthness_function(brightness: int):
 
 @prepare_data_for_opencv
 def change_brigthness(image: Union[dict, torch.tensor, np.ndarray], brightness: int) -> Union[
-    dict, torch.tensor, np.ndarray]:
+                        dict, torch.tensor, np.ndarray]:
     """
     Change the brigthness of the input image.
     :param image : input image to be normalized
@@ -156,7 +156,7 @@ def gaussian_noise(image: Union[dict, torch.tensor, np.ndarray], var=20) -> Unio
 
 @prepare_data_for_opencv
 def salt_and_pepper_noise(image: Union[dict, torch.tensor, np.ndarray], amount, s_vs_p) -> Union[
-    dict, torch.tensor, np.ndarray]:
+                        dict, torch.tensor, np.ndarray]:
     """
     :param image : input image to be transformed
     :param amount: percentage of image's pixels to be occupied by noise
@@ -177,7 +177,7 @@ def poisson_noise(image: Union[dict, torch.tensor, np.ndarray]) -> Union[dict, t
 
 @prepare_data_for_opencv
 def spekle_noise(image: Union[dict, torch.tensor, np.ndarray], mean=0, var=0.01) -> Union[
-    dict, torch.tensor, np.ndarray]:
+                    dict, torch.tensor, np.ndarray]:
     """
     :param image : input image to be transformed
     :param mean  : mean of noise distribution
