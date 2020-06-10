@@ -110,36 +110,52 @@ class Pipeline(object):
         :return:           transformed batch
         """
 
+        # Configure data and initial parameters
         if not isinstance(batch_data, list):
             batch_data = [batch_data]
         original = None
+        # a copy of the original data is made for display (if visualize is True)
         if visualize:
             original = [d.copy() for d in batch_data]  # copy the original batch to diplay on visualization
         self.process_data = []
         principal_type = get_principal_type(batch_data[0])
         if self.output_type is None:
             self.output_type = dtype_to_torch_type(batch_data[0][principal_type].dtype)
+
+        # Start looping over the batch items
         for index, data in enumerate(batch_data):
+            #Only perform color operations if the item contains any image
             if 'image' in data:
                 lut = get_compose_function(self.color_ops)
                 data['image'] = cv2.LUT(data['image'].astype('uint8'), lut)
                 for op in self.indep_ops:
                     data['image'] = op.apply_to_image_if_probability(data['image'])
-            if self.info_data is None:
+
+            #Process data and get compose matrix of geometric  operations
+            if self.info_data is None: # Needs to configurate batch information
                 p_data, self.info_data = preprocess_data(data, interpolation=self.interpolation, resize=self.resize)
                 matrix, switch_points = get_compose_matrix(self.geom_ops, self.info_data)  # calculates the composite
                 # matrix and configures the necessary parameters (causes by batch_info as a parameter)
-            else:
+
+            else: # Batch information has already been set up
                 p_data = preprocess_data(data, batch_info=self.info_data, resize=self.resize)
                 matrix, switch_points = get_compose_matrix(self.geom_ops)
+
+
+            # perform the geometry  compose transform
             p_data['data_2d'] = self._apply_geometry_transform_data2d(p_data['data_2d'], matrix)
-            if switch_points:
+
+            if switch_points: # if necessary, the order of the points is changed
                 switch_point_positions(p_data['points_matrix'], switch_points)
-            if self.info_data['contains_discrete_data']:
+
+            if self.info_data['contains_discrete_data']:# if there are segmaps or masks, the transformations are
+                                                        # applied to them with discrete values
                 p_data['data_2d_discreted'] = self._apply_geometry_transform_discreted_data2d(
                     p_data['data_2d_discreted'], matrix)
             if self.info_data['contains_keypoints']:
                 p_data['points_matrix'] = self._apply_geometry_transform_points(p_data['points_matrix'], matrix)
             self.process_data.append(p_data)
+
+        # Once all the elements of the batch have been transformed, they are restructured for the output
         return postprocess_data(batch=self.process_data, batch_info=self.info_data, data_original=original,
                                 visualize=visualize, original_type=self.output_type, output_format=self.output_format)
