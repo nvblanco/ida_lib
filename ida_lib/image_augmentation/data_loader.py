@@ -3,7 +3,7 @@ from typing import Optional
 import torch
 from torch.utils.data import Dataset, DataLoader
 
-from ida_lib.core.pipeline import pipeline
+from ida_lib.core.pipeline import Pipeline
 
 
 class AugmentDataLoader(DataLoader):
@@ -14,15 +14,16 @@ class AugmentDataLoader(DataLoader):
 
         To make use of this class, it is necessary to provide a dataset to make a personalized reading of your data."""
 
-    class __inner_Dataset(Dataset):
-        '''
+    class InnerDataset(Dataset):
+        """
         inner dataset is an internal class that uses the DataAugmentDataLoader to add the pipeline to the input dataset
-        '''
+        """
+
         def _pipe_through(self, item: dict):
             """Method that passes a data element through the pipeline of input pipeline_operations """
             return self.pipeline(item, visualize=False)
 
-        def __init__(self, pipeline, dataset, *args, **kwargs):
+        def __init__(self, pipeline, dataset):
             self.pipeline = pipeline
             self.input_dataset = dataset
 
@@ -30,11 +31,10 @@ class AugmentDataLoader(DataLoader):
             return len(self.input_dataset)
 
         def __getitem__(self, idx: int):
-            if pipeline is not None:
+            if Pipeline is not None:
                 return self._pipe_through(self.input_dataset.__getitem__(idx))
             else:
                 return self.input_dataset._getitem_(idx)
-
 
     def __init__(self,
                  batch_size,
@@ -45,13 +45,12 @@ class AugmentDataLoader(DataLoader):
                  interpolation: str = 'bilinear',
                  padding_mode: str = 'zeros',
                  output_format: str = 'dict',
-                 output_type: Optional[torch.dtype] = None,
-                 *args,
-                 **kwargs):
+                 output_type: Optional[torch.dtype] = None
+                 ):
 
-        #Inicialize the internal pipeline
+        # Inicialize the internal pipeline
         if pipeline_operations is not None:
-            self.pipeline = pipeline(resize=resize,
+            self.pipeline = Pipeline(resize=resize,
                                      interpolation=interpolation,
                                      padding_mode=padding_mode,
                                      pipeline_operations=pipeline_operations,
@@ -59,5 +58,5 @@ class AugmentDataLoader(DataLoader):
                                      output_type=output_type)
         else:
             self.pipeline = None
-        self.dataset = self.__inner_Dataset(pipeline=self.pipeline, dataset=dataset)
+        self.dataset = self.InnerDataset(pipeline=self.pipeline, dataset=dataset)
         DataLoader.__init__(self, dataset=self.dataset, batch_size=batch_size, num_workers=0, shuffle=shuffle)

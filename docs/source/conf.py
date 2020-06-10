@@ -24,7 +24,6 @@ author = 'Raquel Vilas'
 # The full version, including alpha/beta/rc tags
 release = '0.1'
 
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -32,12 +31,12 @@ release = '0.1'
 # ones.
 
 extensions = ['sphinx.ext.autodoc',
-        'sphinx.ext.intersphinx',
-        'sphinx.ext.todo',
-        'sphinx.ext.mathjax',
-        'sphinx.ext.napoleon',
-        'sphinx.ext.autosummary', # agregar
-        'sphinx.ext.viewcode']
+              'sphinx.ext.intersphinx',
+              'sphinx.ext.todo',
+              'sphinx.ext.mathjax',
+              'sphinx.ext.napoleon',
+              'sphinx.ext.autosummary',  # agregar
+              'sphinx.ext.viewcode']
 
 autosummary_generate = True
 
@@ -48,7 +47,6 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
-
 
 # -- Options for HTML output -------------------------------------------------
 

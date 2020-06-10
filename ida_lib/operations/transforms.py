@@ -23,7 +23,8 @@ __all__ = ['hflip',
            'blur',
            'gaussian_blur']
 
-def hflip(data: dict, visualize : bool = False) -> dict:
+
+def hflip(data: dict, visualize: bool = False) -> dict:
     """
      Horizontally flip the input data.
     :param data : dict of elements to be transformed
@@ -32,7 +33,8 @@ def hflip(data: dict, visualize : bool = False) -> dict:
     """
     return geometry_ops_functional.hflip_compose_data(data, visualize)
 
-def vflip(data: dict,  visualize : bool = False)-> dict:
+
+def vflip(data: dict, visualize: bool = False) -> dict:
     """
     Vertically flip the input data.
     :param data : dict of elements to be transformed
@@ -41,7 +43,8 @@ def vflip(data: dict,  visualize : bool = False)-> dict:
     """
     return geometry_ops_functional.vflip_compose_data(data, visualize)
 
-def affine(data: dict, matrix: torch.tensor,  visualize : bool = False)-> dict:
+
+def affine(data: dict, matrix: torch.tensor, visualize: bool = False) -> dict:
     """
     Apllies affine transformation to the data
     :param data : dict of elements to be transformed
@@ -51,7 +54,8 @@ def affine(data: dict, matrix: torch.tensor,  visualize : bool = False)-> dict:
     """
     return geometry_ops_functional.affine_compose_data(data, visualize, matrix)
 
-def rotate(data: dict, degrees: float,  visualize : bool = False, center: Union[None, torch.Tensor] = None)-> dict:
+
+def rotate(data: dict, degrees: float, visualize: bool = False, center: Union[None, torch.Tensor] = None) -> dict:
     """
     Rotate each element of the input data by the indicated degrees counterclockwise
     :param data : dict of elements to be transformed
@@ -62,7 +66,8 @@ def rotate(data: dict, degrees: float,  visualize : bool = False, center: Union[
     """
     return geometry_ops_functional.rotate_compose_data(data, visualize, degrees=degrees, center=center)
 
-def scale(data: dict, scale_factor,  visualize : bool = False, center: Union[None, torch.Tensor] = None)-> dict:
+
+def scale(data: dict, scale_factor, visualize: bool = False, center: Union[None, torch.Tensor] = None) -> dict:
     """
     Scale each element of the input data by the input factor.
     :param data : dict of elements to be transformed
@@ -76,7 +81,8 @@ def scale(data: dict, scale_factor,  visualize : bool = False, center: Union[Non
     """
     return geometry_ops_functional.scale_compose_data(data, visualize, center=center, scale_factor=scale_factor)
 
-def translate(data: dict, translation: tuple,  visualize : bool = False)-> dict:
+
+def translate(data: dict, translation: tuple, visualize: bool = False) -> dict:
     """
     Translate input by the input translation.
     :param data : dict of elements to be transformed
@@ -86,7 +92,8 @@ def translate(data: dict, translation: tuple,  visualize : bool = False)-> dict:
     """
     return geometry_ops_functional.translate_compose_data(data, visualize, translation)
 
-def shear(data: dict, shear_factor: tuple,  visualize : bool = False)-> dict:
+
+def shear(data: dict, shear_factor: tuple, visualize: bool = False) -> dict:
     """
     Shear input data by the input shear factor
     :param data : dict of elements to be transformed
@@ -95,6 +102,7 @@ def shear(data: dict, shear_factor: tuple,  visualize : bool = False)-> dict:
     :return: transformed data
     """
     return geometry_ops_functional.shear_compose_data(data, visualize, shear_factor)
+
 
 def change_contrast(data: Union[dict, torch.Tensor, np.ndarray], contrast: float, visualize: bool = False) -> Union[
     dict, torch.Tensor, np.ndarray]:
@@ -129,7 +137,8 @@ def change_brigntness(data: Union[dict, torch.Tensor, np.ndarray], brigth=1, vis
 def change_gamma(data: Union[dict, torch.Tensor, np.ndarray], gamma, visualize: bool = False) -> Union[
     dict, torch.Tensor, np.ndarray]:
     """
-    adjust image's gamma (luminance correction) . if the input data is a dictionary, only those corresponding to an image are altered
+    adjust image's gamma (luminance correction) . if the input data is a dictionary, only those corresponding
+    to an image are altered
     :param data : dict of elements to be transformed
     :param gamma  : desired gamma factor (luminance of image)
               * gamma = 0 -> removes image luminance (balck output image)
@@ -164,7 +173,8 @@ def inyect_gaussian_noise(data: Union[dict, torch.Tensor, np.ndarray], var=0.5, 
     return pixel_ops_functional.gaussian_noise(data, var=var, visualize=visualize)
 
 
-def inyect_salt_and_pepper_noise(data: Union[dict, torch.Tensor, np.ndarray], amount=0.05, s_vs_p=0.5, visualize: bool = False) -> Union[
+def inyect_salt_and_pepper_noise(data: Union[dict, torch.Tensor, np.ndarray], amount=0.05, s_vs_p=0.5,
+                                 visualize: bool = False) -> Union[
     dict, torch.Tensor, np.ndarray]:
     """
     Inyect salt and pepper noisse if the input data is a dictionary, only those corresponding to an image are altered
@@ -188,8 +198,8 @@ def inyect_poisson_noise(data: Union[dict, torch.Tensor, np.ndarray], visualize:
     return pixel_ops_functional.poisson_noise(data, visualize=visualize)
 
 
-def inyect_spekle_noise(data: Union[dict, torch.Tensor, np.ndarray], mean=0, var=0.01, visualize: bool = False) -> Union[
-    dict, torch.Tensor, np.ndarray]:
+def inyect_spekle_noise(data: Union[dict, torch.Tensor, np.ndarray], mean=0, var=0.01, visualize: bool = False) -> \
+        Union[dict, torch.Tensor, np.ndarray]:
     """
     Inyect poisson noisse. if the input data is a dictionary, only those corresponding to an image are altered
     :param data : dict of elements to be transformed
@@ -204,7 +214,8 @@ def inyect_spekle_noise(data: Union[dict, torch.Tensor, np.ndarray], mean=0, var
 def gaussian_blur(data: Union[dict, torch.Tensor, np.ndarray], blur_size=(5, 5), visualize: bool = False) -> Union[
     dict, torch.Tensor, np.ndarray]:
     """
-    Blurring an image by a Gaussian function.  if the input data is a dictionary, only those corresponding to an image are altered
+    Blurring an image by a Gaussian function.  if the input data is a dictionary, only those corresponding to an
+    image are altered
     :param data : dict of elements to be transformed
     :param blur_size : number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)
     :param visualize : if true it activates the display tool to debug the transformation

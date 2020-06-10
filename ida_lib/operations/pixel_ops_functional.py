@@ -6,7 +6,6 @@ import kornia
 import numpy as np
 import torch
 
-
 from . import utils
 from ..visualization import plot_image_tranformation
 
@@ -58,11 +57,11 @@ def apply_lut_by_pixel_function(function, image: np.ndarray) -> np.ndarray:
     :param image  : input image
     :return:
     """
-    lookUpTable = np.empty((1, 256), np.int16)
+    look_up_table = np.empty((1, 256), np.int16)
     for i in range(256):
-        lookUpTable[0, i] = function(i)
-    lookUpTable[0, :] = np.clip(lookUpTable[0, :], 0, 255)
-    lut = np.uint8(lookUpTable)
+        look_up_table[0, i] = function(i)
+    look_up_table[0, :] = np.clip(look_up_table[0, :], 0, 255)
+    lut = np.uint8(look_up_table)
     return cv2.LUT(image, lut)
 
 
@@ -71,7 +70,8 @@ def normalize_image(img: np.ndarray, norm_type: int = cv2.NORM_MINMAX) -> np.nda
     """
     Normalize the input image
     :param img : input image to be normalized
-    :param norm_type : opencv normalization type (' cv2.NORM_MINMAX' |cv2.NORM_HAMMING |cv2.NORM_HAMMING2 |cv2.NORM_INF |cv2.NORM_RELATIVE ...)
+    :param norm_type : opencv normalization type (' cv2.NORM_MINMAX' |cv2.NORM_HAMMING |cv2.NORM_HAMMING2
+                        |cv2.NORM_INF |cv2.NORM_RELATIVE ...)
     :return: normalized image
     """
     return cv2.normalize(img, None, alpha=0, beta=1, norm_type=norm_type, dtype=cv2.CV_32F)
@@ -104,9 +104,8 @@ def change_brigthness(image: Union[dict, torch.tensor, np.ndarray], brightness: 
 @prepare_data_for_opencv
 def change_contrast(image: Union[dict, torch.tensor, np.ndarray], contrast) -> Union[dict, torch.tensor, np.ndarray]:
     """
-
     :param image  : input image to be transformed
-    :param contrast_factor : modification factor to be applied to the image contrast
+    :param contrast: modification factor to be applied to the image contrast
             * 0  - total contrast removal
             * 1  - dont modify
             * >1 - aument contrast
@@ -118,14 +117,14 @@ def change_contrast(image: Union[dict, torch.tensor, np.ndarray], contrast) -> U
 def get_contrast_function(contrast: float):
     """
 
-    :param contrast_factor : modification factor to be applied to the image contrast
+    :param contrast: modification factor to be applied to the image contrast
     :return: Return the lambda function of the contrast operation
     """
     return lambda x: contrast * (x - 255) + 255
 
 
 @prepare_data_for_opencv
-def change_gamma(image: Union[dict, torch.tensor, np.ndarray], gamma : float) -> Union[dict, torch.tensor, np.ndarray]:
+def change_gamma(image: Union[dict, torch.tensor, np.ndarray], gamma: float) -> Union[dict, torch.tensor, np.ndarray]:
     """
     :param image : input image to be transformed
     :param gamma : desired factor gamma
@@ -194,7 +193,8 @@ def histogram_equalization(img: Union[dict, torch.tensor, np.ndarray]) -> Union[
     :param img : input image to be transformed
     :return: returns the transformed image
     """
-    for channel in range(img.shape[2]): img[..., channel] = cv2.equalizeHist(img[..., channel])
+    for channel in range(img.shape[2]):
+        img[..., channel] = cv2.equalizeHist(img[..., channel])
     return img
 
 
@@ -236,11 +236,11 @@ def _resize_image(image, new_size):
 
 
 def _apply_gaussian_noise(image, var=20):
-    gaussian_noise = np.zeros((image.shape[0], image.shape[1], 1), dtype=np.uint8)
-    cv2.randn(gaussian_noise, 50, 20)
-    gaussian_noise = np.concatenate((gaussian_noise, gaussian_noise, gaussian_noise), axis=2)
-    gaussian_noise = (gaussian_noise * var).astype(np.uint8)
-    return cv2.add(image, gaussian_noise)
+    g_noise = np.zeros((image.shape[0], image.shape[1], 1), dtype=np.uint8)
+    cv2.randn(g_noise, 50, 20)
+    g_noise = np.concatenate((g_noise, g_noise, g_noise), axis=2)
+    g_noise = (g_noise * var).astype(np.uint8)
+    return cv2.add(image, g_noise)
 
 
 def _apply_salt_and_pepper_noise(image, amount=0.05, s_vs_p=0.5):
@@ -272,5 +272,3 @@ def _apply_spekle_noise(image, mean=0, var=0.01):
     gauss = gauss.reshape(image.shape)
     noisy = image + image * gauss
     return noisy
-
-

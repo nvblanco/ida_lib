@@ -8,53 +8,53 @@ import numpy as np
 import torch
 from bokeh.io import curdoc
 from bokeh.layouts import row, column
-from bokeh.models import ColumnDataSource, CustomJS, Panel, Tabs, LabelSet, Div, HoverTool
+from bokeh.models import ColumnDataSource, CustomJS, Panel, Tabs, LabelSet, Div
 from bokeh.models.widgets import CheckboxGroup
 from bokeh.plotting import figure
 
-__all__ = [ 'visualize', 'plot_image_tranformation']
+__all__ = ['visualize', 'plot_image_tranformation']
 
 from ida_lib.operations.utils import get_principal_type
 
 PLOT_SIZE = (550, 550)
 
 color_palette = [
-    #[R,G,B]
-    [45,    171,    41],
-    [41,    171,    130],
-    [140,   63,     156],
-    [196,   68,     24],
-    [247,   255,    0],
-    [0,     126,    11],
-    [128,   185,    169],
-    [0,     18,     130],
-    [255,   0,      128],
-    [88,    175,    98],
-    [140,   140,    140],
-    [153,   70,     70],
-    [115,   255,    227],
-    [255,   0,      0],
-    [0,     255,    0],
-    [0,     0,      255]
+    # [R,G,B]
+    [45, 171, 41],
+    [41, 171, 130],
+    [140, 63, 156],
+    [196, 68, 24],
+    [247, 255, 0],
+    [0, 126, 11],
+    [128, 185, 169],
+    [0, 18, 130],
+    [255, 0, 128],
+    [88, 175, 98],
+    [140, 140, 140],
+    [153, 70, 70],
+    [115, 255, 227],
+    [255, 0, 0],
+    [0, 255, 0],
+    [0, 0, 255]
 ]
 
 color_index = 0
 
 
-#Changes the actual color index
+# Changes the actual color index
 def _get_next_color():
     global color_index
-    color_index = (color_index + 1 ) % len(color_palette)
+    color_index = (color_index + 1) % len(color_palette)
     return color_palette[color_index]
 
-#Restart the color palette (to use the same colors in each item)
+
+# Restart the color palette (to use the same colors in each item)
 def _restart_color_palette():
     global color_index
     color_index = 0
 
 
-
-def _get_image_types(image:dict):
+def _get_image_types(image: dict):
     remove_digits = str.maketrans('', '', digits)
     heatmap_labels = []
     image_labels = []
@@ -75,7 +75,8 @@ def _get_image_types(image:dict):
             other_types.append(label)
     return image_labels, heatmap_labels, mask_types, points_types, other_types
 
-#Process the input image and returned a ColumnDataSource wirh the image info to display it
+
+# Process the input image and returned a ColumnDataSource wirh the image info to display it
 def _process_image(img_orig):
     img = img_orig.copy().astype(np.uint8)
     if img.ndim == 2:  # gray input
@@ -89,7 +90,8 @@ def _process_image(img_orig):
         R=[img[::-1, :, 0]], G=[img[::-1, :, 1]], B=[img[::-1, :, 2]]))
     return source
 
-#Process the input mask and returned a ColumnDataSource with the mask info to display it
+
+# Process the input mask and returned a ColumnDataSource with the mask info to display it
 def _process_mask(img_orig):
     img = img_orig.copy().astype(np.uint8)
     img = np.flipud(img)
@@ -108,9 +110,10 @@ def _process_points(points):
         xvalues_warped = [(value[0].cpu().numpy()).astype(int) for value in points]
         yvalues_warped = [(value[1].cpu().numpy()).astype(int) for value in points]
     source = ColumnDataSource(data=dict(height=yvalues_warped,
-                                         weight=xvalues_warped,
-                                         names=range(xvalues_warped.__len__())))
-    return (xvalues_warped, yvalues_warped, source)
+                                        weight=xvalues_warped,
+                                        names=range(xvalues_warped.__len__())))
+    return xvalues_warped, yvalues_warped, source
+
 
 def _generate_image_plot(img, tittle):
     if torch.is_tensor(img):
@@ -154,7 +157,6 @@ def _add_mask_plot_and_checkbox(img, img2, color, mask, plot, plot2):
     return checkboxes_mask
 
 
-
 def _add_points_plot(points1, points2, plot, plot2):
     xval1, yval1, source = _process_points(points1)
     xval2, yval2, source2 = _process_points(points2)
@@ -180,16 +182,20 @@ def _add_points_plot(points1, points2, plot, plot2):
     checkboxes.js_on_click(callback)
     return checkboxes
 
+
 def _add_label_plot(label):
-    if not isinstance(label, str): data_label = str(label)
-    html = "<div style='padding: 5px; border-radius: 3px; background-color: #8ebf42'><span style='color:black;font-size:130%'>" + label + ":</span> " + data_label + '</div>'
+    if not isinstance(label, str):
+        data_label = str(label)
+    html = "<div style='padding: 5px; border-radius: 3px; background-color: #8ebf42'>\
+    <span style='color:black;font-size:130%'>" + label + ":</span> " + data_label + '</div>'
     return Div(text=html,
-                style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif',
-                       'font-size': '100%', 'color': '#17705E'})
+               style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif',
+                      'font-size': '100%', 'color': '#17705E'})
+
 
 def _generate_icon():
-    ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-    icon_img: np.ndarray = cv2.imread(os.path.join(ROOT_DIR, 'static/icon2.png'))
+    root_dir = os.path.dirname(os.path.abspath(__file__))
+    icon_img: np.ndarray = cv2.imread(os.path.join(root_dir, 'static/icon2.png'))
     icon_img = cv2.cvtColor(icon_img, cv2.COLOR_BGR2RGB)
     icon_img = _process_image(icon_img)
     icon = figure(x_range=(0, icon_img.data['dw'][0]), y_range=(
@@ -216,12 +222,16 @@ def generate_title_template(template: int = 0):
     pre.width = 1000
     if template == 0:
         description = Div(
-            text="<b>This is the visualization tool of the IDALIB image data augmentation library. The first 5 samples of the image batch are shown with the corresponding pipeline transformations. You can select to make visible or not each of the data elements in the right column</b>",
+            text="<b>This is the visualization tool of the IDALIB image data augmentation library. The first 5 samples \
+            of the image batch are shown with the corresponding pipeline transformations. You can select to make \
+            visible or not each of the data elements in the right column</b>",
             style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '100%',
                    'font-weight': 'lighter', 'width': '5000', 'color': '#939393'})
     else:
         description = Div(
-            text="<b>This is the visualization tool of the IDALIB image data augmentation library. Yo can see the original image and the result image. You can select to make visible or not each of the data elements in the right column</b>",
+            text="<b>This is the visualization tool of the IDALIB image data augmentation library. Yo can see the \
+            original image and the result image. You can select to make visible or not each of the data elements in \
+            the right column</b>",
             style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '100%',
                    'font-weight': 'lighter', 'width': '5000', 'color': '#939393'})
     title = column(row(icon, pre), description)
@@ -229,8 +239,7 @@ def generate_title_template(template: int = 0):
     return title
 
 
-
-def generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_types, points_types, other_types,):
+def generate_item_tab(data, data_original, heatmap_labels, mask_types, points_types, other_types, ):
     list_target = ()
     list_checkbox = ()
     ppal_type = get_principal_type(data)
@@ -262,9 +271,9 @@ def generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_ty
         list_target = (*list_target, label)
     # Configure tab elements
     if len(list_target) != 0:
-        title_targets = pre = Div(text="<b>Targets</b><hr>",
-                                  style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif',
-                                         'font-size': '100%', 'color': '#bf6800'})
+        title_targets = Div(text="<b>Targets</b><hr>",
+                            style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif',
+                                   'font-size': '100%', 'color': '#bf6800'})
         list_checkbox = (*list_checkbox, title_targets, *list_target)
 
     pre = Div(text="<b>Data Elements </b><hr>",
@@ -277,7 +286,8 @@ def generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_ty
     p = row(*list_plots)
     return p
 
-def visualize(images: dict, images_originals: dict, mask_types: list, other_types:list,  max_images:int = 5):
+
+def visualize(images: dict, images_originals: dict, max_images: int = 5):
     '''
     Generate the bokeh plot of the input batch transformation
     :param images: list of transformed items (dict of image and other  objects)
@@ -288,9 +298,9 @@ def visualize(images: dict, images_originals: dict, mask_types: list, other_type
     '''
     tabs = []
     image_labels, heatmap_labels, mask_types, points_types, other_types = _get_image_types(images[0])
-    #loop through the input elements to create the tabs
+    # loop through the input elements to create the tabs
     for index, (data, data_original) in enumerate(zip(images, images_originals)):
-        #Restart palette of colors to have the same colors in each image
+        # Restart palette of colors to have the same colors in each image
         if index == max_images:
             break
         _restart_color_palette()
@@ -300,28 +310,23 @@ def visualize(images: dict, images_originals: dict, mask_types: list, other_type
         tab = Panel(child=p, title=title)
         tabs.append(tab)
 
-    #Generate output document
+    # Generate output document
     layout = Tabs(tabs=tabs)
     title = generate_title_template()
     layout = column(title, layout)
     curdoc().title = "Batch visualization"
     curdoc().add_root(layout)
 
-    #Run  bokeh server to show the visualization window
+    # Run  bokeh server to show the visualization window
     command = 'bokeh serve --show ' + sys.argv[0]
     os.system(command)
 
 
-
-
-def plot_image_tranformation(data, data_original, **figure_kwargs):
+def plot_image_tranformation(data, data_original):
     '''
         Generate the bokeh plot of the input batch transformation
-        :param images: list of transformed items (dict of image and other  objects)
-        :param images_originals: list of original items (dict of image and other  objects)
-        :param mask_types: list of types shown as segmentation maps
-        :param other_types: list of not bidimensional types
-        :param max_images: max number of tabs to be shown
+        :param data: input dict element
+        :param data_original: original input element (before transforms)
         '''
 
     image_labels, heatmap_labels, mask_types, points_types, other_types = _get_image_types(data)
@@ -335,4 +340,3 @@ def plot_image_tranformation(data, data_original, **figure_kwargs):
     # Run  bokeh server to show the visualization window
     command = 'bokeh serve --show ' + sys.argv[0]
     os.system(command)
-

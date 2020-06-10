@@ -6,9 +6,10 @@ See this file for more explanation.
 Download a trained facial shape predictor from:
     http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
 """
-import dlib
-import glob
 import csv
+import glob
+
+import dlib
 from skimage import io
 
 detector = dlib.get_frontal_face_detector()

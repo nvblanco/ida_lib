@@ -12,6 +12,7 @@ __all__ = ['ContrastPipeline',
            'NormalizePipeline',
            'DesnormalizePipeline']
 
+
 class ContrastPipeline(PipelineOperation):
     """Change the contrast of the input image."""
 
@@ -23,14 +24,13 @@ class ContrastPipeline(PipelineOperation):
             * 1  :dont modify
             * >1 :aument contrast
         """
-        PipelineOperation.__init__(self, probability=probability, type='color')
+        PipelineOperation.__init__(self, probability=probability, op_type='color')
         self.contrast = contrast_factor
 
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
 
-    def transform_function(self, x: int) -> float: return self.contrast * (x - 127) + \
-                                                          127
+    def transform_function(self, x: int) -> float: return self.contrast * (x - 127) + 127
 
 
 class RandomContrastPipeline(PipelineOperation):
@@ -44,7 +44,7 @@ class RandomContrastPipeline(PipelineOperation):
                 * 1  :dont modify
                 * >1 :aument contrast
         """
-        PipelineOperation.__init__(self, probability=probability, type='color')
+        PipelineOperation.__init__(self, probability=probability, op_type='color')
         if not isinstance(contrast_range, tuple) or len(contrast_range) != 2:
             raise Exception("Contrast factor must be tuple of 2 elements")
         self.contrast_range = contrast_range
@@ -68,7 +68,7 @@ class BrightnessPipeline(PipelineOperation):
                  1 - same
                  2 - max brightness
         """
-        PipelineOperation.__init__(self, probability=probability, type='color')
+        PipelineOperation.__init__(self, probability=probability, op_type='color')
         self.brigthness = utils.map_value(brightness_factor, 0, 2, -256, 256)
 
     def get_op_matrix(self):
@@ -91,7 +91,7 @@ class RandomBrightnessPipeline(PipelineOperation):
                             1 - same
                             2 - max brightness
         """
-        PipelineOperation.__init__(self, probability=probability, type='color')
+        PipelineOperation.__init__(self, probability=probability, op_type='color')
         if not isinstance(brightness_range, tuple) or len(brightness_range) != 2:
             raise Exception("Contrast factor must be tuple of 2 elements")
         self.brightness_range = (utils.map_value(brightness_range[0], 0, 2, -256, 256),
@@ -120,7 +120,7 @@ class GammaPipeline(PipelineOperation):
                                 1  - same
                                 >1 - more luminance
         """
-        PipelineOperation.__init__(self, probability=probability, type='color')
+        PipelineOperation.__init__(self, probability=probability, op_type='color')
         self.gamma = gamma_factor
 
     def get_op_matrix(self):
@@ -140,7 +140,7 @@ class RandomGammaPipeline(PipelineOperation):
                             1  - same
                             >1 - more luminance
         """
-        PipelineOperation.__init__(self, probability=probability, type='color')
+        PipelineOperation.__init__(self, probability=probability, op_type='color')
         if not isinstance(gamma_range, tuple) or len(gamma_range) != 2:
             raise Exception("Contrast factor must be tuple of 2 elements")
         self.gamma_range = gamma_range
@@ -162,14 +162,16 @@ class NormalizePipeline(PipelineOperation):
         :param old_range: actual range of pixels of the input image. Default: 0-255
         :param new_range: desired range of pixels of the input image. Default: 0-1
         """
-        PipelineOperation.__init__(self, probability=probability, type='normalize')
+        PipelineOperation.__init__(self, probability=probability, op_type='normalize')
         self.new_range = new_range
         self.old_range = old_range
 
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
 
-    def transform_function(self, x: int) -> float: return x / 255
+    @staticmethod
+    def transform_function(x: int) -> float: return x / 255
+
     '''def transform_function(self, x: int) -> float: return (x + self.old_range[0]) / (
                 self.old_range[1] - self.old_range[0])'''
 
@@ -183,7 +185,7 @@ class DesnormalizePipeline(PipelineOperation):
         :param old_range: actual range of pixels of the input image. Default: 0-1
         :param new_range: desired range of pixels of the input image. Default: 0-255
         """
-        PipelineOperation.__init__(self, probability=probability, type='normalize')
+        PipelineOperation.__init__(self, probability=probability, op_type='normalize')
         self.new_range = new_range
         self.old_range = old_range
 
@@ -191,5 +193,4 @@ class DesnormalizePipeline(PipelineOperation):
         raise Exception("Color operations doesnt have matrix")
 
     def transform_function(self, x: int) -> float: return (x + self.old_range[0]) / (
-                self.old_range[1] - self.old_range[0])
-
+            self.old_range[1] - self.old_range[0])

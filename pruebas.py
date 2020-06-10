@@ -30,7 +30,7 @@ def show_landmarks(image, landmarks):
     plt.pause(0.001)  # pause a bit so that plots are updated
 
 
-pip = pipeline(interpolation='nearest', pipeline_operations=(
+pip = Pipeline(interpolation='nearest', pipeline_operations=(
     TranslatePipeline(probability=0, translation=(3, 1)),
     VflipPipeline(probability=1),
     HflipPipeline(probability=1),
@@ -43,7 +43,6 @@ pip = pipeline(interpolation='nearest', pipeline_operations=(
     RandomTranslatePipeline(probability=0, translation_range=(20, 100)),
     RandomShearPipeline(probability=0, shear_range=(0, 0.5))
 ))
-
 
 dataloader = test_dataloader(batch_size=4,
                              shuffle=True,

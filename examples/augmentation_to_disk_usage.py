@@ -1,4 +1,3 @@
-
 import os
 
 import numpy as np
@@ -12,7 +11,7 @@ from ida_lib.core.pipeline_pixel_ops import RandomContrastPipeline
 from ida_lib.image_augmentation.augment_to_disk import AgmentToDisk
 
 
-#Create custom dataset to read the input data to be augmented
+# Create custom dataset to read the input data to be augmented
 class FaceLandmarksDataset(Dataset):
     """Face Landmarks dataset."""
 
@@ -36,29 +35,32 @@ class FaceLandmarksDataset(Dataset):
             idx = idx.tolist()
         img_name = os.path.join(self.root_dir,
                                 self.landmarks_frame.iloc[idx, 0])
-        id = (self.landmarks_frame.iloc[idx, 0]).split('.')[0]
+        item_id = (self.landmarks_frame.iloc[idx, 0]).split('.')[0]
         image = io.imread(img_name)
         landmarks = self.landmarks_frame.iloc[idx, 1:]
         landmarks = np.array([landmarks])
         landmarks = landmarks.astype('float').reshape(-1, 2)
-        sample = {'id': id, 'image': image, 'landmarks': landmarks}
+        sample = {'id': item_id, 'image': image, 'landmarks': landmarks}
         return sample
 
-#Inicialize the custom datset
+
+# Inicialize the custom datset
+
 face_dataset = FaceLandmarksDataset(csv_file='faces/face_landmarks.csv',
                                     root_dir='faces/')
 
-#parameter setting and initialization
-augmentor = AgmentToDisk(dataset=face_dataset, #custom dataset that provides the input data
-                         samples_per_item=5,  #number of samples per imput item
+# parameter setting and initialization
+
+augmentor = AgmentToDisk(dataset=face_dataset,  # custom dataset that provides the input data
+                         samples_per_item=5,  # number of samples per imput item
                          operations=(RandomScalePipeline(probability=0.6, scale_range=(0.8, 1.2), center_desviation=20),
                                      HflipPipeline(probability=0.5),
                                      RandomContrastPipeline(probability=0.5, contrast_range=(1, 1.5))),
                          interpolation='nearest',
                          padding_mode='zeros',
-                         resize=(250, 250), #Here resizing is necessary because the input images have different sizes
+                         resize=(250, 250),  # Here resizing is necessary because the input images have different sizes
                          output_extension='.jpg',
                          output_csv_path='anotations.csv',
                          output_path='./augmented_custom')
 
-augmentor() #Run the augmentation
+augmentor()  # Run the augmentation

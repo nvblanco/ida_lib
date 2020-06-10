@@ -10,20 +10,21 @@ from ida_lib.operations.utils import save_im
 
 class AgmentToDisk(object):
     """
-    The AgmentToDisk object allows to perform Data Image Augmentation directly to disk. That is, to save the images generated to disk to be used in future processes.
+    The AgmentToDisk object allows to perform Data Image Augmentation directly to disk. That is, to save the images
+    generated to disk to be used in future processes.
     """
 
     def __init__(self,
-                 dataset:           Dataset,
-                 samples_per_item:  int = 2,
+                 dataset: Dataset,
+                 samples_per_item: int = 2,
                  total_output_samples: int = None,
-                 operations:        Union[list, None] = None,
-                 interpolation:     str = 'bilinear',
-                 padding_mode:      str = 'zeros',
-                 resize:            Union[tuple, None] = None,
-                 output_extension:  str = '.jpg',
-                 output_csv_path:   str = 'anotations.csv',
-                 output_path:       str = './augmented'
+                 operations: Union[list, None] = None,
+                 interpolation: str = 'bilinear',
+                 padding_mode: str = 'zeros',
+                 resize: Union[tuple, None] = None,
+                 output_extension: str = '.jpg',
+                 output_csv_path: str = 'anotations.csv',
+                 output_path: str = './augmented'
                  ):
         """
 
@@ -49,7 +50,7 @@ class AgmentToDisk(object):
         self.output_csv = []
         self.types2d = None
         self.other_types = None
-        self.pipeline = pipeline(interpolation=interpolation,
+        self.pipeline = Pipeline(interpolation=interpolation,
                                  padding_mode=padding_mode,
                                  resize=resize,
                                  pipeline_operations=operations)
@@ -59,13 +60,14 @@ class AgmentToDisk(object):
 
     def save_item(self, item: dict, index: int, output_path: str, types_2d: list, other_types: list):
         """
-            ***This method can be overwritten to make a customized saving of the items according to the interests of the user***
-        Method that implements the way to save to disk each of the generated elements. By default it saves all the generated
-        images in the specified path. The samples are organized by name following the form:
+          **This method can be overwritten to make a customized saving of the items according
+          to the interests of the user**
+        Method that implements the way to save to disk each of the generated elements. By default it saves all the
+        generated images in the specified path. The samples are organized by name following the form:
             * images:                       <id_image>_<sample number> <extension>
             * other two-dimensional types:  <id_image>-<data_type>_<sample number> <extension>
-        Annotations on the data, such as labels, or point coordinates are stored in dictionaries that will be written when all
-        the images have been processed.
+        Annotations on the data, such as labels, or point coordinates are stored in dictionaries that will be written
+        when all  the images have been processed.
 
         :param item :        input element to be saved to disk
         :param index :       sample number to which the input item corresponds
@@ -74,21 +76,23 @@ class AgmentToDisk(object):
         :param other_types : list of types that are not two-dimensional elements
         """
         item['id'] = item['id'] + '_' + str(index)
-        for type in types_2d:
-            if 'image' in type:
+        for actual_type in types_2d:
+            if 'image' in actual_type:
                 name = output_path + '/' + item['id']
             else:
-                name = output_path + item['id'] + '-' + type + '_' + str(index)
-            save_im(tensor=item[type], title=(name + self.output_extension))
-        self.output_csv.append(dict((label, item[label]) for label in (other_types)))
+                name = output_path + item['id'] + '-' + actual_type + '_' + str(index)
+            save_im(tensor=item[actual_type], title=(name + self.output_extension))
+        self.output_csv.append(dict((label, item[label]) for label in other_types))
 
     def final_save(self):
         """
-            ***This method can be overwritten to make a customized saving of the items according to the interests of the user***
-        Method that runs only once, once all the images have been processed. Useful for writing csv with image annotations. By default
-        the annotations of all images are saved in the same file. The csv file will have one row for each generated element, identified
-        by its id. Each column will correspond with the labels associated to each generated element. In the case of coordinate lists,
-        their coordinates are arranged in columns separating the x and y coordinates in each element (point0_x, point0_y, point1_x, ..., pointn_y)
+          **This method can be overwritten to make a customized saving of the items according
+          to the interests of the user**
+        Method that runs only once, once all the images have been processed. Useful for writing csv with image
+        annotations. By default the annotations of all images are saved in the same file. The csv file will have one
+        row for each generated element, identified by its id. Each column will correspond with the labels associated
+        to each generated element. In the case of coordinate lists, their coordinates are arranged in columns
+        separating the x and y coordinates in each element (point0_x, point0_y, point1_x, ..., pointn_y)
         """
         csv_columns = self.output_csv[0].keys()
         try:
@@ -115,4 +119,3 @@ class AgmentToDisk(object):
         self.final_save()
         total_images = len(self.dataset) * self.samples_per_item
         print("Generated " + str(total_images) + " new images from the original dataset.")
-

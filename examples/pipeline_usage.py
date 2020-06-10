@@ -1,18 +1,19 @@
-'''In this file an example of how to use the idaLib pipeline is shown, in which you can see:
+"""In this file an example of how to use the idaLib pipeline is shown, in which you can see:
     * how to declare the pipeline
     * which format to use for the input elements
     * how to display or not the results
     * and how to execute it in general.
 
 For more information see the documentation
-'''
+"""
+
+from time import time
 
 import numpy as np
 
 from ida_lib.core.pipeline import *
 from ida_lib.core.pipeline_geometric_ops import *
 from ida_lib.core.pipeline_local_ops import *
-from time import time
 
 # Read the example image
 img: np.ndarray = cv2.imread('../micky.jpg', )
@@ -64,10 +65,10 @@ batch = [data.copy() for _ in range(samples)]
 start_time = time()  # time measurement
 
 # Define the pipeline and operations.
-pip = pipeline(interpolation='nearest',
+pip = Pipeline(interpolation='nearest',
                pipeline_operations=(
                    ScalePipeline(probability=0.3, scale_factor=0.5),
-                   HflipPipeline(probability=1, exchange_points=[(0,5), (1,6)]),
+                   HflipPipeline(probability=1, exchange_points=[(0, 5), (1, 6)]),
                    RandomRotatePipeline(probability=1, degrees_range=(-20, 20)),
                    GaussianNoisePipeline(probability=0)))
 
@@ -77,4 +78,4 @@ batch = pip(batch, visualize=True)
 consumed_time = time() - start_time
 # keep in mind that visualization is a significant overhead, so to take a good measure of performance set visualize=False
 print("Total time consumed to process " + str(samples) + " samples: " + str(consumed_time))
-print("Time per sample: :" + str(consumed_time / (samples)))
+print("Time per sample: :" + str(consumed_time / samples))

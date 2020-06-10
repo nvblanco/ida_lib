@@ -1,13 +1,11 @@
 from __future__ import print_function
 
-import cv2
-import kornia
-from PIL import Image
 import os
 import os.path
-import errno
-import numpy as np
 import sys
+
+import kornia
+
 if sys.version_info[0] == 2:
     import cPickle as pickle
 else:
@@ -17,6 +15,7 @@ import torch.utils.data as data
 from torchvision.datasets.utils import download_url, check_integrity
 
 '''https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#define-a-convolutional-neural-network'''
+
 
 class custom_CIFAR10(data.Dataset):
     """`CIFAR10 <https://www.cs.toronto.edu/~kriz/cifar.html>`_ Dataset.
@@ -119,7 +118,7 @@ class custom_CIFAR10(data.Dataset):
             img, target = self.test_data[index], self.test_labels[index]
 
         item = {'image': img, 'target': target}
-        return item ########################modified to return a dict instead of a tuple
+        return item  # modified to return a dict instead of a tuple
 
     def __len__(self):
         if self.train:
@@ -161,48 +160,44 @@ import torch.optim as optim
 import torch.nn as nn
 import torch.nn.functional as F
 
-
-from ida_lib.core.pipeline_geometric_ops import TranslatePipeline, VflipPipeline, HflipPipeline, RandomShearPipeline, \
+from ida_lib.core.pipeline_geometric_ops import HflipPipeline, RandomShearPipeline, \
     RandomRotatePipeline
-from ida_lib.core.pipeline_pixel_ops import ContrastPipeline, NormalizePipeline, RandomContrastPipeline
+from ida_lib.core.pipeline_pixel_ops import NormalizePipeline, RandomContrastPipeline
 from ida_lib.image_augmentation.data_loader import AugmentDataLoader
 
-
 trainset = custom_CIFAR10(root='./data', train=True,
-                                        download=True)
-
-
+                          download=True)
 
 trainloader = AugmentDataLoader(dataset=trainset,
-                  batch_size=4,
-                  shuffle=True,
-                  resize=(500, 500),
-                  pipeline_operations=(NormalizePipeline(probability=1),
-                        HflipPipeline(probability=1),
-                        RandomRotatePipeline(probability=0, degrees_range=(-15, 15)),
-                        RandomContrastPipeline(probability=0, contrast_range=(0.8, 1.2)),
-                        RandomShearPipeline(probability=0, shear_range=(0, 0.5))),
-                  interpolation='bilinear',
-                  padding_mode='zeros',
-                  output_format='tuple',
-                  output_type=torch.float32
-                  )
+                                batch_size=4,
+                                shuffle=True,
+                                resize=(500, 500),
+                                pipeline_operations=(NormalizePipeline(probability=1),
+                                                     HflipPipeline(probability=1),
+                                                     RandomRotatePipeline(probability=0, degrees_range=(-15, 15)),
+                                                     RandomContrastPipeline(probability=0, contrast_range=(0.8, 1.2)),
+                                                     RandomShearPipeline(probability=0, shear_range=(0, 0.5))),
+                                interpolation='bilinear',
+                                padding_mode='zeros',
+                                output_format='tuple',
+                                output_type=torch.float32
+                                )
 
 testset = custom_CIFAR10(root='./data', train=False,
-                                       download=True)
+                         download=True)
 testloader = AugmentDataLoader(dataset=testset,
-                  batch_size=4,
-                  shuffle=False,
-                  pipeline_operations=(NormalizePipeline(probability=1),
-                        HflipPipeline(probability=0.5),
-                        RandomRotatePipeline(probability=0.8, degrees_range=(-15, 15)),
-                        RandomContrastPipeline(probability=0, contrast_range=(0.8, 1.2)),
-                        RandomShearPipeline(probability=0, shear_range=(0, 0.5))),
-                  interpolation='bilinear',
-                  padding_mode='zeros',
-                  output_format='tuple',
-                  output_type=torch.float32
-                  )
+                               batch_size=4,
+                               shuffle=False,
+                               pipeline_operations=(NormalizePipeline(probability=1),
+                                                    HflipPipeline(probability=0.5),
+                                                    RandomRotatePipeline(probability=0.8, degrees_range=(-15, 15)),
+                                                    RandomContrastPipeline(probability=0, contrast_range=(0.8, 1.2)),
+                                                    RandomShearPipeline(probability=0, shear_range=(0, 0.5))),
+                               interpolation='bilinear',
+                               padding_mode='zeros',
+                               output_format='tuple',
+                               output_type=torch.float32
+                               )
 
 classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -210,7 +205,6 @@ PATH = './cifar_net2.pth'
 
 import matplotlib.pyplot as plt
 import numpy as np
-
 
 
 def plot_tuple_batch(images, labels):
@@ -226,6 +220,7 @@ def plot_tuple_batch(images, labels):
         axs[i].imshow(img)
     plt.show()
 
+
 # get some random training images
 dataiter = iter(trainloader)
 images, labels = dataiter.next()
@@ -233,7 +228,7 @@ images, labels = dataiter.next()
 plot_tuple_batch(images, labels)
 
 
-#defining the net
+# defining the net
 
 class Net(nn.Module):
     def __init__(self):
@@ -259,11 +254,11 @@ def train():
     net = Net()
     net = net.cuda()
 
-    #Configure parameters
+    # Configure parameters
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
-    #TRAIN
+    # TRAIN
     from time import time
     start_time = time()
     for epoch in range(1):  # loop over the dataset multiple times
@@ -283,7 +278,7 @@ def train():
 
             # print statistics
             running_loss += loss.item()
-            if i % 2000 == 1999:    # print every 2000 mini-batches
+            if i % 2000 == 1999:  # print every 2000 mini-batches
                 print('[%d, %5d] loss: %.3f' %
                       (epoch + 1, i + 1, running_loss / 2000))
                 running_loss = 0.0
@@ -291,8 +286,6 @@ def train():
     print(consumed_time)
     print('Finished Training')
     torch.save(net.state_dict(), PATH)
-
-
 
 
 def test():
@@ -326,5 +319,6 @@ def test():
     for i in range(10):
         print('Accuracy of %5s : %2d %%' % (
             classes[i], 100 * class_correct[i] / class_total[i]))
+
 
 train()

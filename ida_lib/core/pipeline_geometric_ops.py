@@ -1,9 +1,10 @@
 import random
+from typing import Union
+
 import kornia
 import torch
 
 from ida_lib.core.pipeline_operations import PipelineOperation
-from ida_lib.operations.utils import round_torch
 
 device = 'cuda'
 cuda = torch.device('cuda')
@@ -22,16 +23,17 @@ __all__ = ['HflipPipeline',
            'RandomShearPipeline',
            'RandomTranslatePipeline']
 
+
 class ScalePipeline(PipelineOperation):
     """Scale the input image-mask-keypoints and 2d data by the input scaling value"""
 
-    def __init__(self, scale_factor: float, probability: float = 1, center: torch.tensor = None):
+    def __init__(self, scale_factor: Union[float, tuple], probability: float = 1, center: torch.tensor = None):
         """
         :param scale_factor: scale value
         :param probability: probability of applying the transform. Default: 1.
         :param center: coordinates of the center of scaling. Default: center of the image
         """
-        PipelineOperation.__init__(self, probability=probability, type='geometry')
+        PipelineOperation.__init__(self, probability=probability, op_type='geometry')
         if center is None:
             self.config = True
             self.center = ones_torch
@@ -43,7 +45,7 @@ class ScalePipeline(PipelineOperation):
         self.scale_factor = self.ones_2
         if isinstance(scale_factor,
                       float) or isinstance(scale_factor,
-                      int):  # si solo se proporciona un valor; se escala por igual en ambos ejes
+                                           int):  # si solo se proporciona un valor; se escala por igual en ambos ejes
             self.scale_factor = self.ones_2 * scale_factor
         else:
             self.scale_factor[0] = one_torch * scale_factor[0]
@@ -64,7 +66,8 @@ class ScalePipeline(PipelineOperation):
     def need_data_info(self):
         return self.config
 
-    def switch_points(self):
+    @staticmethod
+    def switch_points():
         return None
 
 
@@ -72,15 +75,16 @@ class RandomScalePipeline(PipelineOperation):
     """Scale the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range"""
 
     def __init__(self, probability: float, scale_range: tuple, keep_aspect: bool = True, center_desviation: int = None,
-                 center:torch.tensor  = None):
+                 center: torch.tensor = None):
         """
         :param probability:[0-1] probability of applying the transform. Default: 1.
-        :param scale_factor: scale value
+        :param scale_range: scale value
         :param keep_aspect: whether the scaling should be the same on the X axis and on the Y axis. Default: true
-        :param center desviation: produces random deviations at the scaling center. The deviations will be a maximum of the number of pixels indicated in this parameter
+        :param center_desviation: produces random deviations at the scaling center. The deviations will be a maximum
+                                  of the number of pixels indicated in this parameter
         :param center: coordinates of the center of scaling. Default: center of the image
         """
-        PipelineOperation.__init__(self, probability=probability, type='geometry')
+        PipelineOperation.__init__(self, probability=probability, op_type='geometry')
         self.keep_aspect = keep_aspect
         if center is None:
             self.config = True
@@ -125,19 +129,21 @@ class RandomScalePipeline(PipelineOperation):
     def need_data_info(self) -> bool:
         return self.config
 
-    def switch_points(self):
+    @staticmethod
+    def switch_points():
         return None
+
 
 class RotatePipeline(PipelineOperation):
     """Rotate the input image-mask-keypoints and 2d data by the input degrees"""
 
-    def __init__(self, degrees: int, center: torch.tensor  = None, probability: float = 1):
+    def __init__(self, degrees: int, center: torch.tensor = None, probability: float = 1):
         """
         :param degrees: degrees of the rotation
         :param center : coordinates of the center of scaling. Default: center of the image
         :param probability :[0-1] probability of applying the transform. Default: 1.
         """
-        PipelineOperation.__init__(self, probability=probability, type='geometry')
+        PipelineOperation.__init__(self, probability=probability, op_type='geometry')
         self.degrees = degrees
         self.degrees = degrees * one_torch
         self.new_row = torch.zeros(1, 3).to(device)
@@ -151,7 +157,8 @@ class RotatePipeline(PipelineOperation):
 
     def get_op_matrix(self) -> torch.tensor:
         return torch.cat(((kornia.geometry.get_rotation_matrix2d(angle=self.degrees.reshape(1), center=self.center,
-                                                                 scale=one_torch.reshape(1))).reshape(2, 3), self.new_row))
+                                                                 scale=one_torch.reshape(1))).reshape(2, 3),
+                          self.new_row))
 
     def need_data_info(self) -> bool:
         return self.config
@@ -161,24 +168,26 @@ class RotatePipeline(PipelineOperation):
         self.center[..., 1] = data_info['shape'][-2] // 2
         self.config = False
 
-    def switch_points(self):
+    @staticmethod
+    def switch_points():
         return None
 
 
 class RandomRotatePipeline(PipelineOperation):
     """Rotate the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range"""
 
-    def __init__(self, degrees_range: tuple, probability: float=1, center_desviation: int =None, center: torch.tensor =None):
+    def __init__(self, degrees_range: tuple, probability: float = 1, center_desviation: int = None,
+                 center: torch.tensor = None):
         """
 
         :param degrees_range: range of degrees to apply
         :param probability: [0-1]  probability of applying the transform. Default: 1.
-        :param center desviation : produces random deviations at the rotating center. The deviations will be a maximum
+        :param center_desviation : produces random deviations at the rotating center. The deviations will be a maximum
                 of the number of pixels indicated in this parameter
         :param center : coordinates of the center of scaling. Default: center of the image
 
         """
-        PipelineOperation.__init__(self, probability=probability, type='geometry')
+        PipelineOperation.__init__(self, probability=probability, op_type='geometry')
         self.center_desviation = center_desviation
         if not isinstance(degrees_range, tuple):
             raise Exception("Degrees range must be a tuple (min, max)")
@@ -198,7 +207,8 @@ class RandomRotatePipeline(PipelineOperation):
         if self.center_desviation is not None:
             center += random.randint(-self.center_desviation, self.center_desviation)
         return torch.cat(((kornia.geometry.get_rotation_matrix2d(angle=degrees.resize_(1), center=center,
-                                                                 scale=one_torch.reshape(1))).reshape(2, 3), self.new_row))
+                                                                 scale=one_torch.reshape(1))).reshape(2, 3),
+                          self.new_row))
 
     def need_data_info(self) -> bool:
         return self.config
@@ -208,7 +218,8 @@ class RandomRotatePipeline(PipelineOperation):
         self.center[..., 1] = data_info['shape'][-2] // 2
         self.config = False
 
-    def switch_points(self):
+    @staticmethod
+    def switch_points():
         return None
 
 
@@ -221,7 +232,7 @@ class TranslatePipeline(PipelineOperation):
         :param translation: pixels to be translated ( translation X, translation Y)
         :param probability:[0-1]  probability of applying the transform. Default: 1.
         """
-        PipelineOperation.__init__(self, probability=probability, type='geometry')
+        PipelineOperation.__init__(self, probability=probability, op_type='geometry')
         self.translation_x = translation[0] * one_torch
         self.translation_y = translation[1] * one_torch
         self.matrix = identity.clone()
@@ -231,24 +242,28 @@ class TranslatePipeline(PipelineOperation):
         self.matrix[1, 2] = self.translation_y
         return self.matrix
 
-    def need_data_info(self) -> bool:
+    @staticmethod
+    def need_data_info() -> bool:
         return False
 
-    def switch_points(self):
+    @staticmethod
+    def switch_points():
         return None
 
 
 class RandomTranslatePipeline(PipelineOperation):
-    """Translate the input image-mask-keypoints and 2d data by a random translation value calculated within the input range"""
+    """Translate the input image-mask-keypoints and 2d data by a random translation value calculated within
+    the input range"""
 
     def __init__(self, probability: float, translation_range: tuple, same_translation_on_axis: bool = False):
         """
 
         :param probability:[0-1]  probability of applying the transform. Default: 1.
-        :param translation_range: range of pixels to be translated ( min translation, max translation). Translation X and translation Y are calculated within this range
+        :param translation_range: range of pixels to be translated ( min translation, max translation).
+                                  Translation X and translation Y are calculated within this range
         :param same_translation_on_axis : whether the translation must be equal in both axes
         """
-        PipelineOperation.__init__(self, probability=probability, type='geometry')
+        PipelineOperation.__init__(self, probability=probability, op_type='geometry')
         if not isinstance(translation_range, tuple):
             raise Exception("Translation range must be a tuple (min, max)")
         self.translation_range = translation_range
@@ -265,10 +280,12 @@ class RandomTranslatePipeline(PipelineOperation):
         self.matrix[1, 2] = translation_y
         return self.matrix
 
-    def need_data_info(self) -> bool:
+    @staticmethod
+    def need_data_info() -> bool:
         return False
 
-    def switch_points(self):
+    @staticmethod
+    def switch_points():
         return None
 
 
@@ -281,7 +298,7 @@ class ShearPipeline(PipelineOperation):
         :param shear : range of pixels to be apply on the shear ( shear X, shear Y).
         :param probability :[0-1]  probability of applying the transform. Default: 1.
         """
-        PipelineOperation.__init__(self, probability=probability, type='geometry')
+        PipelineOperation.__init__(self, probability=probability, op_type='geometry')
         self.shear_x = shear[0]
         self.shear_y = shear[1]
         self.matrix = identity.clone()
@@ -291,10 +308,12 @@ class ShearPipeline(PipelineOperation):
         self.matrix[1, 0] = self.shear_y
         return self.matrix
 
-    def need_data_info(self) -> bool:
+    @staticmethod
+    def need_data_info() -> bool:
         return False
 
-    def switch_points(self):
+    @staticmethod
+    def switch_points():
         return None
 
 
@@ -305,9 +324,9 @@ class RandomShearPipeline(PipelineOperation):
         """
 
         :param probability: [0-1] probability of applying the transform. Default: 1.
-        :param shear : range of pixels to be apply on the shear ( shear X, shear Y).
+        :param shear_range : range of pixels to be apply on the shear ( shear X, shear Y).
         """
-        PipelineOperation.__init__(self, probability=probability, type='geometry')
+        PipelineOperation.__init__(self, probability=probability, op_type='geometry')
         if not isinstance(shear_range, tuple):
             raise Exception("Translation range must be a tuple (min, max)")
         self.shear_range = shear_range
@@ -318,10 +337,12 @@ class RandomShearPipeline(PipelineOperation):
         self.matrix[1, 0] = random.uniform(self.shear_range[0], self.shear_range[1])  # y
         return self.matrix
 
-    def need_data_info(self) -> bool:
+    @staticmethod
+    def need_data_info() -> bool:
         return False
 
-    def switch_points(self):
+    @staticmethod
+    def switch_points():
         return None
 
 
@@ -336,7 +357,7 @@ class HflipPipeline(PipelineOperation):
                 in symmetric images where a point can indicate the left edge. After the flip, that point will be
                 the right edge
         """
-        PipelineOperation.__init__(self, probability=probability, type='geometry')
+        PipelineOperation.__init__(self, probability=probability, op_type='geometry')
         self.config = True
         self.matrix = identity.clone()
         self.matrix[0, 0] = -1
@@ -367,7 +388,7 @@ class VflipPipeline(PipelineOperation):
                 in symmetric images where a point can indicate the left edge. After the flip, that point will be
                 the right edge
         """
-        PipelineOperation.__init__(self, probability=probability, type='geometry')
+        PipelineOperation.__init__(self, probability=probability, op_type='geometry')
         self.matrix = identity.clone()
         self.config = True
         self.matrix[1, 1] = -1
