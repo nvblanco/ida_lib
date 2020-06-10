@@ -5,9 +5,12 @@ from typing import Union
 import kornia
 import torch
 
-from ida_lib.image_augmentation import visualization
+
 from . import utils
-from ida_lib.global_parameters import data_types_2d, device, one_torch
+from ida_lib.global_parameters import data_types_2d, device, one_torch, internal_type
+from .utils import add_new_axis, data_to_numpy, get_principal_type, dtype_to_torch_type
+from ..core.pipeline_functional import preprocess_dict_data_and_data_info, postprocess_data
+from ..visualization import _get_image_types, plot_image_tranformation
 
 
 def prepare_data(func):
@@ -22,53 +25,18 @@ def prepare_data(func):
     """
 
     @wraps(func)
-    def wrapped_function(data: dict, visualize: bool,  *args, **kwargs):
-        process_data = {}
-        process_data['points'] = None
-        if visualize:
-            process_data['original'] = data
-        if isinstance(data, dict):
-            process_data['types_2d'] = {}
-            compose_data = torch.tensor([])
-            remove_digits = str.maketrans('', '', digits)
-            for type in data.keys():
-                no_numbered_type = type.translate(remove_digits)
-                if no_numbered_type in data_types_2d:
-                    if not type in data_types_2d: data_types_2d.add(
-                        type)
-                    compose_data = torch.cat((compose_data, data[type]),
-                                             0)  # concatenate data into one multichannel pytoch tensor
-                    process_data['types_2d'][type] = data[type].shape[0]
-                else:
-                    process_data['points_matrix'] = data[type]
-            process_data['data2d'] = compose_data.to(device)
-            if process_data['points_matrix'] is not None: process_data['points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate(
-                process_data['points_matrix'] )
-        else:
-            if data.dim() < 3:
-                raise Exception("Single data must be al least 3 dims")
-            else:
-                process_data['points_matrix'] = None
-                process_data['types_2d'] = {}
-                process_data['types_2d']['image'] = data.shape[0]
-        data_output = func(process_data, *args, **kwargs) #Execute transform
+    def wrapped_function(data: dict, visualize: bool, interpolation:str = 'bilinear',  *args, **kwargs):
+        principal_type = get_principal_type(data)
+        data = data_to_numpy(data)
+        original_type = dtype_to_torch_type(data[principal_type].dtype)
+        data_original = data.copy()
+        p_data, data_info = preprocess_dict_data_and_data_info(data, interpolation)
+        data_output = func(p_data, *args, **kwargs) #Execute transform
 
-        data_output['data2d'] = data_output['data2d'].cpu()
-        if 'types_2d' in  data_output:
-            data_process = {}
-            data_split = torch.split(data_output['data2d'], list(data_output['types_2d'].values()), dim=0)
-            for index, type in enumerate(data_output['types_2d']):
-                data_process[type] = data_split[index]
-            if 'mask' in data_process: data_process['mask'] = utils.mask_change_to_01_functional(
-                data_process['mask'])
-            if 'points_matrix' in data_output:
-                data_process['keypoints'] = [
-                ((dato.cpu())[:2, :]).reshape(2) for dato in torch.split(data_output['points_matrix'], 1, dim=1)]
-        else:
-            data_process = data_output['data2d']
+        data_output = postprocess_data(batch = [data_output], batch_info= data_info, data_original = None, original_type= original_type)
         if visualize:
-            visualization.plot_image_tranformation(data_process, data_output['original'])
-        return data_process
+            plot_image_tranformation(data_output, data_original)
+        return data_output
 
     return wrapped_function
 
@@ -88,8 +56,8 @@ def vflip_compose_data(data: dict)->dict:
     :param data : dict of elements to be transformed
     :return: transformed data
     """
-    data['data2d'] = vflip_image(data['data2d'])
-    heigth = data['data2d'].shape[-2]
+    data['data_2d'] = vflip_image(data['data_2d'])
+    heigth = data['data_2d'].shape[-2]
     if 'mask'in data:
         data['points_matrix'] = vflip_coordiantes_matrix(data['points_matrix'], heigth)
     return data
@@ -110,8 +78,8 @@ def hflip_compose_data(data: dict) -> dict:
     :param data : dict of elements to be transformed
     :return: transformed data
     """
-    data['data2d'] = hflip_image(data['data2d'])
-    width = data['data2d'].shape[-1]
+    data['data_2d'] = hflip_image(data['data_2d'])
+    width = data['data_2d'].shape[-1]
     if 'points_matrix' in data:
         data['points_matrix'] = hflip_coordinates_matrix(data['points_matrix'], width)
     return data
@@ -132,7 +100,7 @@ def affine_compose_data(data: dict, matrix: torch.tensor) -> dict:
     :return: transformed data
     """
     matrix = matrix.to(device)
-    data['data2d'] = affine_image(data['data2d'], matrix)
+    data['data_2d'] = affine_image(data['data_2d'], matrix)
     if 'points_matrix' in data:
         data['points_matrix'] = affine_coordinates_matrix(data['points_matrix'], matrix)
     return data
@@ -142,6 +110,7 @@ def get_rotation_matrix(center: torch.tensor, degrees: torch.tensor):
     return ( kornia.geometry.get_rotation_matrix2d(angle=degrees, center=center, scale=one_torch)).reshape(2, 3)
 
 def rotate_image(img: torch.tensor, degrees: torch.tensor, center: torch.tensor)-> torch.tensor:
+    '''mode'''
     return  kornia.geometry.rotate(img, angle=degrees, center=center)
 
 def rotate_coordinates_matrix(matrix_coordinates: torch.tensor, matrix: torch.tensor)-> torch.tensor:
@@ -157,11 +126,11 @@ def rotate_compose_data(data: dict, degrees: torch.tensor, center: torch.tensor)
     """
     degrees = degrees * one_torch
     if center is None:
-        center = utils.get_torch_image_center(data['data2d'])
+        center = utils.get_torch_image_center(data['data_2d'])
     else:
         center = center
     center = center.to(device)
-    data['data2d'] = rotate_image(data['data2d'], degrees, center)
+    data['data_2d'] = rotate_image(data['data_2d'], degrees, center)
     matrix = get_rotation_matrix(center, degrees)
     if 'points_matrix' in data:
         data['points_matrix'] = rotate_coordinates_matrix(data['points_matrix'], matrix)
@@ -195,9 +164,9 @@ def scale_compose_data(data: dict, scale_factor: Union[float, torch.tensor], cen
     """
     scale_factor = (torch.ones(1) * scale_factor).to(device)
     if center is None:
-        center = utils.get_torch_image_center(data['data2d'])
+        center = utils.get_torch_image_center(data['data_2d'])
     center = center.to(device)
-    data['data2d'] = scale_image(data['data2d'], scale_factor, center)
+    data['data_2d'] = scale_image(data['data_2d'], scale_factor, center)
     matrix = get_scale_matrix(center, scale_factor)
     if 'points_matrix' in data:
         data['points_matrix'] = scale_coordinates_matrix( data['points_matrix'], matrix)
@@ -224,7 +193,7 @@ def translate_compose_data(data: dict, translation: Union[int, torch.tensor]) ->
     if not torch.is_tensor(translation):
         translation = (torch.tensor(translation).float().reshape((1, 2)))
     translation = translation.to(device)
-    data['data2d'] = translate_image(data['data2d'], translation)
+    data['data_2d'] = translate_image(data['data_2d'], translation)
     if 'points_matrix' in data:
         data['points_matrix'] =  translate_coordinates_matrix(data['points_matrix'], translation)
     return data
@@ -252,7 +221,7 @@ def shear_compose_data(data: dict, shear_factor: Union[float, torch.tensor]) -> 
     """
     shear_factor = (torch.tensor(shear_factor).reshape(1,2)).to(device)
     matrix = get_shear_matrix(shear_factor)
-    data['data2d'] = shear_image(data['data2d'], matrix)
+    data['data_2d'] = shear_image(data['data_2d'], matrix)
     matrix = get_shear_matrix(shear_factor)
     if 'points_matrix' in data:
         data['points_matrix'] =  shear_coordinates_matrix(data['points_matrix'], matrix)

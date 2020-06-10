@@ -8,6 +8,16 @@ import torch
 from ida_lib.global_parameters import device, data_types_2d
 
 
+def data_to_numpy(data):
+    if torch.is_tensor(data):
+        return kornia.tensor_to_image(data)
+    elif isinstance(data, dict):
+        for k in data.keys():
+            if torch.is_tensor(data[k]):data[k] = kornia.tensor_to_image(data[k])
+        return data
+    else:
+        return data
+
 def round_torch(arr: torch.tensor, n_digits: int=3):
     return torch.round(arr * 10 ** n_digits) / (10 ** n_digits)
 

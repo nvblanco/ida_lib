@@ -5,7 +5,7 @@ import kornia
 import numpy as np
 import torch
 
-from ida_lib.core import visualization
+from ida_lib import visualization
 from ida_lib.global_parameters import data_types_2d, device, internal_type, identity
 from ida_lib.operations.utils import remove_digits, add_new_axis
 from ida_lib.operations import utils
@@ -195,8 +195,8 @@ def preprocess_dict_data(data: list, batch_info: dict, resize:bool = False) -> l
     :return: preprocessed data
     """
     p_data = {}
-    compose_data = torch.tensor([])
-    compose_discretized_data = torch.tensor([])
+    compose_data = torch.tensor([], dtype=internal_type)
+    compose_discretized_data = torch.tensor([], dtype=internal_type)
     for actual_type in data:
         if actual_type in data_types_2d:
             if len(data[actual_type].shape) == 2:
@@ -225,11 +225,6 @@ def preprocess_dict_data(data: list, batch_info: dict, resize:bool = False) -> l
     resize_factor = None
     if resize:
         resize_factor = (batch_info['new_size'][0] / original_shape[1], batch_info['new_size'][1] / original_shape[0])
-        '''if 'points_matrix' in p_data:  p_data[
-            'points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate_with_resize(
-            p_data['points_matrix'],
-            (batch_info['new_size'][0] / original_shape[1], batch_info['new_size'][1] / original_shape[0]))
-    else:'''
     if 'points_matrix' in p_data:  p_data['points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate( p_data['points_matrix'], resize_factor)
     return p_data
 

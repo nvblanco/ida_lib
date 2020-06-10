@@ -3,7 +3,7 @@ import kornia
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from operations import transforms
+from ida_lib.operations import transforms
 
 # read the image with OpenCV
 img: np.ndarray = cv2.imread('./gato.jpg')
@@ -18,10 +18,13 @@ keypoints = ([img.shape[0]//2, img.shape[1]//2], [img.shape[0]//2  + 15, img.sha
 
 points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 data: torch.tensor = kornia.image_to_tensor(img, keepdim=False)  # BxCxHxW
+keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, img.shape[1] // 2 - 50],
+             [img.shape[0] // 2 + 85, img.shape[1] // 2 - 80], [img.shape[0] // 2 - 105, img.shape[1] // 2 + 60])
+points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 
 #data = color.equalize_histogram(data, visualize=True)
 
-data = {'image':data, 'keypoints': points, 'mask': data}
+data = {'image':data, 'keypoints': points}
 matrix = torch.eye(2,3).to('cuda')
 
 center = torch.ones(1, 2)
@@ -30,7 +33,7 @@ center[..., 1] = data['image'].shape[-1] // 2  # y
 
 #data = geometry.translate(data, visualize = False, translation = (20,-10))
 #data = geometry.scale(data, visualize = False, scale_factor=0.75)
-data = transforms.hflip(data, True)
+data = transforms.change_contrast(data,contrast=1.2, visualize= True)
 #data = geometry.affine(data, visualize=False, matrix=matrix)
 #data = geometry.shear(data, visualize=False, shear_factor=(0.1,0.3))
 #data = geometry.rotate(data, visualize=False, degrees=35.8, center = center)
@@ -85,8 +88,8 @@ axs[0].imshow(img)
 
 axs[1].axis('off')
 axs[1].set_title('image warped')
-xvalues_warped = [value[0].numpy() for value in data['keypoints']]
-yvalues_warped = [value[1].numpy() for value in data['keypoints']]
+xvalues_warped = [value[0].cpu().numpy() for value in data['keypoints']]
+yvalues_warped = [value[1].cpu().numpy() for value in data['keypoints']]
 axs[1].scatter(x = xvalues_warped, y = yvalues_warped, s=80)
 axs[1].imshow(img_warped)
 plt.show()

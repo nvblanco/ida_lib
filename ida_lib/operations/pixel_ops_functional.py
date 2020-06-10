@@ -6,8 +6,9 @@ import kornia
 import numpy as np
 import torch
 
-from ida_lib.image_augmentation import visualization
+
 from . import utils
+from ..visualization import plot_image_tranformation
 
 
 def prepare_data_for_opencv(func):
@@ -43,9 +44,8 @@ def prepare_data_for_opencv(func):
             data_output['image'] = image
         else:
             data_output = image
-
         if visualize:
-            visualization.plot_image_tranformation({'image': data_output}, {'image': original})
+            plot_image_tranformation({'image': data_output['image']}, {'image': original})
         return data_output
 
     return wrapped_function

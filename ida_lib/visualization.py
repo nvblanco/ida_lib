@@ -8,11 +8,11 @@ import numpy as np
 import torch
 from bokeh.io import curdoc
 from bokeh.layouts import row, column
-from bokeh.models import ColumnDataSource, CustomJS, Panel, Tabs, LabelSet, Div
+from bokeh.models import ColumnDataSource, CustomJS, Panel, Tabs, LabelSet, Div, HoverTool
 from bokeh.models.widgets import CheckboxGroup
 from bokeh.plotting import figure
 
-__all__ = [ 'visualize']
+__all__ = [ 'visualize', 'plot_image_tranformation']
 
 from ida_lib.operations.utils import get_principal_type
 
@@ -189,7 +189,7 @@ def _add_label_plot(label):
 
 def _generate_icon():
     ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-    icon_img: np.ndarray = cv2.imread(os.path.join(ROOT_DIR, '../static/icon2.png'))
+    icon_img: np.ndarray = cv2.imread(os.path.join(ROOT_DIR, 'static/icon2.png'))
     icon_img = cv2.cvtColor(icon_img, cv2.COLOR_BGR2RGB)
     icon_img = _process_image(icon_img)
     icon = figure(x_range=(0, icon_img.data['dw'][0]), y_range=(
@@ -208,19 +208,74 @@ def _generate_icon():
     return icon
 
 
-def generate_title_template():
+def generate_title_template(template: int = 0):
     icon = _generate_icon()
     pre = Div(text="<b><div style='color:#224a42;font-size:280%' >IDALIB.</div>   image data augmentation</b>",
               style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '250%',
                      'width': '5000', 'color': '#17705E'})
     pre.width = 1000
-    description = Div(
-        text="<b>This is the visualization tool of the IDALIB image data augmentation library. The first 5 samples of the image batch are shown with the corresponding pipeline transformations. You can select to make visible or not each of the data elements in the right column</b>",
-        style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '100%',
-               'font-weight': 'lighter', 'width': '5000', 'color': '#939393'})
+    if template == 0:
+        description = Div(
+            text="<b>This is the visualization tool of the IDALIB image data augmentation library. The first 5 samples of the image batch are shown with the corresponding pipeline transformations. You can select to make visible or not each of the data elements in the right column</b>",
+            style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '100%',
+                   'font-weight': 'lighter', 'width': '5000', 'color': '#939393'})
+    else:
+        description = Div(
+            text="<b>This is the visualization tool of the IDALIB image data augmentation library. Yo can see the original image and the result image. You can select to make visible or not each of the data elements in the right column</b>",
+            style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '100%',
+                   'font-weight': 'lighter', 'width': '5000', 'color': '#939393'})
     title = column(row(icon, pre), description)
     title.margin = (0, 0, 20, 20)
     return title
+
+
+
+def generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_types, points_types, other_types,):
+    list_target = ()
+    list_checkbox = ()
+    ppal_type = get_principal_type(data)
+    img = data[ppal_type]
+    plot = _generate_image_plot(img, 'transformed image')  # Generate plot of transformed image
+    img2 = data_original[ppal_type]
+    plot2 = _generate_image_plot(img2, 'original_image')  # Generate plot of original image
+    list_plots = (plot2, plot)  # Add plots to the list of output plots
+    for mask in mask_types:  # Loop through mask types of the input element
+        img = data[mask]
+        img2 = data_original[mask]
+        color = _get_next_color()
+        checkboxes_mask = _add_mask_plot_and_checkbox(img, img2, color, mask, plot, plot2)
+        list_checkbox = (*list_checkbox, checkboxes_mask)
+    for heatmap in heatmap_labels:  # Plotting of heatmap
+        img = data[heatmap]
+        img2 = data_original[heatmap]
+        color = _get_next_color()
+        checkboxes_heatmap = _add_mask_plot_and_checkbox(img, img2, color, heatmap, plot, plot2)
+        list_checkbox = (*list_checkbox, checkboxes_heatmap)
+    for keypoints in points_types:  # Plotting of keypoints
+        points = data[keypoints]
+        points2 = data_original[keypoints]
+        checkboxes = _add_points_plot(points, points2, plot, plot2)
+        list_checkbox = (*list_checkbox, checkboxes)
+    for label in other_types:  # Plotting of labels
+        data_label = data[label]
+        label = _add_label_plot(data_label)
+        list_target = (*list_target, label)
+    # Configure tab elements
+    if len(list_target) != 0:
+        title_targets = pre = Div(text="<b>Targets</b><hr>",
+                                  style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif',
+                                         'font-size': '100%', 'color': '#bf6800'})
+        list_checkbox = (*list_checkbox, title_targets, *list_target)
+
+    pre = Div(text="<b>Data Elements </b><hr>",
+              style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '150%',
+                     'color': '#17705E'})
+    checkboxes_column = column(pre, *list_checkbox)
+    vertical_line = Div(text="<div></div>",
+                        style={'border-right': '1px solid #e5e5e5', 'height': '100%', 'width': '30px'})
+    list_plots = (*list_plots, vertical_line, checkboxes_column)
+    p = row(*list_plots)
+    return p
 
 def visualize(images: dict, images_originals: dict, mask_types: list, other_types:list,  max_images:int = 5):
     '''
@@ -239,48 +294,9 @@ def visualize(images: dict, images_originals: dict, mask_types: list, other_type
         if index == max_images:
             break
         _restart_color_palette()
-        list_target = ()
-        list_checkbox = ()
-        type = get_principal_type(data)
-        img = data[type]
-        plot = _generate_image_plot(img, 'transformed image') #Generate plot of transformed image
-        img2 = data_original[type]
-        plot2 = _generate_image_plot(img2, 'original_image') #Generate plot of original image
-        list_plots = (plot2, plot) #Add plots to the list of output plots
-        for mask in mask_types:#Loop through mask types of the input element
-            img = data[mask]
-            img2 = data_original[mask]
-            color = _get_next_color()
-            checkboxes_mask = _add_mask_plot_and_checkbox(img, img2, color, mask, plot, plot2)
-            list_checkbox = (*list_checkbox, checkboxes_mask)
-        for heatmap in heatmap_labels: #Plotting of heatmap
-            img = data[heatmap]
-            img2 = data_original[heatmap]
-            color = _get_next_color()
-            checkboxes_heatmap = _add_mask_plot_and_checkbox(img, img2, color, heatmap, plot, plot2)
-            list_checkbox = (*list_checkbox, checkboxes_heatmap)
-        for keypoints in points_types:#Plotting of keypoints
-            points = data[keypoints]
-            points2 = data_original[keypoints]
-            checkboxes = _add_points_plot(points, points2, plot, plot2)
-            list_checkbox = (*list_checkbox, checkboxes)
-        for label in other_types:#Plotting of labels
-            data_label = data[label]
-            label = _add_label_plot(data_label)
-            list_target = (*list_target, label)
-        #Configure tab elements
-        if len(list_target) != 0:
-            title_targets = pre = Div(text="<b>Targets</b><hr>",
-                      style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '100%', 'color': '#bf6800'})
-            list_checkbox = (*list_checkbox, title_targets, *list_target)
+
+        p = generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_types, points_types, other_types)
         title = 'image ' + str(index)
-        pre = Div(text="<b>Data Elements </b><hr>",
-                  style={'font-family': 'Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif', 'font-size': '150%', 'color': '#17705E'})
-        checkboxes_column = column(pre, *list_checkbox)
-        vertical_line = Div(text="<div></div>",
-                            style={'border-right': '1px solid #e5e5e5', 'height': '100%', 'width': '30px'})
-        list_plots = (*list_plots, vertical_line, checkboxes_column)
-        p = row(*list_plots)
         tab = Panel(child=p, title=title)
         tabs.append(tab)
 
@@ -294,3 +310,29 @@ def visualize(images: dict, images_originals: dict, mask_types: list, other_type
     #Run  bokeh server to show the visualization window
     command = 'bokeh serve --show ' + sys.argv[0]
     os.system(command)
+
+
+
+
+def plot_image_tranformation(data, data_original, **figure_kwargs):
+    '''
+        Generate the bokeh plot of the input batch transformation
+        :param images: list of transformed items (dict of image and other  objects)
+        :param images_originals: list of original items (dict of image and other  objects)
+        :param mask_types: list of types shown as segmentation maps
+        :param other_types: list of not bidimensional types
+        :param max_images: max number of tabs to be shown
+        '''
+
+    image_labels, heatmap_labels, mask_types, points_types, other_types = _get_image_types(data)
+    layout = generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_types, points_types, other_types)
+
+    title = generate_title_template(1)
+    layout = column(title, layout)
+    curdoc().title = "Batch visualization"
+    curdoc().add_root(layout)
+
+    # Run  bokeh server to show the visualization window
+    command = 'bokeh serve --show ' + sys.argv[0]
+    os.system(command)
+
