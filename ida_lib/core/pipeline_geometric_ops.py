@@ -64,6 +64,9 @@ class ScalePipeline(PipelineOperation):
     def need_data_info(self):
         return self.config
 
+    def switch_points(self):
+        return None
+
 
 class RandomScalePipeline(PipelineOperation):
     """Scale the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range"""
@@ -122,6 +125,8 @@ class RandomScalePipeline(PipelineOperation):
     def need_data_info(self) -> bool:
         return self.config
 
+    def switch_points(self):
+        return None
 
 class RotatePipeline(PipelineOperation):
     """Rotate the input image-mask-keypoints and 2d data by the input degrees"""
@@ -156,6 +161,9 @@ class RotatePipeline(PipelineOperation):
         self.center[..., 1] = data_info['shape'][-2] // 2
         self.config = False
 
+    def switch_points(self):
+        return None
+
 
 class RandomRotatePipeline(PipelineOperation):
     """Rotate the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range"""
@@ -165,8 +173,10 @@ class RandomRotatePipeline(PipelineOperation):
 
         :param degrees_range: range of degrees to apply
         :param probability: [0-1]  probability of applying the transform. Default: 1.
-        :param center desviation : produces random deviations at the rotating center. The deviations will be a maximum of the number of pixels indicated in this parameter
+        :param center desviation : produces random deviations at the rotating center. The deviations will be a maximum
+                of the number of pixels indicated in this parameter
         :param center : coordinates of the center of scaling. Default: center of the image
+
         """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         self.center_desviation = center_desviation
@@ -198,6 +208,9 @@ class RandomRotatePipeline(PipelineOperation):
         self.center[..., 1] = data_info['shape'][-2] // 2
         self.config = False
 
+    def switch_points(self):
+        return None
+
 
 class TranslatePipeline(PipelineOperation):
     """Translate the input image-mask-keypoints and 2d data by the input translation"""
@@ -220,6 +233,9 @@ class TranslatePipeline(PipelineOperation):
 
     def need_data_info(self) -> bool:
         return False
+
+    def switch_points(self):
+        return None
 
 
 class RandomTranslatePipeline(PipelineOperation):
@@ -252,6 +268,9 @@ class RandomTranslatePipeline(PipelineOperation):
     def need_data_info(self) -> bool:
         return False
 
+    def switch_points(self):
+        return None
+
 
 class ShearPipeline(PipelineOperation):
     """Shear the input image-mask-keypoints and 2d data by the input shear factor"""
@@ -274,6 +293,9 @@ class ShearPipeline(PipelineOperation):
 
     def need_data_info(self) -> bool:
         return False
+
+    def switch_points(self):
+        return None
 
 
 class RandomShearPipeline(PipelineOperation):
@@ -299,18 +321,26 @@ class RandomShearPipeline(PipelineOperation):
     def need_data_info(self) -> bool:
         return False
 
+    def switch_points(self):
+        return None
+
 
 class HflipPipeline(PipelineOperation):
     """Horizontally flip the input image-mask-keypoints and 2d data"""
 
-    def __init__(self, probability: float = 1):
+    def __init__(self, probability: float = 1, exchange_points: tuple = None):
         """
         :param probability: [0-1] probability of applying the transform. Default: 1.
+        :param exchange_points: iif it is not None, it serves as a tuple of the point positions to be exchanged after
+                the operation. For example, with the value (1,8) point 1 is exchanged for 8. It is useful for example
+                in symmetric images where a point can indicate the left edge. After the flip, that point will be
+                the right edge
         """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         self.config = True
         self.matrix = identity.clone()
         self.matrix[0, 0] = -1
+        self.exchange_points = exchange_points
 
     def need_data_info(self) -> bool:
         return self.config
@@ -322,18 +352,26 @@ class HflipPipeline(PipelineOperation):
     def get_op_matrix(self) -> torch.tensor:
         return self.matrix
 
+    def switch_points(self):
+        return self.exchange_points
+
 
 class VflipPipeline(PipelineOperation):
     """Vertically flip the input image-mask-keypoints and 2d data"""
 
-    def __init__(self, probability: float):
+    def __init__(self, probability: float, exchange_points: tuple = None):
         """
         :param probability : [0-1] probability of applying the transform. Default: 1.
+        :param exchange_points: iif it is not None, it serves as a tuple of the point positions to be exchanged after
+                the operation. For example, with the value (1,8) point 1 is exchanged for 8. It is useful for example
+                in symmetric images where a point can indicate the left edge. After the flip, that point will be
+                the right edge
         """
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         self.matrix = identity.clone()
         self.config = True
         self.matrix[1, 1] = -1
+        self.exchange_points = exchange_points
 
     def need_data_info(self) -> bool:
         return self.config
@@ -344,3 +382,6 @@ class VflipPipeline(PipelineOperation):
 
     def get_op_matrix(self) -> torch.tensor:
         return self.matrix
+
+    def switch_points(self):
+        return self.exchange_points

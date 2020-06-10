@@ -20,6 +20,16 @@ __all__ = ['get_compose_matrix',
 mask_types = []
 other_types = []
 
+def switch_point_positions( point_matrix, list):
+    for exchange_list in list: #not to do all the transofrmations together because there can be circular transformations (1,5) (5,10)
+        indices = [a for a, _ in exchange_list]
+        indices2 = [b for _,b in exchange_list]
+        exchange = point_matrix[..., indices].clone()
+        point_matrix[..., indices] = point_matrix[..., indices2]
+        point_matrix[..., indices2] = exchange
+    return point_matrix
+
+
 
 def get_compose_matrix(operations: list, data_info: Optional[dict] = None) -> torch.tensor:
     """
@@ -33,17 +43,20 @@ def get_compose_matrix(operations: list, data_info: Optional[dict] = None) -> to
     :return : torch tensor of the transform matrix
     """
     matrix = identity.clone()
+    switch = []
     if data_info:
         for operation in operations:
             if operation.need_data_info():
                 operation.config_parameters(data_info)
             if operation.apply_according_to_probability():
+                if operation.switch_points(): switch.append(operation.switch_points())
                 matrix = torch.matmul(operation.get_op_matrix(), matrix)
     else:
         for operation in operations:
             if operation.apply_according_to_probability():
+                if operation.switch_points(): switch.append(operation.switch_points())
                 matrix = torch.matmul(operation.get_op_matrix(), matrix)
-    return matrix
+    return matrix, switch
 
 
 
@@ -92,7 +105,6 @@ def get_compose_function(operations: list) -> np.ndarray:
         lookUpTable[0, i] = compose_function(i)
     lookUpTable[0, :] = np.clip(lookUpTable[0, :], 0, 255)
     return lookUpTable
-   # return np.uint8(lookUpTable)
 
 
 def preprocess_data(data:list, batch_info: dict=None,  interpolation: str=None, resize: Optional[tuple]=None) ->list:

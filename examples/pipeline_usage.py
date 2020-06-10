@@ -67,7 +67,7 @@ start_time = time()  # time measurement
 pip = pipeline(interpolation='nearest',
                pipeline_operations=(
                    ScalePipeline(probability=0.3, scale_factor=0.5),
-                   HflipPipeline(probability=0.8),
+                   HflipPipeline(probability=1, exchange_points=[(0,5), (1,6)]),
                    RandomRotatePipeline(probability=1, degrees_range=(-20, 20)),
                    GaussianNoisePipeline(probability=0)))
 

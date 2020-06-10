@@ -6,7 +6,7 @@ from ida_lib.operations.utils import get_principal_type, dtype_to_torch_type
 from ida_lib.core.pipeline_functional import (split_operations_by_type, get_compose_function,
                                               preprocess_data,
                                               get_compose_matrix,
-                                              postprocess_data)
+                                              postprocess_data, switch_point_positions)
 
 class pipeline(object):
     """
@@ -46,7 +46,7 @@ class pipeline(object):
                 'zeros' | 'border' | 'reflection'. Default: 'zeros'
         :param output_format: desired format for each output item in the pipeline
                 'dict' (each item accompanied by its type name) | 'tuple'
-        :param: output_type: desired type for the bidimensional oputput items. If it is None, output type will be the same as input's type
+        :param: output_type: desired type for the bidimensional outtput items. If it is None, output type will be the same as input's type
 
         """
         self.color_ops, self.geom_ops, self.indep_ops = split_operations_by_type(pipeline_operations)
@@ -115,11 +115,12 @@ class pipeline(object):
                 for op in self.indep_ops: data['image'] = op.apply_to_image_if_probability(data['image'])
             if self.info_data is None:
                 p_data, self.info_data = preprocess_data(data, interpolation=self.interpolation, resize=self.resize)
-                matrix = get_compose_matrix(self.geom_ops, self.info_data) #calculates the composite matrix and configures the necessary parameters (causes by batch_info as a parameter)
+                matrix, switch_points = get_compose_matrix(self.geom_ops, self.info_data) #calculates the composite matrix and configures the necessary parameters (causes by batch_info as a parameter)
             else:
                 p_data = preprocess_data(data, batch_info=self.info_data, resize=self.resize)
-                matrix = get_compose_matrix(self.geom_ops)
+                matrix, switch_points = get_compose_matrix(self.geom_ops)
             p_data['data_2d'] = self._apply_geometry_transform_data2d(p_data['data_2d'], matrix)
+            if switch_points: switch_point_positions(p_data['points_matrix'], switch_points)
             if self.info_data['contains_discrete_data']: p_data[
                 'data_2d_discreted'] = self._apply_geometry_transform_discreted_data2d(p_data['data_2d_discreted'],
                                                                                        matrix)
