@@ -135,7 +135,7 @@ class RotatePipeline(PipelineOperation):
         PipelineOperation.__init__(self, probability=probability, type='geometry')
         self.degrees = degrees
         self.degrees = degrees * one_torch
-        self.new_row = torch.Tensor(1, 3).to(device)
+        self.new_row = torch.zeros(1, 3).to(device)
         self.new_row[:, 2] = 1
         if center is None:
             self.config = True
@@ -173,7 +173,7 @@ class RandomRotatePipeline(PipelineOperation):
         if not isinstance(degrees_range, tuple):
             raise Exception("Degrees range must be a tuple (min, max)")
         self.degrees_range = degrees_range
-        self.new_row = torch.Tensor(1, 3).to(device)
+        self.new_row = torch.zeros(1, 3).to(device)
         self.new_row[:, 2] = 1
         if center is None:
             self.config = True
