@@ -161,8 +161,8 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
                 data[actual_type] = add_new_axis(data[actual_type])
             original_shape = data[actual_type].shape
             if actual_type not in data_types_2d:
-                data_types_2d.add(
-                actual_type)  # adds to the list of type names the numbered name detected in the input data
+                data_types_2d.add(actual_type)  # adds to the list of type names the numbered name detected
+                                                # in the input data
             if 'shape' not in data_info:
                 data_info['shape'] = (new_size[0], new_size[1], data[actual_type].shape[2])
                 data_info['new_size'] = new_size
@@ -245,8 +245,8 @@ def preprocess_dict_data(data: list, batch_info: dict, resize: bool = False) -> 
     resize_factor = None
     if resize:
         resize_factor = (batch_info['new_size'][0] / original_shape[1], batch_info['new_size'][1] / original_shape[0])
-    if 'points_matrix' in p_data:  p_data['points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate(
-        p_data['points_matrix'], resize_factor)
+    if 'points_matrix' in p_data:
+        p_data['points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate(p_data['points_matrix'], resize_factor)
     return p_data
 
 
@@ -330,8 +330,8 @@ def postprocess_data(batch: list, batch_info: dict, data_original: Optional[list
             data_output = {}
             data_split = torch.split(data['data_2d'], list(batch_info['types_2d'].values()), dim=0)
             if batch_info['contains_discrete_data']:
-                discreted_data_split = torch.split(data['data_2d_discreted'], list(
-                batch_info['types_2d_discreted'].values()), dim=0)
+                discreted_data_split = torch.split(data['data_2d_discreted'], list( batch_info['types_2d_discreted']
+                                                                                    .values()), dim=0)
             for index, actual_type in enumerate(batch_info['types_2d']):
                 data_output[actual_type] = data_split[index].type(original_type)
             for index, actual_type in enumerate(batch_info['types_2d_discreted']):
@@ -339,13 +339,12 @@ def postprocess_data(batch: list, batch_info: dict, data_original: Optional[list
             for label in other_types:
                 data_output[label] = data[label]
             if 'points_matrix' in data:
-                data_output['keypoints'] = utils.homogeneus_points_to_matrix(
-                data['points_matrix'])
+                data_output['keypoints'] = utils.homogeneus_points_to_matrix(data['points_matrix'])
         else:
             data_output = data['data_2d']
         process_data.append(data_output)
     if visualize:
-        visualization.visualize(process_data[0:5], data_original[0:5], mask_types, other_types)
+        visualization.visualize(process_data[0:5], data_original[0:5], mask_types)
     if len(process_data) == 1:  # if the output is a single item, the list is removed
         process_data = process_data[0]
         if output_format == 'tuple':

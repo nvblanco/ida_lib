@@ -292,8 +292,6 @@ def visualize(images: dict, images_originals: dict, max_images: int = 5):
     Generate the bokeh plot of the input batch transformation
     :param images: list of transformed items (dict of image and other  objects)
     :param images_originals: list of original items (dict of image and other  objects)
-    :param mask_types: list of types shown as segmentation maps
-    :param other_types: list of not bidimensional types
     :param max_images: max number of tabs to be shown
     '''
     tabs = []
@@ -305,7 +303,7 @@ def visualize(images: dict, images_originals: dict, max_images: int = 5):
             break
         _restart_color_palette()
 
-        p = generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_types, points_types, other_types)
+        p = generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_types, points_types)
         title = 'image ' + str(index)
         tab = Panel(child=p, title=title)
         tabs.append(tab)
@@ -330,7 +328,7 @@ def plot_image_tranformation(data, data_original):
         '''
 
     image_labels, heatmap_labels, mask_types, points_types, other_types = _get_image_types(data)
-    layout = generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_types, points_types, other_types)
+    layout = generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_types, points_types)
 
     title = generate_title_template(1)
     layout = column(title, layout)

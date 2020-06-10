@@ -76,6 +76,7 @@ pip = Pipeline(interpolation='nearest',
 batch = pip(batch, visualize=True)
 
 consumed_time = time() - start_time
-# keep in mind that visualization is a significant overhead, so to take a good measure of performance set visualize=False
+# keep in mind that visualization is a significant overhead, so to take a good measure of
+# performance set visualize=False
 print("Total time consumed to process " + str(samples) + " samples: " + str(consumed_time))
 print("Time per sample: :" + str(consumed_time / samples))

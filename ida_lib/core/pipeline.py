@@ -124,32 +124,31 @@ class Pipeline(object):
 
         # Start looping over the batch items
         for index, data in enumerate(batch_data):
-            #Only perform color operations if the item contains any image
+            # only perform color operations if the item contains any image
             if 'image' in data:
                 lut = get_compose_function(self.color_ops)
                 data['image'] = cv2.LUT(data['image'].astype('uint8'), lut)
                 for op in self.indep_ops:
                     data['image'] = op.apply_to_image_if_probability(data['image'])
 
-            #Process data and get compose matrix of geometric  operations
-            if self.info_data is None: # Needs to configurate batch information
+            # process data and get compose matrix of geometric  operations
+            if self.info_data is None:  # Needs to configurate batch information
                 p_data, self.info_data = preprocess_data(data, interpolation=self.interpolation, resize=self.resize)
                 matrix, switch_points = get_compose_matrix(self.geom_ops, self.info_data)  # calculates the composite
                 # matrix and configures the necessary parameters (causes by batch_info as a parameter)
 
-            else: # Batch information has already been set up
+            else:  # Batch information has already been set up
                 p_data = preprocess_data(data, batch_info=self.info_data, resize=self.resize)
                 matrix, switch_points = get_compose_matrix(self.geom_ops)
-
 
             # perform the geometry  compose transform
             p_data['data_2d'] = self._apply_geometry_transform_data2d(p_data['data_2d'], matrix)
 
-            if switch_points: # if necessary, the order of the points is changed
+            if switch_points:  # if necessary, the order of the points is changed
                 switch_point_positions(p_data['points_matrix'], switch_points)
 
-            if self.info_data['contains_discrete_data']:# if there are segmaps or masks, the transformations are
-                                                        # applied to them with discrete values
+            if self.info_data['contains_discrete_data']:    # if there are segmaps or masks, the transformations are
+                                                            # applied to them with discrete values
                 p_data['data_2d_discreted'] = self._apply_geometry_transform_discreted_data2d(
                     p_data['data_2d_discreted'], matrix)
             if self.info_data['contains_keypoints']:
