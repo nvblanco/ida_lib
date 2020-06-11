@@ -15,7 +15,8 @@ __all__ = ['get_compose_matrix',
            'get_compose_function',
            'preprocess_data',
            'split_operations_by_type',
-           'postprocess_data']
+           'postprocess_data',
+           'switch_point_positions']
 
 mask_types = []
 other_types = []
@@ -149,6 +150,7 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
     :return: preprocessed and resized data, and dict with batch info
     """
 
+    original_shape = None
     p_data = {}
     data_info = {'types_2d': {}, 'types_2d_discreted': {}, 'contains_keypoints': False}
     compose_data = torch.tensor([], dtype=internal_type)
@@ -162,7 +164,7 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
             original_shape = data[actual_type].shape
             if actual_type not in data_types_2d:
                 data_types_2d.add(actual_type)  # adds to the list of type names the numbered name detected
-                                                # in the input data
+                # in the input data
             if 'shape' not in data_info:
                 data_info['shape'] = (new_size[0], new_size[1], data[actual_type].shape[2])
                 data_info['new_size'] = new_size
@@ -202,7 +204,7 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
     return p_data, data_info
 
 
-def preprocess_dict_data(data: list, batch_info: dict, resize: bool = False) -> list:
+def preprocess_dict_data(data: list, batch_info: dict, resize: Optional[tuple] = None) -> list:
     """
     Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix
     that allows applying the geometric operations in a single joint operation on the data
@@ -214,6 +216,7 @@ def preprocess_dict_data(data: list, batch_info: dict, resize: bool = False) -> 
     :return: preprocessed data
     """
     p_data = {}
+    original_shape = None
     compose_data = torch.tensor([], dtype=internal_type)
     compose_discretized_data = torch.tensor([], dtype=internal_type)
     for actual_type in data:
@@ -325,13 +328,14 @@ def postprocess_data(batch: list, batch_info: dict, data_original: Optional[list
     :return: processed data
     """
     process_data = []
+    discreted_data_split = None
     for data in batch:
         if 'types_2d' in batch_info:
             data_output = {}
             data_split = torch.split(data['data_2d'], list(batch_info['types_2d'].values()), dim=0)
             if batch_info['contains_discrete_data']:
                 discreted_data_split = torch.split(data['data_2d_discreted'], list(batch_info['types_2d_discreted']
-                                                                                    .values()), dim=0)
+                                                                                   .values()), dim=0)
             for index, actual_type in enumerate(batch_info['types_2d']):
                 data_output[actual_type] = data_split[index].type(original_type)
             for index, actual_type in enumerate(batch_info['types_2d_discreted']):

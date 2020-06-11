@@ -59,7 +59,7 @@ data = {'image': img, 'keypoints': random_coordinates, 'mask1': mask_example1, '
 
 # For this example we are going to use the same identical input element but repeated n times to create a batch so we
 # can see the different transformations
-samples = 100
+samples = 10
 batch = [data.copy() for _ in range(samples)]
 
 start_time = time()  # time measurement

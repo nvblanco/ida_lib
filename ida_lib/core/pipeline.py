@@ -147,8 +147,8 @@ class Pipeline(object):
             if switch_points:  # if necessary, the order of the points is changed
                 switch_point_positions(p_data['points_matrix'], switch_points)
 
-            if self.info_data['contains_discrete_data']:    # if there are segmaps or masks, the transformations are
-                                                            # applied to them with discrete values
+            if self.info_data['contains_discrete_data']:
+                # if there are segmaps or masks, the transformations are applied to them with discrete values
                 p_data['data_2d_discreted'] = self._apply_geometry_transform_discreted_data2d(
                     p_data['data_2d_discreted'], matrix)
             if self.info_data['contains_keypoints']:

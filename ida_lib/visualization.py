@@ -184,6 +184,7 @@ def _add_points_plot(points1, points2, plot, plot2):
 
 
 def _add_label_plot(label):
+    data_label = label
     if not isinstance(label, str):
         data_label = str(label)
     html = "<div style='padding: 5px; border-radius: 3px; background-color: #8ebf42'>\
@@ -239,7 +240,7 @@ def generate_title_template(template: int = 0):
     return title
 
 
-def generate_item_tab(data, data_original, heatmap_labels, mask_types, points_types, other_types, ):
+def generate_item_tab(data, data_original, heatmap_labels, mask_types, points_types, other_types):
     list_target = ()
     list_checkbox = ()
     ppal_type = get_principal_type(data)
@@ -288,12 +289,12 @@ def generate_item_tab(data, data_original, heatmap_labels, mask_types, points_ty
 
 
 def visualize(images: dict, images_originals: dict, max_images: int = 5):
-    '''
+    """
     Generate the bokeh plot of the input batch transformation
     :param images: list of transformed items (dict of image and other  objects)
     :param images_originals: list of original items (dict of image and other  objects)
     :param max_images: max number of tabs to be shown
-    '''
+    """
     tabs = []
     image_labels, heatmap_labels, mask_types, points_types, other_types = _get_image_types(images[0])
     # loop through the input elements to create the tabs
@@ -303,7 +304,8 @@ def visualize(images: dict, images_originals: dict, max_images: int = 5):
             break
         _restart_color_palette()
 
-        p = generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_types, points_types)
+        p = generate_item_tab(data=data, data_original=data_original, heatmap_labels=heatmap_labels,
+                              mask_types=mask_types, points_types=points_types, other_types=other_types)
         title = 'image ' + str(index)
         tab = Panel(child=p, title=title)
         tabs.append(tab)
@@ -321,11 +323,11 @@ def visualize(images: dict, images_originals: dict, max_images: int = 5):
 
 
 def plot_image_tranformation(data, data_original):
-    '''
+    """
         Generate the bokeh plot of the input batch transformation
         :param data: input dict element
         :param data_original: original input element (before transforms)
-        '''
+        """
 
     image_labels, heatmap_labels, mask_types, points_types, other_types = _get_image_types(data)
     layout = generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_types, points_types)

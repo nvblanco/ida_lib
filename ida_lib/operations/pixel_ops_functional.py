@@ -20,6 +20,8 @@ def prepare_data_for_opencv(func):
     @wraps(func)
     def wrapped_function(image: Union[dict, torch.tensor, np.ndarray], visualize: bool, *args, **kwargs) -> Union[
                         dict, torch.tensor, np.ndarray]:
+        data = None
+        original = None
         if isinstance(image, dict):
             data_type = 'dict'
             data = image
@@ -151,7 +153,7 @@ def gaussian_noise(image: Union[dict, torch.tensor, np.ndarray], var=20) -> Unio
     :param var    : var of the gaussian distribution of noise
     :return: returns the transformed image
     """
-    return _apply_gaussian_noise(image, var)
+    return apply_gaussian_noise(image, var)
 
 
 @prepare_data_for_opencv
@@ -163,7 +165,7 @@ def salt_and_pepper_noise(image: Union[dict, torch.tensor, np.ndarray], amount, 
     :param s_vs_p : percentage of salt respect total noise. Default same salt (white pixel) as pepper (black pixels)
     :return: returns the transformed image
     """
-    return _apply_salt_and_pepper_noise(image, amount, s_vs_p)
+    return apply_salt_and_pepper_noise(image, amount, s_vs_p)
 
 
 @prepare_data_for_opencv
@@ -172,7 +174,7 @@ def poisson_noise(image: Union[dict, torch.tensor, np.ndarray]) -> Union[dict, t
     :param image : input image to be transformed
     :return: returns the transformed image
     """
-    return _apply_poisson_noise(image)
+    return apply_poisson_noise(image)
 
 
 @prepare_data_for_opencv
@@ -184,7 +186,7 @@ def spekle_noise(image: Union[dict, torch.tensor, np.ndarray], mean=0, var=0.01)
     :param var   : varianze of noise distribution
     :return: returns the transformed image
     """
-    return _apply_spekle_noise(image, mean, var)
+    return apply_spekle_noise(image, mean, var)
 
 
 @prepare_data_for_opencv
@@ -227,7 +229,7 @@ def apply_gaussian_blur(img, blur_size=(5, 5)):
     return cv2.GaussianBlur(img, blur_size, cv2.BORDER_DEFAULT)
 
 
-def _apply_blur(img, blur_size=(5, 5)):
+def apply_blur(img, blur_size=(5, 5)):
     return cv2.blur(img, blur_size)
 
 
@@ -235,7 +237,7 @@ def _resize_image(image, new_size):
     return cv2.resize(image, new_size)
 
 
-def _apply_gaussian_noise(image, var=20):
+def apply_gaussian_noise(image, var=20):
     g_noise = np.zeros((image.shape[0], image.shape[1], 1), dtype=np.uint8)
     cv2.randn(g_noise, 50, 20)
     g_noise = np.concatenate((g_noise, g_noise, g_noise), axis=2)
@@ -243,7 +245,7 @@ def _apply_gaussian_noise(image, var=20):
     return cv2.add(image, g_noise)
 
 
-def _apply_salt_and_pepper_noise(image, amount=0.05, s_vs_p=0.5):
+def apply_salt_and_pepper_noise(image, amount=0.05, s_vs_p=0.5):
     if not utils.is_a_normalized_image(image):
         salt = 255
     else:
@@ -262,12 +264,12 @@ def _apply_salt_and_pepper_noise(image, amount=0.05, s_vs_p=0.5):
     return out
 
 
-def _apply_poisson_noise(image):
+def apply_poisson_noise(image):
     noise = np.random.poisson(40, image.shape)
     return image + noise
 
 
-def _apply_spekle_noise(image, mean=0, var=0.01):
+def apply_spekle_noise(image, mean=0, var=0.01):
     gauss = np.random.normal(mean, var ** 0.5, image.shape)
     gauss = gauss.reshape(image.shape)
     noisy = image + image * gauss

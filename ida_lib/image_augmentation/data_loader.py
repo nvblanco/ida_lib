@@ -34,7 +34,8 @@ class AugmentDataLoader(DataLoader):
             if Pipeline is not None:
                 return self._pipe_through(self.input_dataset.__getitem__(idx))
             else:
-                return self.input_dataset._getitem_(idx)
+                # return self.input_dataset._getitem_(idx)
+                return self.input_dataset[idx]
 
     def __init__(self,
                  batch_size,

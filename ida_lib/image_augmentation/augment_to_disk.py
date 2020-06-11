@@ -16,8 +16,8 @@ class AgmentToDisk(object):
 
     def __init__(self,
                  dataset: Dataset,
-                 samples_per_item: int = 2,
-                 total_output_samples: int = None,
+                 samples_per_item: Optional[int] = 2,
+                 total_output_samples: Optional[int] = None,
                  operations: Union[list, None] = None,
                  interpolation: str = 'bilinear',
                  padding_mode: str = 'zeros',
@@ -44,6 +44,8 @@ class AgmentToDisk(object):
         """
         self.dataset = dataset
         self.samples_per_item = samples_per_item
+        if total_output_samples:
+            self.samples_per_item = total_output_samples // len(self.dataset)
         self.output_extension = output_extension
         self.output_path = output_path
         self.output_csv_path = output_csv_path

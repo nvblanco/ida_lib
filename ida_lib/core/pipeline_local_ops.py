@@ -31,7 +31,7 @@ class GaussianNoisePipeline(PipelineOperation):
 
     def apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if PipelineOperation.apply_according_to_probability(self):
-            img = pixel_ops_functional._apply_gaussian_noise(img, self.var)
+            img = pixel_ops_functional.apply_gaussian_noise(img, self.var)
         return img
 
 
@@ -56,7 +56,7 @@ class SaltAndPepperNoisePipeline(PipelineOperation):
 
     def apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if PipelineOperation.apply_according_to_probability(self):
-            img = pixel_ops_functional._apply_salt_and_pepper_noise(img, self.amount, self.s_vs_p)
+            img = pixel_ops_functional.apply_salt_and_pepper_noise(img, self.amount, self.s_vs_p)
         return img
 
 
@@ -81,7 +81,7 @@ class SpekleNoisePipeline(PipelineOperation):
 
     def apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if PipelineOperation.apply_according_to_probability(self):
-            img = pixel_ops_functional._apply_spekle_noise(img)
+            img = pixel_ops_functional.apply_spekle_noise(img)
         return img
 
 
@@ -102,7 +102,7 @@ class PoissonNoisePipeline(PipelineOperation):
 
     def apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if PipelineOperation.apply_according_to_probability(self):
-            img = pixel_ops_functional._apply_poisson_noise(img)
+            img = pixel_ops_functional.apply_poisson_noise(img)
         return img
 
 
@@ -142,30 +142,7 @@ class BlurPipeline(PipelineOperation):
 
     def apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
         if PipelineOperation.apply_according_to_probability(self):
-            img = pixel_ops_functional._apply_blur(img, blur_size=self.blur_size)
+            img = pixel_ops_functional.apply_blur(img, blur_size=self.blur_size)
         return img
 
 
-class AdvancedNormalizationPipeline(PipelineOperation):
-    """Add spekle noise to the input image
-            (Speckle is a granular interference that inherently exists in and degrades the quality of the active radar,
-            synthetic aperture radar (SAR), medical ultrasound and optical coherence tomography images.
-            It is applied by adding the image multiplied by the noise matrix -> img + img * uniform_noise)"""
-
-    def __init__(self, probability: float = 1, mean: Optional[float] = 0, var: Optional[float] = 0.01):
-        """
-        :param probability : [0-1]   : probability of applying the transform. Default: 1.
-        :param mean : Mean of random distribution.  default=0
-        :param var  : Variance of random distribution. Default: 0.01
-        """
-        PipelineOperation.__init__(self, probability=probability, op_type='independent_op')
-        self.mean = mean
-        self.var = var
-
-    def get_op_matrix(self):
-        raise Exception("Independent operations doesnt have matrix")
-
-    def apply_to_image_if_probability(self, img: np.ndarray) -> np.ndarray:
-        if PipelineOperation.apply_according_to_probability(self):
-            img = pixel_ops_functional._apply_spekle_noise(img)
-        return img

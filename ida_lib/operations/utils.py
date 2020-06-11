@@ -34,11 +34,11 @@ def add_new_axis(arr: np.ndarray):
 
 
 def dtype_to_torch_type(im_type: np.dtype):
-    '''
+    """
     Maps the numpy type to the equivalent torch.type
     :param im_type: numpy type
     :return: torch.type
-    '''
+    """
     if im_type == np.dtype('uint8'):
         return torch.uint8
     elif im_type == np.dtype('int8'):

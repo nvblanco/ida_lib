@@ -7,7 +7,7 @@ import torch
 from ida_lib.global_parameters import device, one_torch
 from . import utils
 from .utils import data_to_numpy, get_principal_type, dtype_to_torch_type
-from ..core.pipeline_functional import preprocess_dict_data_and_data_info, postprocess_data
+from ..core.pipeline_functional import preprocess_data, postprocess_data
 from ..visualization import plot_image_tranformation
 
 
@@ -28,7 +28,7 @@ def prepare_data(func):
         data = data_to_numpy(data)
         original_type = dtype_to_torch_type(data[principal_type].dtype)
         data_original = data.copy()
-        p_data, data_info = preprocess_dict_data_and_data_info(data, interpolation)
+        p_data, data_info = preprocess_data(data, interpolation)
         data_output = func(p_data, *args, **kwargs)  # Execute transform
 
         data_output = postprocess_data(batch=[data_output], batch_info=data_info, data_original=None,
