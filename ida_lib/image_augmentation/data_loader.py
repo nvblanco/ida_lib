@@ -49,7 +49,7 @@ class AugmentDataLoader(DataLoader):
                  output_type: Optional[torch.dtype] = None
                  ):
 
-        # Inicialize the internal pipeline
+        # Initialize the internal pipeline
         if pipeline_operations is not None:
             self.pipeline = Pipeline(resize=resize,
                                      interpolation=interpolation,

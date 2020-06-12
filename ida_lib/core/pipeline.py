@@ -23,8 +23,8 @@ class Pipeline(object):
             2)  To run the pipeline, it accepts any type of input metadata named in the input dict. In particular it
             gives special treatment
                 to data named as:
-                    - Mask: it is affected by geometric transformations and its output is discretized to values of 0-1
-                    - Segmap: generalization of mask. Every value is discretized
+                    - Mask: it is affected by geometric transformations and its output is discrete to values of 0-1
+                    - Segmap: generalization of mask. Every value is discrete
                     - Image:  affected by geometric and color transformations
                     - Keypoints: geometric transformations are applied to them as coordinates.
                     - Others: any other metadata will not be transformed (example: 'tag', 'target'...)
@@ -37,8 +37,8 @@ class Pipeline(object):
                                 hflip_pipeline(probability=0.5),
                                 contrast_pipeline(probability=0.5, contrast_factor=1),
                                 random_brightness_pipeline(probability=0.2, brightness_range=(1.5, 1.6)),
-                                random_scale_pipeline(probability=1, scale_range=(0.5, 1.5), center_desviation=20),
-                                random_rotate_pipeline(probability=0.2, degrees_range=(-50, 50), center_desviation=20))
+                                random_scale_pipeline(probability=1, scale_range=(0.5, 1.5), center_deviation=20),
+                                random_rotate_pipeline(probability=0.2, degrees_range=(-50, 50), center_deviation=20))
                                   ))
     """
 
@@ -54,7 +54,7 @@ class Pipeline(object):
                 'zeros' | 'border' | 'reflection'. Default: 'zeros'
         :param output_format: desired format for each output item in the pipeline
                 'dict' (each item accompanied by its type name) | 'tuple'
-        :param: output_type: desired type for the bidimensional outtput items. If it is None, output type will be the
+        :param: output_type: desired type for the bidimensional output items. If it is None, output type will be the
         same as input's type
 
         """
@@ -76,7 +76,7 @@ class Pipeline(object):
         """
         return own_affine(image, matrix[:2, :], interpolation=self.interpolation, padding_mode=self.padding_mode)
 
-    def _apply_geometry_transform_discreted_data2d(self, image: torch.tensor, matrix: torch.tensor) -> torch.tensor:
+    def _apply_geometry_transform_discrete_data2d(self, image: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         """
         Applies the input transform to the image by the padding mode configured on the pipeline and 'nearest'
         interpolation to preserve discrete values of segmaps or masks
@@ -89,10 +89,10 @@ class Pipeline(object):
     @staticmethod
     def _apply_geometry_transform_points(points_matrix: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         """
-        Applies the input tranform to a matrix of points coordinates (matrix multiplication)
+        Applies the input transform to a matrix of points coordinates (matrix multiplication)
         :param points_matrix: matrix of points coordinates
         :param matrix:        transformation matrix that represent the operation to be applied
-        :return :             matrix of trasnsformed points coordinates
+        :return :             matrix of transformed points coordinates
         """
         return torch.matmul(matrix, points_matrix)
 
@@ -105,7 +105,7 @@ class Pipeline(object):
         Applies the transformations to the input image batch.
         *   If it is the first batch entered into the pipeline, the information about the type of input data
             is analyzed and the different pipeline parameters are set (size of the images, labels, bits per pixel..)
-        :param batch_data: list of elements to be tranformed through the pipe
+        :param batch_data: list of elements to be transformed through the pipe
         :param visualize:  it allows to display the web visualization tool of performed transformations
         :return:           transformed batch
         """
@@ -116,7 +116,7 @@ class Pipeline(object):
         original = None
         # a copy of the original data is made for display (if visualize is True)
         if visualize:
-            original = [d.copy() for d in batch_data]  # copy the original batch to diplay on visualization
+            original = [d.copy() for d in batch_data]  # copy the original batch to display on visualization
         self.process_data = []
         principal_type = get_principal_type(batch_data[0])
         if self.output_type is None:
@@ -132,7 +132,7 @@ class Pipeline(object):
                     data['image'] = op.apply_to_image_if_probability(data['image'])
 
             # process data and get compose matrix of geometric  operations
-            if self.info_data is None:  # Needs to configurate batch information
+            if self.info_data is None:  # Needs to configure batch information
                 p_data, self.info_data = preprocess_data(data, interpolation=self.interpolation, resize=self.resize)
                 matrix, switch_points = get_compose_matrix(self.geom_ops, self.info_data)  # calculates the composite
                 # matrix and configures the necessary parameters (causes by batch_info as a parameter)
@@ -149,8 +149,8 @@ class Pipeline(object):
 
             if self.info_data['contains_discrete_data']:
                 # if there are segmaps or masks, the transformations are applied to them with discrete values
-                p_data['data_2d_discreted'] = self._apply_geometry_transform_discreted_data2d(
-                    p_data['data_2d_discreted'], matrix)
+                p_data['data_2d_discrete'] = self._apply_geometry_transform_discrete_data2d(
+                    p_data['data_2d_discrete'], matrix)
             if self.info_data['contains_keypoints']:
                 p_data['points_matrix'] = self._apply_geometry_transform_points(p_data['points_matrix'], matrix)
             self.process_data.append(p_data)

@@ -67,9 +67,11 @@ start_time = time()  # time measurement
 # Define the pipeline and operations.
 pip = Pipeline(interpolation='nearest',
                pipeline_operations=(
-                   ScalePipeline(probability=0.3, scale_factor=0.5),
-                   HflipPipeline(probability=1, exchange_points=[(0, 5), (1, 6)]),
-                   RandomRotatePipeline(probability=1, degrees_range=(-20, 20)),
+                   ScalePipeline(probability=1, scale_factor=0.5),
+                   ShearPipeline(probability=0, shear=(0.2, 0.2)),
+                   TranslatePipeline(probability=0, translation=(10,50)),
+                   HflipPipeline(probability=0, exchange_points=[(0, 5), (1, 6)]),
+                   RandomRotatePipeline(probability=0, degrees_range=(-20, 20)),
                    GaussianNoisePipeline(probability=0)))
 
 # pass the batch through the pipeline and visualize the transformations

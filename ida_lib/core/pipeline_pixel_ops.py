@@ -10,7 +10,7 @@ __all__ = ['ContrastPipeline',
            'GammaPipeline',
            'RandomGammaPipeline',
            'NormalizePipeline',
-           'DesnormalizePipeline']
+           'DenormalizePipeline']
 
 
 class ContrastPipeline(PipelineOperation):
@@ -22,7 +22,7 @@ class ContrastPipeline(PipelineOperation):
         :param contrast_factor (float) : modification factor to be applied to the image contrast
             * 0  :total contrast removal
             * 1  :dont modify
-            * >1 :aument contrast
+            * >1 :augment contrast
         """
         PipelineOperation.__init__(self, probability=probability, op_type='color')
         self.contrast = contrast_factor
@@ -42,7 +42,7 @@ class RandomContrastPipeline(PipelineOperation):
         :param contrast_range (float tuple)    : range  of modification factor to be applied to the image contrast
                 * 0  :total contrast removal
                 * 1  :dont modify
-                * >1 :aument contrast
+                * >1 :augment contrast
         """
         PipelineOperation.__init__(self, probability=probability, op_type='color')
         if not isinstance(contrast_range, tuple) or len(contrast_range) != 2:
@@ -69,7 +69,7 @@ class BrightnessPipeline(PipelineOperation):
                  2 - max brightness
         """
         PipelineOperation.__init__(self, probability=probability, op_type='color')
-        self.brigthness = utils.map_value(brightness_factor, 0, 2, -256, 256)
+        self.brightness = utils.map_value(brightness_factor, 0, 2, -256, 256)
 
     def get_op_matrix(self):
         raise Exception("Color operations doesnt have matrix")
@@ -77,7 +77,7 @@ class BrightnessPipeline(PipelineOperation):
     def get_op_type(self):
         return 'color'
 
-    def transform_function(self, x: int) -> float: return x + self.brigthness
+    def transform_function(self, x: int) -> float: return x + self.brightness
 
 
 class RandomBrightnessPipeline(PipelineOperation):
@@ -105,8 +105,8 @@ class RandomBrightnessPipeline(PipelineOperation):
         return 'color'
 
     def transform_function(self, x: int) -> float:
-        brigthness = random.uniform(self.brightness_range[0], self.brightness_range[1])
-        return x + brigthness
+        brightness = random.uniform(self.brightness_range[0], self.brightness_range[1])
+        return x + brightness
 
 
 class GammaPipeline(PipelineOperation):
@@ -176,8 +176,8 @@ class NormalizePipeline(PipelineOperation):
                 self.old_range[1] - self.old_range[0])'''
 
 
-class DesnormalizePipeline(PipelineOperation):
-    """Desnormalize pixel value"""
+class DenormalizePipeline(PipelineOperation):
+    """Denormalize pixel value"""
 
     def __init__(self, probability: float = 1, old_range: tuple = (0, 1), new_range: tuple = (0, 255)):
         """

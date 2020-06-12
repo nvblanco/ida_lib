@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 
 from ida_lib.core.pipeline_geometric_ops import RandomScalePipeline, HflipPipeline
 from ida_lib.core.pipeline_pixel_ops import RandomContrastPipeline
-from ida_lib.image_augmentation.augment_to_disk import AgmentToDisk
+from ida_lib.image_augmentation.augment_to_disk import AugmentToDisk
 
 
 # Create custom dataset to read the input data to be augmented
@@ -51,16 +51,16 @@ face_dataset = FaceLandmarksDataset(csv_file='faces/face_landmarks.csv',
 
 # parameter setting and initialization
 
-augmentor = AgmentToDisk(dataset=face_dataset,  # custom dataset that provides the input data
-                         samples_per_item=5,  # number of samples per imput item
-                         operations=(RandomScalePipeline(probability=0.6, scale_range=(0.8, 1.2), center_desviation=20),
+augmentor = AugmentToDisk(dataset=face_dataset,  # custom dataset that provides the input data
+                          samples_per_item=5,  # number of samples per imput item
+                          operations=(RandomScalePipeline(probability=0.6, scale_range=(0.8, 1.2), center_deviation=20),
                                      HflipPipeline(probability=0.5),
                                      RandomContrastPipeline(probability=0.5, contrast_range=(1, 1.5))),
-                         interpolation='nearest',
-                         padding_mode='zeros',
-                         resize=(250, 250),  # Here resizing is necessary because the input images have different sizes
-                         output_extension='.jpg',
-                         output_csv_path='anotations.csv',
-                         output_path='./augmented_custom')
+                          interpolation='nearest',
+                          padding_mode='zeros',
+                          resize=(250, 250),  # Here resizing is necessary because the input images have different sizes
+                          output_extension='.jpg',
+                          output_csv_path='anotations.csv',
+                          output_path='./augmented_custom')
 
 augmentor()  # Run the augmentation

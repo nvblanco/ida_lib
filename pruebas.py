@@ -38,8 +38,8 @@ pip = Pipeline(interpolation='nearest', pipeline_operations=(
     RandomBrightnessPipeline(probability=0, brightness_range=(1, 1.2)),
     GammaPipeline(probability=0, gamma_factor=0),
     RandomTranslatePipeline(probability=0, translation_range=(-90, 90)),
-    RandomScalePipeline(probability=0, scale_range=(0.5, 1.5), center_desviation=20),
-    RandomRotatePipeline(probability=0, degrees_range=(-50, 50), center_desviation=20),
+    RandomScalePipeline(probability=0, scale_range=(0.5, 1.5), center_deviation=20),
+    RandomRotatePipeline(probability=0, degrees_range=(-50, 50), center_deviation=20),
     RandomTranslatePipeline(probability=0, translation_range=(20, 100)),
     RandomShearPipeline(probability=0, shear_range=(0, 0.5))
 ))

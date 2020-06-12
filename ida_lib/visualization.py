@@ -1,6 +1,5 @@
 import os
 import sys
-from string import digits
 
 import cv2
 import kornia
@@ -12,7 +11,7 @@ from bokeh.models import ColumnDataSource, CustomJS, Panel, Tabs, LabelSet, Div
 from bokeh.models.widgets import CheckboxGroup
 from bokeh.plotting import figure
 
-__all__ = ['visualize', 'plot_image_tranformation']
+__all__ = ['visualize', 'plot_image_transformation']
 
 from ida_lib.operations.utils import get_principal_type
 
@@ -55,28 +54,26 @@ def _restart_color_palette():
 
 
 def _get_image_types(image: dict):
-    remove_digits = str.maketrans('', '', digits)
     heatmap_labels = []
     image_labels = []
     mask_types = []
     points_types = []
     other_types = []
     for label in image.keys():
-        no_numbered_type = label.translate(remove_digits)
-        if no_numbered_type == 'image':
+        if 'image' in label:
             image_labels.append(label)
-        elif no_numbered_type == 'mask' or no_numbered_type == 'segmap':
+        elif 'mask' in label or 'segmap' in label:
             mask_types.append(label)
-        elif no_numbered_type == 'heatmap':
+        elif 'heatmap' in label:
             heatmap_labels.append(label)
-        elif no_numbered_type == 'keypoints':
+        elif 'keypoints' in label:
             points_types.append(label)
         else:
             other_types.append(label)
     return image_labels, heatmap_labels, mask_types, points_types, other_types
 
 
-# Process the input image and returned a ColumnDataSource wirh the image info to display it
+# Process the input image and returned a ColumnDataSource with the image info to display it
 def _process_image(img_orig):
     img = img_orig.copy().astype(np.uint8)
     if img.ndim == 2:  # gray input
@@ -161,6 +158,10 @@ def _add_points_plot(points1, points2, plot, plot2):
     xval1, yval1, source = _process_points(points1)
     xval2, yval2, source2 = _process_points(points2)
     points = plot.circle(xval1, yval1, size=10, color="navy", alpha=0.8)
+    if isinstance(xval2, np.ndarray):
+        xval2 = xval2.transpose().tolist()
+    if isinstance(yval2, np.ndarray):
+        yval2 = yval2.transpose().tolist()
     points_2 = plot2.circle(xval2, yval2, size=10, color="navy", alpha=0.8)
     labels = LabelSet(x='weight', y='height', text='names', source=source,
                       x_offset=5, y_offset=5, render_mode='canvas')
@@ -322,7 +323,7 @@ def visualize(images: dict, images_originals: dict, max_images: int = 5):
     os.system(command)
 
 
-def plot_image_tranformation(data, data_original):
+def plot_image_transformation(data, data_original):
     """
         Generate the bokeh plot of the input batch transformation
         :param data: input dict element
@@ -330,7 +331,7 @@ def plot_image_tranformation(data, data_original):
         """
 
     image_labels, heatmap_labels, mask_types, points_types, other_types = _get_image_types(data)
-    layout = generate_item_tab(data, data_original, image_labels, heatmap_labels, mask_types, points_types)
+    layout = generate_item_tab(data, data_original, heatmap_labels, mask_types, points_types, other_types)
 
     title = generate_title_template(1)
     layout = column(title, layout)

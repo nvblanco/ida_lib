@@ -1,5 +1,5 @@
 import functools
-from typing import Optional
+from typing import Optional, Union
 
 import cv2
 import kornia
@@ -23,7 +23,7 @@ other_types = []
 
 
 def switch_point_positions(point_matrix, input_list):
-    for exchange_list in input_list:  # not to do all the transofrmations together because there can be
+    for exchange_list in input_list:  # not to do all the transformations together because there can be
         # circular transformations (1,5) (5,10)
         indices = [a for a, _ in exchange_list]
         indices2 = [b for _, b in exchange_list]
@@ -112,7 +112,7 @@ def get_compose_function(operations: list) -> np.ndarray:
     return look_up_table
 
 
-def preprocess_data(data: list, batch_info: dict = None, interpolation: str = None,
+def preprocess_data(data: Union[list, dict], batch_info: Union[list, dict] = None, interpolation: str = None,
                     resize: Optional[tuple] = None) -> list:
     """
     Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix
@@ -121,7 +121,7 @@ def preprocess_data(data: list, batch_info: dict = None, interpolation: str = No
      * Loads the data as tensor in GPU to prepare them as input to a neural network
      * Analyze the data info required for the transformations (shape, bpp...)
      * Resize the 2d data and keypoints to the new shape
-    :param data:        list of elements to be tranformed through the pipe
+    :param data:        list of elements to be transformed through the pipe
     :param resize :   if it is wanted to resize the data, indicate the new size
     :param interpolation: desired interpolation mode to be applied
     :param batch_info: dict with the required data info
@@ -144,7 +144,7 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
      * Loads the data as tensor in GPU to prepare them as input to a neural network
      * Analyze the data info required for the transformations (shape, bpp...)
      * Resize the 2d data and keypoints to the new shape
-    :param data:        list of elements to be tranformed through the pipe
+    :param data:        list of elements to be transformed through the pipe
     :param new_size :   desired output size for bidimensional data
     :param interpolation: desired interpolation mode to be applied
     :return: preprocessed and resized data, and dict with batch info
@@ -152,9 +152,9 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
 
     original_shape = None
     p_data = {}
-    data_info = {'types_2d': {}, 'types_2d_discreted': {}, 'contains_keypoints': False}
+    data_info = {'types_2d': {}, 'types_2d_discrete': {}, 'contains_keypoints': False}
     compose_data = torch.tensor([], dtype=internal_type)
-    compose_discretized_data = torch.tensor([], dtype=internal_type)
+    compose_discrete_data = torch.tensor([], dtype=internal_type)
 
     for actual_type in data:
         no_numbered_type = remove_digits(actual_type)
@@ -175,9 +175,8 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
             if no_numbered_type == 'mask' or no_numbered_type == 'segmap':
                 mask_types.append(actual_type)
                 if interpolation != 'nearest':
-                    compose_discretized_data = torch.cat((compose_discretized_data, data[actual_type]),
-                                                         0)
-                    data_info['types_2d_discreted'][actual_type] = data[actual_type].shape[0]
+                    compose_discrete_data = torch.cat((compose_discrete_data, data[actual_type]), 0)
+                    data_info['types_2d_discrete'][actual_type] = data[actual_type].shape[0]
                 else:
                     compose_data = torch.cat((compose_data, data[actual_type]),
                                              0)
@@ -185,7 +184,7 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
             else:
                 data_info['types_2d'][actual_type] = data[actual_type].shape[0]
                 compose_data = torch.cat((compose_data, data[actual_type]),
-                                         0)  # concatenate data into one multichannel pytoch tensor
+                                         0)  # concatenate data into one multichannel pytorch tensor
                 data_info['types_2d'][actual_type] = data[actual_type].shape[0]
         elif no_numbered_type == 'keypoints':
             p_data['points_matrix'] = data[actual_type]
@@ -196,9 +195,9 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
     p_data['data_2d'] = compose_data.to(device)
     data_info['contains_discrete_data'] = len(mask_types) != 0
     if data_info['contains_discrete_data']:
-        p_data['data_2d_discreted'] = compose_discretized_data.to(device)
+        p_data['data_2d_discrete'] = compose_discrete_data.to(device)
     if 'points_matrix' in p_data:
-        p_data['points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate(
+        p_data['points_matrix'] = utils.keypoints_to_homogeneous_and_concatenate(
             p_data['points_matrix'], (new_size[0] / original_shape[1], new_size[1] / original_shape[0]))
     data_info['present_types'] = ([*data_info['types_2d']] + mask_types, other_types)
     return p_data, data_info
@@ -210,15 +209,15 @@ def preprocess_dict_data(data: list, batch_info: dict, resize: Optional[tuple] =
     that allows applying the geometric operations in a single joint operation on the data
     and another on the points.
     * Loads the data as tensor in GPU to prepare them as input to a neural network
-    :param data: list of elements to be tranformed through the pipe
-    :param batch_info: dict with necesary information about the batch data
+    :param data: list of elements to be transformed through the pipe
+    :param batch_info: dict with necessary information about the batch data
     :param resize: whether to resize or not
     :return: preprocessed data
     """
     p_data = {}
     original_shape = None
     compose_data = torch.tensor([], dtype=internal_type)
-    compose_discretized_data = torch.tensor([], dtype=internal_type)
+    compose_discrete_data = torch.tensor([], dtype=internal_type)
     for actual_type in data:
         if actual_type in data_types_2d:
             if len(data[actual_type].shape) == 2:
@@ -233,23 +232,22 @@ def preprocess_dict_data(data: list, batch_info: dict, resize: Optional[tuple] =
             if data[actual_type].dim() > 3:
                 data[actual_type] = data[actual_type][0, :]
             if actual_type in mask_types and batch_info['contains_discrete_data']:
-                compose_discretized_data = torch.cat((compose_discretized_data, data[actual_type]),
-                                                     0)
+                compose_discrete_data = torch.cat((compose_discrete_data, data[actual_type]), 0)
             else:
                 compose_data = torch.cat((compose_data, data[actual_type]),
-                                         0)  # concatenate data into one multichannel pytoch tensor
+                                         0)  # concatenate data into one multichannel pytorch tensor
         elif actual_type in other_types:
             p_data[actual_type] = data[actual_type]
         else:
             p_data['points_matrix'] = data[actual_type]
     p_data['data_2d'] = compose_data.to(device)
     if batch_info['contains_discrete_data']:
-        p_data['data_2d_discreted'] = compose_discretized_data.to(device)
+        p_data['data_2d_discrete'] = compose_discrete_data.to(device)
     resize_factor = None
     if resize:
         resize_factor = (batch_info['new_size'][0] / original_shape[1], batch_info['new_size'][1] / original_shape[0])
     if 'points_matrix' in p_data:
-        p_data['points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate(p_data['points_matrix'], resize_factor)
+        p_data['points_matrix'] = utils.keypoints_to_homogeneous_and_concatenate(p_data['points_matrix'], resize_factor)
     return p_data
 
 
@@ -260,16 +258,16 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
     and another on the points.
         * Loads the data as tensor in GPU to prepare them as input to a neural network
         * Analyze the data info required for the transformations (shape, bpp...)
-        * Add to the predetermined list of type names numbered names like 'mask2' to make posible to have multiple
+        * Add to the predetermined list of type names numbered names like 'mask2' to make possible to have multiple
             mask or elements of a single type
-    :param data: list of elements to be tranformed through the pipe
+    :param data: list of elements to be transformed through the pipe
     :param interpolation: type of interpolation to be applied
-    :return: preprocesed data and dict of data info
+    :return:preprocessed data and dict of data info
     """
     p_data = {}
-    data_info = {'types_2d': {}, 'types_2d_discreted': {}, 'contains_keypoints': False}
+    data_info = {'types_2d': {}, 'types_2d_discrete': {}, 'contains_keypoints': False}
     compose_data = torch.tensor([], dtype=internal_type)
-    compose_discretized_data = torch.tensor([], dtype=internal_type)
+    compose_discrete_data = torch.tensor([], dtype=internal_type)
     for actual_type in data:
         no_numbered_type = remove_digits(actual_type)
         if no_numbered_type in data_types_2d:
@@ -286,9 +284,8 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
             if no_numbered_type == 'mask' or no_numbered_type == 'segmap':
                 mask_types.append(actual_type)
                 if interpolation != 'nearest':
-                    compose_discretized_data = torch.cat((compose_discretized_data, data[actual_type]),
-                                                         0)
-                    data_info['types_2d_discreted'][actual_type] = data[actual_type].shape[0]
+                    compose_discrete_data = torch.cat((compose_discrete_data, data[actual_type]), 0)
+                    data_info['types_2d_discrete'][actual_type] = data[actual_type].shape[0]
                 else:
                     compose_data = torch.cat((compose_data, data[actual_type]),
                                              0)
@@ -296,7 +293,7 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
             else:
                 data_info['types_2d'][actual_type] = data[actual_type].shape[0]
                 compose_data = torch.cat((compose_data, data[actual_type]),
-                                         0)  # concatenate data into one multichannel pytoch tensor
+                                         0)  # concatenate data into one multichannel pytorch tensor
                 data_info['types_2d'][actual_type] = data[actual_type].shape[0]
         elif no_numbered_type == 'keypoints':
             p_data['points_matrix'] = data[actual_type]
@@ -307,9 +304,9 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
     p_data['data_2d'] = compose_data.to(device)
     data_info['contains_discrete_data'] = (len(mask_types) != 0 and interpolation != 'nearest')
     if data_info['contains_discrete_data']:
-        p_data['data_2d_discreted'] = compose_discretized_data.to(device)
+        p_data['data_2d_discrete'] = compose_discrete_data.to(device)
     if 'points_matrix' in p_data:
-        p_data['points_matrix'] = utils.keypoints_to_homogeneus_and_concatenate(p_data['points_matrix'])
+        p_data['points_matrix'] = utils.keypoints_to_homogeneous_and_concatenate(p_data['points_matrix'])
     data_info['present_types'] = ([*data_info['types_2d']] + mask_types, other_types)
     return p_data, data_info
 
@@ -319,8 +316,8 @@ def postprocess_data(batch: list, batch_info: dict, data_original: Optional[list
     """
     Restores the data to the original form;
     separating the matrix into the different 2d input data and point coordinates.
-    :param batch : list of elements to be tranformed through the pipe
-    :param batch_info: dict with necesary information about the batch data
+    :param batch : list of elements to be transformed through the pipe
+    :param batch_info: dict with necessary information about the batch data
     :param data_original: original batch before transforms
     :param visualize: whether to run the visualization tool or not
     :param original_type: torch original type of the input data to do the conversion of the output data to this type
@@ -328,22 +325,22 @@ def postprocess_data(batch: list, batch_info: dict, data_original: Optional[list
     :return: processed data
     """
     process_data = []
-    discreted_data_split = None
+    discrete_data_split = None
     for data in batch:
         if 'types_2d' in batch_info:
             data_output = {}
             data_split = torch.split(data['data_2d'], list(batch_info['types_2d'].values()), dim=0)
             if batch_info['contains_discrete_data']:
-                discreted_data_split = torch.split(data['data_2d_discreted'], list(batch_info['types_2d_discreted']
-                                                                                   .values()), dim=0)
+                discrete_data_split = torch.split(data['data_2d_discrete'], list(batch_info['types_2d_discrete']
+                                                                                 .values()), dim=0)
             for index, actual_type in enumerate(batch_info['types_2d']):
                 data_output[actual_type] = data_split[index].type(original_type)
-            for index, actual_type in enumerate(batch_info['types_2d_discreted']):
-                data_output[actual_type] = discreted_data_split[index].type(original_type)
+            for index, actual_type in enumerate(batch_info['types_2d_discrete']):
+                data_output[actual_type] = discrete_data_split[index].type(original_type)
             for label in other_types:
                 data_output[label] = data[label]
             if 'points_matrix' in data:
-                data_output['keypoints'] = utils.homogeneus_points_to_matrix(data['points_matrix'])
+                data_output['keypoints'] = utils.homogeneous_points_to_matrix(data['points_matrix'])
         else:
             data_output = data['data_2d']
         process_data.append(data_output)

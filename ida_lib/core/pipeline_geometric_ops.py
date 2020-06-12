@@ -5,12 +5,8 @@ import kornia
 import torch
 
 from ida_lib.core.pipeline_operations import PipelineOperation
-
-device = 'cuda'
-cuda = torch.device('cuda')
-one_torch = torch.tensor(1, device=cuda)
-ones_torch = torch.ones(1, 2, device=cuda)
-identity = torch.eye(3, 3, device=cuda)
+from ida_lib.global_parameters import ones_torch, identity, cuda, one_torch, device
+from ida_lib.operations.geometry_ops_functional import get_translation_matrix, get_shear_matrix, get_scale_matrix
 
 __all__ = ['HflipPipeline',
            'VflipPipeline',
@@ -42,25 +38,15 @@ class ScalePipeline(PipelineOperation):
             self.config = False
         self.matrix = identity.clone()
         self.ones_2 = torch.ones(2, device=cuda)
-        self.scale_factor = self.ones_2
-        if isinstance(scale_factor,
-                      float) or isinstance(scale_factor,
-                                           int):  # si solo se proporciona un valor; se escala por igual en ambos ejes
-            self.scale_factor = self.ones_2 * scale_factor
-        else:
-            self.scale_factor[0] = one_torch * scale_factor[0]
-            self.scale_factor[1] = one_torch * scale_factor[1]
+        self.scale_factor = scale_factor
 
     def config_parameters(self, data_info: dict):
         self.config = False
         self.center[..., 1] = data_info['shape'][-2] // 2
         self.center[..., 0] = data_info['shape'][-3] // 2
+        self.matrix = get_scale_matrix(self.center, self.scale_factor)
 
     def get_op_matrix(self):
-        self.matrix[0, 0] = self.scale_factor[0]
-        self.matrix[1, 1] = self.scale_factor[1]
-        self.matrix[0, 2] = (-self.scale_factor[0] + 1) * self.center[:, 0]
-        self.matrix[1, 2] = (-self.scale_factor[1] + 1) * self.center[:, 1]
         return self.matrix
 
     def need_data_info(self):
@@ -74,13 +60,13 @@ class ScalePipeline(PipelineOperation):
 class RandomScalePipeline(PipelineOperation):
     """Scale the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range"""
 
-    def __init__(self, probability: float, scale_range: tuple, keep_aspect: bool = True, center_desviation: int = None,
+    def __init__(self, probability: float, scale_range: tuple, keep_aspect: bool = True, center_deviation: int = None,
                  center: torch.tensor = None):
         """
         :param probability:[0-1] probability of applying the transform. Default: 1.
         :param scale_range: scale value
         :param keep_aspect: whether the scaling should be the same on the X axis and on the Y axis. Default: true
-        :param center_desviation: produces random deviations at the scaling center. The deviations will be a maximum
+        :param center_deviation: produces random deviations at the scaling center. The deviations will be a maximum
                                   of the number of pixels indicated in this parameter
         :param center: coordinates of the center of scaling. Default: center of the image
         """
@@ -100,7 +86,7 @@ class RandomScalePipeline(PipelineOperation):
         else:
             self.scale_factor[0] = one_torch * scale_range[0]
             self.scale_factor[1] = one_torch * scale_range[1]
-        self.center_desviation = center_desviation
+        self.center_deviation = center_deviation
 
     def config_parameters(self, data_info: dict):
         self.config = False
@@ -115,12 +101,12 @@ class RandomScalePipeline(PipelineOperation):
             scale_factor_y = random.uniform(self.scale_factor[0], self.scale_factor[1])
         self.matrix[0, 0] = scale_factor_x
         self.matrix[1, 1] = scale_factor_y
-        if self.center_desviation is not None:
-            self.center[:, 0] += random.randint(0, self.center_desviation)
+        if self.center_deviation is not None:
+            self.center[:, 0] += random.randint(0, self.center_deviation)
             self.matrix[0, 2] = (-scale_factor_x + 1) * (
-                    self.center[:, 0] + random.randint(-self.center_desviation, self.center_desviation))
+                    self.center[:, 0] + random.randint(-self.center_deviation, self.center_deviation))
             self.matrix[1, 2] = (-scale_factor_y + 1) * (
-                    self.center[:, 1] + random.randint(-self.center_desviation, self.center_desviation))
+                    self.center[:, 1] + random.randint(-self.center_deviation, self.center_deviation))
         else:
             self.matrix[0, 2] = (-scale_factor_x + 1) * self.center[:, 0]
             self.matrix[1, 2] = (-scale_factor_y + 1) * self.center[:, 1]
@@ -176,19 +162,19 @@ class RotatePipeline(PipelineOperation):
 class RandomRotatePipeline(PipelineOperation):
     """Rotate the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range"""
 
-    def __init__(self, degrees_range: tuple, probability: float = 1, center_desviation: int = None,
+    def __init__(self, degrees_range: tuple, probability: float = 1, center_deviation: int = None,
                  center: torch.tensor = None):
         """
 
         :param degrees_range: range of degrees to apply
         :param probability: [0-1]  probability of applying the transform. Default: 1.
-        :param center_desviation : produces random deviations at the rotating center. The deviations will be a maximum
+        :param center_deviation : produces random deviations at the rotating center. The deviations will be a maximum
                 of the number of pixels indicated in this parameter
         :param center : coordinates of the center of scaling. Default: center of the image
 
         """
         PipelineOperation.__init__(self, probability=probability, op_type='geometry')
-        self.center_desviation = center_desviation
+        self.center_deviation = center_deviation
         if not isinstance(degrees_range, tuple):
             raise Exception("Degrees range must be a tuple (min, max)")
         self.degrees_range = degrees_range
@@ -204,8 +190,8 @@ class RandomRotatePipeline(PipelineOperation):
     def get_op_matrix(self) -> torch.tensor:
         degrees = random.randint(self.degrees_range[0], self.degrees_range[1]) * one_torch
         center = self.center
-        if self.center_desviation is not None:
-            center += random.randint(-self.center_desviation, self.center_desviation)
+        if self.center_deviation is not None:
+            center += random.randint(-self.center_deviation, self.center_deviation)
         return torch.cat(((kornia.geometry.get_rotation_matrix2d(angle=degrees.resize_(1), center=center,
                                                                  scale=one_torch.reshape(1))).reshape(2, 3),
                           self.new_row))
@@ -233,13 +219,9 @@ class TranslatePipeline(PipelineOperation):
         :param probability:[0-1]  probability of applying the transform. Default: 1.
         """
         PipelineOperation.__init__(self, probability=probability, op_type='geometry')
-        self.translation_x = translation[0] * one_torch
-        self.translation_y = translation[1] * one_torch
-        self.matrix = identity.clone()
+        self.matrix = get_translation_matrix(translation)
 
     def get_op_matrix(self) -> torch.tensor:
-        self.matrix[0, 2] = self.translation_x
-        self.matrix[1, 2] = self.translation_y
         return self.matrix
 
     @staticmethod
@@ -299,13 +281,9 @@ class ShearPipeline(PipelineOperation):
         :param probability :[0-1]  probability of applying the transform. Default: 1.
         """
         PipelineOperation.__init__(self, probability=probability, op_type='geometry')
-        self.shear_x = shear[0]
-        self.shear_y = shear[1]
-        self.matrix = identity.clone()
+        self.matrix = get_shear_matrix(shear)
 
     def get_op_matrix(self) -> torch.tensor:
-        self.matrix[0, 1] = self.shear_x
-        self.matrix[1, 0] = self.shear_y
         return self.matrix
 
     @staticmethod

@@ -21,10 +21,11 @@ data: torch.tensor = kornia.image_to_tensor(img, keepdim=False)  # BxCxHxW
 keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, img.shape[1] // 2 - 50],
              [img.shape[0] // 2 + 85, img.shape[1] // 2 - 80], [img.shape[0] // 2 - 105, img.shape[1] // 2 + 60])
 points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
-
+mask_example1 = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.float)
+mask_example1[0:50, 0:50] = 1
 # data = color.equalize_histogram(data, visualize=True)
 
-data = {'image': data, 'keypoints': points}
+data = {'image': data, 'mask': mask_example1, 'keypoints': points}
 matrix = torch.eye(2, 3).to('cuda')
 
 center = torch.ones(1, 2)
@@ -33,11 +34,11 @@ center[..., 1] = data['image'].shape[-1] // 2  # y
 
 # data = geometry.translate(data, visualize = False, translation = (20,-10))
 # data = geometry.scale(data, visualize = False, scale_factor=0.75)
-data = transforms.change_contrast(data, contrast=1.2, visualize=True)
+data = transforms.shear(data, shear_factor=(0.1, 0.3), visualize=True)
 # data = geometry.affine(data, visualize=False, matrix=matrix)
 # data = geometry.shear(data, visualize=False, shear_factor=(0.1,0.3))
 # data = geometry.rotate(data, visualize=False, degrees=35.8, center = center)
-# data = transforms.change_brigntness(data, visualize=False, brigth=0.8)
+# data = transforms.change_brigntness(data, visualize=False, bright=0.8)
 # data = color.change_contrast(data, visualize=False, contrast=0.1)
 # data = color.equalize_histogram(data, visualize=False)
 # data = color.change_gamma(data, gamma=1.5, visualize=False)
@@ -54,7 +55,7 @@ data = transforms.change_contrast(data, contrast=1.2, visualize=True)
 
 from operations import utils
 
-utils.keypoints_to_homogeneus_and_concatenate(points)
+utils.keypoints_to_homogeneous_and_concatenate(points)
 
 #data_warped: torch.tensor = kornia.warp_affine(data.float(), M, dsize=(h, w))
 #data_warped: torch.tensor = kornia.hflip(data_warped)

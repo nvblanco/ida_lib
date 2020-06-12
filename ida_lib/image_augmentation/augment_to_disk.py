@@ -8,9 +8,9 @@ from ida_lib.core.pipeline import *
 from ida_lib.operations.utils import save_im
 
 
-class AgmentToDisk(object):
+class AugmentToDisk(object):
     """
-    The AgmentToDisk object allows to perform Data Image Augmentation directly to disk. That is, to save the images
+    The AugmentToDisk object allows to perform Data Image Augmentation directly to disk. That is, to save the images
     generated to disk to be used in future processes.
     """
 
@@ -23,7 +23,7 @@ class AgmentToDisk(object):
                  padding_mode: str = 'zeros',
                  resize: Union[tuple, None] = None,
                  output_extension: str = '.jpg',
-                 output_csv_path: str = 'anotations.csv',
+                 output_csv_path: str = 'annotations.csv',
                  output_path: str = './augmented'
                  ):
         """
@@ -33,7 +33,7 @@ class AgmentToDisk(object):
         :param total_output_samples: number of desired output total samples  (Optional)
         :param output_extension: desired image extension for the generated images
             ( '.jpg' | '.png' | '.gif' | '.jpeg' ... )
-        :param output_csv_path : path to the csv file (if is needed) to save anotations of the augmented data
+        :param output_csv_path : path to the csv file (if is needed) to save annotations of the augmented data
         :param output_path : path to the directory in which to save the generated data
         :param operations  : list of pipeline initialized operations (see pipeline_operations.py)
         :param resize : tuple of desired output size. Example (25,25)
@@ -94,7 +94,7 @@ class AgmentToDisk(object):
         annotations. By default the annotations of all images are saved in the same file. The csv file will have one
         row for each generated element, identified by its id. Each column will correspond with the labels associated
         to each generated element. In the case of coordinate lists, their coordinates are arranged in columns
-        separating the x and y coordinates in each element (point0_x, point0_y, point1_x, ..., pointn_y)
+        separating the x and y coordinates in each element (point0_x, point0_y, point1_x, ..., point_y)
         """
         csv_columns = self.output_csv[0].keys()
         try:

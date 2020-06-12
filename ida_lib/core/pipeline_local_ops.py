@@ -43,7 +43,7 @@ class SaltAndPepperNoisePipeline(PipelineOperation):
         """
         :param probability: [0-1] probability of applying the transform. Default: 1.
         :param amount:  [0-1]noise percentage compared to the total number of pixels in the image
-               * 0 is no noisse
+               * 0 is no noise
                * 1 is total noise
         :param s_vs_p: [0-1]  percentage of salt (white pixels) res
         """
@@ -144,5 +144,3 @@ class BlurPipeline(PipelineOperation):
         if PipelineOperation.apply_according_to_probability(self):
             img = pixel_ops_functional.apply_blur(img, blur_size=self.blur_size)
         return img
-
-

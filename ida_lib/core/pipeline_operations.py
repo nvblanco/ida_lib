@@ -8,11 +8,11 @@ class PipelineOperation(ABC):
     def __init__(self, op_type: str, probability: float = 1):
         """
         :param op_type : internal parameter to determine how to treat each operation.
-            'geometry' | 'color' | 'Normalize' | 'Independient'
+            'geometry' | 'color' | 'Normalize' | 'Independent'
                 - Geometry      : operations that can be applied by transformation matrix
                 - Color         : operations that can be applied using a pixel-by-pixel mathematical formula
                 - Normalize     : normalization operation to be applied last within color operations
-                - Independient  : concrete operations with direct implementations
+                - Independent  : concrete operations with direct implementations
         :param probability : probability of applying the transform. Default: 1.
         """
         self.probability = probability

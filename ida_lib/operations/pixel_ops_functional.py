@@ -7,7 +7,7 @@ import numpy as np
 import torch
 
 from . import utils
-from ..visualization import plot_image_tranformation
+from ..visualization import plot_image_transformation
 
 
 def prepare_data_for_opencv(func):
@@ -19,7 +19,7 @@ def prepare_data_for_opencv(func):
 
     @wraps(func)
     def wrapped_function(image: Union[dict, torch.tensor, np.ndarray], visualize: bool, *args, **kwargs) -> Union[
-                        dict, torch.tensor, np.ndarray]:
+                dict, torch.tensor, np.ndarray]:
         data = None
         original = None
         if isinstance(image, dict):
@@ -46,7 +46,7 @@ def prepare_data_for_opencv(func):
         else:
             data_output = image
         if visualize:
-            plot_image_tranformation({'image': data_output['image']}, {'image': original})
+            plot_image_transformation({'image': data_output['image']}, {'image': original})
         return data_output
 
     return wrapped_function
@@ -79,28 +79,28 @@ def normalize_image(img: np.ndarray, norm_type: int = cv2.NORM_MINMAX) -> np.nda
     return cv2.normalize(img, None, alpha=0, beta=1, norm_type=norm_type, dtype=cv2.CV_32F)
 
 
-def get_brigthness_function(brightness: int):
+def get_brightness_function(brightness: int):
     """
-    :param brightness: brigthness factor
-    :return:    Return the lambda function of the brigthness operation
+    :param brightness: brightness factor
+    :return:    Return the lambda function of the brightness operation
     """
     return lambda x: x + brightness
 
 
 @prepare_data_for_opencv
-def change_brigthness(image: Union[dict, torch.tensor, np.ndarray], brightness: int) -> Union[
-                        dict, torch.tensor, np.ndarray]:
+def change_brightness(image: Union[dict, torch.tensor, np.ndarray], brightness: int) -> Union[
+            dict, torch.tensor, np.ndarray]:
     """
-    Change the brigthness of the input image.
+    Change the brightness of the input image.
     :param image : input image to be normalized
     :param brightness  : desired amount of brightness for the image
                  0 - no brightness
                  1 - same
                  2 - max brightness
-    :return: trasnformed image
+    :return: transformed image
     """
     brightness = utils.map_value(brightness, 0, 2, -256, 256)
-    return apply_lut_by_pixel_function(get_brigthness_function(brightness), image)
+    return apply_lut_by_pixel_function(get_brightness_function(brightness), image)
 
 
 @prepare_data_for_opencv
@@ -110,7 +110,7 @@ def change_contrast(image: Union[dict, torch.tensor, np.ndarray], contrast) -> U
     :param contrast: modification factor to be applied to the image contrast
             * 0  - total contrast removal
             * 1  - dont modify
-            * >1 - aument contrast
+            * >1 - augment contrast
     :return: returns the transformed image
     """
     return apply_lut_by_pixel_function(get_contrast_function(contrast), image)
@@ -130,7 +130,7 @@ def change_gamma(image: Union[dict, torch.tensor, np.ndarray], gamma: float) -> 
     """
     :param image : input image to be transformed
     :param gamma : desired factor gamma
-            * gamma = 0 -> removes image luminance (balck output image)
+            * gamma = 0 -> removes image luminance (black output image)
             * gamma = 1 -> remains unchanged
             * gamma > 1 -> increases luminance
     :return: returns the transformed image
@@ -158,7 +158,7 @@ def gaussian_noise(image: Union[dict, torch.tensor, np.ndarray], var=20) -> Unio
 
 @prepare_data_for_opencv
 def salt_and_pepper_noise(image: Union[dict, torch.tensor, np.ndarray], amount, s_vs_p) -> Union[
-                        dict, torch.tensor, np.ndarray]:
+            dict, torch.tensor, np.ndarray]:
     """
     :param image : input image to be transformed
     :param amount: percentage of image's pixels to be occupied by noise
@@ -179,11 +179,11 @@ def poisson_noise(image: Union[dict, torch.tensor, np.ndarray]) -> Union[dict, t
 
 @prepare_data_for_opencv
 def spekle_noise(image: Union[dict, torch.tensor, np.ndarray], mean=0, var=0.01) -> Union[
-                    dict, torch.tensor, np.ndarray]:
+            dict, torch.tensor, np.ndarray]:
     """
     :param image : input image to be transformed
     :param mean  : mean of noise distribution
-    :param var   : varianze of noise distribution
+    :param var   : variance of noise distribution
     :return: returns the transformed image
     """
     return apply_spekle_noise(image, mean, var)

@@ -104,21 +104,21 @@ def map_value(x, in_min, in_max, out_min, out_max):
     return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
 
-def keypoints_to_homogeneus_functional(keypoints):
+def keypoints_to_homogeneous_functional(keypoints):
     if keypoints[0].dim() == 1:
         keypoints = [point.reshape(2, 1) for point in keypoints]
     return tuple([torch.cat((point.float(), torch.ones(1, 1)), axis=0).to(device) for point in keypoints])
 
 
-def homogeneus_points_to_matrix(keypoints):
+def homogeneous_points_to_matrix(keypoints):
     return torch.transpose(keypoints[:2, :], 0, 1)
 
 
-def homogeneus_points_to_list(keypoints):
+def homogeneous_points_to_list(keypoints):
     return [(dato[:2, :]).reshape(2) for dato in torch.split(keypoints, 1, dim=1)]
 
 
-def keypoints_to_homogeneus_and_concatenate(keypoints, resize_factor=None):
+def keypoints_to_homogeneous_and_concatenate(keypoints, resize_factor=None):
     if resize_factor is None:
         if type(keypoints) is np.ndarray:
             keypoints = keypoints.transpose()
@@ -128,7 +128,7 @@ def keypoints_to_homogeneus_and_concatenate(keypoints, resize_factor=None):
             if keypoints[0].dim() == 1:
                 keypoints = [point.reshape(2, 1) for point in keypoints]
             keypoints = tuple([torch.cat((point.float(), torch.ones(1, 1)), axis=0).to(device) for point in keypoints])
-            compose_data = torch.cat(keypoints, 1)  # concatenate data into one multichannel pytoch tensor
+            compose_data = torch.cat(keypoints, 1)  # concatenate data into one multichannel pytorch tensor
         return compose_data
     else:
         if type(keypoints) is np.ndarray:
@@ -143,7 +143,7 @@ def keypoints_to_homogeneus_and_concatenate(keypoints, resize_factor=None):
             keypoints = tuple([(torch.cat((torch.tensor(
                 (point[0].float() * resize_factor[0], point[1].float() * resize_factor[1])).reshape(2, 1),
                                            torch.ones(1, 1)), axis=0).to(device)) for point in keypoints])
-            compose_data = torch.cat(keypoints, 1)  # concatenate data into one multichannel pytoch tensor
+            compose_data = torch.cat(keypoints, 1)  # concatenate data into one multichannel pytorch tensor
         return compose_data
 
 
