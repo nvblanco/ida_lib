@@ -122,6 +122,7 @@ def test_operations_without_image(augmentation, params, numpy_item_without_image
         assert True
 
 
+# cp-008
 @pytest.mark.parametrize(
     ["augmentation", "params"], identity_pixel_operations_and_params
 )
@@ -133,7 +134,7 @@ def test_operations_with_2_masks(augmentation, params, numpy_item_2_mask):
     assert augmented['mask2'].dtype == np.float
 
 
-identity_pixel_operations_and_params = [
+identity_geometry_operations_and_params = [
     [hflip, {}],
     [vflip, {}],
     [rotate, {'degrees': 0}],
@@ -144,8 +145,9 @@ identity_pixel_operations_and_params = [
 ]
 
 
+# cp-007
 @pytest.mark.parametrize(
-    ["augmentation", "params"], identity_pixel_operations_and_params
+    ["augmentation", "params"], identity_geometry_operations_and_params
 )
 # Assert the pixel operations without image raises exception
 def test_operations_without_image(augmentation, params, numpy_item_without_image):

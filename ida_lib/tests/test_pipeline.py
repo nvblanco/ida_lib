@@ -3,7 +3,7 @@ import pytest
 import torch
 
 from ida_lib.core.pipeline import Pipeline
-from ida_lib.core.pipeline_geometric_ops import ScalePipeline, ShearPipeline, RandomScalePipeline, RandomShearPipeline,\
+from ida_lib.core.pipeline_geometric_ops import ScalePipeline, ShearPipeline, RandomScalePipeline, RandomShearPipeline, \
     TranslatePipeline, RandomTranslatePipeline, HflipPipeline, RandomRotatePipeline, VflipPipeline, RotatePipeline
 from ida_lib.core.pipeline_local_ops import GaussianNoisePipeline, BlurPipeline, GaussianBlurPipeline, \
     PoissonNoisePipeline, SaltAndPepperNoisePipeline, SpekleNoisePipeline
@@ -12,6 +12,7 @@ from ida_lib.core.pipeline_pixel_ops import ContrastPipeline, BrightnessPipeline
 from ida_lib.operations.utils import arrays_equal
 
 
+# cp-009
 def test_pipeline_resize(numpy_image_batch):
     shape = (10, 20)
     pip = Pipeline(interpolation='nearest',
@@ -26,21 +27,25 @@ def test_pipeline_resize(numpy_image_batch):
     assert augmented[0]['image'].shape[2] == shape[1]
 
 
+# cp-010
 def test_pipeline_int_numpy_image_pipeline(numpy_image_batch, pipeline):
     augmented = pipeline(numpy_image_batch)
     assert augmented[0]['image'].dtype == torch.uint8
 
 
+# cp-011
 def test_pipeline_int_numpy_image_empty_pipeline(numpy_image_batch, empty_pipeline):
     augmented = empty_pipeline(numpy_image_batch)
     assert augmented[0]['image'].dtype == torch.uint8
 
 
+# cp-012
 def test_pipeline_input_element_without_image(numpy_batch_without_image, pipeline):
     pipeline(numpy_batch_without_image)
     assert True
 
 
+# cp-013
 def test_pipeline_all_operations(numpy_image_batch):
     pip = Pipeline(interpolation='nearest',
                    pipeline_operations=(
@@ -75,6 +80,7 @@ def test_pipeline_all_operations(numpy_image_batch):
     assert True
 
 
+# cp-014
 def test_pipeline_switch_points(numpy_image_and_points_batch):
     original_points = numpy_image_and_points_batch[0]['keypoints'].copy()
     pip = Pipeline(interpolation='nearest',
@@ -87,6 +93,7 @@ def test_pipeline_switch_points(numpy_image_and_points_batch):
     assert arrays_equal(original_points[1], transformed_points[0])
 
 
+# cp-015
 def test_pipeline_all_element_float(pipeline, numpy_float_all_elements_batch):
     augmented = pipeline(numpy_float_all_elements_batch)
     assert augmented[0]['image'].dtype == torch.float64
@@ -95,6 +102,7 @@ def test_pipeline_all_element_float(pipeline, numpy_float_all_elements_batch):
     assert augmented[0]['heatmap'].dtype == torch.float64
 
 
+# cp-016
 def test_pipeline_2_mask_float(pipeline, numpy_batch_2_mask):
     augmented = pipeline(numpy_batch_2_mask)
     assert augmented[0]['image'].dtype == torch.float64
@@ -102,6 +110,7 @@ def test_pipeline_2_mask_float(pipeline, numpy_batch_2_mask):
     assert augmented[0]['mask2'].dtype == torch.float64
 
 
+# cp-017
 @pytest.mark.parametrize(
     ["params"], [[{'interpolation': 'nearest', 'padding_mode': 'zeros', 'output_format': 'dict'}],
                  [{'interpolation': 'bilinear', 'padding_mode': 'reflection', 'output_format': 'tuple'}],
@@ -117,6 +126,7 @@ def test_interpolation_valid_inputs(numpy_image_batch, params):
     assert True
 
 
+# cp-018
 @pytest.mark.parametrize(
     ["params"], [[{'interpolation': 'invalid', 'padding_mode': 'zeros', 'output_format': 'dict'}],
                  [{'interpolation': 'bilinear', 'padding_mode': 'invalid', 'output_format': 'tuple'}],
@@ -135,6 +145,7 @@ def test_interpolation_invalid_inputs(numpy_image_batch, params):
         assert True
 
 
+# cp-019
 @pytest.mark.parametrize(
     ["output_type"], [[torch.uint8], [torch.int16], [torch.int32], [torch.int64], [torch.float16], [torch.float32],
                       [torch.float64]]

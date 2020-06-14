@@ -4,6 +4,7 @@ from ida_lib.core.pipeline_geometric_ops import TranslatePipeline, RandomShearPi
 from ida_lib.image_augmentation.data_loader import AugmentDataLoader
 
 
+# cp-020
 @pytest.mark.parametrize(
     ["batchsize"], [[1], [2], [3], [5], [10]]
 )
@@ -25,6 +26,7 @@ def test_dataloader_work(dataset, batchsize):
             break
 
 
+# cp-021
 @pytest.mark.parametrize(
     ["resize"], [[(10, 10)], [(10, 50)], [(50, 10)], [(500, 500)]]
 )

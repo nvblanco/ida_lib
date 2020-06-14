@@ -18,12 +18,9 @@ def count_files_in_directory(directory):
 
 def reset_directory(directory):
     os.system("rm -rf " + directory)
-    '''try:
-        shutil.rmtree(directory)
-    except OSError as e:
-        print("Error: %s : %s" % (directory, e.strerror))'''
 
 
+# cp-022
 @pytest.mark.parametrize(
     ["samples_per_item"], [[1], [2], [5], [10]]
 )
@@ -46,6 +43,7 @@ def test_augment_to_disk_work(dataset, samples_per_item):
     reset_directory('./test_augmented')
 
 
+# cp-023
 @pytest.mark.parametrize(
     ["extension"], [['.jpg'], ['.png'], ['.jpeg']]
 )
