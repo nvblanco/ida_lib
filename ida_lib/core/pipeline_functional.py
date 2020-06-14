@@ -128,8 +128,12 @@ def preprocess_data(data: Union[list, dict], batch_info: Union[list, dict] = Non
     :return: preprocessed and resized data, and dict with batch info
     """
     if batch_info is None:
+        global mask_types
+        global other_types
+        mask_types = []
+        other_types = []
         if resize is not None:
-            return preprocess_dict_data_and_data_info_with_resize(data, resize, interpolation)
+            return preprocess_dict_data_and_data_info_with_resize(data, resize[::-1], interpolation)
         else:
             return preprocess_dict_data_and_data_info(data, interpolation)
     else:

@@ -15,16 +15,18 @@ from ida_lib.core.pipeline import *
 from ida_lib.core.pipeline_geometric_ops import *
 from ida_lib.core.pipeline_local_ops import *
 
+data_type = np.uint8
+
 # Read the example image
 img: np.ndarray = cv2.imread('../micky.jpg', )
 # opencv read in format BGR but IDALib works on RGB
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-img = img.astype('float32')  # Example of bits per pixel used
+#img = img.astype('float32')  # Example of bits per pixel used
 
 short_size = min(img.shape[0], img.shape[1])
 
 # Generate an example of segmentation map over the image
-segmap = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.float)
+segmap = np.zeros((img.shape[0], img.shape[1], 1), dtype=data_type)
 segmap[28:171, 35:485, 0] = 1
 segmap[10:25, 30:245, 0] = 2
 segmap[10:25, 70:385, 0] = 3
@@ -32,9 +34,9 @@ segmap[10:110, 5:210, 0] = 4
 segmap[18:223, 10:110, 0] = 5
 
 # Generate 2 examples of masks
-mask_example1 = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.float)
+mask_example1 = np.zeros((img.shape[0], img.shape[1], 1), dtype=data_type)
 mask_example1[0:50, 0:50] = 1
-mask_example2 = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.float)
+mask_example2 = np.zeros((img.shape[0], img.shape[1], 1), dtype=data_type)
 mask_example2[-150:, -50:] = 1
 
 # Generate an example of heatmap over the image

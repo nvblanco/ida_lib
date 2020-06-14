@@ -44,7 +44,7 @@ class Pipeline(object):
 
     def __init__(self, pipeline_operations: list, resize: tuple = None, interpolation: str = 'bilinear',
                  padding_mode: str = 'zeros', output_format: str = 'dict',
-                 output_type: Optional[torch.dtype] = torch.float32):
+                 output_type: Optional[torch.dtype] = None):
         """
         :param pipeline_operations: list of pipeline initialized operations (see pipeline_operations.py)
         :param resize: tuple of desired output size. Example (25,25)
@@ -58,6 +58,13 @@ class Pipeline(object):
         same as input's type
 
         """
+        if interpolation not in ('bilinear', 'nearest'):
+            raise ValueError('interpolation has to be "nearest" or "bilinear". Got ' + interpolation)
+        if padding_mode not in ('zeros', 'border', 'reflection'):
+            raise ValueError('padding_mode has to be "zeros", "border" or "reflection" . Got ' + padding_mode)
+        if output_format not in ('dict', 'tuple'):
+            raise ValueError('output_format has to be "dict" or "tuple" . Got ' + output_format)
+
         self.color_ops, self.geom_ops, self.indep_ops = split_operations_by_type(pipeline_operations)
         self.geom_ops.reverse()  # to apply matrix multiplication in the user order
         self.info_data = None
@@ -144,14 +151,13 @@ class Pipeline(object):
             # perform the geometry  compose transform
             p_data['data_2d'] = self._apply_geometry_transform_data2d(p_data['data_2d'], matrix)
 
-            if switch_points:  # if necessary, the order of the points is changed
-                switch_point_positions(p_data['points_matrix'], switch_points)
-
             if self.info_data['contains_discrete_data']:
                 # if there are segmaps or masks, the transformations are applied to them with discrete values
                 p_data['data_2d_discrete'] = self._apply_geometry_transform_discrete_data2d(
                     p_data['data_2d_discrete'], matrix)
             if self.info_data['contains_keypoints']:
+                if switch_points:  # if necessary, the order of the points is changed
+                    switch_point_positions(p_data['points_matrix'], switch_points)
                 p_data['points_matrix'] = self._apply_geometry_transform_points(p_data['points_matrix'], matrix)
             self.process_data.append(p_data)
 

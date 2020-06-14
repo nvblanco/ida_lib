@@ -65,7 +65,7 @@ face_dataset = FaceLandmarksDataset(csv_file='faces/face_landmarks.csv',
 
 # initialite the custom dataloader
 dataloader = AugmentDataLoader(dataset=face_dataset,
-                               batch_size=1,
+                               batch_size=4,
                                shuffle=True,
                                pipeline_operations=(
                                    TranslatePipeline(probability=1, translation=(30, 10)),
@@ -73,7 +73,7 @@ dataloader = AugmentDataLoader(dataset=face_dataset,
                                    HflipPipeline(probability=0.5),
                                    ContrastPipeline(probability=0.5, contrast_factor=1),
                                    RandomShearPipeline(probability=0.5, shear_range=(0, 0.5))),
-                               resize=(500, 500),
+                               resize=(500, 300),
                                # we must indicate the size of the resize because the images are not all the same size
                                interpolation='bilinear',
                                padding_mode='zeros'

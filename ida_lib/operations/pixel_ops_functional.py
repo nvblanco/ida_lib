@@ -7,6 +7,7 @@ import numpy as np
 import torch
 
 from . import utils
+from .utils import tensor_to_image
 from ..visualization import plot_image_transformation
 
 
@@ -19,10 +20,15 @@ def prepare_data_for_opencv(func):
 
     @wraps(func)
     def wrapped_function(image: Union[dict, torch.tensor, np.ndarray], visualize: bool, *args, **kwargs) -> Union[
-                dict, torch.tensor, np.ndarray]:
+        dict, torch.tensor, np.ndarray]:
+
         data = None
         original = None
+
         if isinstance(image, dict):
+            if 'image' not in image:
+                raise AttributeError(
+                    'it is necessary that the input dictum has some image type element for this type of operation')
             data_type = 'dict'
             data = image
             image = image['image']
@@ -30,16 +36,23 @@ def prepare_data_for_opencv(func):
             data_type = 'image'
         if torch.is_tensor(image):
             image_type = 'tensor'
-            image = kornia.tensor_to_image(image.byte())
+            original_type = image.dtype
+            image = tensor_to_image(image.byte())
         else:
             image_type = 'numpy'
+            original_type = image.dtype
         if visualize:
             original = image
 
         image = func(image, *args, **kwargs)  # Execute transform
 
+        if len(image.shape) < 3:
+            image = image[..., np.newaxis]
         if image_type == 'tensor':
             image = kornia.image_to_tensor(image, keepdim=False)
+            image = image.type(original_type)
+        else:
+            image = image.astype(original_type)
         if data_type == 'dict':
             data_output = data
             data_output['image'] = image
@@ -89,7 +102,7 @@ def get_brightness_function(brightness: int):
 
 @prepare_data_for_opencv
 def change_brightness(image: Union[dict, torch.tensor, np.ndarray], brightness: int) -> Union[
-            dict, torch.tensor, np.ndarray]:
+    dict, torch.tensor, np.ndarray]:
     """
     Change the brightness of the input image.
     :param image : input image to be normalized
@@ -99,8 +112,10 @@ def change_brightness(image: Union[dict, torch.tensor, np.ndarray], brightness: 
                  2 - max brightness
     :return: transformed image
     """
+    original_type = image.dtype
     brightness = utils.map_value(brightness, 0, 2, -256, 256)
-    return apply_lut_by_pixel_function(get_brightness_function(brightness), image)
+    return apply_lut_by_pixel_function(get_brightness_function(brightness), image.astype(np.uint8)).astype(
+        original_type)
 
 
 @prepare_data_for_opencv
@@ -113,7 +128,8 @@ def change_contrast(image: Union[dict, torch.tensor, np.ndarray], contrast) -> U
             * >1 - augment contrast
     :return: returns the transformed image
     """
-    return apply_lut_by_pixel_function(get_contrast_function(contrast), image)
+    original_type = image.dtype
+    return apply_lut_by_pixel_function(get_contrast_function(contrast), image.astype(np.uint8)).astype(original_type)
 
 
 def get_contrast_function(contrast: float):
@@ -135,7 +151,8 @@ def change_gamma(image: Union[dict, torch.tensor, np.ndarray], gamma: float) -> 
             * gamma > 1 -> increases luminance
     :return: returns the transformed image
     """
-    return apply_lut_by_pixel_function(get_gamma_function(gamma), image)
+    original_type = image.dtype
+    return apply_lut_by_pixel_function(get_gamma_function(gamma), image.astype(np.uint8)).astype(original_type)
 
 
 def get_gamma_function(gamma):
@@ -153,12 +170,13 @@ def gaussian_noise(image: Union[dict, torch.tensor, np.ndarray], var=20) -> Unio
     :param var    : var of the gaussian distribution of noise
     :return: returns the transformed image
     """
-    return apply_gaussian_noise(image, var)
+    original_type = image.dtype
+    return apply_gaussian_noise(image.astype(np.uint8), var).astype(original_type)
 
 
 @prepare_data_for_opencv
 def salt_and_pepper_noise(image: Union[dict, torch.tensor, np.ndarray], amount, s_vs_p) -> Union[
-            dict, torch.tensor, np.ndarray]:
+    dict, torch.tensor, np.ndarray]:
     """
     :param image : input image to be transformed
     :param amount: percentage of image's pixels to be occupied by noise
@@ -174,19 +192,21 @@ def poisson_noise(image: Union[dict, torch.tensor, np.ndarray]) -> Union[dict, t
     :param image : input image to be transformed
     :return: returns the transformed image
     """
-    return apply_poisson_noise(image)
+    original_type = image.dtype
+    return (apply_poisson_noise(image)).astype(original_type)
 
 
 @prepare_data_for_opencv
 def spekle_noise(image: Union[dict, torch.tensor, np.ndarray], mean=0, var=0.01) -> Union[
-            dict, torch.tensor, np.ndarray]:
+    dict, torch.tensor, np.ndarray]:
     """
     :param image : input image to be transformed
     :param mean  : mean of noise distribution
     :param var   : variance of noise distribution
     :return: returns the transformed image
     """
-    return apply_spekle_noise(image, mean, var)
+    original_type = image.dtype
+    return (apply_spekle_noise(image, mean, var)).astype(original_type)
 
 
 @prepare_data_for_opencv
@@ -196,7 +216,7 @@ def histogram_equalization(img: Union[dict, torch.tensor, np.ndarray]) -> Union[
     :return: returns the transformed image
     """
     for channel in range(img.shape[2]):
-        img[..., channel] = cv2.equalizeHist(img[..., channel])
+        img[..., channel] = cv2.equalizeHist(img[..., channel].astype(np.uint8))
     return img
 
 
@@ -238,10 +258,11 @@ def _resize_image(image, new_size):
 
 
 def apply_gaussian_noise(image, var=20):
-    g_noise = np.zeros((image.shape[0], image.shape[1], 1), dtype=np.uint8)
+    g_noise = np.zeros((image.shape[0], image.shape[1], 1), dtype=image.dtype)
     cv2.randn(g_noise, 50, 20)
-    g_noise = np.concatenate((g_noise, g_noise, g_noise), axis=2)
-    g_noise = (g_noise * var).astype(np.uint8)
+    if image.shape[2] != 1:
+        g_noise = np.concatenate((g_noise, g_noise, g_noise), axis=2)
+    g_noise = (g_noise * var).astype(image.dtype)
     return cv2.add(image, g_noise)
 
 
@@ -254,12 +275,12 @@ def apply_salt_and_pepper_noise(image, amount=0.05, s_vs_p=0.5):
     out = np.copy(image)
     # Salt mode
     num_salt = np.ceil(amount * image.size * s_vs_p)
-    coords = [np.random.randint(0, i - 1, int(num_salt)) for i in image.shape]
+    coords = [np.random.randint(0, i - 1, int(num_salt)) for i in image.shape if i != 1]
     out[coords[0], coords[1], :] = salt
     # Pepper mode
     num_pepper = np.ceil(amount * image.size * (1. - s_vs_p))
     coords = [np.random.randint(0, i - 1, int(num_pepper))
-              for i in image.shape]
+              for i in image.shape if i != 1]
     out[coords[0], coords[1], :] = pepper
     return out
 

@@ -13,7 +13,7 @@ from bokeh.plotting import figure
 
 __all__ = ['visualize', 'plot_image_transformation']
 
-from ida_lib.operations.utils import get_principal_type
+from ida_lib.operations.utils import get_principal_type, tensor_to_image
 
 PLOT_SIZE = (550, 550)
 
@@ -115,7 +115,7 @@ def _process_points(points):
 def _generate_image_plot(img, tittle):
     if torch.is_tensor(img):
         img = img.to('cpu')
-        img = kornia.tensor_to_image(img.byte())
+        img = tensor_to_image(img.byte())
     aspect = img.shape[0] / img.shape[1]
     img = _process_image(img)
 

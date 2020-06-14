@@ -52,7 +52,7 @@ def affine(data: dict, matrix: torch.tensor, visualize: bool = False) -> dict:
     :param visualize : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return geometry_ops_functional.affine_compose_data(data, visualize, matrix)
+    return geometry_ops_functional.affine_compose_data(data=data, visualize=visualize, matrix=matrix)
 
 
 def rotate(data: dict, degrees: float, visualize: bool = False, center: Union[None, torch.Tensor] = None) -> dict:
@@ -90,7 +90,7 @@ def translate(data: dict, translation: tuple, visualize: bool = False) -> dict:
     :param visualize  : if true it activates the display tool to debug the transformation
     :return: transformed data
     """
-    return geometry_ops_functional.translate_compose_data(data, visualize, translation)
+    return geometry_ops_functional.translate_compose_data(data=data, visualize=visualize, translation=translation)
 
 
 def shear(data: dict, shear_factor: tuple, visualize: bool = False) -> dict:
@@ -105,7 +105,7 @@ def shear(data: dict, shear_factor: tuple, visualize: bool = False) -> dict:
 
 
 def change_contrast(data: Union[dict, torch.Tensor, np.ndarray], contrast: float, visualize: bool = False) -> Union[
-            dict, torch.Tensor, np.ndarray]:
+    dict, torch.Tensor, np.ndarray]:
     """
      change the image contrast. if the input data is a dictionary, only those corresponding to an image are altered
     :param data : dict of elements to be transformed
@@ -120,7 +120,7 @@ def change_contrast(data: Union[dict, torch.Tensor, np.ndarray], contrast: float
 
 
 def change_brightness(data: Union[dict, torch.Tensor, np.ndarray], bright=1, visualize: bool = False) -> Union[
-            dict, torch.Tensor, np.ndarray]:
+    dict, torch.Tensor, np.ndarray]:
     """
     change the image brightness. if the input data is a dictionary, only those corresponding to an image are altered
     :param data : dict of elements to be transformed
@@ -135,7 +135,7 @@ def change_brightness(data: Union[dict, torch.Tensor, np.ndarray], bright=1, vis
 
 
 def change_gamma(data: Union[dict, torch.Tensor, np.ndarray], gamma, visualize: bool = False) -> Union[
-            dict, torch.Tensor, np.ndarray]:
+    dict, torch.Tensor, np.ndarray]:
     """
     adjust image's gamma (luminance correction) . if the input data is a dictionary, only those corresponding
     to an image are altered
@@ -151,7 +151,7 @@ def change_gamma(data: Union[dict, torch.Tensor, np.ndarray], gamma, visualize: 
 
 
 def equalize_histogram(data: Union[dict, torch.Tensor, np.ndarray], visualize: bool = False) -> Union[
-            dict, torch.Tensor, np.ndarray]:
+    dict, torch.Tensor, np.ndarray]:
     """
     equalize image histogram. if the input data is a dictionary, only those corresponding to an image are altered
     :param data : dict of elements to be transformed
@@ -162,7 +162,7 @@ def equalize_histogram(data: Union[dict, torch.Tensor, np.ndarray], visualize: b
 
 
 def inject_gaussian_noise(data: Union[dict, torch.Tensor, np.ndarray], var=0.5, visualize: bool = False) -> Union[
-            dict, torch.Tensor, np.ndarray]:
+    dict, torch.Tensor, np.ndarray]:
     """
     inject gaussian noise. If the input data is a dictionary, only those corresponding to an image are altered
     :param data: dict of elements to be transformed
@@ -187,7 +187,7 @@ def inject_salt_and_pepper_noise(data: Union[dict, torch.Tensor, np.ndarray], am
 
 
 def inject_poisson_noise(data: Union[dict, torch.Tensor, np.ndarray], visualize: bool = False) -> Union[
-            dict, torch.Tensor, np.ndarray]:
+    dict, torch.Tensor, np.ndarray]:
     """
     Inject poisson noise. if the input data is a dictionary, only those corresponding to an image are altered
     :param data : dict of elements to be transformed
@@ -211,7 +211,7 @@ def inject_spekle_noise(data: Union[dict, torch.Tensor, np.ndarray], mean=0, var
 
 
 def gaussian_blur(data: Union[dict, torch.Tensor, np.ndarray], blur_size=(5, 5), visualize: bool = False) -> Union[
-            dict, torch.Tensor, np.ndarray]:
+    dict, torch.Tensor, np.ndarray]:
     """
     Blurring an image by a Gaussian function.  if the input data is a dictionary, only those corresponding to an
     image are altered
@@ -224,7 +224,7 @@ def gaussian_blur(data: Union[dict, torch.Tensor, np.ndarray], blur_size=(5, 5),
 
 
 def blur(data: Union[dict, torch.Tensor, np.ndarray], blur_size=(5, 5), visualize: bool = False) -> Union[
-            dict, torch.Tensor, np.ndarray]:
+    dict, torch.Tensor, np.ndarray]:
     """
     Blur image.  if the input data is a dictionary, only those corresponding to an image are altered
     :param data : dict of elements to be transformed

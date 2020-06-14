@@ -6,7 +6,8 @@ import torch
 
 from ida_lib.core.pipeline_operations import PipelineOperation
 from ida_lib.global_parameters import ones_torch, identity, cuda, one_torch, device
-from ida_lib.operations.geometry_ops_functional import get_translation_matrix, get_shear_matrix, get_scale_matrix
+from ida_lib.operations.geometry_ops_functional import get_translation_matrix, get_scale_matrix, \
+    get_squared_shear_matrix
 
 __all__ = ['HflipPipeline',
            'VflipPipeline',
@@ -32,7 +33,7 @@ class ScalePipeline(PipelineOperation):
         PipelineOperation.__init__(self, probability=probability, op_type='geometry')
         if center is None:
             self.config = True
-            self.center = ones_torch
+            self.center = ones_torch.clone()
         else:
             self.center = center
             self.config = False
@@ -74,7 +75,7 @@ class RandomScalePipeline(PipelineOperation):
         self.keep_aspect = keep_aspect
         if center is None:
             self.config = True
-            self.center = ones_torch
+            self.center = ones_torch.clone()
         else:
             self.center = center
             self.config = False
@@ -281,7 +282,7 @@ class ShearPipeline(PipelineOperation):
         :param probability :[0-1]  probability of applying the transform. Default: 1.
         """
         PipelineOperation.__init__(self, probability=probability, op_type='geometry')
-        self.matrix = get_shear_matrix(shear)
+        self.matrix = get_squared_shear_matrix(shear)
 
     def get_op_matrix(self) -> torch.tensor:
         return self.matrix

@@ -43,6 +43,8 @@ class AugmentToDisk(object):
             ('zeros' | 'border' | 'reflection'.)    Default: 'zeros'
         """
         self.dataset = dataset
+        if samples_per_item < 1:
+            raise TypeError("non-positive values are not allowed for 'samples_per_item'")
         self.samples_per_item = samples_per_item
         if total_output_samples:
             self.samples_per_item = total_output_samples // len(self.dataset)
@@ -60,7 +62,7 @@ class AugmentToDisk(object):
         if not os.path.exists(output_path):
             os.makedirs(output_path)
 
-    def save_item(self, item: dict, index: int, output_path: str, types_2d: list, other_types: list):
+    def save_item(self, item: dict, index: int, output_path: str, types_2d: list, other_types: list, element: int):
         """
           **This method can be overwritten to make a customized saving of the items according
           to the interests of the user**
@@ -72,17 +74,19 @@ class AugmentToDisk(object):
         when all  the images have been processed.
 
         :param item :        input element to be saved to disk
+        :param element:      input element number to identify it
         :param index :       sample number to which the input item corresponds
         :param output_path : path to the directory in which to save the generated data
         :param types_2d :    list of types of two dimensional data of the input item
         :param other_types : list of types that are not two-dimensional elements
         """
-        item['id'] = item['id'] + '_' + str(index)
+        if 'id' not in item:
+            item['id'] = 'item-' + str(element)
         for actual_type in types_2d:
             if 'image' in actual_type:
-                name = output_path + '/' + item['id']
+                name = output_path + '/' + item['id'] + '_' + str(index)
             else:
-                name = output_path + item['id'] + '-' + actual_type + '_' + str(index)
+                name = output_path + '/' + item['id'] + '-' + actual_type + '_' + str(index)
             save_im(tensor=item[actual_type], title=(name + self.output_extension))
         self.output_csv.append(dict((label, item[label]) for label in other_types))
 
@@ -115,9 +119,11 @@ class AugmentToDisk(object):
             self.types2d, self.other_types = self.pipeline.get_data_types()
             if self.types2d is None:
                 self.types2d, self.other_types = self.pipeline.get_data_types()
+            if isinstance(augmented, dict):
+                augmented = [augmented]
             for index, item in enumerate(augmented):
                 self.save_item(item, index, types_2d=self.types2d, other_types=self.other_types,
-                               output_path=self.output_path)
+                               output_path=self.output_path, element=i)
         self.final_save()
         total_images = len(self.dataset) * self.samples_per_item
         print("Generated " + str(total_images) + " new images from the original dataset.")
