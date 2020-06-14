@@ -58,7 +58,7 @@ def vflip_coordinates_matrix(matrix: torch.tensor, height: int) -> torch.tensor:
 @prepare_data
 def vflip_compose_data(data: dict) -> dict:
     """
-    :param data : dict of elements to be transformed
+    :param data: dict of elements to be transformed
     :return: transformed data
     """
     if len(data['data_2d']) != 0:
@@ -89,7 +89,7 @@ def hflip_coordinates_matrix(matrix: torch.tensor, width: int) -> torch.tensor:
 @prepare_data
 def hflip_compose_data(data: dict) -> dict:
     """
-    :param data : dict of elements to be transformed
+    :param data: dict of elements to be transformed
     :return: transformed data
     """
     if len(data['data_2d']) != 0:
@@ -122,8 +122,8 @@ def affine_coordinates_matrix(matrix_coordinates: torch.tensor, matrix_transform
 @prepare_data
 def affine_compose_data(data: dict, matrix: torch.tensor) -> dict:
     """
-    :param data : dict of elements to be transformed
-    :param matrix : matrix of transformation
+    :param data: dict of elements to be transformed
+    :param matrix: matrix of transformation
     :return: transformed data
     """
     matrix = matrix.to(device)
@@ -155,9 +155,9 @@ def rotate_coordinates_matrix(matrix_coordinates: torch.tensor, matrix: torch.te
 @prepare_data
 def rotate_compose_data(data: dict, degrees: torch.tensor, center: torch.tensor):
     """
-    :param data : dict of elements to be transformed
-    :param degrees : counterclockwise degrees of rotation
-    :param center : center of rotation. Default, center of the image
+    :param data: dict of elements to be transformed
+    :param degrees: counterclockwise degrees of rotation
+    :param center: center of rotation. Default, center of the image
     :return: transformed data
     """
     ppal = 'data_2d'
@@ -221,8 +221,8 @@ def scale_compose_data(data: dict, scale_factor: Union[float, torch.tensor],
                        center: Union[torch.tensor, None] = None) -> dict:
     """
     :param data: dict of elements to be transformed
-    :param scale_factor  : factor of scaling
-    :param center : center of scaling. By default its taken the center of the image
+    :param scale_factor: factor of scaling
+    :param center: center of scaling. By default its taken the center of the image
     :return: transformed data
     """
     ppal = 'data_2d'
@@ -269,8 +269,8 @@ def translate_coordinates_matrix(matrix_coordinates: torch.tensor, translation: 
 @prepare_data
 def translate_compose_data(data: dict, translation: Union[int, torch.tensor]) -> dict:
     """
-    :param data : dict of elements to be transformed
-    :param translation : number of pixels to translate
+    :param data: dict of elements to be transformed
+    :param translation: number of pixels to translate
     :return: transformed data
     """
 
@@ -315,8 +315,8 @@ def shear_coordinates_matrix(matrix_coordinates: torch.tensor, matrix: torch.ten
 @prepare_data
 def shear_compose_data(data: dict, shear_factor: tuple) -> dict:
     """
-    :param data : dict of elements to be transformed
-    :param shear_factor : pixels of shearing
+    :param data: dict of elements to be transformed
+    :param shear_factor: pixels of shearing
     :return: transformed data
     """
     matrix = get_shear_matrix(shear_factor)
@@ -333,14 +333,14 @@ def own_affine(tensor: torch.Tensor, matrix: torch.Tensor, interpolation: str = 
                padding_mode: str = 'border') -> torch.Tensor:
     """Apply an affine transformation to the image.
 
-    :param tensor :     The image tensor to be warped.
-    :param matrix :     The 2x3 affine transformation matrix.
-    :param interpolation : interpolation mode to calculate output values
+    :param tensor:     The image tensor to be warped.
+    :param matrix:     The 2x3 affine transformation matrix.
+    :param interpolation: interpolation mode to calculate output values
           'bilinear' | 'nearest'. Default: 'bilinear'.
-    :param padding_mode : padding mode for outside grid values
+    :param padding_mode: padding mode for outside grid values
           'zeros' | 'border' | 'reflection'. Default: 'zeros'.
 
-    :return : The warped image.
+    :return: The warped image.
     """
     # warping needs data in the shape of BCHW
     is_unbatched: bool = tensor.ndimension() == 3

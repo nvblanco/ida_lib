@@ -1,0 +1,16 @@
+Metadata-Version: 1.2
+Name: ida-lib
+Version: 1.0
+Summary: Image Data Augmentation library
+Home-page: https://github.com/raquelvilas18/ida_lib
+Author: Raquel Vilas
+Author-email: raquel.rodriguez.vilas@rai.usc.es
+License: UNKNOWN
+Description: UNKNOWN
+Keywords: pytorch image data augmentation
+Platform: UNKNOWN
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.5

@@ -68,8 +68,8 @@ def prepare_data_for_opencv(func):
 def apply_lut_by_pixel_function(function, image: np.ndarray) -> np.ndarray:
     """
     Applies the input operation to the image using a LUT
-    :param function : Mathematical function that represents the operation to carry out in each pixel of the image
-    :param image  : input image
+    :param function: Mathematical function that represents the operation to carry out in each pixel of the image
+    :param image: input image
     :return:
     """
     look_up_table = np.empty((1, 256), np.int16)
@@ -84,8 +84,8 @@ def apply_lut_by_pixel_function(function, image: np.ndarray) -> np.ndarray:
 def normalize_image(img: np.ndarray, norm_type: int = cv2.NORM_MINMAX) -> np.ndarray:
     """
     Normalize the input image
-    :param img : input image to be normalized
-    :param norm_type : opencv normalization type (' cv2.NORM_MINMAX' |cv2.NORM_HAMMING |cv2.NORM_HAMMING2
+    :param img: input image to be normalized
+    :param norm_type: opencv normalization type (' cv2.NORM_MINMAX' |cv2.NORM_HAMMING |cv2.NORM_HAMMING2
                         |cv2.NORM_INF |cv2.NORM_RELATIVE ...)
     :return: normalized image
     """
@@ -105,8 +105,8 @@ def change_brightness(image: Union[dict, torch.tensor, np.ndarray], brightness: 
     dict, torch.tensor, np.ndarray]:
     """
     Change the brightness of the input image.
-    :param image : input image to be normalized
-    :param brightness  : desired amount of brightness for the image
+    :param image: input image to be normalized
+    :param brightness: desired amount of brightness for the image
                  0 - no brightness
                  1 - same
                  2 - max brightness

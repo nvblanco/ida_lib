@@ -10,3 +10,4 @@ opencv==4.2.0.34
 pandas
 csv
 skimage
+sphinx>=1.6.2

@@ -41,9 +41,9 @@ def get_compose_matrix(operations: list, data_info: Optional[dict] = None) -> to
     If data_info is not None, go through the operations by entering the necessary information about the images
     (image center, shape..)
 
-    :param operations : list of pipeline operations
-    :param data_info : dict with data info to configure operations parameters
-    :return : torch tensor of the transform matrix
+    :param operations: list of pipeline operations
+    :param data_info: dict with data info to configure operations parameters
+    :return: torch tensor of the transform matrix
     """
     matrix = identity.clone()
     switch = []
@@ -69,7 +69,7 @@ def split_operations_by_type(operations: list) -> tuple:
     Split input operations into sub-lists of each transformation type
 *   the normalization operation is placed last to apply correctly the other operations
     :param operations: list of pipeline operations
-    :return : tuple of lists of the operations separated into color, geometry and independent
+    :return: tuple of lists of the operations separated into color, geometry and independent
     """
     color, geometry, independent = [], [], []
     normalize = None
@@ -115,18 +115,19 @@ def get_compose_function(operations: list) -> np.ndarray:
 def preprocess_data(data: Union[list, dict], batch_info: Union[list, dict] = None, interpolation: str = None,
                     resize: Optional[tuple] = None) -> list:
     """
-    Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix
-    that allows applying the geometric operations in a single joint operation on the data
+     Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix \
+    that allows applying the geometric operations in a single joint operation on the data \
     and another on the points.
-     * Loads the data as tensor in GPU to prepare them as input to a neural network
-     * Analyze the data info required for the transformations (shape, bpp...)
-     * Resize the 2d data and keypoints to the new shape
-    :param data:        list of elements to be transformed through the pipe
-    :param resize :   if it is wanted to resize the data, indicate the new size
-    :param interpolation: desired interpolation mode to be applied
+    - Loads the data as tensor in GPU to prepare them as input to a neural network
+    - Analyze the data info required for the transformations (shape, bpp...)
+    - Resize the 2d data and keypoints to the new shape
+    :param resize: if it is wanted to resize the data, indicate the new size
+    :param data:  list of elements to be transformed through the pipe
     :param batch_info: dict with the required data info
+    :param interpolation: desired interpolation mode to be applied
     :return: preprocessed and resized data, and dict with batch info
     """
+
     if batch_info is None:
         global mask_types
         global other_types
@@ -148,8 +149,8 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
      * Loads the data as tensor in GPU to prepare them as input to a neural network
      * Analyze the data info required for the transformations (shape, bpp...)
      * Resize the 2d data and keypoints to the new shape
-    :param data:        list of elements to be transformed through the pipe
-    :param new_size :   desired output size for bidimensional data
+    :param data: list of elements to be transformed through the pipe
+    :param new_size: desired output size for bidimensional data
     :param interpolation: desired interpolation mode to be applied
     :return: preprocessed and resized data, and dict with batch info
     """
@@ -320,7 +321,7 @@ def postprocess_data(batch: list, batch_info: dict, data_original: Optional[list
     """
     Restores the data to the original form;
     separating the matrix into the different 2d input data and point coordinates.
-    :param batch : list of elements to be transformed through the pipe
+    :param batch: list of elements to be transformed through the pipe
     :param batch_info: dict with necessary information about the batch data
     :param data_original: original batch before transforms
     :param visualize: whether to run the visualization tool or not

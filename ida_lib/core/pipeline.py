@@ -77,8 +77,8 @@ class Pipeline(object):
     def _apply_geometry_transform_data2d(self, image: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         """
         Applies the input transform to the image by the padding and interpolation mode configured on the pipeline
-        :param image :  image to transform
-        :param matrix : transformation matrix that represent the operation to be applied
+        :param image:  image to transform
+        :param matrix: transformation matrix that represent the operation to be applied
         :return :       transformed image
         """
         return own_affine(image, matrix[:2, :], interpolation=self.interpolation, padding_mode=self.padding_mode)
@@ -98,8 +98,8 @@ class Pipeline(object):
         """
         Applies the input transform to a matrix of points coordinates (matrix multiplication)
         :param points_matrix: matrix of points coordinates
-        :param matrix:        transformation matrix that represent the operation to be applied
-        :return :             matrix of transformed points coordinates
+        :param matrix: transformation matrix that represent the operation to be applied
+        :return: matrix of transformed points coordinates
         """
         return torch.matmul(matrix, points_matrix)
 
@@ -113,8 +113,8 @@ class Pipeline(object):
         *   If it is the first batch entered into the pipeline, the information about the type of input data
             is analyzed and the different pipeline parameters are set (size of the images, labels, bits per pixel..)
         :param batch_data: list of elements to be transformed through the pipe
-        :param visualize:  it allows to display the web visualization tool of performed transformations
-        :return:           transformed batch
+        :param visualize: it allows to display the web visualization tool of performed transformations
+        :return:  transformed batch
         """
 
         # Configure data and initial parameters
