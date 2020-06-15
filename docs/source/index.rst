@@ -55,11 +55,25 @@ Indices and tables
 
 Built with
 -------------
-* [Pytorch](https://pytorch.org/) - The machine learning framework used
-* [Bokeh](https://bokeh.org/) - The visualization library used
-* [Kornia](https://kornia.github.io/) - computer vision library that is used as a base for transformations
-* [OpenCV](https://bokeh.org/) - computer vision library that is used as a base for transformations
-* [Pycharm](https://rometools.github.io/rome/) - Development IDE
+* Pytorch_.  - The machine learning framework used
+
+.. _Pytorch: https://pytorch.org/
+
+* Bokeh_. - The visualization library used
+
+.. _Bokeh: https://bokeh.org/
+
+* Kornia_.  - computer vision library that is used as a base for transformations
+
+.. _Kornia: https://kornia.github.io/
+
+* OpenCV_.  - computer vision library that is used as a base for transformations
+
+.. _OpenCV: https://bokeh.org/
+
+* Pycharm_. - Development IDE
+
+.. _Pycharm: https://www.jetbrains.com/es-es/pycharm/
 
 Acknowledgements
 --------------------
