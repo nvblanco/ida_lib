@@ -1,0 +1,228 @@
+\indexentry{module@\spxentry{module}!ida\_lib.core.pipeline@\spxentry{ida\_lib.core.pipeline}|hyperpage}{13}
+\indexentry{ida\_lib.core.pipeline@\spxentry{ida\_lib.core.pipeline}!module@\spxentry{module}|hyperpage}{13}
+\indexentry{Pipeline (class in ida\_lib.core.pipeline)@\spxentry{Pipeline}\spxextra{class in ida\_lib.core.pipeline}|hyperpage}{13}
+\indexentry{get\_data\_types() (ida\_lib.core.pipeline.Pipeline method)@\spxentry{get\_data\_types()}\spxextra{ida\_lib.core.pipeline.Pipeline method}|hyperpage}{13}
+\indexentry{module@\spxentry{module}!ida\_lib.core.pipeline\_functional@\spxentry{ida\_lib.core.pipeline\_functional}|hyperpage}{14}
+\indexentry{ida\_lib.core.pipeline\_functional@\spxentry{ida\_lib.core.pipeline\_functional}!module@\spxentry{module}|hyperpage}{14}
+\indexentry{get\_compose\_matrix() (in module ida\_lib.core.pipeline\_functional)@\spxentry{get\_compose\_matrix()}\spxextra{in module ida\_lib.core.pipeline\_functional}|hyperpage}{14}
+\indexentry{get\_compose\_function() (in module ida\_lib.core.pipeline\_functional)@\spxentry{get\_compose\_function()}\spxextra{in module ida\_lib.core.pipeline\_functional}|hyperpage}{14}
+\indexentry{preprocess\_data() (in module ida\_lib.core.pipeline\_functional)@\spxentry{preprocess\_data()}\spxextra{in module ida\_lib.core.pipeline\_functional}|hyperpage}{14}
+\indexentry{split\_operations\_by\_type() (in module ida\_lib.core.pipeline\_functional)@\spxentry{split\_operations\_by\_type()}\spxextra{in module ida\_lib.core.pipeline\_functional}|hyperpage}{14}
+\indexentry{postprocess\_data() (in module ida\_lib.core.pipeline\_functional)@\spxentry{postprocess\_data()}\spxextra{in module ida\_lib.core.pipeline\_functional}|hyperpage}{14}
+\indexentry{switch\_point\_positions() (in module ida\_lib.core.pipeline\_functional)@\spxentry{switch\_point\_positions()}\spxextra{in module ida\_lib.core.pipeline\_functional}|hyperpage}{15}
+\indexentry{module@\spxentry{module}!ida\_lib.core.pipeline\_geometric\_ops@\spxentry{ida\_lib.core.pipeline\_geometric\_ops}|hyperpage}{15}
+\indexentry{ida\_lib.core.pipeline\_geometric\_ops@\spxentry{ida\_lib.core.pipeline\_geometric\_ops}!module@\spxentry{module}|hyperpage}{15}
+\indexentry{HflipPipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{HflipPipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}|hyperpage}{15}
+\indexentry{config\_parameters() (ida\_lib.core.pipeline\_geometric\_ops.HflipPipeline method)@\spxentry{config\_parameters()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.HflipPipeline method}|hyperpage}{15}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.HflipPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.HflipPipeline method}|hyperpage}{15}
+\indexentry{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.HflipPipeline method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.HflipPipeline method}|hyperpage}{15}
+\indexentry{switch\_points() (ida\_lib.core.pipeline\_geometric\_ops.HflipPipeline method)@\spxentry{switch\_points()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.HflipPipeline method}|hyperpage}{15}
+\indexentry{VflipPipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{VflipPipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}|hyperpage}{15}
+\indexentry{config\_parameters() (ida\_lib.core.pipeline\_geometric\_ops.VflipPipeline method)@\spxentry{config\_parameters()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.VflipPipeline method}|hyperpage}{15}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.VflipPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.VflipPipeline method}|hyperpage}{15}
+\indexentry{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.VflipPipeline method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.VflipPipeline method}|hyperpage}{15}
+\indexentry{switch\_points() (ida\_lib.core.pipeline\_geometric\_ops.VflipPipeline method)@\spxentry{switch\_points()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.VflipPipeline method}|hyperpage}{15}
+\indexentry{RotatePipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{RotatePipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}|hyperpage}{15}
+\indexentry{config\_parameters() (ida\_lib.core.pipeline\_geometric\_ops.RotatePipeline method)@\spxentry{config\_parameters()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RotatePipeline method}|hyperpage}{15}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.RotatePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RotatePipeline method}|hyperpage}{16}
+\indexentry{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.RotatePipeline method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RotatePipeline method}|hyperpage}{16}
+\indexentry{switch\_points() (ida\_lib.core.pipeline\_geometric\_ops.RotatePipeline static method)@\spxentry{switch\_points()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RotatePipeline static method}|hyperpage}{16}
+\indexentry{ShearPipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{ShearPipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}|hyperpage}{16}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.ShearPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.ShearPipeline method}|hyperpage}{16}
+\indexentry{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.ShearPipeline static method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.ShearPipeline static method}|hyperpage}{16}
+\indexentry{switch\_points() (ida\_lib.core.pipeline\_geometric\_ops.ShearPipeline static method)@\spxentry{switch\_points()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.ShearPipeline static method}|hyperpage}{16}
+\indexentry{ScalePipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{ScalePipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}|hyperpage}{16}
+\indexentry{config\_parameters() (ida\_lib.core.pipeline\_geometric\_ops.ScalePipeline method)@\spxentry{config\_parameters()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.ScalePipeline method}|hyperpage}{16}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.ScalePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.ScalePipeline method}|hyperpage}{16}
+\indexentry{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.ScalePipeline method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.ScalePipeline method}|hyperpage}{16}
+\indexentry{switch\_points() (ida\_lib.core.pipeline\_geometric\_ops.ScalePipeline static method)@\spxentry{switch\_points()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.ScalePipeline static method}|hyperpage}{16}
+\indexentry{TranslatePipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{TranslatePipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}|hyperpage}{16}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.TranslatePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.TranslatePipeline method}|hyperpage}{16}
+\indexentry{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.TranslatePipeline static method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.TranslatePipeline static method}|hyperpage}{16}
+\indexentry{switch\_points() (ida\_lib.core.pipeline\_geometric\_ops.TranslatePipeline static method)@\spxentry{switch\_points()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.TranslatePipeline static method}|hyperpage}{16}
+\indexentry{RandomScalePipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{RandomScalePipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}|hyperpage}{16}
+\indexentry{config\_parameters() (ida\_lib.core.pipeline\_geometric\_ops.RandomScalePipeline method)@\spxentry{config\_parameters()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomScalePipeline method}|hyperpage}{16}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.RandomScalePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomScalePipeline method}|hyperpage}{16}
+\indexentry{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.RandomScalePipeline method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomScalePipeline method}|hyperpage}{16}
+\indexentry{switch\_points() (ida\_lib.core.pipeline\_geometric\_ops.RandomScalePipeline static method)@\spxentry{switch\_points()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomScalePipeline static method}|hyperpage}{16}
+\indexentry{RandomRotatePipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{RandomRotatePipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}|hyperpage}{17}
+\indexentry{config\_parameters() (ida\_lib.core.pipeline\_geometric\_ops.RandomRotatePipeline method)@\spxentry{config\_parameters()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomRotatePipeline method}|hyperpage}{17}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.RandomRotatePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomRotatePipeline method}|hyperpage}{17}
+\indexentry{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.RandomRotatePipeline method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomRotatePipeline method}|hyperpage}{17}
+\indexentry{switch\_points() (ida\_lib.core.pipeline\_geometric\_ops.RandomRotatePipeline static method)@\spxentry{switch\_points()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomRotatePipeline static method}|hyperpage}{17}
+\indexentry{RandomShearPipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{RandomShearPipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}|hyperpage}{17}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.RandomShearPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomShearPipeline method}|hyperpage}{17}
+\indexentry{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.RandomShearPipeline static method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomShearPipeline static method}|hyperpage}{17}
+\indexentry{switch\_points() (ida\_lib.core.pipeline\_geometric\_ops.RandomShearPipeline static method)@\spxentry{switch\_points()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomShearPipeline static method}|hyperpage}{17}
+\indexentry{RandomTranslatePipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{RandomTranslatePipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}|hyperpage}{17}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.RandomTranslatePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomTranslatePipeline method}|hyperpage}{17}
+\indexentry{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.RandomTranslatePipeline static method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomTranslatePipeline static method}|hyperpage}{17}
+\indexentry{switch\_points() (ida\_lib.core.pipeline\_geometric\_ops.RandomTranslatePipeline static method)@\spxentry{switch\_points()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomTranslatePipeline static method}|hyperpage}{17}
+\indexentry{module@\spxentry{module}!ida\_lib.core.pipeline\_local\_ops@\spxentry{ida\_lib.core.pipeline\_local\_ops}|hyperpage}{18}
+\indexentry{ida\_lib.core.pipeline\_local\_ops@\spxentry{ida\_lib.core.pipeline\_local\_ops}!module@\spxentry{module}|hyperpage}{18}
+\indexentry{BlurPipeline (class in ida\_lib.core.pipeline\_local\_ops)@\spxentry{BlurPipeline}\spxextra{class in ida\_lib.core.pipeline\_local\_ops}|hyperpage}{18}
+\indexentry{apply\_to\_image\_if\_probability() (ida\_lib.core.pipeline\_local\_ops.BlurPipeline method)@\spxentry{apply\_to\_image\_if\_probability()}\spxextra{ida\_lib.core.pipeline\_local\_ops.BlurPipeline method}|hyperpage}{18}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_local\_ops.BlurPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_local\_ops.BlurPipeline method}|hyperpage}{18}
+\indexentry{GaussianBlurPipeline (class in ida\_lib.core.pipeline\_local\_ops)@\spxentry{GaussianBlurPipeline}\spxextra{class in ida\_lib.core.pipeline\_local\_ops}|hyperpage}{18}
+\indexentry{apply\_to\_image\_if\_probability() (ida\_lib.core.pipeline\_local\_ops.GaussianBlurPipeline method)@\spxentry{apply\_to\_image\_if\_probability()}\spxextra{ida\_lib.core.pipeline\_local\_ops.GaussianBlurPipeline method}|hyperpage}{18}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_local\_ops.GaussianBlurPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_local\_ops.GaussianBlurPipeline method}|hyperpage}{18}
+\indexentry{GaussianNoisePipeline (class in ida\_lib.core.pipeline\_local\_ops)@\spxentry{GaussianNoisePipeline}\spxextra{class in ida\_lib.core.pipeline\_local\_ops}|hyperpage}{18}
+\indexentry{apply\_to\_image\_if\_probability() (ida\_lib.core.pipeline\_local\_ops.GaussianNoisePipeline method)@\spxentry{apply\_to\_image\_if\_probability()}\spxextra{ida\_lib.core.pipeline\_local\_ops.GaussianNoisePipeline method}|hyperpage}{18}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_local\_ops.GaussianNoisePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_local\_ops.GaussianNoisePipeline method}|hyperpage}{18}
+\indexentry{PoissonNoisePipeline (class in ida\_lib.core.pipeline\_local\_ops)@\spxentry{PoissonNoisePipeline}\spxextra{class in ida\_lib.core.pipeline\_local\_ops}|hyperpage}{18}
+\indexentry{apply\_to\_image\_if\_probability() (ida\_lib.core.pipeline\_local\_ops.PoissonNoisePipeline method)@\spxentry{apply\_to\_image\_if\_probability()}\spxextra{ida\_lib.core.pipeline\_local\_ops.PoissonNoisePipeline method}|hyperpage}{18}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_local\_ops.PoissonNoisePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_local\_ops.PoissonNoisePipeline method}|hyperpage}{18}
+\indexentry{SaltAndPepperNoisePipeline (class in ida\_lib.core.pipeline\_local\_ops)@\spxentry{SaltAndPepperNoisePipeline}\spxextra{class in ida\_lib.core.pipeline\_local\_ops}|hyperpage}{18}
+\indexentry{apply\_to\_image\_if\_probability() (ida\_lib.core.pipeline\_local\_ops.SaltAndPepperNoisePipeline method)@\spxentry{apply\_to\_image\_if\_probability()}\spxextra{ida\_lib.core.pipeline\_local\_ops.SaltAndPepperNoisePipeline method}|hyperpage}{18}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_local\_ops.SaltAndPepperNoisePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_local\_ops.SaltAndPepperNoisePipeline method}|hyperpage}{18}
+\indexentry{SpekleNoisePipeline (class in ida\_lib.core.pipeline\_local\_ops)@\spxentry{SpekleNoisePipeline}\spxextra{class in ida\_lib.core.pipeline\_local\_ops}|hyperpage}{18}
+\indexentry{apply\_to\_image\_if\_probability() (ida\_lib.core.pipeline\_local\_ops.SpekleNoisePipeline method)@\spxentry{apply\_to\_image\_if\_probability()}\spxextra{ida\_lib.core.pipeline\_local\_ops.SpekleNoisePipeline method}|hyperpage}{19}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_local\_ops.SpekleNoisePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_local\_ops.SpekleNoisePipeline method}|hyperpage}{19}
+\indexentry{module@\spxentry{module}!ida\_lib.core.pipeline\_operations@\spxentry{ida\_lib.core.pipeline\_operations}|hyperpage}{19}
+\indexentry{ida\_lib.core.pipeline\_operations@\spxentry{ida\_lib.core.pipeline\_operations}!module@\spxentry{module}|hyperpage}{19}
+\indexentry{PipelineOperation (class in ida\_lib.core.pipeline\_operations)@\spxentry{PipelineOperation}\spxextra{class in ida\_lib.core.pipeline\_operations}|hyperpage}{19}
+\indexentry{apply\_according\_to\_probability() (ida\_lib.core.pipeline\_operations.PipelineOperation method)@\spxentry{apply\_according\_to\_probability()}\spxextra{ida\_lib.core.pipeline\_operations.PipelineOperation method}|hyperpage}{19}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_operations.PipelineOperation method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_operations.PipelineOperation method}|hyperpage}{19}
+\indexentry{get\_op\_type() (ida\_lib.core.pipeline\_operations.PipelineOperation method)@\spxentry{get\_op\_type()}\spxextra{ida\_lib.core.pipeline\_operations.PipelineOperation method}|hyperpage}{19}
+\indexentry{module@\spxentry{module}!ida\_lib.core.pipeline\_pixel\_ops@\spxentry{ida\_lib.core.pipeline\_pixel\_ops}|hyperpage}{19}
+\indexentry{ida\_lib.core.pipeline\_pixel\_ops@\spxentry{ida\_lib.core.pipeline\_pixel\_ops}!module@\spxentry{module}|hyperpage}{19}
+\indexentry{ContrastPipeline (class in ida\_lib.core.pipeline\_pixel\_ops)@\spxentry{ContrastPipeline}\spxextra{class in ida\_lib.core.pipeline\_pixel\_ops}|hyperpage}{19}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_pixel\_ops.ContrastPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.ContrastPipeline method}|hyperpage}{19}
+\indexentry{transform\_function() (ida\_lib.core.pipeline\_pixel\_ops.ContrastPipeline method)@\spxentry{transform\_function()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.ContrastPipeline method}|hyperpage}{19}
+\indexentry{RandomContrastPipeline (class in ida\_lib.core.pipeline\_pixel\_ops)@\spxentry{RandomContrastPipeline}\spxextra{class in ida\_lib.core.pipeline\_pixel\_ops}|hyperpage}{19}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_pixel\_ops.RandomContrastPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.RandomContrastPipeline method}|hyperpage}{19}
+\indexentry{transform\_function() (ida\_lib.core.pipeline\_pixel\_ops.RandomContrastPipeline method)@\spxentry{transform\_function()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.RandomContrastPipeline method}|hyperpage}{19}
+\indexentry{BrightnessPipeline (class in ida\_lib.core.pipeline\_pixel\_ops)@\spxentry{BrightnessPipeline}\spxextra{class in ida\_lib.core.pipeline\_pixel\_ops}|hyperpage}{19}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_pixel\_ops.BrightnessPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.BrightnessPipeline method}|hyperpage}{19}
+\indexentry{get\_op\_type() (ida\_lib.core.pipeline\_pixel\_ops.BrightnessPipeline method)@\spxentry{get\_op\_type()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.BrightnessPipeline method}|hyperpage}{19}
+\indexentry{transform\_function() (ida\_lib.core.pipeline\_pixel\_ops.BrightnessPipeline method)@\spxentry{transform\_function()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.BrightnessPipeline method}|hyperpage}{19}
+\indexentry{RandomBrightnessPipeline (class in ida\_lib.core.pipeline\_pixel\_ops)@\spxentry{RandomBrightnessPipeline}\spxextra{class in ida\_lib.core.pipeline\_pixel\_ops}|hyperpage}{19}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_pixel\_ops.RandomBrightnessPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.RandomBrightnessPipeline method}|hyperpage}{20}
+\indexentry{get\_op\_type() (ida\_lib.core.pipeline\_pixel\_ops.RandomBrightnessPipeline method)@\spxentry{get\_op\_type()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.RandomBrightnessPipeline method}|hyperpage}{20}
+\indexentry{transform\_function() (ida\_lib.core.pipeline\_pixel\_ops.RandomBrightnessPipeline method)@\spxentry{transform\_function()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.RandomBrightnessPipeline method}|hyperpage}{20}
+\indexentry{GammaPipeline (class in ida\_lib.core.pipeline\_pixel\_ops)@\spxentry{GammaPipeline}\spxextra{class in ida\_lib.core.pipeline\_pixel\_ops}|hyperpage}{20}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_pixel\_ops.GammaPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.GammaPipeline method}|hyperpage}{20}
+\indexentry{transform\_function() (ida\_lib.core.pipeline\_pixel\_ops.GammaPipeline method)@\spxentry{transform\_function()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.GammaPipeline method}|hyperpage}{20}
+\indexentry{RandomGammaPipeline (class in ida\_lib.core.pipeline\_pixel\_ops)@\spxentry{RandomGammaPipeline}\spxextra{class in ida\_lib.core.pipeline\_pixel\_ops}|hyperpage}{20}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_pixel\_ops.RandomGammaPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.RandomGammaPipeline method}|hyperpage}{20}
+\indexentry{transform\_function() (ida\_lib.core.pipeline\_pixel\_ops.RandomGammaPipeline method)@\spxentry{transform\_function()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.RandomGammaPipeline method}|hyperpage}{20}
+\indexentry{NormalizePipeline (class in ida\_lib.core.pipeline\_pixel\_ops)@\spxentry{NormalizePipeline}\spxextra{class in ida\_lib.core.pipeline\_pixel\_ops}|hyperpage}{20}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_pixel\_ops.NormalizePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.NormalizePipeline method}|hyperpage}{20}
+\indexentry{transform\_function() (ida\_lib.core.pipeline\_pixel\_ops.NormalizePipeline static method)@\spxentry{transform\_function()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.NormalizePipeline static method}|hyperpage}{20}
+\indexentry{DenormalizePipeline (class in ida\_lib.core.pipeline\_pixel\_ops)@\spxentry{DenormalizePipeline}\spxextra{class in ida\_lib.core.pipeline\_pixel\_ops}|hyperpage}{20}
+\indexentry{get\_op\_matrix() (ida\_lib.core.pipeline\_pixel\_ops.DenormalizePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.DenormalizePipeline method}|hyperpage}{20}
+\indexentry{transform\_function() (ida\_lib.core.pipeline\_pixel\_ops.DenormalizePipeline method)@\spxentry{transform\_function()}\spxextra{ida\_lib.core.pipeline\_pixel\_ops.DenormalizePipeline method}|hyperpage}{20}
+\indexentry{module@\spxentry{module}!ida\_lib.core@\spxentry{ida\_lib.core}|hyperpage}{21}
+\indexentry{ida\_lib.core@\spxentry{ida\_lib.core}!module@\spxentry{module}|hyperpage}{21}
+\indexentry{module@\spxentry{module}!ida\_lib.image\_augmentation.augment\_to\_disk@\spxentry{ida\_lib.image\_augmentation.augment\_to\_disk}|hyperpage}{21}
+\indexentry{ida\_lib.image\_augmentation.augment\_to\_disk@\spxentry{ida\_lib.image\_augmentation.augment\_to\_disk}!module@\spxentry{module}|hyperpage}{21}
+\indexentry{AugmentToDisk (class in ida\_lib.image\_augmentation.augment\_to\_disk)@\spxentry{AugmentToDisk}\spxextra{class in ida\_lib.image\_augmentation.augment\_to\_disk}|hyperpage}{21}
+\indexentry{final\_save() (ida\_lib.image\_augmentation.augment\_to\_disk.AugmentToDisk method)@\spxentry{final\_save()}\spxextra{ida\_lib.image\_augmentation.augment\_to\_disk.AugmentToDisk method}|hyperpage}{21}
+\indexentry{save\_item() (ida\_lib.image\_augmentation.augment\_to\_disk.AugmentToDisk method)@\spxentry{save\_item()}\spxextra{ida\_lib.image\_augmentation.augment\_to\_disk.AugmentToDisk method}|hyperpage}{21}
+\indexentry{module@\spxentry{module}!ida\_lib.image\_augmentation.data\_loader@\spxentry{ida\_lib.image\_augmentation.data\_loader}|hyperpage}{22}
+\indexentry{ida\_lib.image\_augmentation.data\_loader@\spxentry{ida\_lib.image\_augmentation.data\_loader}!module@\spxentry{module}|hyperpage}{22}
+\indexentry{AugmentDataLoader (class in ida\_lib.image\_augmentation.data\_loader)@\spxentry{AugmentDataLoader}\spxextra{class in ida\_lib.image\_augmentation.data\_loader}|hyperpage}{22}
+\indexentry{AugmentDataLoader.InnerDataset (class in ida\_lib.image\_augmentation.data\_loader)@\spxentry{AugmentDataLoader.InnerDataset}\spxextra{class in ida\_lib.image\_augmentation.data\_loader}|hyperpage}{22}
+\indexentry{module@\spxentry{module}!ida\_lib.image\_augmentation@\spxentry{ida\_lib.image\_augmentation}|hyperpage}{23}
+\indexentry{ida\_lib.image\_augmentation@\spxentry{ida\_lib.image\_augmentation}!module@\spxentry{module}|hyperpage}{23}
+\indexentry{module@\spxentry{module}!ida\_lib.operations.geometry\_ops\_functional@\spxentry{ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{23}
+\indexentry{ida\_lib.operations.geometry\_ops\_functional@\spxentry{ida\_lib.operations.geometry\_ops\_functional}!module@\spxentry{module}|hyperpage}{23}
+\indexentry{affine\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{affine\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{23}
+\indexentry{affine\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{affine\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{23}
+\indexentry{affine\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{affine\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{23}
+\indexentry{config\_scale\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{config\_scale\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{23}
+\indexentry{get\_rotation\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{get\_rotation\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{23}
+\indexentry{get\_scale\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{get\_scale\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{23}
+\indexentry{get\_shear\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{get\_shear\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{23}
+\indexentry{get\_squared\_scale\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{get\_squared\_scale\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{23}
+\indexentry{get\_squared\_shear\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{get\_squared\_shear\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{24}
+\indexentry{get\_translation\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{get\_translation\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{24}
+\indexentry{hflip\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{hflip\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{24}
+\indexentry{hflip\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{hflip\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{24}
+\indexentry{hflip\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{hflip\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{24}
+\indexentry{own\_affine() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{own\_affine()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{24}
+\indexentry{prepare\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{prepare\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{24}
+\indexentry{rotate\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{rotate\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{24}
+\indexentry{rotate\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{rotate\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{25}
+\indexentry{rotate\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{rotate\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{25}
+\indexentry{scale\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{scale\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{25}
+\indexentry{scale\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{scale\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{25}
+\indexentry{scale\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{scale\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{25}
+\indexentry{shear\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{shear\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{26}
+\indexentry{shear\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{shear\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{26}
+\indexentry{shear\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{shear\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{26}
+\indexentry{translate\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{translate\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{26}
+\indexentry{translate\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{translate\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{26}
+\indexentry{translate\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{translate\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{26}
+\indexentry{vflip\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{vflip\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{27}
+\indexentry{vflip\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{vflip\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{27}
+\indexentry{vflip\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{vflip\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}|hyperpage}{27}
+\indexentry{module@\spxentry{module}!ida\_lib.operations.pixel\_ops\_functional@\spxentry{ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{27}
+\indexentry{ida\_lib.operations.pixel\_ops\_functional@\spxentry{ida\_lib.operations.pixel\_ops\_functional}!module@\spxentry{module}|hyperpage}{27}
+\indexentry{apply\_blur() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{apply\_blur()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{27}
+\indexentry{apply\_gaussian\_blur() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{apply\_gaussian\_blur()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{27}
+\indexentry{apply\_gaussian\_noise() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{apply\_gaussian\_noise()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{27}
+\indexentry{apply\_lut\_by\_pixel\_function() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{apply\_lut\_by\_pixel\_function()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{27}
+\indexentry{apply\_poisson\_noise() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{apply\_poisson\_noise()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{27}
+\indexentry{apply\_salt\_and\_pepper\_noise() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{apply\_salt\_and\_pepper\_noise()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{27}
+\indexentry{apply\_spekle\_noise() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{apply\_spekle\_noise()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{27}
+\indexentry{blur() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{blur()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{28}
+\indexentry{change\_brightness() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{change\_brightness()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{28}
+\indexentry{change\_contrast() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{change\_contrast()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{28}
+\indexentry{change\_gamma() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{change\_gamma()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{28}
+\indexentry{gaussian\_blur() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{gaussian\_blur()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{29}
+\indexentry{gaussian\_noise() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{gaussian\_noise()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{29}
+\indexentry{get\_brightness\_function() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{get\_brightness\_function()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{29}
+\indexentry{get\_contrast\_function() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{get\_contrast\_function()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{29}
+\indexentry{get\_gamma\_function() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{get\_gamma\_function()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{29}
+\indexentry{histogram\_equalization() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{histogram\_equalization()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{29}
+\indexentry{normalize\_image() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{normalize\_image()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{29}
+\indexentry{poisson\_noise() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{poisson\_noise()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{30}
+\indexentry{prepare\_data\_for\_opencv() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{prepare\_data\_for\_opencv()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{30}
+\indexentry{salt\_and\_pepper\_noise() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{salt\_and\_pepper\_noise()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{30}
+\indexentry{spekle\_noise() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{spekle\_noise()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}|hyperpage}{30}
+\indexentry{module@\spxentry{module}!ida\_lib.operations.transforms@\spxentry{ida\_lib.operations.transforms}|hyperpage}{31}
+\indexentry{ida\_lib.operations.transforms@\spxentry{ida\_lib.operations.transforms}!module@\spxentry{module}|hyperpage}{31}
+\indexentry{hflip() (in module ida\_lib.operations.transforms)@\spxentry{hflip()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{31}
+\indexentry{vflip() (in module ida\_lib.operations.transforms)@\spxentry{vflip()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{31}
+\indexentry{affine() (in module ida\_lib.operations.transforms)@\spxentry{affine()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{31}
+\indexentry{rotate() (in module ida\_lib.operations.transforms)@\spxentry{rotate()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{31}
+\indexentry{shear() (in module ida\_lib.operations.transforms)@\spxentry{shear()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{31}
+\indexentry{scale() (in module ida\_lib.operations.transforms)@\spxentry{scale()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{32}
+\indexentry{translate() (in module ida\_lib.operations.transforms)@\spxentry{translate()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{32}
+\indexentry{change\_gamma() (in module ida\_lib.operations.transforms)@\spxentry{change\_gamma()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{32}
+\indexentry{change\_contrast() (in module ida\_lib.operations.transforms)@\spxentry{change\_contrast()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{32}
+\indexentry{change\_brightness() (in module ida\_lib.operations.transforms)@\spxentry{change\_brightness()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{33}
+\indexentry{equalize\_histogram() (in module ida\_lib.operations.transforms)@\spxentry{equalize\_histogram()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{33}
+\indexentry{inject\_gaussian\_noise() (in module ida\_lib.operations.transforms)@\spxentry{inject\_gaussian\_noise()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{33}
+\indexentry{inject\_poisson\_noise() (in module ida\_lib.operations.transforms)@\spxentry{inject\_poisson\_noise()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{34}
+\indexentry{inject\_spekle\_noise() (in module ida\_lib.operations.transforms)@\spxentry{inject\_spekle\_noise()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{34}
+\indexentry{inject\_salt\_and\_pepper\_noise() (in module ida\_lib.operations.transforms)@\spxentry{inject\_salt\_and\_pepper\_noise()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{34}
+\indexentry{blur() (in module ida\_lib.operations.transforms)@\spxentry{blur()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{35}
+\indexentry{gaussian\_blur() (in module ida\_lib.operations.transforms)@\spxentry{gaussian\_blur()}\spxextra{in module ida\_lib.operations.transforms}|hyperpage}{35}
+\indexentry{module@\spxentry{module}!ida\_lib.operations.utils@\spxentry{ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{ida\_lib.operations.utils@\spxentry{ida\_lib.operations.utils}!module@\spxentry{module}|hyperpage}{35}
+\indexentry{add\_new\_axis() (in module ida\_lib.operations.utils)@\spxentry{add\_new\_axis()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{arrays\_equal() (in module ida\_lib.operations.utils)@\spxentry{arrays\_equal()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{data\_to\_numpy() (in module ida\_lib.operations.utils)@\spxentry{data\_to\_numpy()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{dtype\_to\_torch\_type() (in module ida\_lib.operations.utils)@\spxentry{dtype\_to\_torch\_type()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{element\_to\_dict\_csv\_format() (in module ida\_lib.operations.utils)@\spxentry{element\_to\_dict\_csv\_format()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{get\_principal\_type() (in module ida\_lib.operations.utils)@\spxentry{get\_principal\_type()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{get\_torch\_image\_center() (in module ida\_lib.operations.utils)@\spxentry{get\_torch\_image\_center()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{homogeneous\_points\_to\_list() (in module ida\_lib.operations.utils)@\spxentry{homogeneous\_points\_to\_list()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{homogeneous\_points\_to\_matrix() (in module ida\_lib.operations.utils)@\spxentry{homogeneous\_points\_to\_matrix()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{is\_a\_normalized\_image() (in module ida\_lib.operations.utils)@\spxentry{is\_a\_normalized\_image()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{is\_numpy\_data() (in module ida\_lib.operations.utils)@\spxentry{is\_numpy\_data()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{keypoints\_to\_homogeneous\_and\_concatenate() (in module ida\_lib.operations.utils)@\spxentry{keypoints\_to\_homogeneous\_and\_concatenate()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{35}
+\indexentry{keypoints\_to\_homogeneous\_functional() (in module ida\_lib.operations.utils)@\spxentry{keypoints\_to\_homogeneous\_functional()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{36}
+\indexentry{map\_value() (in module ida\_lib.operations.utils)@\spxentry{map\_value()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{36}
+\indexentry{mask\_change\_to\_01\_functional() (in module ida\_lib.operations.utils)@\spxentry{mask\_change\_to\_01\_functional()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{36}
+\indexentry{remove\_digits() (in module ida\_lib.operations.utils)@\spxentry{remove\_digits()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{36}
+\indexentry{round\_torch() (in module ida\_lib.operations.utils)@\spxentry{round\_torch()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{36}
+\indexentry{save\_im() (in module ida\_lib.operations.utils)@\spxentry{save\_im()}\spxextra{in module ida\_lib.operations.utils}|hyperpage}{36}
+\indexentry{module@\spxentry{module}!ida\_lib.operations@\spxentry{ida\_lib.operations}|hyperpage}{36}
+\indexentry{ida\_lib.operations@\spxentry{ida\_lib.operations}!module@\spxentry{module}|hyperpage}{36}
+\indexentry{module@\spxentry{module}!ida\_lib.visualization@\spxentry{ida\_lib.visualization}|hyperpage}{36}
+\indexentry{ida\_lib.visualization@\spxentry{ida\_lib.visualization}!module@\spxentry{module}|hyperpage}{36}
+\indexentry{visualize() (in module ida\_lib.visualization)@\spxentry{visualize()}\spxextra{in module ida\_lib.visualization}|hyperpage}{36}
+\indexentry{plot\_image\_transformation() (in module ida\_lib.visualization)@\spxentry{plot\_image\_transformation()}\spxextra{in module ida\_lib.visualization}|hyperpage}{36}

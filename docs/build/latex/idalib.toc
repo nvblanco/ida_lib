@@ -1,0 +1,42 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}Features}{3}{chapter.1}
+\contentsline {chapter}{\numberline {2}Instalation}{5}{chapter.2}
+\contentsline {chapter}{\numberline {3}Contents}{7}{chapter.3}
+\contentsline {section}{\numberline {3.1}Overview}{7}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Functionalities}{7}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Transformations}{7}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}Visualization tool}{12}{subsection.3.1.3}
+\contentsline {section}{\numberline {3.2}API}{13}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}API packages}{13}{subsection.3.2.1}
+\contentsline {subsubsection}{ida\_lib.core package}{13}{subsubsection*.3}
+\contentsline {paragraph}{Submodules}{13}{paragraph*.4}
+\contentsline {paragraph}{ida\_lib.core.pipeline module}{13}{paragraph*.5}
+\contentsline {paragraph}{ida\_lib.core.pipeline\_functional module}{14}{paragraph*.8}
+\contentsline {paragraph}{ida\_lib.core.pipeline\_geometric\_ops module}{15}{paragraph*.15}
+\contentsline {paragraph}{ida\_lib.core.pipeline\_local\_ops module}{18}{paragraph*.62}
+\contentsline {paragraph}{ida\_lib.core.pipeline\_operations module}{19}{paragraph*.81}
+\contentsline {paragraph}{ida\_lib.core.pipeline\_pixel\_ops module}{19}{paragraph*.86}
+\contentsline {paragraph}{Module contents}{21}{paragraph*.113}
+\contentsline {subsubsection}{ida\_lib.image\_augmentation package}{21}{subsubsection*.114}
+\contentsline {paragraph}{Submodules}{21}{paragraph*.115}
+\contentsline {paragraph}{ida\_lib.image\_augmentation.augment\_to\_disk module}{21}{paragraph*.116}
+\contentsline {paragraph}{ida\_lib.image\_augmentation.data\_loader module}{22}{paragraph*.120}
+\contentsline {paragraph}{Module contents}{23}{paragraph*.123}
+\contentsline {subsubsection}{ida\_lib.operations package}{23}{subsubsection*.124}
+\contentsline {paragraph}{Submodules}{23}{paragraph*.125}
+\contentsline {paragraph}{ida\_lib.operations.geometry\_ops\_functional module}{23}{paragraph*.126}
+\contentsline {paragraph}{ida\_lib.operations.pixel\_ops\_functional module}{27}{paragraph*.157}
+\contentsline {paragraph}{ida\_lib.operations.transforms module}{31}{paragraph*.180}
+\contentsline {paragraph}{ida\_lib.operations.utils module}{35}{paragraph*.198}
+\contentsline {paragraph}{Module contents}{36}{paragraph*.217}
+\contentsline {subsection}{\numberline {3.2.2}Submodules}{36}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}ida\_lib.visualization module}{36}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}Examples}{36}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Pipeline usage example}{36}{subsection.3.3.1}
+\contentsline {subsubsection}{Pipeline Usage example}{36}{subsubsection*.220}
+\contentsline {subsubsection}{Dataloader Usage example}{38}{subsubsection*.221}
+\contentsline {subsubsection}{Image Augmentation to Disk example}{40}{subsubsection*.222}
+\contentsline {subsubsection}{Pipeline Usage example}{41}{subsubsection*.223}
+\contentsline {chapter}{\numberline {4}Indices and tables}{43}{chapter.4}
+\contentsline {chapter}{Python Module Index}{45}{section*.224}
+\contentsline {chapter}{Index}{47}{section*.225}
