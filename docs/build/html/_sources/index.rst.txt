@@ -53,3 +53,11 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+
+Acknowledgements
+--------------------
+
+* Nicolás Vila Blanco : project co-author
+* María José Carreira Nouche: project co-author
+* CITiUS: support company
