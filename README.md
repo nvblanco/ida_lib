@@ -14,7 +14,7 @@ The library is optimized to perform operations in the most efficient way possibl
 
 ## Features
 
-* **Multiple fast augmentations** based on Kornia an OpenCV libraries [pookie](#pookie)
+* [**Multiple fast augmentations**](#pookie) based on Kornia an OpenCV libraries
 * **Flexible**
 * Complete tool, includes support for tasks associated with Pytorch-based neural networks
   * includes **support for a dataloader to directly feed the neural network** including Image Data Augmentation tool
