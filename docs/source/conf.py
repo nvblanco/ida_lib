@@ -32,11 +32,6 @@ html_theme_options = {
 # Register the theme as an extension to generate a sitemap.xml
 
 
-# Guzzle theme options (see theme.conf for more information)
-html_theme_options = {
-    # Set the name of the project to appear in the sidebar
-    "project_nav_name": "Project Name",
-}
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
