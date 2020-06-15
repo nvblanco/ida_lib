@@ -3,9 +3,19 @@ from __future__ import print_function
 import os
 import os.path
 import sys
+import torch
+import torch.optim as optim
+import matplotlib.pyplot as plt
+import numpy as np
+import torch.nn as nn
+import torch.nn.functional as F
+
+from ida_lib.core.pipeline_geometric_ops import HflipPipeline, RandomShearPipeline, \
+    RandomRotatePipeline
+from ida_lib.core.pipeline_pixel_ops import NormalizePipeline, RandomContrastPipeline
+from ida_lib.image_augmentation.data_loader import AugmentDataLoader
 
 import kornia
-
 if sys.version_info[0] == 2:
     import cPickle as pickle
 else:
@@ -16,7 +26,7 @@ from torchvision.datasets.utils import download_url, check_integrity
 
 '''https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#define-a-convolutional-neural-network'''
 
-
+# create a custom cifar Dataset to read the data
 class custom_CIFAR10(data.Dataset):
     """`CIFAR10 <https://www.cs.toronto.edu/~kriz/cifar.html>`_ Dataset.
 
@@ -153,60 +163,7 @@ class custom_CIFAR10(data.Dataset):
         tar.close()
         os.chdir(cwd)
 
-
-import torch
-import torch.optim as optim
-
-import torch.nn as nn
-import torch.nn.functional as F
-
-from ida_lib.core.pipeline_geometric_ops import HflipPipeline, RandomShearPipeline, \
-    RandomRotatePipeline
-from ida_lib.core.pipeline_pixel_ops import NormalizePipeline, RandomContrastPipeline
-from ida_lib.image_augmentation.data_loader import AugmentDataLoader
-
-trainset = custom_CIFAR10(root='./data', train=True,
-                          download=True)
-
-trainloader = AugmentDataLoader(dataset=trainset,
-                                batch_size=4,
-                                shuffle=True,
-                                resize=(500, 500),
-                                pipeline_operations=(NormalizePipeline(probability=1),
-                                                     HflipPipeline(probability=1),
-                                                     RandomRotatePipeline(probability=0, degrees_range=(-15, 15)),
-                                                     RandomContrastPipeline(probability=0, contrast_range=(0.8, 1.2)),
-                                                     RandomShearPipeline(probability=0, shear_range=(0, 0.5))),
-                                interpolation='bilinear',
-                                padding_mode='zeros',
-                                output_format='tuple',
-                                output_type=torch.float32
-                                )
-
-testset = custom_CIFAR10(root='./data', train=False,
-                         download=True)
-testloader = AugmentDataLoader(dataset=testset,
-                               batch_size=4,
-                               shuffle=False,
-                               pipeline_operations=(NormalizePipeline(probability=1),
-                                                    HflipPipeline(probability=0.5),
-                                                    RandomRotatePipeline(probability=0.8, degrees_range=(-15, 15)),
-                                                    RandomContrastPipeline(probability=0, contrast_range=(0.8, 1.2)),
-                                                    RandomShearPipeline(probability=0, shear_range=(0, 0.5))),
-                               interpolation='bilinear',
-                               padding_mode='zeros',
-                               output_format='tuple',
-                               output_type=torch.float32
-                               )
-
-classes = ('plane', 'car', 'bird', 'cat',
-           'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
-PATH = './cifar_net2.pth'
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-
+#auxiliar function to plot batches images
 def plot_tuple_batch(images, labels):
     batch_size = images.shape[0]
     images = images.cpu()
@@ -220,16 +177,10 @@ def plot_tuple_batch(images, labels):
         axs[i].imshow(img)
     plt.show()
 
-
-# get some random training images
-dataiter = iter(trainloader)
-images, labels = dataiter.next()
-
-plot_tuple_batch(images, labels)
-
-
-# defining the net
-
+# initialize train dataset
+trainset = custom_CIFAR10(root='./data', train=True,
+                          download=True)
+# define the cnn model
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -249,7 +200,7 @@ class Net(nn.Module):
         x = self.fc3(x)
         return x
 
-
+# def train loop
 def train():
     net = Net()
     net = net.cuda()
@@ -287,7 +238,7 @@ def train():
     print('Finished Training')
     torch.save(net.state_dict(), PATH)
 
-
+#def test loop
 def test():
     images, labels = dataiter.next()
 
@@ -320,5 +271,55 @@ def test():
         print('Accuracy of %5s : %2d %%' % (
             classes[i], 100 * class_correct[i] / class_total[i]))
 
+# Create the dataloader with ida_lib augmentations
+trainloader = AugmentDataLoader(dataset=trainset,
+                                batch_size=4,
+                                shuffle=True,
+                                resize=(500, 500),
+                                pipeline_operations=(NormalizePipeline(probability=1),
+                                                     HflipPipeline(probability=1),
+                                                     RandomRotatePipeline(probability=0, degrees_range=(-15, 15)),
+                                                     RandomContrastPipeline(probability=0, contrast_range=(0.8, 1.2)),
+                                                     RandomShearPipeline(probability=0, shear_range=(0, 0.5))),
+                                interpolation='bilinear',
+                                padding_mode='zeros',
+                                output_format='tuple',
+                                output_type=torch.float32
+                                )
+# initialize test dataset
+testset = custom_CIFAR10(root='./data', train=False,
+                         download=True)
 
+# Create the dataloader with ida_lib augmentations
+testloader = AugmentDataLoader(dataset=testset,
+                               batch_size=4,
+                               shuffle=False,
+                               pipeline_operations=(NormalizePipeline(probability=1),
+                                                    HflipPipeline(probability=0.5),
+                                                    RandomRotatePipeline(probability=0.8, degrees_range=(-15, 15)),
+                                                    RandomContrastPipeline(probability=0, contrast_range=(0.8, 1.2)),
+                                                    RandomShearPipeline(probability=0, shear_range=(0, 0.5))),
+                               interpolation='bilinear',
+                               padding_mode='zeros',
+                               output_format='tuple',
+                               output_type=torch.float32
+                               )
+# clases
+classes = ('plane', 'car', 'bird', 'cat',
+           'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
+# path to save weights
+PATH = './cifar_net2.pth'
+
+
+# get some random training images
+dataiter = iter(trainloader)
+images, labels = dataiter.next()
+
+# plot some items of train
+plot_tuple_batch(images, labels)
+
+# train the net
 train()
+
+# test the results
+test()
