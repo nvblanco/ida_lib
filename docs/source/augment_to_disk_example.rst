@@ -6,6 +6,7 @@ Image Augmentation to Disk example
 
 .. code-block::
 
+
     import os
 
     import numpy as np

@@ -5,3 +5,5 @@ Pipeline Usage example
 ======================
 
 .. code-block::
+
+    #deploy

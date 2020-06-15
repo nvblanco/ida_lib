@@ -4,26 +4,6 @@ import sys
 
 html_theme = "sphinx_rtd_theme"
 html_logo = 'icon.png'
-html_theme_options = {
-
-    # Set the path to a special layout to include for the homepage
-    "index_template": "special_index.html",
-
-
-    'logo_only': True,
-    'display_version': True,
-    "html_logo": "icon.png",
-
-    # Allow the project link to be overriden to a custom URL.
-    "projectlink": "https://github.com/raquelvilas18/ida_lib",
-
-
-    # If False, expand all TOC entries
-    "globaltoc_collapse": False,
-
-    # If True, show hidden TOC entries
-    "globaltoc_includehidden": False,
-}
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.append(os.path.join(os.path.dirname(__name__), '..'))
 
