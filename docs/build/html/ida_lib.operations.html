@@ -1,0 +1,1222 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ida_lib.operations package &mdash; IdaLib 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="ida_lib.image_augmentation package" href="ida_lib.image_augmentation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> IdaLib
+          
+
+          
+            
+            <img src="_static/icon.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ida_lib.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ida_lib.html#api-packages">API packages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ida_lib.core.html">ida_lib.core package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ida_lib.image_augmentation.html">ida_lib.image_augmentation package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ida_lib.operations package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.operations.geometry_ops_functional">ida_lib.operations.geometry_ops_functional module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.operations.pixel_ops_functional">ida_lib.operations.pixel_ops_functional module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.operations.transforms">ida_lib.operations.transforms module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.operations.utils">ida_lib.operations.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.operations">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ida_lib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ida_lib.html#module-ida_lib.visualization">ida_lib.visualization module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IdaLib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ida_lib.html">API</a> &raquo;</li>
+        
+      <li>ida_lib.operations package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ida_lib.operations.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ida-lib-operations-package">
+<h1>ida_lib.operations package<a class="headerlink" href="#ida-lib-operations-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-ida_lib.operations.geometry_ops_functional">
+<span id="ida-lib-operations-geometry-ops-functional-module"></span><h2>ida_lib.operations.geometry_ops_functional module<a class="headerlink" href="#module-ida_lib.operations.geometry_ops_functional" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.affine_compose_data">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">affine_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.affine_compose_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>matrix</strong> – matrix of transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.affine_coordinates_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">affine_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">matrix_transformation</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.affine_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.affine_image">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">affine_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'bilinear'</span></em>, <em class="sig-param"><span class="n">padding_mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'zeros'</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.affine_image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.config_scale_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">config_scale_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scale_factor</span></em>, <em class="sig-param"><span class="n">center</span></em>, <em class="sig-param"><span class="n">matrix</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.config_scale_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.get_rotation_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_rotation_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_rotation_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.get_scale_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_scale_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union[float, None._VariableFunctions.tensor]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_scale_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.get_shear_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_shear_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shear_factor</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_shear_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.get_squared_scale_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_squared_scale_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union[float, None._VariableFunctions.tensor]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_squared_scale_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.get_squared_shear_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_squared_shear_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shear_factor</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_squared_shear_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.get_translation_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_translation_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_translation_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.hflip_compose_data">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">hflip_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.hflip_compose_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – dict of elements to be transformed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.hflip_coordinates_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">hflip_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">width</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.hflip_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.hflip_image">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">hflip_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.hflip_image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.own_affine">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">own_affine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tensor</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'bilinear'</span></em>, <em class="sig-param"><span class="n">padding_mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'border'</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.own_affine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply an affine transformation to the image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tensor</strong> – The image tensor to be warped.</p></li>
+<li><p><strong>matrix</strong> – The 2x3 affine transformation matrix.</p></li>
+<li><p><strong>interpolation</strong> – interpolation mode to calculate output values
+‘bilinear’ | ‘nearest’. Default: ‘bilinear’.</p></li>
+<li><p><strong>padding_mode</strong> – padding mode for outside grid values
+‘zeros’ | ‘border’ | ‘reflection’. Default: ‘zeros’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The warped image.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.prepare_data">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">prepare_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.prepare_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator that prepares the input data to apply the geometric transformation. For this purpose, it concatenates all
+the two-dimensional elements of the input data in the same tensor on which a single transformation is applied.  If
+the input data contains point coordinates, they are grouped in a matrix as homogeneous coordinates, over which a
+single matrix multiplication is performed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>func</strong> – geometric function to be applied to the data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>processed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.rotate_compose_data">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">rotate_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.rotate_compose_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>degrees</strong> – counterclockwise degrees of rotation</p></li>
+<li><p><strong>center</strong> – center of rotation. Default, center of the image</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.rotate_coordinates_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">rotate_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.rotate_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.rotate_image">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">rotate_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.rotate_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>mode</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.scale_compose_data">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">scale_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union[float, None._VariableFunctions.tensor]</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">Optional[None._VariableFunctions.tensor]</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.scale_compose_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>scale_factor</strong> – factor of scaling</p></li>
+<li><p><strong>center</strong> – center of scaling. By default its taken the center of the image</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.scale_coordinates_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">scale_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.scale_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.scale_image">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">scale_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.scale_image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.shear_compose_data">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">shear_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">shear_factor</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.shear_compose_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>shear_factor</strong> – pixels of shearing</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.shear_coordinates_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">shear_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.shear_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.shear_image">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">shear_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">shear_factor</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.shear_image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.translate_compose_data">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">translate_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">Union[int, None._VariableFunctions.tensor]</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.translate_compose_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>translation</strong> – number of pixels to translate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.translate_coordinates_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">translate_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.translate_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.translate_image">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">translate_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.translate_image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.vflip_compose_data">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">vflip_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.vflip_compose_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – dict of elements to be transformed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.vflip_coordinates_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">vflip_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">height</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.vflip_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.geometry_ops_functional.vflip_image">
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">vflip_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.vflip_image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-ida_lib.operations.pixel_ops_functional">
+<span id="ida-lib-operations-pixel-ops-functional-module"></span><h2>ida_lib.operations.pixel_ops_functional module<a class="headerlink" href="#module-ida_lib.operations.pixel_ops_functional" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.apply_blur">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">apply_blur</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">blur_size</span><span class="o">=</span><span class="default_value">5, 5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.apply_blur" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.apply_gaussian_blur">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">apply_gaussian_blur</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">blur_size</span><span class="o">=</span><span class="default_value">5, 5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.apply_gaussian_blur" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> – input image to be transformed</p></li>
+<li><p><strong>blur_size</strong> – number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns the transformed image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.apply_gaussian_noise">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">apply_gaussian_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">var</span><span class="o">=</span><span class="default_value">20</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.apply_gaussian_noise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.apply_lut_by_pixel_function">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">apply_lut_by_pixel_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.apply_lut_by_pixel_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the input operation to the image using a LUT</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function</strong> – Mathematical function that represents the operation to carry out in each pixel of the image</p></li>
+<li><p><strong>image</strong> – input image</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.apply_poisson_noise">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">apply_poisson_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.apply_poisson_noise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.apply_salt_and_pepper_noise">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">apply_salt_and_pepper_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">amount</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">s_vs_p</span><span class="o">=</span><span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.apply_salt_and_pepper_noise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.apply_spekle_noise">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">apply_spekle_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">mean</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">var</span><span class="o">=</span><span class="default_value">0.01</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.apply_spekle_noise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.blur">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">blur</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctions.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">blur_size</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctions.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.blur" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> – input image to be transformed</p></li>
+<li><p><strong>blur_size</strong> – number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns the transformed image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.change_brightness">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">change_brightness</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctions.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">brightness</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctions.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.change_brightness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the brightness of the input image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> – input image to be normalized</p></li>
+<li><p><strong>brightness</strong> – desired amount of brightness for the image
+0 - no brightness
+1 - same
+2 - max brightness</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.change_contrast">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">change_contrast</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctions.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">contrast</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctions.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.change_contrast" title="Permalink to this definition">¶</a></dt>
+<dd><p>:param image  : input image to be transformed
+:param contrast: modification factor to be applied to the image contrast</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>0  - total contrast removal</p></li>
+<li><p>1  - dont modify</p></li>
+<li><p>&gt;1 - augment contrast</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>returns the transformed image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.change_gamma">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">change_gamma</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctions.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">gamma</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctions.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.change_gamma" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> – input image to be transformed</p></li>
+<li><p><strong>gamma</strong> – desired factor gamma
+* gamma = 0 -&gt; removes image luminance (black output image)
+* gamma = 1 -&gt; remains unchanged
+* gamma &gt; 1 -&gt; increases luminance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns the transformed image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.gaussian_blur">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">gaussian_blur</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctions.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">blur_size</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctions.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.gaussian_blur" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> – input image to be transformed</p></li>
+<li><p><strong>blur_size</strong> – number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns the transformed image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.gaussian_noise">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">gaussian_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctions.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">var</span><span class="o">=</span><span class="default_value">20</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctions.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.gaussian_noise" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> – input image to be transformed</p></li>
+<li><p><strong>var</strong> – var of the gaussian distribution of noise</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns the transformed image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.get_brightness_function">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">get_brightness_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">brightness</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.get_brightness_function" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>brightness</strong> – brightness factor</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return the lambda function of the brightness operation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.get_contrast_function">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">get_contrast_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">contrast</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.get_contrast_function" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>contrast</strong> – modification factor to be applied to the image contrast</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Return the lambda function of the contrast operation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.get_gamma_function">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">get_gamma_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gamma</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.get_gamma_function" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gamma</strong> – desired factor gamma</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the lambda function of the gamma adjust operation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.histogram_equalization">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">histogram_equalization</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctions.tensor, numpy.ndarray]</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctions.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.histogram_equalization" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img</strong> – input image to be transformed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns the transformed image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.normalize_image">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">normalize_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">norm_type</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">32</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.normalize_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the input image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> – input image to be normalized</p></li>
+<li><p><strong>norm_type</strong> – opencv normalization type (‘ cv2.NORM_MINMAX’ <a href="#id1"><span class="problematic" id="id2">|</span></a>cv2.NORM_HAMMING <a href="#id3"><span class="problematic" id="id4">|</span></a>cv2.NORM_HAMMING2
+<a href="#id5"><span class="problematic" id="id6">|</span></a>cv2.NORM_INF <a href="#id7"><span class="problematic" id="id8">|</span></a>cv2.NORM_RELATIVE …)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>normalized image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.poisson_noise">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">poisson_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctions.tensor, numpy.ndarray]</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctions.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.poisson_noise" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>image</strong> – input image to be transformed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns the transformed image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.prepare_data_for_opencv">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">prepare_data_for_opencv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.prepare_data_for_opencv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator that prepares the input data to apply the transformation that only affects the image (color).
+:param func: color function to be applied to the data
+:return: processed data</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.salt_and_pepper_noise">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">salt_and_pepper_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctions.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">amount</span></em>, <em class="sig-param"><span class="n">s_vs_p</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctions.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.salt_and_pepper_noise" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> – input image to be transformed</p></li>
+<li><p><strong>amount</strong> – percentage of image’s pixels to be occupied by noise</p></li>
+<li><p><strong>s_vs_p</strong> – percentage of salt respect total noise. Default same salt (white pixel) as pepper (black pixels)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns the transformed image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.pixel_ops_functional.spekle_noise">
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">spekle_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctions.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">mean</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">var</span><span class="o">=</span><span class="default_value">0.01</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctions.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.spekle_noise" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> – input image to be transformed</p></li>
+<li><p><strong>mean</strong> – mean of noise distribution</p></li>
+<li><p><strong>var</strong> – variance of noise distribution</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns the transformed image</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-ida_lib.operations.transforms">
+<span id="ida-lib-operations-transforms-module"></span><h2>ida_lib.operations.transforms module<a class="headerlink" href="#module-ida_lib.operations.transforms" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.hflip">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">hflip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.transforms.hflip" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Horizontally flip the input data.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.vflip">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">vflip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.transforms.vflip" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Vertically  flip the input data.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.affine">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">affine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.transforms.affine" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Applies affine transformation to the data</p>
+</div></blockquote>
+<p>:param data  dict of elements to be transformed
+:param matrix: matrix of transformation
+:param visualize: if true it activates the display tool to debug the transformation
+:return: transformed data</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.rotate">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">rotate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">Union[None, torch.Tensor]</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.transforms.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Rotate each element of the input data by the indicated degrees counterclockwise</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>degrees</strong> – degrees of rotation</p></li>
+<li><p><strong>center</strong> – center of rotation. If center is None, it is taken the center of the image to apply the rotation</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.shear">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">shear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">shear_factor</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.transforms.shear" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Shear input data by the input shear factor</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>shear_factor</strong> – pixels to shear</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.scale">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">scale</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">scale_factor</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">Union[None, torch.Tensor]</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.transforms.scale" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Scale each element of the input data by the input factor.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>scale_factor</strong> – factor of scaling to be applied
+* scale_factor &lt; 1 -&gt; output image is smaller than input one
+* scale_factor = 1 -&gt; output image is is the same as the input image
+* scale_factor = 2 -&gt; each original pixel occupies 2 pixels in the output image</p></li>
+<li><p><strong>center</strong> – center of scaling. If center is None, it is taken the center of the image to apply the scale</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.translate">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">translate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.transforms.translate" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Translate input by the input translation.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>translation</strong> – number of pixels to be translated</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.change_gamma">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">change_gamma</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">gamma</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.transforms.change_gamma" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Adjust image’s gamma (luminance correction) . if the input data is a dictionary, only those corresponding</p>
+</div></blockquote>
+<p>to an image are altered</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>gamma</strong> – <p>desired gamma factor (luminance of image)</p>
+<ul>
+<li><p>gamma = 0 -&gt; removes image luminance (black output image)</p></li>
+<li><p>gamma = 1 -&gt; remains unchanged</p></li>
+<li><p>gamma &gt; 1 -&gt; increases luminance</p></li>
+</ul>
+</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.change_contrast">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">change_contrast</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">contrast</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.transforms.change_contrast" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Change the image contrast. if the input data is a dictionary, only those corresponding to an image are altered</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>contrast</strong> – desired contrast factor to the data
+* contrast = 0 -&gt; removes image contrast (white output image)
+* contrast = 1 -&gt; remains unchanged
+* contrast &gt; 1 -&gt; increases contrast</p></li>
+</ul>
+</dd>
+</dl>
+<p>:param visualize  : if true it activates the display tool to debug the transformation
+:return: transformed data</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.change_brightness">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">change_brightness</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">bright</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.transforms.change_brightness" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Change the image brightness. if the input data is a dictionary, only those corresponding to an image are altered</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>bright</strong> – <p>desired brightness amount for the data</p>
+<ul>
+<li><p>brightness = 0 -&gt; removes image brightness (black output image)</p></li>
+<li><p>brightness = 1 -&gt; remains unchanged</p></li>
+<li><p>brightness &gt; 1 -&gt; increases brightness</p></li>
+</ul>
+</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.equalize_histogram">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">equalize_histogram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.transforms.equalize_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Equalize image histogram. if the input data is a dictionary, only those corresponding to an image are altered</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.inject_gaussian_noise">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">inject_gaussian_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">var</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.transforms.inject_gaussian_noise" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Inject gaussian noise. If the input data is a dictionary, only those corresponding to an image are altered</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>var</strong> – variance of the noise distribution</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.inject_poisson_noise">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">inject_poisson_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.transforms.inject_poisson_noise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inject poisson noise. if the input data is a dictionary, only those corresponding to an image are altered</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.inject_spekle_noise">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">inject_spekle_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">mean</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">var</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.transforms.inject_spekle_noise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inject poisson noise. if the input data is a dictionary, only those corresponding to an image are altered</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>mean</strong> – mean of noise distribution</p></li>
+<li><p><strong>var</strong> – variance of noise distribution</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.inject_salt_and_pepper_noise">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">inject_salt_and_pepper_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">amount</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">s_vs_p</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.transforms.inject_salt_and_pepper_noise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inject salt and pepper noise if the input data is a dictionary, only those corresponding to an image are altered</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>amount</strong> – percentage of image’s pixels to be occupied by noise</p></li>
+</ul>
+</dd>
+</dl>
+<p>:param s_vs_p : noise type distribution. Default same salt (white pixel) as pepper (black pixels)
+:param visualize: if true it activates the display tool to debug the transformation
+:return: transformed data</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.blur">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">blur</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">blur_size</span><span class="o">=</span><span class="default_value">5, 5</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.transforms.blur" title="Permalink to this definition">¶</a></dt>
+<dd><p>Blur image.  if the input data is a dictionary, only those corresponding to an image are altered</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>blur_size</strong> – number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.transforms.gaussian_blur">
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">gaussian_blur</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">blur_size</span><span class="o">=</span><span class="default_value">5, 5</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.Tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.transforms.gaussian_blur" title="Permalink to this definition">¶</a></dt>
+<dd><p>Blurring an image by a Gaussian function.  if the input data is a dictionary, only those corresponding to an
+image are altered</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict of elements to be transformed</p></li>
+<li><p><strong>blur_size</strong> – number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)</p></li>
+<li><p><strong>visualize</strong> – if true it activates the display tool to debug the transformation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-ida_lib.operations.utils">
+<span id="ida-lib-operations-utils-module"></span><h2>ida_lib.operations.utils module<a class="headerlink" href="#module-ida_lib.operations.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="ida_lib.operations.utils.add_new_axis">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">add_new_axis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arr</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.add_new_axis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.arrays_equal">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">arrays_equal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arr1</span></em>, <em class="sig-param"><span class="n">arr2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.arrays_equal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.data_to_numpy">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">data_to_numpy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.data_to_numpy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.dtype_to_torch_type">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">dtype_to_torch_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">im_type</span><span class="p">:</span> <span class="n">numpy.dtype</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.dtype_to_torch_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maps the numpy type to the equivalent torch.type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>im_type</strong> – numpy type</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>torch.type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.element_to_dict_csv_format">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">element_to_dict_csv_format</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.element_to_dict_csv_format" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.get_principal_type">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">get_principal_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.get_principal_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.get_torch_image_center">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">get_torch_image_center</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.get_torch_image_center" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.homogeneous_points_to_list">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">homogeneous_points_to_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keypoints</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.homogeneous_points_to_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.homogeneous_points_to_matrix">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">homogeneous_points_to_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keypoints</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.homogeneous_points_to_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.is_a_normalized_image">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">is_a_normalized_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.is_a_normalized_image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.is_numpy_data">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">is_numpy_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.is_numpy_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.keypoints_to_homogeneous_and_concatenate">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">keypoints_to_homogeneous_and_concatenate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keypoints</span></em>, <em class="sig-param"><span class="n">resize_factor</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.keypoints_to_homogeneous_and_concatenate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.keypoints_to_homogeneous_functional">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">keypoints_to_homogeneous_functional</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keypoints</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.keypoints_to_homogeneous_functional" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.map_value">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">map_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">in_min</span></em>, <em class="sig-param"><span class="n">in_max</span></em>, <em class="sig-param"><span class="n">out_min</span></em>, <em class="sig-param"><span class="n">out_max</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.map_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.mask_change_to_01_functional">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">mask_change_to_01_functional</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.mask_change_to_01_functional" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.remove_digits">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">remove_digits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.remove_digits" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.round_torch">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">round_torch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arr</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span></em>, <em class="sig-param"><span class="n">n_digits</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.round_torch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.operations.utils.save_im">
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">save_im</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tensor</span></em>, <em class="sig-param"><span class="n">title</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.save_im" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-ida_lib.operations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ida_lib.operations" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ida_lib.image_augmentation.html" class="btn btn-neutral float-left" title="ida_lib.image_augmentation package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Raquel Vilas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

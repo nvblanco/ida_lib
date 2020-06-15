@@ -7,7 +7,6 @@ import numpy as np
 import torch
 
 from . import utils
-from .utils import tensor_to_image
 from ..visualization import plot_image_transformation
 
 
@@ -37,12 +36,12 @@ def prepare_data_for_opencv(func):
         if torch.is_tensor(image):
             image_type = 'tensor'
             original_type = image.dtype
-            image = tensor_to_image(image.byte())
+            image = kornia.tensor_to_image(image.byte())
         else:
             image_type = 'numpy'
             original_type = image.dtype
         if visualize:
-            original = image
+            original = image.copy()
 
         image = func(image, *args, **kwargs)  # Execute transform
 
@@ -68,6 +67,7 @@ def prepare_data_for_opencv(func):
 def apply_lut_by_pixel_function(function, image: np.ndarray) -> np.ndarray:
     """
     Applies the input operation to the image using a LUT
+
     :param function: Mathematical function that represents the operation to carry out in each pixel of the image
     :param image: input image
     :return:
@@ -84,6 +84,7 @@ def apply_lut_by_pixel_function(function, image: np.ndarray) -> np.ndarray:
 def normalize_image(img: np.ndarray, norm_type: int = cv2.NORM_MINMAX) -> np.ndarray:
     """
     Normalize the input image
+
     :param img: input image to be normalized
     :param norm_type: opencv normalization type (' cv2.NORM_MINMAX' |cv2.NORM_HAMMING |cv2.NORM_HAMMING2
                         |cv2.NORM_INF |cv2.NORM_RELATIVE ...)
@@ -94,6 +95,7 @@ def normalize_image(img: np.ndarray, norm_type: int = cv2.NORM_MINMAX) -> np.nda
 
 def get_brightness_function(brightness: int):
     """
+
     :param brightness: brightness factor
     :return:    Return the lambda function of the brightness operation
     """
@@ -105,6 +107,7 @@ def change_brightness(image: Union[dict, torch.tensor, np.ndarray], brightness: 
     dict, torch.tensor, np.ndarray]:
     """
     Change the brightness of the input image.
+
     :param image: input image to be normalized
     :param brightness: desired amount of brightness for the image
                  0 - no brightness
@@ -121,6 +124,7 @@ def change_brightness(image: Union[dict, torch.tensor, np.ndarray], brightness: 
 @prepare_data_for_opencv
 def change_contrast(image: Union[dict, torch.tensor, np.ndarray], contrast) -> Union[dict, torch.tensor, np.ndarray]:
     """
+
     :param image  : input image to be transformed
     :param contrast: modification factor to be applied to the image contrast
             * 0  - total contrast removal
@@ -144,8 +148,9 @@ def get_contrast_function(contrast: float):
 @prepare_data_for_opencv
 def change_gamma(image: Union[dict, torch.tensor, np.ndarray], gamma: float) -> Union[dict, torch.tensor, np.ndarray]:
     """
-    :param image : input image to be transformed
-    :param gamma : desired factor gamma
+
+    :param image: input image to be transformed
+    :param gamma: desired factor gamma
             * gamma = 0 -> removes image luminance (black output image)
             * gamma = 1 -> remains unchanged
             * gamma > 1 -> increases luminance
@@ -157,7 +162,8 @@ def change_gamma(image: Union[dict, torch.tensor, np.ndarray], gamma: float) -> 
 
 def get_gamma_function(gamma):
     """
-    :param gamma : desired factor gamma
+
+    :param gamma: desired factor gamma
     :return: Returns the lambda function of the gamma adjust operation
     """
     return lambda x: pow(x / 255, gamma) * 255
@@ -166,8 +172,9 @@ def get_gamma_function(gamma):
 @prepare_data_for_opencv
 def gaussian_noise(image: Union[dict, torch.tensor, np.ndarray], var=20) -> Union[dict, torch.tensor, np.ndarray]:
     """
-    :param image  : input image to be transformed
-    :param var    : var of the gaussian distribution of noise
+
+    :param image: input image to be transformed
+    :param var: var of the gaussian distribution of noise
     :return: returns the transformed image
     """
     original_type = image.dtype
@@ -178,9 +185,10 @@ def gaussian_noise(image: Union[dict, torch.tensor, np.ndarray], var=20) -> Unio
 def salt_and_pepper_noise(image: Union[dict, torch.tensor, np.ndarray], amount, s_vs_p) -> Union[
     dict, torch.tensor, np.ndarray]:
     """
-    :param image : input image to be transformed
+
+    :param image: input image to be transformed
     :param amount: percentage of image's pixels to be occupied by noise
-    :param s_vs_p : percentage of salt respect total noise. Default same salt (white pixel) as pepper (black pixels)
+    :param s_vs_p: percentage of salt respect total noise. Default same salt (white pixel) as pepper (black pixels)
     :return: returns the transformed image
     """
     return apply_salt_and_pepper_noise(image, amount, s_vs_p)
@@ -189,7 +197,8 @@ def salt_and_pepper_noise(image: Union[dict, torch.tensor, np.ndarray], amount, 
 @prepare_data_for_opencv
 def poisson_noise(image: Union[dict, torch.tensor, np.ndarray]) -> Union[dict, torch.tensor, np.ndarray]:
     """
-    :param image : input image to be transformed
+
+    :param image: input image to be transformed
     :return: returns the transformed image
     """
     original_type = image.dtype
@@ -200,9 +209,10 @@ def poisson_noise(image: Union[dict, torch.tensor, np.ndarray]) -> Union[dict, t
 def spekle_noise(image: Union[dict, torch.tensor, np.ndarray], mean=0, var=0.01) -> Union[
     dict, torch.tensor, np.ndarray]:
     """
-    :param image : input image to be transformed
-    :param mean  : mean of noise distribution
-    :param var   : variance of noise distribution
+
+    :param image: input image to be transformed
+    :param mean: mean of noise distribution
+    :param var: variance of noise distribution
     :return: returns the transformed image
     """
     original_type = image.dtype
@@ -212,7 +222,8 @@ def spekle_noise(image: Union[dict, torch.tensor, np.ndarray], mean=0, var=0.01)
 @prepare_data_for_opencv
 def histogram_equalization(img: Union[dict, torch.tensor, np.ndarray]) -> Union[dict, torch.tensor, np.ndarray]:
     """
-    :param img : input image to be transformed
+
+    :param img: input image to be transformed
     :return: returns the transformed image
     """
     for channel in range(img.shape[2]):
@@ -223,8 +234,9 @@ def histogram_equalization(img: Union[dict, torch.tensor, np.ndarray]) -> Union[
 @prepare_data_for_opencv
 def gaussian_blur(img: Union[dict, torch.tensor, np.ndarray], blur_size) -> Union[dict, torch.tensor, np.ndarray]:
     """
-    :param img : input image to be transformed
-    :param blur_size : number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)
+
+    :param img: input image to be transformed
+    :param blur_size: number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)
     :return: returns the transformed image
     """
     return apply_gaussian_blur(img, blur_size)
@@ -233,8 +245,9 @@ def gaussian_blur(img: Union[dict, torch.tensor, np.ndarray], blur_size) -> Unio
 @prepare_data_for_opencv
 def blur(img: Union[dict, torch.tensor, np.ndarray], blur_size) -> Union[dict, torch.tensor, np.ndarray]:
     """
-    :param img : input image to be transformed
-    :param blur_size : number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)
+
+    :param img: input image to be transformed
+    :param blur_size: number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)
     :return: returns the transformed image
     """
     return apply_gaussian_blur(img, blur_size)
@@ -242,8 +255,9 @@ def blur(img: Union[dict, torch.tensor, np.ndarray], blur_size) -> Union[dict, t
 
 def apply_gaussian_blur(img, blur_size=(5, 5)):
     """
-    :param img : input image to be transformed
-    :param blur_size  :number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)
+
+    :param img: input image to be transformed
+    :param blur_size: number of surrounding pixels affecting each output pixel. (pixels on axis X, pixels on axis y)
     :return: returns the transformed image
     """
     return cv2.GaussianBlur(img, blur_size, cv2.BORDER_DEFAULT)

@@ -13,7 +13,7 @@ from bokeh.plotting import figure
 
 __all__ = ['visualize', 'plot_image_transformation']
 
-from ida_lib.operations.utils import get_principal_type, tensor_to_image
+from ida_lib.operations.utils import get_principal_type
 
 PLOT_SIZE = (550, 550)
 
@@ -115,7 +115,7 @@ def _process_points(points):
 def _generate_image_plot(img, tittle):
     if torch.is_tensor(img):
         img = img.to('cpu')
-        img = tensor_to_image(img.byte())
+        img = kornia.tensor_to_image(img.byte())
     aspect = img.shape[0] / img.shape[1]
     img = _process_image(img)
 
@@ -292,6 +292,7 @@ def generate_item_tab(data, data_original, heatmap_labels, mask_types, points_ty
 def visualize(images: dict, images_originals: dict, max_images: int = 5):
     """
     Generate the bokeh plot of the input batch transformation
+
     :param images: list of transformed items (dict of image and other  objects)
     :param images_originals: list of original items (dict of image and other  objects)
     :param max_images: max number of tabs to be shown
@@ -326,6 +327,7 @@ def visualize(images: dict, images_originals: dict, max_images: int = 5):
 def plot_image_transformation(data, data_original):
     """
         Generate the bokeh plot of the input batch transformation
+
         :param data: input dict element
         :param data_original: original input element (before transforms)
         """

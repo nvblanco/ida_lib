@@ -330,8 +330,9 @@ class HflipPipeline(PipelineOperation):
 
     def __init__(self, probability: float = 1, exchange_points: tuple = None):
         """
+
         :param probability: [0-1] probability of applying the transform. Default: 1.
-        :param exchange_points: iif it is not None, it serves as a tuple of the point positions to be exchanged after
+        :param exchange_points: if it is not None, it serves as a tuple of the point positions to be exchanged after
                 the operation. For example, with the value (1,8) point 1 is exchanged for 8. It is useful for example
                 in symmetric images where a point can indicate the left edge. After the flip, that point will be
                 the right edge
@@ -361,7 +362,8 @@ class VflipPipeline(PipelineOperation):
 
     def __init__(self, probability: float, exchange_points: tuple = None):
         """
-        :param probability : [0-1] probability of applying the transform. Default: 1.
+
+        :param probability: [0-1] probability of applying the transform. Default: 1.
         :param exchange_points: iif it is not None, it serves as a tuple of the point positions to be exchanged after
                 the operation. For example, with the value (1,8) point 1 is exchanged for 8. It is useful for example
                 in symmetric images where a point can indicate the left edge. After the flip, that point will be

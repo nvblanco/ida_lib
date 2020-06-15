@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ida_lib.image_augmentation package &mdash; IdaLib 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ida_lib.operations package" href="ida_lib.operations.html" />
+    <link rel="prev" title="ida_lib.core package" href="ida_lib.core.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> IdaLib
+          
+
+          
+            
+            <img src="_static/icon.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ida_lib.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ida_lib.html#api-packages">API packages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ida_lib.core.html">ida_lib.core package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ida_lib.image_augmentation package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.image_augmentation.augment_to_disk">ida_lib.image_augmentation.augment_to_disk module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.image_augmentation.data_loader">ida_lib.image_augmentation.data_loader module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.image_augmentation">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ida_lib.operations.html">ida_lib.operations package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ida_lib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ida_lib.html#module-ida_lib.visualization">ida_lib.visualization module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IdaLib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ida_lib.html">API</a> &raquo;</li>
+        
+      <li>ida_lib.image_augmentation package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ida_lib.image_augmentation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ida-lib-image-augmentation-package">
+<h1>ida_lib.image_augmentation package<a class="headerlink" href="#ida-lib-image-augmentation-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-ida_lib.image_augmentation.augment_to_disk">
+<span id="ida-lib-image-augmentation-augment-to-disk-module"></span><h2>ida_lib.image_augmentation.augment_to_disk module<a class="headerlink" href="#module-ida_lib.image_augmentation.augment_to_disk" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ida_lib.image_augmentation.augment_to_disk.AugmentToDisk">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.image_augmentation.augment_to_disk.</code><code class="sig-name descname">AugmentToDisk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span><span class="p">:</span> <span class="n">torch.utils.data.dataset.Dataset</span></em>, <em class="sig-param"><span class="n">samples_per_item</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">2</span></em>, <em class="sig-param"><span class="n">total_output_samples</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">operations</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>list<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'bilinear'</span></em>, <em class="sig-param"><span class="n">padding_mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'zeros'</span></em>, <em class="sig-param"><span class="n">resize</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>tuple<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">output_extension</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.jpg'</span></em>, <em class="sig-param"><span class="n">output_csv_path</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'annotations.csv'</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'./augmented'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.image_augmentation.augment_to_disk.AugmentToDisk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The AugmentToDisk object allows to perform Data Image Augmentation directly to disk. That is, to save the images
+generated to disk to be used in future processes.</p>
+<dl class="py method">
+<dt id="ida_lib.image_augmentation.augment_to_disk.AugmentToDisk.final_save">
+<code class="sig-name descname">final_save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.image_augmentation.augment_to_disk.AugmentToDisk.final_save" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p><strong>This method can be overwritten to make a customized saving of the items according
+to the interests of the user</strong></p>
+</div></blockquote>
+<p>Method that runs only once, once all the images have been processed. Useful for writing csv with image
+annotations. By default the annotations of all images are saved in the same file. The csv file will have one
+row for each generated element, identified by its id. Each column will correspond with the labels associated
+to each generated element. In the case of coordinate lists, their coordinates are arranged in columns
+separating the x and y coordinates in each element (point0_x, point0_y, point1_x, …, point_y)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.image_augmentation.augment_to_disk.AugmentToDisk.save_item">
+<code class="sig-name descname">save_item</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">output_path</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">types_2d</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">other_types</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">element</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.image_augmentation.augment_to_disk.AugmentToDisk.save_item" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p><strong>This method can be overwritten to make a customized saving of the items according
+to the interests of the user</strong></p>
+</div></blockquote>
+<p>Method that implements the way to save to disk each of the generated elements. By default it saves all the
+generated images in the specified path. The samples are organized by name following the form:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>images:                       &lt;id_image&gt;_&lt;sample number&gt; &lt;extension&gt;</p></li>
+<li><p>other two-dimensional types:  &lt;id_image&gt;-&lt;data_type&gt;_&lt;sample number&gt; &lt;extension&gt;</p></li>
+</ul>
+</div></blockquote>
+<p>Annotations on the data, such as labels, or point coordinates are stored in dictionaries that will be written
+when all  the images have been processed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item</strong> – input element to be saved to disk</p></li>
+<li><p><strong>element</strong> – input element number to identify it</p></li>
+<li><p><strong>index</strong> – sample number to which the input item corresponds</p></li>
+<li><p><strong>output_path</strong> – path to the directory in which to save the generated data</p></li>
+<li><p><strong>types_2d</strong> – list of types of two dimensional data of the input item</p></li>
+<li><p><strong>other_types</strong> – list of types that are not two-dimensional elements</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ida_lib.image_augmentation.data_loader">
+<span id="ida-lib-image-augmentation-data-loader-module"></span><h2>ida_lib.image_augmentation.data_loader module<a class="headerlink" href="#module-ida_lib.image_augmentation.data_loader" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ida_lib.image_augmentation.data_loader.AugmentDataLoader">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.image_augmentation.data_loader.</code><code class="sig-name descname">AugmentDataLoader</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span></em>, <em class="sig-param"><span class="n">dataset</span><span class="p">:</span> <span class="n">torch.utils.data.dataset.Dataset</span></em>, <em class="sig-param"><span class="n">shuffle</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">pipeline_operations</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">resize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'bilinear'</span></em>, <em class="sig-param"><span class="n">padding_mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'zeros'</span></em>, <em class="sig-param"><span class="n">output_format</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'dict'</span></em>, <em class="sig-param"><span class="n">output_type</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>torch.dtype<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.image_augmentation.data_loader.AugmentDataLoader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.dataloader.DataLoader</span></code></p>
+<dl class="simple">
+<dt>The DataAugmentDataLoader class implements a Pytorch DataLoader but groups it into one class:</dt><dd><ul class="simple">
+<li><p>The Dataset object that takes care of reading the data</p></li>
+<li><p>The iterative DataLoader object that will serve as an input system for a neural network.</p></li>
+<li><p>A pipeline that applies data image Augmentation operations over the input data.</p></li>
+</ul>
+</dd>
+</dl>
+<p>To make use of this class, it is necessary to provide a dataset to make a personalized reading of your data.</p>
+<dl class="py class">
+<dt id="ida_lib.image_augmentation.data_loader.AugmentDataLoader.InnerDataset">
+<em class="property">class </em><code class="sig-name descname">InnerDataset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pipeline</span></em>, <em class="sig-param"><span class="n">dataset</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.image_augmentation.data_loader.AugmentDataLoader.InnerDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.dataset.Dataset</span></code></p>
+<p>inner dataset is an internal class that uses the DataAugmentDataLoader to add the pipeline to the input dataset</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ida_lib.image_augmentation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ida_lib.image_augmentation" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ida_lib.operations.html" class="btn btn-neutral float-right" title="ida_lib.operations package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ida_lib.core.html" class="btn btn-neutral float-left" title="ida_lib.core package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Raquel Vilas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

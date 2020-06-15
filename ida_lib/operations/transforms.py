@@ -27,7 +27,7 @@ __all__ = ['hflip',
 def hflip(data: dict, visualize: bool = False) -> dict:
     """
 
-     Horizontally flip the input data. CAMBIO
+     Horizontally flip the input data.
 
     :param data: dict of elements to be transformed
     :param visualize: if true it activates the display tool to debug the transformation
@@ -39,7 +39,7 @@ def hflip(data: dict, visualize: bool = False) -> dict:
 def vflip(data: dict, visualize: bool = False) -> dict:
     """
 
-     Vertically flip the input data.
+     Vertically  flip the input data.
 
     :param data: dict of elements to be transformed
     :param visualize: if true it activates the display tool to debug the transformation
@@ -143,9 +143,11 @@ def change_brightness(data: Union[dict, torch.Tensor, np.ndarray], bright=1, vis
 
     :param data: dict of elements to be transformed
     :param bright: desired brightness amount for the data
+
              * brightness = 0 -> removes image brightness (black output image)
              * brightness = 1 -> remains unchanged
              * brightness > 1 -> increases brightness
+
     :param visualize: if true it activates the display tool to debug the transformation
     :return: transformed data
     """
@@ -160,10 +162,12 @@ def change_gamma(data: Union[dict, torch.Tensor, np.ndarray], gamma, visualize: 
     to an image are altered
 
     :param data: dict of elements to be transformed
-    :param gamma : desired gamma factor (luminance of image)
+    :param gamma: desired gamma factor (luminance of image)
+
               * gamma = 0 -> removes image luminance (black output image)
               * gamma = 1 -> remains unchanged
               * gamma > 1 -> increases luminance
+
     :param visualize: if true it activates the display tool to debug the transformation
     :return: transformed data
     """

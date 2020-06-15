@@ -73,12 +73,12 @@ class AugmentToDisk(object):
         Annotations on the data, such as labels, or point coordinates are stored in dictionaries that will be written
         when all  the images have been processed.
 
-        :param item :        input element to be saved to disk
+        :param item:        input element to be saved to disk
         :param element:      input element number to identify it
-        :param index :       sample number to which the input item corresponds
-        :param output_path : path to the directory in which to save the generated data
-        :param types_2d :    list of types of two dimensional data of the input item
-        :param other_types : list of types that are not two-dimensional elements
+        :param index:       sample number to which the input item corresponds
+        :param output_path: path to the directory in which to save the generated data
+        :param types_2d:    list of types of two dimensional data of the input item
+        :param other_types: list of types that are not two-dimensional elements
         """
         if 'id' not in item:
             item['id'] = 'item-' + str(element)

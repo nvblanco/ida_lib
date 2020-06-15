@@ -15,13 +15,14 @@ __all__ = ['BlurPipeline',
 
 class GaussianNoisePipeline(PipelineOperation):
     """Add gaussian noise to the input image
-    (gaussian noise is a statistical noise having a probability density function (PDF) equal to that of the normal
+    (gaussian noise is a statistical noise having a probability density function (PDF) equal to that of the normal \
      distribution)"""
 
     def __init__(self, probability: float = 1, var: float = 0.5):
         """
+
         :param probability:[0-1]   probability of applying the transform. Default: 1.:
-        :param var:   [0-10 ...]   intensity of noise (0 is no noise)
+        :param var: [0-10 ...]   intensity of noise (0 is no noise)
         """
         PipelineOperation.__init__(self, probability=probability, op_type='independent_op')
         self.var = var
@@ -41,6 +42,7 @@ class SaltAndPepperNoisePipeline(PipelineOperation):
 
     def __init__(self, probability=1, amount: Optional[float] = 0.01, s_vs_p: Optional[float] = 0.5):
         """
+
         :param probability: [0-1] probability of applying the transform. Default: 1.
         :param amount:  [0-1]noise percentage compared to the total number of pixels in the image
                * 0 is no noise
@@ -68,6 +70,7 @@ class SpekleNoisePipeline(PipelineOperation):
 
     def __init__(self, probability: float = 1, mean: Optional[float] = 0, var: Optional[float] = 0.01):
         """
+
         :param probability : [0-1]   : probability of applying the transform. Default: 1.
         :param mean : Mean of random distribution.  default=0
         :param var  : Variance of random distribution. Default: 0.01
@@ -87,12 +90,11 @@ class SpekleNoisePipeline(PipelineOperation):
 
 class PoissonNoisePipeline(PipelineOperation):
     """Add poison noise to the input image
-        (Speckle is a granular interference that inherently exists in and degrades the quality of the active radar,
-        synthetic aperture radar (SAR), medical ultrasound and optical coherence tomography images.
-        It is applied by adding Poisson-distributed noise)"""
+        ( It is applied by adding Poisson-distributed noise)"""
 
     def __init__(self, probability: float = 1):
         """
+
         :param probability: [0-1] probability of applying the transform. Default: 1.
         """
         PipelineOperation.__init__(self, probability=probability, op_type='independent_op')
@@ -111,6 +113,7 @@ class GaussianBlurPipeline(PipelineOperation):
 
     def __init__(self, probability: float = 1, blur_size: tuple = (5, 5)):
         """
+
         :param probability :[0-1] probability of applying the transform. Default: 1.
         :param blur_size   : size of the square os pixels used to blur each pixel Default: (5,5)
         """
@@ -131,6 +134,7 @@ class BlurPipeline(PipelineOperation):
 
     def __init__(self, probability: float = 1, blur_size: tuple = (5, 5)):
         """
+
         :param probability: [0-1] probability of applying the transform. Default: 1.
         :param blur_size  : size of the square os pixels used to blur each pixel Default: (5,5)
         """

@@ -18,8 +18,9 @@ class ContrastPipeline(PipelineOperation):
 
     def __init__(self, contrast_factor: float, probability: float = 1):
         """
-        :param probability             : probability of applying the transform. Default: 1.
-        :param contrast_factor (float) : modification factor to be applied to the image contrast
+
+        :param probability: probability of applying the transform. Default: 1.
+        :param contrast_factor: modification factor to be applied to the image contrast
             * 0  :total contrast removal
             * 1  :dont modify
             * >1 :augment contrast
@@ -38,8 +39,9 @@ class RandomContrastPipeline(PipelineOperation):
 
     def __init__(self, contrast_range: tuple, probability: float = 1):
         """
-        :param probability (float) [0-1]       : probability of applying the transform. Default: 1.
-        :param contrast_range (float tuple)    : range  of modification factor to be applied to the image contrast
+
+        :param probability: probability of applying the transform. Default: 1.
+        :param contrast_range: range  of modification factor to be applied to the image contrast
                 * 0  :total contrast removal
                 * 1  :dont modify
                 * >1 :augment contrast
@@ -62,8 +64,9 @@ class BrightnessPipeline(PipelineOperation):
 
     def __init__(self, brightness_factor: float, probability: float = 1):
         """
-        :param probability (float) [0-1]       : probability of applying the transform. Default: 1.
-        :param brightness_factor (float) [0-2] : desired amount of brightness for the image
+
+        :param probability: probability of applying the transform. Default: 1.
+        :param brightness_factor: desired amount of brightness for the image
                  0 - no brightness
                  1 - same
                  2 - max brightness
@@ -85,6 +88,7 @@ class RandomBrightnessPipeline(PipelineOperation):
 
     def __init__(self, probability: float, brightness_range: tuple):
         """
+
         :param probability:[0-1] probability of applying the transform. Default: 1.
         :param brightness_range: range of desired amount of brightness for the image
                             0 - no brightness
@@ -114,7 +118,8 @@ class GammaPipeline(PipelineOperation):
 
     def __init__(self, gamma_factor: float, probability: float = 1):
         """
-        :param probability:[0-1]     probability of applying the transform. Default: 1.
+
+        :param probability:[0-1] probability of applying the transform. Default: 1.
         :param gamma_factor:[ 0-5..] desired amount of factor gamma for the image
                                 0  - no contrast
                                 1  - same
@@ -134,6 +139,7 @@ class RandomGammaPipeline(PipelineOperation):
 
     def __init__(self, gamma_range: tuple, probability: float = 1):
         """
+
         :param probability: [0-1]  probability of applying the transform. Default: 1.
         :param gamma_range:(0-5..] range of desired amount of factor gamma for the image
                             0  - no contrast
@@ -158,6 +164,7 @@ class NormalizePipeline(PipelineOperation):
 
     def __init__(self, probability: float = 1, old_range: tuple = (0, 255), new_range: tuple = (0, 1)):
         """
+
         :param probability: [0-1] probability of applying the transform. Default: 1.
         :param old_range: actual range of pixels of the input image. Default: 0-255
         :param new_range: desired range of pixels of the input image. Default: 0-1
@@ -181,6 +188,7 @@ class DenormalizePipeline(PipelineOperation):
 
     def __init__(self, probability: float = 1, old_range: tuple = (0, 1), new_range: tuple = (0, 255)):
         """
+
         :param probability: [0-1]  probability of applying the transform. Default: 1.
         :param old_range: actual range of pixels of the input image. Default: 0-1
         :param new_range: desired range of pixels of the input image. Default: 0-255

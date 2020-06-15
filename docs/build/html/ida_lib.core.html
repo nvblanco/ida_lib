@@ -1,0 +1,934 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ida_lib.core package &mdash; IdaLib 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ida_lib.image_augmentation package" href="ida_lib.image_augmentation.html" />
+    <link rel="prev" title="API" href="ida_lib.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> IdaLib
+          
+
+          
+            
+            <img src="_static/icon.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ida_lib.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ida_lib.html#api-packages">API packages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ida_lib.core package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.core.pipeline">ida_lib.core.pipeline module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.core.pipeline_functional">ida_lib.core.pipeline_functional module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.core.pipeline_geometric_ops">ida_lib.core.pipeline_geometric_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.core.pipeline_local_ops">ida_lib.core.pipeline_local_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.core.pipeline_operations">ida_lib.core.pipeline_operations module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.core.pipeline_pixel_ops">ida_lib.core.pipeline_pixel_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-ida_lib.core">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ida_lib.image_augmentation.html">ida_lib.image_augmentation package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ida_lib.operations.html">ida_lib.operations package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ida_lib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ida_lib.html#module-ida_lib.visualization">ida_lib.visualization module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IdaLib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ida_lib.html">API</a> &raquo;</li>
+        
+      <li>ida_lib.core package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ida_lib.core.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ida-lib-core-package">
+<h1>ida_lib.core package<a class="headerlink" href="#ida-lib-core-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-ida_lib.core.pipeline">
+<span id="ida-lib-core-pipeline-module"></span><h2>ida_lib.core.pipeline module<a class="headerlink" href="#module-ida_lib.core.pipeline" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ida_lib.core.pipeline.Pipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline.</code><code class="sig-name descname">Pipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pipeline_operations</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">resize</span><span class="p">:</span> <span class="n">tuple</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'bilinear'</span></em>, <em class="sig-param"><span class="n">padding_mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'zeros'</span></em>, <em class="sig-param"><span class="n">output_format</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'dict'</span></em>, <em class="sig-param"><span class="n">output_type</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>torch.dtype<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline.Pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The pipeline object represents the pipeline with data transformation operations (pictures, points). When executed,
+on a batch of images,it applies the necessary transformations (being different on each image based on the
+probabilities of each operation included).</p>
+<blockquote>
+<div><dl>
+<dt>Considerations:</dt><dd><p>1)  The images must be of the same size, or the RESIZE operation must be included so that the
+transformations can be applied correctly
+2)  To run the pipeline, it accepts any type of input metadata named in the input dict. In particular it
+gives special treatment</p>
+<blockquote>
+<div><dl class="simple">
+<dt>to data named as:</dt><dd><ul class="simple">
+<li><p>Mask: it is affected by geometric transformations and its output is discrete to values of 0-1</p></li>
+<li><p>Segmap: generalization of mask. Every value is discrete</p></li>
+<li><p>Image:  affected by geometric and color transformations</p></li>
+<li><p>Keypoints: geometric transformations are applied to them as coordinates.</p></li>
+<li><p>Others: any other metadata will not be transformed (example: ‘tag’, ‘target’…)</p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote>
+<div><dl>
+<dt>pip = pipeline(resize = (25, 25),  pipeline_operations=(</dt><dd><p>translate_pipeline(probability=0.5, translation=(3, 0.05)),
+vflip_pipeline(probability=0.5),
+hflip_pipeline(probability=0.5),
+contrast_pipeline(probability=0.5, contrast_factor=1),
+random_brightness_pipeline(probability=0.2, brightness_range=(1.5, 1.6)),
+random_scale_pipeline(probability=1, scale_range=(0.5, 1.5), center_deviation=20),
+random_rotate_pipeline(probability=0.2, degrees_range=(-50, 50), center_deviation=20))</p>
+<blockquote>
+<div><p>))</p>
+</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline.Pipeline.get_data_types">
+<code class="sig-name descname">get_data_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; tuple<a class="headerlink" href="#ida_lib.core.pipeline.Pipeline.get_data_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the tuple of data types identified on the input data</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ida_lib.core.pipeline_functional">
+<span id="ida-lib-core-pipeline-functional-module"></span><h2>ida_lib.core.pipeline_functional module<a class="headerlink" href="#module-ida_lib.core.pipeline_functional" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="ida_lib.core.pipeline_functional.get_compose_matrix">
+<code class="sig-prename descclassname">ida_lib.core.pipeline_functional.</code><code class="sig-name descname">get_compose_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">operations</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">data_info</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.core.pipeline_functional.get_compose_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the transformation matrix composed by the multiplication in order of
+the input operations (according to their probability)
+If data_info is not None, go through the operations by entering the necessary information about the images
+(image center, shape..)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>operations</strong> – list of pipeline operations</p></li>
+<li><p><strong>data_info</strong> – dict with data info to configure operations parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>torch tensor of the transform matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.core.pipeline_functional.get_compose_function">
+<code class="sig-prename descclassname">ida_lib.core.pipeline_functional.</code><code class="sig-name descname">get_compose_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">operations</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#ida_lib.core.pipeline_functional.get_compose_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns the LUT table with the correspondence of each possible value
+according to the color operations to be implemented (according to their probability)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>operations</strong> – list of pipeline operations</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>compose function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.core.pipeline_functional.preprocess_data">
+<code class="sig-prename descclassname">ida_lib.core.pipeline_functional.</code><code class="sig-name descname">preprocess_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>list<span class="p">, </span>dict<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">batch_info</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>list<span class="p">, </span>dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">resize</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>tuple<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#ida_lib.core.pipeline_functional.preprocess_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix     that allows applying the geometric operations in a single joint operation on the data     and another on the points.</p>
+<ul class="simple">
+<li><p>Loads the data as tensor in GPU to prepare them as input to a neural network</p></li>
+<li><p>Analyze the data info required for the transformations (shape, bpp…)</p></li>
+<li><p>Resize the 2d data and keypoints to the new shape</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resize</strong> – if it is wanted to resize the data, indicate the new size</p></li>
+<li><p><strong>data</strong> – list of elements to be transformed through the pipe</p></li>
+<li><p><strong>batch_info</strong> – dict with the required data info</p></li>
+<li><p><strong>interpolation</strong> – desired interpolation mode to be applied</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>preprocessed and resized data, and dict with batch info</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.core.pipeline_functional.split_operations_by_type">
+<code class="sig-prename descclassname">ida_lib.core.pipeline_functional.</code><code class="sig-name descname">split_operations_by_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">operations</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span> &#x2192; tuple<a class="headerlink" href="#ida_lib.core.pipeline_functional.split_operations_by_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split input operations into sub-lists of each transformation type
+the normalization operation is placed last to apply correctly the other operations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>operations</strong> – list of pipeline operations</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tuple of lists of the operations separated into color, geometry and independent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.core.pipeline_functional.postprocess_data">
+<code class="sig-prename descclassname">ida_lib.core.pipeline_functional.</code><code class="sig-name descname">postprocess_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">batch_info</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">data_original</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>list<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">original_type</span><span class="p">:</span> <span class="n">torch.dtype</span> <span class="o">=</span> <span class="default_value">torch.uint8</span></em>, <em class="sig-param"><span class="n">output_format</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'dict'</span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#ida_lib.core.pipeline_functional.postprocess_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Restores the data to the original form;
+separating the matrix into the different 2d input data and point coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch</strong> – list of elements to be transformed through the pipe</p></li>
+<li><p><strong>batch_info</strong> – dict with necessary information about the batch data</p></li>
+<li><p><strong>data_original</strong> – original batch before transforms</p></li>
+<li><p><strong>visualize</strong> – whether to run the visualization tool or not</p></li>
+<li><p><strong>original_type</strong> – torch original type of the input data to do the conversion of the output data to this type</p></li>
+<li><p><strong>output_format</strong> – whether to format the output element as a dict or as a tuple</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>processed data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ida_lib.core.pipeline_functional.switch_point_positions">
+<code class="sig-prename descclassname">ida_lib.core.pipeline_functional.</code><code class="sig-name descname">switch_point_positions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">point_matrix</span></em>, <em class="sig-param"><span class="n">input_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_functional.switch_point_positions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-ida_lib.core.pipeline_geometric_ops">
+<span id="ida-lib-core-pipeline-geometric-ops-module"></span><h2>ida_lib.core.pipeline_geometric_ops module<a class="headerlink" href="#module-ida_lib.core.pipeline_geometric_ops" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_geometric_ops.HflipPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">HflipPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">exchange_points</span><span class="p">:</span> <span class="n">tuple</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.HflipPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Horizontally flip the input image-mask-keypoints and 2d data</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.HflipPipeline.config_parameters">
+<code class="sig-name descname">config_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_info</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.HflipPipeline.config_parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.HflipPipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.HflipPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.HflipPipeline.need_data_info">
+<code class="sig-name descname">need_data_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.HflipPipeline.need_data_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.HflipPipeline.switch_points">
+<code class="sig-name descname">switch_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.HflipPipeline.switch_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_geometric_ops.VflipPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">VflipPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">exchange_points</span><span class="p">:</span> <span class="n">tuple</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.VflipPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Vertically flip the input image-mask-keypoints and 2d data</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.VflipPipeline.config_parameters">
+<code class="sig-name descname">config_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_info</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.VflipPipeline.config_parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.VflipPipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.VflipPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.VflipPipeline.need_data_info">
+<code class="sig-name descname">need_data_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.VflipPipeline.need_data_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.VflipPipeline.switch_points">
+<code class="sig-name descname">switch_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.VflipPipeline.switch_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_geometric_ops.RotatePipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">RotatePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RotatePipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Rotate the input image-mask-keypoints and 2d data by the input degrees</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RotatePipeline.config_parameters">
+<code class="sig-name descname">config_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_info</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RotatePipeline.config_parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RotatePipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RotatePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RotatePipeline.need_data_info">
+<code class="sig-name descname">need_data_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RotatePipeline.need_data_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RotatePipeline.switch_points">
+<em class="property">static </em><code class="sig-name descname">switch_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RotatePipeline.switch_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_geometric_ops.ShearPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">ShearPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shear</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ShearPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Shear the input image-mask-keypoints and 2d data by the input shear factor</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.ShearPipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ShearPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.ShearPipeline.need_data_info">
+<em class="property">static </em><code class="sig-name descname">need_data_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ShearPipeline.need_data_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.ShearPipeline.switch_points">
+<em class="property">static </em><code class="sig-name descname">switch_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ShearPipeline.switch_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_geometric_ops.ScalePipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">ScalePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tuple<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ScalePipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Scale the input image-mask-keypoints and 2d data by the input scaling value</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.ScalePipeline.config_parameters">
+<code class="sig-name descname">config_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_info</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ScalePipeline.config_parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.ScalePipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ScalePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.ScalePipeline.need_data_info">
+<code class="sig-name descname">need_data_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ScalePipeline.need_data_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.ScalePipeline.switch_points">
+<em class="property">static </em><code class="sig-name descname">switch_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ScalePipeline.switch_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_geometric_ops.TranslatePipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">TranslatePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.TranslatePipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Translate the input image-mask-keypoints and 2d data by the input translation</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.TranslatePipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.TranslatePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.TranslatePipeline.need_data_info">
+<em class="property">static </em><code class="sig-name descname">need_data_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.TranslatePipeline.need_data_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.TranslatePipeline.switch_points">
+<em class="property">static </em><code class="sig-name descname">switch_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.TranslatePipeline.switch_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomScalePipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">RandomScalePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">scale_range</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">keep_aspect</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">center_deviation</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomScalePipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Scale the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.config_parameters">
+<code class="sig-name descname">config_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_info</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.config_parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.need_data_info">
+<code class="sig-name descname">need_data_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.need_data_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.switch_points">
+<em class="property">static </em><code class="sig-name descname">switch_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.switch_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">RandomRotatePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">degrees_range</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">center_deviation</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctions.tensor</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Rotate the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.config_parameters">
+<code class="sig-name descname">config_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_info</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.config_parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.need_data_info">
+<code class="sig-name descname">need_data_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.need_data_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.switch_points">
+<em class="property">static </em><code class="sig-name descname">switch_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.switch_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomShearPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">RandomShearPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">shear_range</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomShearPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Shear the input image-mask-keypoints and 2d data by a random shear value calculated within the input range</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomShearPipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctions.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomShearPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomShearPipeline.need_data_info">
+<em class="property">static </em><code class="sig-name descname">need_data_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomShearPipeline.need_data_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomShearPipeline.switch_points">
+<em class="property">static </em><code class="sig-name descname">switch_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomShearPipeline.switch_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomTranslatePipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">RandomTranslatePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">translation_range</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">same_translation_on_axis</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomTranslatePipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Translate the input image-mask-keypoints and 2d data by a random translation value calculated within
+the input range</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomTranslatePipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomTranslatePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomTranslatePipeline.need_data_info">
+<em class="property">static </em><code class="sig-name descname">need_data_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomTranslatePipeline.need_data_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_geometric_ops.RandomTranslatePipeline.switch_points">
+<em class="property">static </em><code class="sig-name descname">switch_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomTranslatePipeline.switch_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ida_lib.core.pipeline_local_ops">
+<span id="ida-lib-core-pipeline-local-ops-module"></span><h2>ida_lib.core.pipeline_local_ops module<a class="headerlink" href="#module-ida_lib.core.pipeline_local_ops" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_local_ops.BlurPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_local_ops.</code><code class="sig-name descname">BlurPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">blur_size</span><span class="p">:</span> <span class="n">tuple</span> <span class="o">=</span> <span class="default_value">5, 5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_local_ops.BlurPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Blur input image ( non-weighted blur)</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_local_ops.BlurPipeline.apply_to_image_if_probability">
+<code class="sig-name descname">apply_to_image_if_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#ida_lib.core.pipeline_local_ops.BlurPipeline.apply_to_image_if_probability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_local_ops.BlurPipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_local_ops.BlurPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_local_ops.GaussianBlurPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_local_ops.</code><code class="sig-name descname">GaussianBlurPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">blur_size</span><span class="p">:</span> <span class="n">tuple</span> <span class="o">=</span> <span class="default_value">5, 5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_local_ops.GaussianBlurPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Blur input image by a Gaussian function</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_local_ops.GaussianBlurPipeline.apply_to_image_if_probability">
+<code class="sig-name descname">apply_to_image_if_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#ida_lib.core.pipeline_local_ops.GaussianBlurPipeline.apply_to_image_if_probability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_local_ops.GaussianBlurPipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_local_ops.GaussianBlurPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_local_ops.GaussianNoisePipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_local_ops.</code><code class="sig-name descname">GaussianNoisePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">var</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_local_ops.GaussianNoisePipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Add gaussian noise to the input image
+(gaussian noise is a statistical noise having a probability density function (PDF) equal to that of the normal      distribution)</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_local_ops.GaussianNoisePipeline.apply_to_image_if_probability">
+<code class="sig-name descname">apply_to_image_if_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#ida_lib.core.pipeline_local_ops.GaussianNoisePipeline.apply_to_image_if_probability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_local_ops.GaussianNoisePipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_local_ops.GaussianNoisePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_local_ops.PoissonNoisePipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_local_ops.</code><code class="sig-name descname">PoissonNoisePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_local_ops.PoissonNoisePipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Add poison noise to the input image
+(Speckle is a granular interference that inherently exists in and degrades the quality of the active radar,
+synthetic aperture radar (SAR), medical ultrasound and optical coherence tomography images.
+It is applied by adding Poisson-distributed noise)</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_local_ops.PoissonNoisePipeline.apply_to_image_if_probability">
+<code class="sig-name descname">apply_to_image_if_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#ida_lib.core.pipeline_local_ops.PoissonNoisePipeline.apply_to_image_if_probability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_local_ops.PoissonNoisePipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_local_ops.PoissonNoisePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_local_ops.SaltAndPepperNoisePipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_local_ops.</code><code class="sig-name descname">SaltAndPepperNoisePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">amount</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">s_vs_p</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_local_ops.SaltAndPepperNoisePipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Add salt and pepper noise to the input image
+(salt-and-pepper noise is a statistical noise compose of white (salt) and black (pepper) pixels)</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_local_ops.SaltAndPepperNoisePipeline.apply_to_image_if_probability">
+<code class="sig-name descname">apply_to_image_if_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#ida_lib.core.pipeline_local_ops.SaltAndPepperNoisePipeline.apply_to_image_if_probability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_local_ops.SaltAndPepperNoisePipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_local_ops.SaltAndPepperNoisePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_local_ops.SpekleNoisePipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_local_ops.</code><code class="sig-name descname">SpekleNoisePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">mean</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">var</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.01</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_local_ops.SpekleNoisePipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Add spekle noise to the input image
+(Speckle is a granular interference that inherently exists in and degrades the quality of the active radar,
+synthetic aperture radar (SAR), medical ultrasound and optical coherence tomography images.
+It is applied by adding the image multiplied by the noise matrix -&gt; img + img * uniform_noise)</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_local_ops.SpekleNoisePipeline.apply_to_image_if_probability">
+<code class="sig-name descname">apply_to_image_if_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#ida_lib.core.pipeline_local_ops.SpekleNoisePipeline.apply_to_image_if_probability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_local_ops.SpekleNoisePipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_local_ops.SpekleNoisePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ida_lib.core.pipeline_operations">
+<span id="ida-lib-core-pipeline-operations-module"></span><h2>ida_lib.core.pipeline_operations module<a class="headerlink" href="#module-ida_lib.core.pipeline_operations" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_operations.PipelineOperation">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_operations.</code><code class="sig-name descname">PipelineOperation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">op_type</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract class of pipeline operations</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_operations.PipelineOperation.apply_according_to_probability">
+<code class="sig-name descname">apply_according_to_probability</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#ida_lib.core.pipeline_operations.PipelineOperation.apply_according_to_probability" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_operations.PipelineOperation.get_op_matrix">
+<em class="property">abstract </em><code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_operations.PipelineOperation.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_operations.PipelineOperation.get_op_type">
+<code class="sig-name descname">get_op_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_operations.PipelineOperation.get_op_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ida_lib.core.pipeline_pixel_ops">
+<span id="ida-lib-core-pipeline-pixel-ops-module"></span><h2>ida_lib.core.pipeline_pixel_ops module<a class="headerlink" href="#module-ida_lib.core.pipeline_pixel_ops" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_pixel_ops.ContrastPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_pixel_ops.</code><code class="sig-name descname">ContrastPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">contrast_factor</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.ContrastPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Change the contrast of the input image.</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.ContrastPipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.ContrastPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.ContrastPipeline.transform_function">
+<code class="sig-name descname">transform_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.ContrastPipeline.transform_function" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_pixel_ops.RandomContrastPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_pixel_ops.</code><code class="sig-name descname">RandomContrastPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">contrast_range</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.RandomContrastPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Change the contrast of the input image with a random contrast factor calculated within the input range</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.RandomContrastPipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.RandomContrastPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.RandomContrastPipeline.transform_function">
+<code class="sig-name descname">transform_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.RandomContrastPipeline.transform_function" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_pixel_ops.BrightnessPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_pixel_ops.</code><code class="sig-name descname">BrightnessPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">brightness_factor</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.BrightnessPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Change brightness of the input image</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.BrightnessPipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.BrightnessPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.BrightnessPipeline.get_op_type">
+<code class="sig-name descname">get_op_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.BrightnessPipeline.get_op_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.BrightnessPipeline.transform_function">
+<code class="sig-name descname">transform_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.BrightnessPipeline.transform_function" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_pixel_ops.RandomBrightnessPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_pixel_ops.</code><code class="sig-name descname">RandomBrightnessPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">brightness_range</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.RandomBrightnessPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Change brightness of the input image to random amount calculated within the input range</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.RandomBrightnessPipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.RandomBrightnessPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.RandomBrightnessPipeline.get_op_type">
+<code class="sig-name descname">get_op_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.RandomBrightnessPipeline.get_op_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.RandomBrightnessPipeline.transform_function">
+<code class="sig-name descname">transform_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.RandomBrightnessPipeline.transform_function" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_pixel_ops.GammaPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_pixel_ops.</code><code class="sig-name descname">GammaPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gamma_factor</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.GammaPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Change the luminance of the input image</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.GammaPipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.GammaPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.GammaPipeline.transform_function">
+<code class="sig-name descname">transform_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.GammaPipeline.transform_function" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_pixel_ops.RandomGammaPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_pixel_ops.</code><code class="sig-name descname">RandomGammaPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gamma_range</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.RandomGammaPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Change the luminance of the input image by a random gamma factor calculated within the input range</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.RandomGammaPipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.RandomGammaPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.RandomGammaPipeline.transform_function">
+<code class="sig-name descname">transform_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.RandomGammaPipeline.transform_function" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_pixel_ops.NormalizePipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_pixel_ops.</code><code class="sig-name descname">NormalizePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">old_range</span><span class="p">:</span> <span class="n">tuple</span> <span class="o">=</span> <span class="default_value">0, 255</span></em>, <em class="sig-param"><span class="n">new_range</span><span class="p">:</span> <span class="n">tuple</span> <span class="o">=</span> <span class="default_value">0, 1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.NormalizePipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Change the pixels value to a normalize range</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.NormalizePipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.NormalizePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.NormalizePipeline.transform_function">
+<em class="property">static </em><code class="sig-name descname">transform_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.NormalizePipeline.transform_function" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ida_lib.core.pipeline_pixel_ops.DenormalizePipeline">
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_pixel_ops.</code><code class="sig-name descname">DenormalizePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">old_range</span><span class="p">:</span> <span class="n">tuple</span> <span class="o">=</span> <span class="default_value">0, 1</span></em>, <em class="sig-param"><span class="n">new_range</span><span class="p">:</span> <span class="n">tuple</span> <span class="o">=</span> <span class="default_value">0, 255</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.DenormalizePipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
+<p>Denormalize pixel value</p>
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.DenormalizePipeline.get_op_matrix">
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.DenormalizePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ida_lib.core.pipeline_pixel_ops.DenormalizePipeline.transform_function">
+<code class="sig-name descname">transform_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#ida_lib.core.pipeline_pixel_ops.DenormalizePipeline.transform_function" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ida_lib.core">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ida_lib.core" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ida_lib.image_augmentation.html" class="btn btn-neutral float-right" title="ida_lib.image_augmentation package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ida_lib.html" class="btn btn-neutral float-left" title="API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Raquel Vilas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

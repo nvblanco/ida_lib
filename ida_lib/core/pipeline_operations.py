@@ -7,6 +7,7 @@ class PipelineOperation(ABC):
 
     def __init__(self, op_type: str, probability: float = 1):
         """
+
         :param op_type : internal parameter to determine how to treat each operation.
             'geometry' | 'color' | 'Normalize' | 'Independent'
                 - Geometry      : operations that can be applied by transformation matrix

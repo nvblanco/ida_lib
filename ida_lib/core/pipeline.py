@@ -46,6 +46,7 @@ class Pipeline(object):
                  padding_mode: str = 'zeros', output_format: str = 'dict',
                  output_type: Optional[torch.dtype] = None):
         """
+
         :param pipeline_operations: list of pipeline initialized operations (see pipeline_operations.py)
         :param resize: tuple of desired output size. Example (25,25)
         :param interpolation:interpolation mode to calculate output values
@@ -77,9 +78,10 @@ class Pipeline(object):
     def _apply_geometry_transform_data2d(self, image: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         """
         Applies the input transform to the image by the padding and interpolation mode configured on the pipeline
-        :param image:  image to transform
+
+        :param image: image to transform
         :param matrix: transformation matrix that represent the operation to be applied
-        :return :       transformed image
+        :return: transformed image
         """
         return own_affine(image, matrix[:2, :], interpolation=self.interpolation, padding_mode=self.padding_mode)
 
@@ -87,15 +89,16 @@ class Pipeline(object):
         """
         Applies the input transform to the image by the padding mode configured on the pipeline and 'nearest'
         interpolation to preserve discrete values of segmaps or masks
-        :param image:  image to transform
+        :param image: image to transform
         :param matrix: transformation matrix that represent the operation to be applied
-        :return:       transformed image
+        :return: transformed image
         """
         return own_affine(image, matrix[:2, :], interpolation='nearest', padding_mode=self.padding_mode)
 
     @staticmethod
     def _apply_geometry_transform_points(points_matrix: torch.tensor, matrix: torch.tensor) -> torch.tensor:
         """
+
         Applies the input transform to a matrix of points coordinates (matrix multiplication)
         :param points_matrix: matrix of points coordinates
         :param matrix: transformation matrix that represent the operation to be applied
@@ -112,6 +115,7 @@ class Pipeline(object):
         Applies the transformations to the input image batch.
         *   If it is the first batch entered into the pipeline, the information about the type of input data
             is analyzed and the different pipeline parameters are set (size of the images, labels, bits per pixel..)
+
         :param batch_data: list of elements to be transformed through the pipe
         :param visualize: it allows to display the web visualization tool of performed transformations
         :return:  transformed batch

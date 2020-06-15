@@ -4,11 +4,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
+from ida_lib.core.pipeline import Pipeline
+from ida_lib.core.pipeline_geometric_ops import ScalePipeline, ShearPipeline
+from ida_lib.core.pipeline_local_ops import GaussianNoisePipeline
+from ida_lib.global_parameters import identity
 from ida_lib.operations import transforms
 
 # read the image with OpenCV
-img: np.ndarray = cv2.imread('./gato.jpg')
+img: np.ndarray = cv2.imread('./micky.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+img = img.astype(np.float)
 
 keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, img.shape[1] // 2 - 50],
              [img.shape[0] // 2 + 85, img.shape[1] // 2 - 80], [img.shape[0] // 2 - 105, img.shape[1] // 2 + 60])
@@ -18,23 +23,64 @@ keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, im
 
 points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 data: torch.tensor = kornia.image_to_tensor(img, keepdim=False)  # BxCxHxW
-keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, img.shape[1] // 2 - 50],
+matrix = torch.eye(3, 3)
+matrix[0,1]=0.5
+matrix[1,1]=0.5
+data = {'image': data}
+
+data = transforms.affine(data,matrix=matrix, visualize=True)
+
+'''keypoints = ([img.shape[0] // 2, img.shape[1] // 2], [img.shape[0] // 2 + 15, img.shape[1] // 2 - 50],
              [img.shape[0] // 2 + 85, img.shape[1] // 2 - 80], [img.shape[0] // 2 - 105, img.shape[1] // 2 + 60])
 points = [torch.from_numpy(np.asarray(point)) for point in keypoints]
 mask_example1 = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.float)
 mask_example1[0:50, 0:50] = 1
 # data = color.equalize_histogram(data, visualize=True)
 
-data = {'image': data, 'mask': mask_example1, 'keypoints': points}
+
+data = {'image': torch.from_numpy(np.random.randint(low=0, high=256, size=(100,100, 3), dtype=np.uint8))}
+
+#data = {'image': data, 'mask': mask_example1, 'keypoints': points}
 matrix = torch.eye(2, 3).to('cuda')
 
 center = torch.ones(1, 2)
 center[..., 0] = data['image'].shape[-2] // 2  # x
 center[..., 1] = data['image'].shape[-1] // 2  # y
 
+size = (100, 100)
+def numpy_float_all_elements_item():
+    img = np.random.randint(low=0, high=256, size=(size[0], size[1], 3)).astype(np.float)
+    # Generate an example of segmentation map over the image
+    segmap = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.float)
+    segmap[28:171, 35:485, 0] = 1
+    segmap[10:25, 30:245, 0] = 2
+    segmap[10:25, 70:385, 0] = 3
+    segmap[10:110, 5:210, 0] = 4
+    segmap[18:223, 10:110, 0] = 5
+
+    # Generate 2 examples of masks
+    mask_example1 = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.float)
+    mask_example1[0:50, 0:50] = 1
+    # Generate an example of heatmap over the image
+
+
+    return {'segmap': segmap, 'mask': mask_example1}
+'''
+'''samples = 10
+data = {'image': np.random.randint(low=0, high=256, size=(size[0], size[1], 3), dtype=np.uint8)}
+batch = [data.copy() for _ in range(samples)]
+shape = (10, 20)
+pip = Pipeline(interpolation='nearest',
+                   resize=shape,
+                   pipeline_operations=(
+                       ScalePipeline(probability=1, scale_factor=0.5),
+                       ShearPipeline(probability=0.5, shear=(0.2, 0.2)),
+                       GaussianNoisePipeline(probability=0.5)))
+augmented = pip(batch)'''
+print('hoi')
 # data = geometry.translate(data, visualize = False, translation = (20,-10))
 # data = geometry.scale(data, visualize = False, scale_factor=0.75)
-data = transforms.shear(data, shear_factor=(0.1, 0.3), visualize=True)
+
 # data = geometry.affine(data, visualize=False, matrix=matrix)
 # data = geometry.shear(data, visualize=False, shear_factor=(0.1,0.3))
 # data = geometry.rotate(data, visualize=False, degrees=35.8, center = center)
@@ -75,7 +121,7 @@ data_warped = geometry.vflip(data, True)
 # convert back to numpy
 img_warped: np.ndarray = kornia.tensor_to_image(data_warped['image'].byte()[0])"""
 
-# create the plot
+'''# create the plot
 img_warped: np.ndarray = kornia.tensor_to_image(data['image'].byte()[0])
 fig, axs = plt.subplots(1, 2, figsize=(16, 10))
 axs = axs.ravel()
@@ -93,7 +139,7 @@ xvalues_warped = [value[0].cpu().numpy() for value in data['keypoints']]
 yvalues_warped = [value[1].cpu().numpy() for value in data['keypoints']]
 axs[1].scatter(x=xvalues_warped, y=yvalues_warped, s=80)
 axs[1].imshow(img_warped)
-plt.show()
+plt.show()'''
 
 """
 image = torch.rand(2, 50 , 50)

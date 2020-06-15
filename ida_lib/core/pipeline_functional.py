@@ -37,7 +37,6 @@ def get_compose_matrix(operations: list, data_info: Optional[dict] = None) -> to
     """
     Returns the transformation matrix composed by the multiplication in order of
     the input operations (according to their probability)
-
     If data_info is not None, go through the operations by entering the necessary information about the images
     (image center, shape..)
 
@@ -67,7 +66,8 @@ def get_compose_matrix(operations: list, data_info: Optional[dict] = None) -> to
 def split_operations_by_type(operations: list) -> tuple:
     """
     Split input operations into sub-lists of each transformation type
-*   the normalization operation is placed last to apply correctly the other operations
+    the normalization operation is placed last to apply correctly the other operations
+
     :param operations: list of pipeline operations
     :return: tuple of lists of the operations separated into color, geometry and independent
     """
@@ -90,6 +90,7 @@ def split_operations_by_type(operations: list) -> tuple:
 def compose(*functions):
     """
     Return lambda function that represent the composition of the input functions
+
     :param functions: math functions to be composed
     :return: compose function
     """
@@ -100,6 +101,7 @@ def get_compose_function(operations: list) -> np.ndarray:
     """
     returns the LUT table with the correspondence of each possible value
     according to the color operations to be implemented (according to their probability)
+
     :param operations: list of pipeline operations
     :return: compose function
     """
@@ -115,12 +117,14 @@ def get_compose_function(operations: list) -> np.ndarray:
 def preprocess_data(data: Union[list, dict], batch_info: Union[list, dict] = None, interpolation: str = None,
                     resize: Optional[tuple] = None) -> list:
     """
-     Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix \
+    Combines the 2d information in a tensor and the points in a homogeneous coordinate matrix \
     that allows applying the geometric operations in a single joint operation on the data \
     and another on the points.
+
     - Loads the data as tensor in GPU to prepare them as input to a neural network
     - Analyze the data info required for the transformations (shape, bpp...)
     - Resize the 2d data and keypoints to the new shape
+
     :param resize: if it is wanted to resize the data, indicate the new size
     :param data:  list of elements to be transformed through the pipe
     :param batch_info: dict with the required data info
@@ -149,6 +153,7 @@ def preprocess_dict_data_and_data_info_with_resize(data: list, new_size: tuple, 
      * Loads the data as tensor in GPU to prepare them as input to a neural network
      * Analyze the data info required for the transformations (shape, bpp...)
      * Resize the 2d data and keypoints to the new shape
+
     :param data: list of elements to be transformed through the pipe
     :param new_size: desired output size for bidimensional data
     :param interpolation: desired interpolation mode to be applied
@@ -214,6 +219,7 @@ def preprocess_dict_data(data: list, batch_info: dict, resize: Optional[tuple] =
     that allows applying the geometric operations in a single joint operation on the data
     and another on the points.
     * Loads the data as tensor in GPU to prepare them as input to a neural network
+
     :param data: list of elements to be transformed through the pipe
     :param batch_info: dict with necessary information about the batch data
     :param resize: whether to resize or not
@@ -265,6 +271,7 @@ def preprocess_dict_data_and_data_info(data: list, interpolation: str) -> list:
         * Analyze the data info required for the transformations (shape, bpp...)
         * Add to the predetermined list of type names numbered names like 'mask2' to make possible to have multiple
             mask or elements of a single type
+
     :param data: list of elements to be transformed through the pipe
     :param interpolation: type of interpolation to be applied
     :return:preprocessed data and dict of data info
@@ -321,6 +328,7 @@ def postprocess_data(batch: list, batch_info: dict, data_original: Optional[list
     """
     Restores the data to the original form;
     separating the matrix into the different 2d input data and point coordinates.
+
     :param batch: list of elements to be transformed through the pipe
     :param batch_info: dict with necessary information about the batch data
     :param data_original: original batch before transforms
