@@ -62,5 +62,6 @@ numpydoc_show_class_members = False
 
 html_static_path = ['_static']
 
+master_doc = 'index'
 
 # -- Extension configuration -------------------------------------------------
