@@ -14,13 +14,13 @@ The library is optimized to perform operations in the most efficient way possibl
 
 ## Features
 
-* Multiple fast augmentations based on Kornia an OpenCV libraries
-* Flexible
+* **Multiple fast augmentations** based on Kornia an OpenCV libraries [pookie](#pookie)
+* **Flexible**
 * Complete tool, includes support for tasks associated with Pytorch-based neural networks
-  * includes support for a dataloader to directly feed the neural network including Image Data Augmentation tool
-  * includes support for a tool to directly perform the Image Data Augmentation to disk. To be able to use the increased dataset later and independently of the platform
-* Supports multiple types of combined data (images, heat maps, segmentation maps, masks and keypoints)
-* Includes a visualization tool to make easier program debugging and can see the transformation results
+  * includes **support for a dataloader to directly feed the neural network** including Image Data Augmentation tool
+  * includes support for a **tool to directly perform the Image Data Augmentation to disk.** To be able to use the increased dataset later and independently of the platform
+* Supports **multiple types of combined data** (images, heat maps, segmentation maps, masks and keypoints)
+* Includes a **visualization tool** to make easier program debugging and can see the transformation results
 
 ## Getting Started
 
@@ -44,7 +44,7 @@ You can see the whole project documentation here:
   https://ida-lib.readthedocs.io/en/latest/index.html
 
 
-## Transformations
+## <a name="pookie">Transformations</a>
 
 The transformations included in the library are:
 
