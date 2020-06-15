@@ -37,6 +37,38 @@ If you want to get the latest version of the code before it is released on PyPI 
 ``` pip install -U git+https://github.com/raquelvilas18/ida_lib```
 
 
+### First steps
+The central object of ida lib is its pipeline. To use it, just decide which PipelineOperations we want it to include. All other parameters are optional.
+
+```
+example_pipipeline = Pipeline(pipeline_operations=(
+                         ScalePipeline(probability=0.5, scale_factor=0.5),
+                         ShearPipeline(probability=0.3, shear=(0.2, 0.2)),
+                         TranslatePipeline(probability=0.4, translation=(10,50)),
+                         HflipPipeline(probability=0.6, exchange_points=[(0, 5), (1, 6)]),
+                         RandomRotatePipeline(probability=0.4, degrees_range=(-20, 20))
+                         )
+                         )
+```
+The pipelineOperations can be divided into 2 groups:
+* the classic operations, where you indicate exactly the parameters of the operation (for example ```RotatePipeline(degrees=20)``` ). In [transformations](#operations) you can see what each one of them does
+* and the Random pipelineOPerations, where what you define is a range of possible parameters, and each time the operation is applied it will take a different value within this range (RandomRotatePipeline(degrees_range=(-20,30))
+
+Once you have defined your pipeline, you can pass through it your batch data to be transformed. Remember that the entry for the pipeline must be composed of dictionary type data. For each element to be treated correctly it must be associated with its type (images with 'image1', 'image2'...; masks with 'mask1', 'mask67'...):
+```
+data1 = {'image': img1, 'keypoints': random_coordinates, 'mask': mask_example1}
+data2 = {'image': img2, 'keypoints2': random_coordinates2, 'mask': mask_example2}
+data3 = {'image': img3, 'keypoints3': random_coordinates3, 'mask': mask_example3}
+
+batch = [data1, data2, data3]
+```
+
+Finalmente ejecutamos el pipeline las veces que sean necesarias:
+
+```
+transformed_batch = example_pipipeline(batch)
+```
+
 ## Documentation
 
 You can see the whole project documentation here:
