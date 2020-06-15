@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Pipeline Usage example &mdash; IdaLib 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dataloader Usage example" href="dataloader_example.html" />
+    <link rel="prev" title="Examples" href="examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> IdaLib
+          
+
+          
+            
+            <img src="_static/icon.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ida_lib.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="examples.html#pipeline-usage-example">Pipeline usage example</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Pipeline Usage example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataloader_example.html">Dataloader Usage example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="augment_to_disk_example.html">Image Augmentation to Disk example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neural_net_example.html">Pipeline Usage example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IdaLib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="examples.html">Examples</a> &raquo;</li>
+        
+      <li>Pipeline Usage example</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/pipeline_example.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="toctree-wrapper compound">
+</div>
+<div class="section" id="pipeline-usage-example">
+<h1>Pipeline Usage example<a class="headerlink" href="#pipeline-usage-example" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;In this file an example of how to use the idaLib pipeline is shown, in which you can see:</span>
+<span class="sd">* how to declare the pipeline</span>
+<span class="sd">* which format to use for the input elements</span>
+<span class="sd">* how to display or not the results</span>
+<span class="sd">* and how to execute it in general.</span>
+
+<span class="sd">For more information see the documentation</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">ida_lib.core.pipeline</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">ida_lib.core.pipeline_geometric_ops</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">ida_lib.core.pipeline_local_ops</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">data_type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span>
+
+<span class="c1"># Read the example image</span>
+<span class="n">img</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;../micky.jpg&#39;</span><span class="p">,</span> <span class="p">)</span>
+<span class="c1"># opencv read in format BGR but IDALib works on RGB</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+<span class="c1">#img = img.astype(&#39;float32&#39;)  # Example of bits per pixel used</span>
+
+<span class="n">short_size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Generate an example of segmentation map over the image</span>
+<span class="n">segmap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+<span class="n">segmap</span><span class="p">[</span><span class="mi">28</span><span class="p">:</span><span class="mi">171</span><span class="p">,</span> <span class="mi">35</span><span class="p">:</span><span class="mi">485</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">segmap</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">:</span><span class="mi">245</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">segmap</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">25</span><span class="p">,</span> <span class="mi">70</span><span class="p">:</span><span class="mi">385</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">segmap</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">110</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span><span class="mi">210</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">segmap</span><span class="p">[</span><span class="mi">18</span><span class="p">:</span><span class="mi">223</span><span class="p">,</span> <span class="mi">10</span><span class="p">:</span><span class="mi">110</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="c1"># Generate 2 examples of masks</span>
+<span class="n">mask_example1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+<span class="n">mask_example1</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">50</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">mask_example2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
+<span class="n">mask_example2</span><span class="p">[</span><span class="o">-</span><span class="mi">150</span><span class="p">:,</span> <span class="o">-</span><span class="mi">50</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Generate an example of heatmap over the image</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span>
+<span class="c1"># Create heatmap</span>
+<span class="n">heatmap</span><span class="p">,</span> <span class="n">xedges</span><span class="p">,</span> <span class="n">yedges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">heatmap_complete</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">heatmap_complete</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Generate an example of coordinates of keypoints over the image</span>
+<span class="c1"># the list of keypoints can be expressed as an array of nx2 dimensions or as a list of arrays (1x2) (of 2 coordinates)</span>
+<span class="n">number_of_points</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="c1"># generate 20 random coordinates (to make sure they don&#39;t go outside the image boundaries set short_Size as the limit)</span>
+<span class="n">random_coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">short_size</span><span class="p">,</span> <span class="n">number_of_points</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">number_of_points</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Generate the input item of the pipeline. Its very importantto name each element with its data type so that the</span>
+<span class="c1"># pipeline understands them. *If the item contains more than one element of each type, just number them like mask1</span>
+<span class="c1"># and mask2</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="n">img</span><span class="p">,</span> <span class="s1">&#39;keypoints&#39;</span><span class="p">:</span> <span class="n">random_coordinates</span><span class="p">,</span> <span class="s1">&#39;mask1&#39;</span><span class="p">:</span> <span class="n">mask_example1</span><span class="p">,</span> <span class="s1">&#39;mask2&#39;</span><span class="p">:</span> <span class="n">mask_example2</span><span class="p">,</span>
+        <span class="s1">&#39;heatmap&#39;</span><span class="p">:</span> <span class="n">heatmap_complete</span><span class="p">}</span>
+
+<span class="c1"># For this example we are going to use the same identical input element but repeated n times to create a batch so we</span>
+<span class="c1"># can see the different transformations</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">batch</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">samples</span><span class="p">)]</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>  <span class="c1"># time measurement</span>
+
+<span class="c1"># Define the pipeline and operations.</span>
+<span class="n">pip</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span>
+               <span class="n">pipeline_operations</span><span class="o">=</span><span class="p">(</span>
+                   <span class="n">ScalePipeline</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale_factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+                   <span class="n">ShearPipeline</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shear</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)),</span>
+                   <span class="n">TranslatePipeline</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">translation</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">)),</span>
+                   <span class="n">HflipPipeline</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">exchange_points</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]),</span>
+                   <span class="n">RandomRotatePipeline</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">degrees_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">)),</span>
+                   <span class="n">GaussianNoisePipeline</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
+
+<span class="c1"># pass the batch through the pipeline and visualize the transformations</span>
+<span class="n">batch</span> <span class="o">=</span> <span class="n">pip</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">visualize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">consumed_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="c1"># keep in mind that visualization is a significant overhead, so to take a good measure of</span>
+<span class="c1"># performance set visualize=False</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total time consumed to process &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; samples: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">consumed_time</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time per sample: :&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">consumed_time</span> <span class="o">/</span> <span class="n">samples</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dataloader_example.html" class="btn btn-neutral float-right" title="Dataloader Usage example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Raquel Vilas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,276 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Transformations &mdash; IdaLib 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="ida_lib.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> IdaLib
+          
+
+          
+            
+            <img src="_static/icon.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ida_lib.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IdaLib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Transformations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/transformations.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="transformations">
+<h1>Transformations<a class="headerlink" href="#transformations" title="Permalink to this headline">¶</a></h1>
+<p>The transformations included in the library are:</p>
+<ol class="arabic simple">
+<li><p><strong>hflip</strong>: horizontal flipping the image</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/hflip.png"><img alt="_images/hflip.png" class="align-center" src="_images/hflip.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="2">
+<li><p><strong>vflip</strong>: vertical flipping the image</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/vflip.png"><img alt="_images/vflip.png" class="align-center" src="_images/vflip.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="3">
+<li><p><strong>Affine</strong>:carry out the transformation expressed in the operation matrix</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/affine.png"><img alt="_images/affine.png" class="align-center" src="_images/affine.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="4">
+<li><p><strong>Rotate</strong>:rotate the image by the indicated degrees counterclockwise</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/rotate.png"><img alt="_images/rotate.png" class="align-center" src="_images/rotate.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="5">
+<li><p><strong>Shear</strong>: linear map that displaces each point in fixed direction, by an amount proportional to its signed distance from the line that is parallel to that direction and goes through the origin</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/shear.png"><img alt="_images/shear.png" class="align-center" src="_images/shear.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="6">
+<li><p><strong>Scale</strong>: scale the image by making it smaller or larger (crop equivalent)</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/scale.png"><img alt="_images/scale.png" class="align-center" src="_images/scale.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="7">
+<li><p><strong>Translate</strong>: moves the image pixels to the positions indicated on each axis</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/translate.png"><img alt="_images/translate.png" class="align-center" src="_images/translate.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="8">
+<li><p><strong>Change gamma</strong>: adjust image’s gamma (luminance correction) .</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/gamma.png"><img alt="_images/gamma.png" class="align-center" src="_images/gamma.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="9">
+<li><p><strong>Change contrast:</strong>: change the image contrast.</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/contrast.png"><img alt="_images/contrast.png" class="align-center" src="_images/contrast.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="10">
+<li><p><strong>Change brightness</strong>: change the image brightness</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/brightness.png"><img alt="_images/brightness.png" class="align-center" src="_images/brightness.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="11">
+<li><p><strong>Equalize histogram</strong>: equalize the image histogram</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/equalization.png"><img alt="_images/equalization.png" class="align-center" src="_images/equalization.png" style="width: 50%;" /></a>
+<p>12. <strong>Inject gaussian noise</strong>: gaussian noise is a statistical noise having a probability density function (PDF) equal
+to that of the normal distribution</p>
+<a class="reference internal image-reference" href="_images/gaussian_noise.png"><img alt="_images/gaussian_noise.png" class="align-center" src="_images/gaussian_noise.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="13">
+<li><p><strong>Inject salt and pepper noise</strong>: salt-and-pepper noise is a statistical noise compose of white (salt) and black (pepper) pixels</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/salt_pepper_noise.png"><img alt="_images/salt_pepper_noise.png" class="align-center" src="_images/salt_pepper_noise.png" style="width: 50%;" /></a>
+<p>14. <strong>Inject spekle noise</strong>: Speckle is a granular interference that inherently exists in and degrades the quality of the active radar,
+synthetic aperture radar (SAR), medical ultrasound and optical coherence tomography images.
+It is applied by adding the image multiplied by the noise matrix -&gt; img + img * uniform_noise</p>
+<a class="reference internal image-reference" href="_images/spekle_noise.png"><img alt="_images/spekle_noise.png" class="align-center" src="_images/spekle_noise.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="15">
+<li><p><strong>Inject poisson noise</strong>: It is applied by adding Poisson-distributed noise</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/poisson_noise.png"><img alt="_images/poisson_noise.png" class="align-center" src="_images/poisson_noise.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="16">
+<li><p><strong>Blur</strong>: blur image.</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/blur.png"><img alt="_images/blur.png" class="align-center" src="_images/blur.png" style="width: 50%;" /></a>
+<ol class="arabic simple" start="17">
+<li><p><strong>Gaussian blur</strong>: blurring an image by a Gaussian function.</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/gaussian_blur.png"><img alt="_images/gaussian_blur.png" class="align-center" src="_images/gaussian_blur.png" style="width: 50%;" /></a>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ida_lib.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Raquel Vilas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

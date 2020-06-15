@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Overview &mdash; IdaLib 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Transformations" href="transformations.html" />
+    <link rel="prev" title="IdaLib" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> IdaLib
+          
+
+          
+            
+            <img src="_static/icon.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#functionalities">Functionalities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#first-steps">First steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visualization-tool">Visualization tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ida_lib.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IdaLib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/overview.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="functionalities">
+<h2>Functionalities<a class="headerlink" href="#functionalities" title="Permalink to this headline">¶</a></h2>
+<p>The functionalities on which IdaLib focuses are:</p>
+<ol class="arabic">
+<li><p>Offering a <strong>wide variety of image transformations</strong>.</p></li>
+<li><p>Allow the <strong>joint transformation</strong>  of:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>image</p></li>
+<li><p>heatmap</p></li>
+<li><p>mask</p></li>
+<li><p>segmaps</p></li>
+<li><p>keypoints</p></li>
+<li><p>any combination of them</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Offer an <strong>interactive visualization tool</strong> that facilitates the debugging of programs.</p></li>
+<li><p>Offer an <strong>efficient operation composition pipeline</strong> (parameterizable at probability and attribute level).</p></li>
+<li><p>Offer a <strong>Dataloader</strong> object (as a generator) that integrates the pipeline and allows the supply of any neural network.</p></li>
+<li><p>Offer a tool to perform <strong>Image Data Augmentation directly to disk</strong> in order to use the increased dataset directly in future situations</p></li>
+</ol>
+</div>
+<div class="section" id="first-steps">
+<h2>First steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h2>
+<p>The central object of ida lib is its pipeline. To use it, just decide which PipelineOperations we want it to include. All other parameters are optional.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">example_pipipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">pipeline_operations</span><span class="o">=</span><span class="p">(</span>
+                     <span class="n">ScalePipeline</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">scale_factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+                     <span class="n">ShearPipeline</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">shear</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)),</span>
+                     <span class="n">TranslatePipeline</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">translation</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">)),</span>
+                     <span class="n">HflipPipeline</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">exchange_points</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]),</span>
+                     <span class="n">RandomRotatePipeline</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">degrees_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+                     <span class="p">)</span>
+                     <span class="p">)</span>
+</pre></div>
+</div>
+<p>The pipelineOperations can be divided into 2 groups:</p>
+<ul class="simple">
+<li><p>the <strong>classic operations</strong>, where you indicate exactly the parameters of the operation (for example <code class="docutils literal notranslate"><span class="pre">`RotatePipeline(degrees=20)`</span></code> ). In [transformations](#operations) you can see what each one of them does</p></li>
+<li><p>and the <strong>Random pipelineOPerations</strong>, where what you define is a range of possible parameters, and each time the operation is applied it will take a different value within this range (<code class="docutils literal notranslate"><span class="pre">RandomRotatePipeline(degrees_range=(-20,30)</span></code>)</p></li>
+</ul>
+<p>Once you have defined your pipeline, you can pass through it your batch data to be transformed.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Remember that the entry for the pipeline must be composed of Python dicts. To be treated correctly, each dict’s element must be associated with its type (images with ‘image1’, ‘image2’…; masks with ‘mask1’, ‘mask67’…):</p>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">data1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="n">img1</span><span class="p">,</span> <span class="s1">&#39;keypoints&#39;</span><span class="p">:</span> <span class="n">random_coordinates</span><span class="p">,</span> <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">mask_example1</span><span class="p">}</span>
+<span class="n">data2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="n">img2</span><span class="p">,</span> <span class="s1">&#39;keypoints2&#39;</span><span class="p">:</span> <span class="n">random_coordinates2</span><span class="p">,</span> <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">mask_example2</span><span class="p">}</span>
+<span class="n">data3</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="n">img3</span><span class="p">,</span> <span class="s1">&#39;keypoints3&#39;</span><span class="p">:</span> <span class="n">random_coordinates3</span><span class="p">,</span> <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">mask_example3</span><span class="p">}</span>
+
+<span class="n">batch</span> <span class="o">=</span> <span class="p">[</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">data3</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Finally we run the pipeline as many times as necessary:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">transformed_batch</span> <span class="o">=</span> <span class="n">example_pipipeline</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="visualization-tool">
+<h2>Visualization tool<a class="headerlink" href="#visualization-tool" title="Permalink to this headline">¶</a></h2>
+<p>Ida Lib includes a tool to visualize the transformations to facilitate code debugging.
+It is an interactive tool developed with the bokeh framework and allows the selection of the data to be displayed in the image.</p>
+<ul class="simple">
+<li><p>The color code is used to differentiate each element and identify it in all the images.</p></li>
+<li><p>The dots are numbered in order to see their order</p></li>
+<li><p>Allows to compare different transformations obtained by the pipeline</p></li>
+<li><p>It also includes the targets in the visualization in order to have a complete view of the elements</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/visualization.png"><img alt="_images/visualization.png" class="align-center" src="_images/visualization.png" style="width: 120%;" /></a>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To test the visualization tool you can try this example:
+<a class="reference external" href="https://github.com/raquelvilas18/ida_lib/blob/master/examples/pipeline_usage.py">https://github.com/raquelvilas18/ida_lib/blob/master/examples/pipeline_usage.py</a></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>For the visualization tool a bokeh server is deployed; therefore it is only possible to have one open execution.
+It is important to close previous runs in order to open new windows</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="transformations.html" class="btn btn-neutral float-right" title="Transformations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="IdaLib" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Raquel Vilas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
