@@ -1,10 +1,9 @@
 tqdm
-torch
 opencv-python
 numpy==1.18.4
 bokeh==2.0.1
 kornia==0.3.1
-torch=1.5.0
+torch==1.5.0
 tqmd
 opencv==4.2.0.34
 pandas
