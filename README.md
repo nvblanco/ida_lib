@@ -14,13 +14,13 @@ The library is optimized to perform operations in the most efficient way possibl
 
 ## Features
 
-* [**Multiple fast augmentations**](#pookie) based on Kornia an OpenCV libraries
+* [**Multiple fast augmentations**](#operations) based on Kornia an OpenCV libraries
 * **Flexible**
 * Complete tool, includes support for tasks associated with Pytorch-based neural networks
   * includes **support for a dataloader to directly feed the neural network** including Image Data Augmentation tool
   * includes support for a **tool to directly perform the Image Data Augmentation to disk.** To be able to use the increased dataset later and independently of the platform
 * Supports **multiple types of combined data** (images, heat maps, segmentation maps, masks and keypoints)
-* Includes a **visualization tool** to make easier program debugging and can see the transformation results
+* Includes a [**visualization tool**](#visualization) to make easier program debugging and can see the transformation results
 
 ## Getting Started
 
@@ -44,7 +44,7 @@ You can see the whole project documentation here:
   https://ida-lib.readthedocs.io/en/latest/index.html
 
 
-## <a name="pookie">Transformations</a>
+## <a name="operations">Transformations</a>
 
 The transformations included in the library are:
 
@@ -120,7 +120,7 @@ It is applied by adding the image multiplied by the noise matrix -> img + img * 
 
 <img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/gaussian_blur.png" alt="tittle" width="50%"/>
 
-## Visualization tool
+##  <a name="visualization"> Visualization tool </a>
 
 Ida Lib includes a tool to visualize the transformations to facilitate code debugging.
 It is an interactive tool developed with the bokeh framework and allows the selection of the data to be displayed in the image.
@@ -145,5 +145,5 @@ It is an interactive tool developed with the bokeh framework and allows the sele
 ## Authors
 
 * **Raquel Vilas** - *Coding work*
-* **Nicolás Vila Blanco** - co-author
-* **Maria José Carreira Nouche** - co-author
+* **Nicolás Vila Blanco** - *co-author*
+* **Maria José Carreira Nouche** - *co-author*
