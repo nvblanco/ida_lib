@@ -63,7 +63,7 @@ data3 = {'image': img3, 'keypoints3': random_coordinates3, 'mask': mask_example3
 batch = [data1, data2, data3]
 ```
 
-Finalmente ejecutamos el pipeline las veces que sean necesarias:
+Finally we run the pipeline as many times as necessary:
 
 ```
 transformed_batch = example_pipipeline(batch)
