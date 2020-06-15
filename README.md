@@ -36,11 +36,12 @@ If you want to get the latest version of the code before it is released on PyPI 
 
 ``` pip install -U git+https://github.com/raquelvilas18/ida_lib```
 
+
 ## Documentation
 
 You can see the whole project documentation here:
 
-https://ida-lib.readthedocs.io/en/latest/index.html
+  https://ida-lib.readthedocs.io/en/latest/index.html
 
 
 ## Transformations
@@ -49,75 +50,75 @@ The transformations included in the library are:
 
 1. **hflip**: horizontal flipping the image
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/hflip.png"  width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/hflip.png"  width="50%"/>
 
 2. **vflip**: vertical flipping the image
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/vflip.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/vflip.png" alt="tittle" width="50%"/>
 
 3. **Affine**:carry out the transformation expressed in the operation matrix
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/affine.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/affine.png" alt="tittle" width="50%"/>
 
 4. **Rotate**:rotate the image by the indicated degrees counterclockwise
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/rotate.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/rotate.png" alt="tittle" width="50%"/>
 
 5. **Shear**: linear map that displaces each point in fixed direction, by an amount proportional to its signed distance from the line that is parallel to that direction and goes through the origin
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/shear.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/shear.png" alt="tittle" width="50%"/>
 
 6. **Scale**: scale the image by making it smaller or larger (crop equivalent)
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/scale.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/scale.png" alt="tittle" width="50%"/>
 
 7. **Translate**: moves the image pixels to the positions indicated on each axis
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/translate.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/translate.png" alt="tittle" width="50%"/>
 
 8. **Change gamma**: adjust image's gamma (luminance correction) .
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/gamma.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/gamma.png" alt="tittle" width="50%"/>
 
 9. **Change contrast:**: change the image contrast.
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/contrast.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/contrast.png" alt="tittle" width="50%"/>
 
 
 10. **Change brightness**: change the image brightness
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/brightness.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/brightness.png" alt="tittle" width="50%"/>
 
 11. **Equalize histogram**: equalize the image histogram
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/equalization.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/equalization.png" alt="tittle" width="50%"/>
 
 12. **Inject gaussian noise**: gaussian noise is a statistical noise having a probability density function (PDF) equal
 to that of the normal distribution
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/gaussian_noise.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/gaussian_noise.png" alt="tittle" width="50%"/>
 
 13. **Inject salt and pepper noise**: salt-and-pepper noise is a statistical noise compose of white (salt) and black (pepper) pixels
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/salt_pepper_noise.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/salt_pepper_noise.png" alt="tittle" width="50%"/>
 
 14. **Inject spekle noise**: Speckle is a granular interference that inherently exists in and degrades the quality of the active radar,
 synthetic aperture radar (SAR), medical ultrasound and optical coherence tomography images.
 It is applied by adding the image multiplied by the noise matrix -> img + img * uniform_noise
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/spekle_noise.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/spekle_noise.png" alt="tittle" width="50%"/>
 
 15. **Inject poisson noise**: It is applied by adding Poisson-distributed noise
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/poisson_noise.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/poisson_noise.png" alt="tittle" width="50%"/>
 
 16. **Blur**: blur image.
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/blur.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/blur.png" alt="tittle" width="50%"/>
 
 17. **Gaussian blur**: blurring an image by a Gaussian function.
 
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/gaussian_blur.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/gaussian_blur.png" alt="tittle" width="50%"/>
 
 ## Visualization tool
 
