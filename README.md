@@ -53,11 +53,11 @@ The transformations included in the library are:
 
 2. **vflip**: vertical flipping the image
 
-<img src="https://github.com/raquelvilas18/ida_lib/tree/master/docs/source/vflip.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/vflip.png" alt="tittle" width="70%"/>
 
 3. **Affine**:carry out the transformation expressed in the operation matrix
 
-<img src="https://github.com/raquelvilas18/ida_lib/tree/master/docs/source/affine.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/affine.png" alt="tittle" width="70%"/>
 
 4. **Rotate**:rotate the image by the indicated degrees counterclockwise
 
