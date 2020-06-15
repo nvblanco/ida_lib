@@ -133,6 +133,14 @@ It is an interactive tool developed with the bokeh framework and allows the sele
 * Allows to compare different transformations obtained by the pipeline
 * It also includes the targets in the visualization in order to have a complete view of the elements
 
+.. image:: visualization.png
+   :width: 120%
+   :align: center
+
 .. note::
     To test the visualization tool you can try this example:
     https://github.com/raquelvilas18/ida_lib/blob/master/examples/pipeline_usage.py
+
+.. warning::
+    For the visualization tool a bokeh server is deployed; therefore it is only possible to have one open execution.
+    It is important to close previous runs in order to open new windows

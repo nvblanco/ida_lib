@@ -57,7 +57,7 @@ random_coordinates = np.random.randint(1, short_size, number_of_points * 2).resh
 # pipeline understands them. *If the item contains more than one element of each type, just number them like mask1
 # and mask2
 data = {'image': img, 'keypoints': random_coordinates, 'mask1': mask_example1, 'mask2': mask_example2,
-        'heatmap': heatmap_complete}
+        'heatmap': heatmap_complete, 'target': 'mickey'}
 
 # For this example we are going to use the same identical input element but repeated n times to create a batch so we
 # can see the different transformations
@@ -73,8 +73,7 @@ pip = Pipeline(interpolation='nearest',
                    ShearPipeline(probability=0.3, shear=(0.2, 0.2)),
                    TranslatePipeline(probability=0.4, translation=(10,50)),
                    HflipPipeline(probability=0.6, exchange_points=[(0, 5), (1, 6)]),
-                   RandomRotatePipeline(probability=0.4, degrees_range=(-20, 20)),
-                   GaussianNoisePipeline(probability=0.4)))
+                   RandomRotatePipeline(probability=0.4, degrees_range=(-20, 20))))
 
 # pass the batch through the pipeline and visualize the transformations
 batch = pip(batch, visualize=True)
