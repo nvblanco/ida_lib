@@ -25,15 +25,11 @@ Instalation
 
 You can use pip to install Ida-Lib
 
-.. code-block::
-
-   pip install ida-lib
+``pip install ida-lib``
 
 If you want to get the latest version of the code before it is released on PyPI you can install the library from GitHub:
 
-.. code-block::
-
-   pip install -U git+https://github.com/raquelvilas18/ida_lib
+``pip install -U git+https://github.com/raquelvilas18/ida_lib``
 
 Contents
 -----------
