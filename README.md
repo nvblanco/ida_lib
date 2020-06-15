@@ -12,7 +12,7 @@ The library is optimized to perform operations in the most efficient way possibl
 * Segmentation maps
 * Heatmaps
 
-##Features
+## Features
 
 * Multiple fast augmentations based on Kornia an OpenCV libraries
 * Flexible
@@ -36,7 +36,7 @@ If you want to get the latest version of the code before it is released on PyPI 
 
 ``` pip install -U git+https://github.com/raquelvilas18/ida_lib```
 
-##Documentation
+## Documentation
 
 You can see the whole project documentation here:
 
@@ -49,7 +49,7 @@ The transformations included in the library are:
 
 1. **hflip**: horizontal flipping the image
 
-<img src="https://github.com/raquelvilas18/ida_lib/tree/master/docs/source/hflip.png" alt="tittle" width="70%"/>
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/hflip.png"  width="70%"/>
 
 2. **vflip**: vertical flipping the image
 
