@@ -5,7 +5,7 @@ import kornia
 import torch
 
 from ida_lib.core.pipeline_operations import PipelineOperation
-from ida_lib.global_parameters import ones_torch, identity, cuda, one_torch, device
+from ida_lib.global_parameters import ones_torch, identity, cuda, one_torch, device, ones_2_torch
 from ida_lib.operations.geometry_ops_functional import get_translation_matrix, get_scale_matrix, \
     get_squared_shear_matrix
 
@@ -38,7 +38,7 @@ class ScalePipeline(PipelineOperation):
             self.center = center
             self.config = False
         self.matrix = identity.clone()
-        self.ones_2 = torch.ones(2, device=cuda)
+        self.ones_2 = ones_2_torch
         self.scale_factor = scale_factor
 
     def config_parameters(self, data_info: dict):
@@ -80,7 +80,7 @@ class RandomScalePipeline(PipelineOperation):
             self.center = center
             self.config = False
         self.matrix = identity.clone()
-        self.ones_2 = torch.ones(2, device=cuda)
+        self.ones_2 = ones_2_torch
         self.scale_factor = self.ones_2
         if not isinstance(scale_range, tuple):
             raise Exception("Scale range must be a tuple")
