@@ -1,12 +1,7 @@
-import sphinx_bootstrap_theme
-import guzzle_sphinx_theme
 import sphinx_rtd_theme
 import os
 import sys
 
-#html_theme_path = guzzle_sphinx_theme.html_theme_path()
-#html_theme = 'guzzle_sphinx_theme'
-#html_theme = 'bootstrap'
 html_theme = "sphinx_rtd_theme"
 html_logo = 'icon.png'
 html_theme_options = {
