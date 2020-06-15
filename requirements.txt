@@ -4,5 +4,5 @@ bokeh==2.0.1
 kornia==0.3.1
 torch==1.5.0
 pandas
-skimage
+scikit-image
 sphinx>=1.6.2
