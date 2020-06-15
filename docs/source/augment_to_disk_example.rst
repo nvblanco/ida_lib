@@ -4,7 +4,7 @@
 Image Augmentation to Disk example
 ======================
 
-.. code-block::
+.. code-block:: Python
 
 
     import os

@@ -4,7 +4,7 @@
 Pipeline Usage example
 ======================
 
-.. code-block::
+.. code-block:: Python
 
     """In this file an example of how to use the idaLib pipeline is shown, in which you can see:
     * how to declare the pipeline

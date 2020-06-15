@@ -10,6 +10,7 @@ IdaLib
 ========================
 
 IdaLib (Image Data Augmentation Library) is a library dedicated to the task of Image Data Augmentation in a fast, simple, efficient and flexible way
+This library allows you to convert your input data into a larger and more diverse one to perform a better train of your Neural Network
 
 Features
 ----------
@@ -38,6 +39,7 @@ Contents
    :maxdepth: 3
 
    overview
+   transformations
    ida_lib
    examples
 
@@ -50,6 +52,14 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+
+Built with
+-------------
+* [Pytorch](https://pytorch.org/) - The machine learning framework used
+* [Bokeh](https://bokeh.org/) - The visualization library used
+* [Kornia](https://kornia.github.io/) - computer vision library that is used as a base for transformations
+* [OpenCV](https://bokeh.org/) - computer vision library that is used as a base for transformations
+* [Pycharm](https://rometools.github.io/rome/) - Development IDE
 
 Acknowledgements
 --------------------

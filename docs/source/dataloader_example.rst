@@ -4,7 +4,7 @@
 Dataloader Usage example
 ======================
 
-.. code-block::
+.. code-block:: Python
 
     """
     This file has an example of how to use IDALib's own DataLoader which includes a pipeline to perform image data
