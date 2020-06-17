@@ -320,8 +320,9 @@ def visualize(images: dict, images_originals: dict, max_images: int = 5):
     curdoc().add_root(layout)
 
     # Run  bokeh server to show the visualization window
-    command = 'bokeh serve --show ' + sys.argv[0]
-    os.system(command)
+    if not os.environ.get('READTHEDOCS'):
+        command = 'bokeh serve --show ' + sys.argv[0]
+        os.system(command)
 
 
 def plot_image_transformation(data, data_original):
@@ -340,6 +341,7 @@ def plot_image_transformation(data, data_original):
     curdoc().title = "Batch visualization"
     curdoc().add_root(layout)
 
-    # Run  bokeh server to show the visualization window
-    command = 'bokeh serve --show ' + sys.argv[0]
-    os.system(command)
+    if not os.environ.get('READTHEDOCS'):
+        # Run  bokeh server to show the visualization window
+        command = 'bokeh serve --show ' + sys.argv[0]
+        os.system(command)
