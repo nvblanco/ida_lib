@@ -17,13 +17,13 @@ def image_np(dtype=np.uint8):
 
 
 def segmap(img, dtype=np.uint8):
-    segmap = np.zeros((img.shape[0], img.shape[1], 1), dtype=dtype)
-    segmap[28:171, 35:485, 0] = 1
-    segmap[10:25, 30:245, 0] = 2
-    segmap[10:25, 70:385, 0] = 3
-    segmap[10:110, 5:210, 0] = 4
-    segmap[18:223, 10:110, 0] = 5
-    return segmap
+    example_segmap = np.zeros((img.shape[0], img.shape[1], 1), dtype=dtype)
+    example_segmap[28:171, 35:485, 0] = 1
+    example_segmap[10:25, 30:245, 0] = 2
+    example_segmap[10:25, 70:385, 0] = 3
+    example_segmap[10:110, 5:210, 0] = 4
+    example_segmap[18:223, 10:110, 0] = 5
+    return example_segmap
 
 
 def points():
@@ -175,14 +175,11 @@ class DummyDataset(Dataset):
         return len(self.data_index)
 
     def __getitem__(self, idx):
-        # get data sample
-        sample = self.data_index[idx]
-
         # load data, NOTE: modify by cv2.imread(...)
         image = np.random.randint(low=0, high=256, size=(size[0], size[1], 3)).astype(np.float)
-        mask = np.random.randint(low=0, high=1, size=(size[0], size[1], 3)).astype(np.float)
+        item_mask = np.random.randint(low=0, high=1, size=(size[0], size[1], 3)).astype(np.float)
 
-        return {'image': image, 'mask': mask}
+        return {'image': image, 'mask': item_mask}
 
 
 @pytest.fixture

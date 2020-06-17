@@ -295,6 +295,7 @@ def translate_compose_data(data: dict, translation: Union[int, torch.tensor]) ->
 
 """ --- Shear Transform ---"""
 
+
 def get_shear_matrix(shear_factor: tuple) -> torch.tensor:
     matrix = torch.eye(2, 3).to(device)
     matrix[0, 1] = shear_factor[0]

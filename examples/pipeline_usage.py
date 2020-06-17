@@ -52,7 +52,7 @@ number_of_points = 20
 # generate 20 random coordinates (to make sure they don't go outside the image boundaries set short_Size as the limit)
 random_coordinates = np.random.randint(1, short_size, number_of_points * 2).reshape(number_of_points, 2)
 
-# Generate the input item of the pipeline. Its very importantto name each element with its data type so that the
+# Generate the input item of the pipeline. Its very important to name each element with its data type so that the
 # pipeline understands them. *If the item contains more than one element of each type, just number them like mask1
 # and mask2
 data = {'image': img, 'keypoints': random_coordinates, 'mask1': mask_example1, 'mask2': mask_example2,

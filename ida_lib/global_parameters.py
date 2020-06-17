@@ -11,7 +11,7 @@ identity = torch.eye(3, 3, device=cuda)
 one_torch = torch.ones(1).to(device)
 ones_torch = torch.ones(1, 2, device=cuda)
 
-ones_2_torch =torch.ones(2, device=cuda)
+ones_2_torch = torch.ones(2, device=cuda)
 
 
 

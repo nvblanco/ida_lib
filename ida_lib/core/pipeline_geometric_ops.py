@@ -5,7 +5,7 @@ import kornia
 import torch
 
 from ida_lib.core.pipeline_operations import PipelineOperation
-from ida_lib.global_parameters import ones_torch, identity, cuda, one_torch, device, ones_2_torch
+from ida_lib.global_parameters import ones_torch, identity,  one_torch, device, ones_2_torch
 from ida_lib.operations.geometry_ops_functional import get_translation_matrix, get_scale_matrix, \
     get_squared_shear_matrix
 
