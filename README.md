@@ -171,7 +171,6 @@ It is an interactive tool developed with the bokeh framework and allows the sele
 * [Bokeh](https://bokeh.org/) - The visualization library used 
 * [Kornia](https://kornia.github.io/) - computer vision library that is used as a base for transformations
 * [OpenCV](https://bokeh.org/) - computer vision library that is used as a base for transformations
-* [Pycharm](https://rometools.github.io/rome/) - Development IDE
 
 
 ## Authors
