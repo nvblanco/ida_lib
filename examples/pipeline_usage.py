@@ -13,7 +13,6 @@ import numpy as np
 
 from ida_lib.core.pipeline import *
 from ida_lib.core.pipeline_geometric_ops import *
-from ida_lib.core.pipeline_local_ops import *
 
 data_type = np.uint8
 
@@ -76,7 +75,7 @@ pip = Pipeline(interpolation='nearest',
                    RandomRotatePipeline(probability=0.4, degrees_range=(-20, 20))))
 
 # pass the batch through the pipeline and visualize the transformations
-batch = pip(batch, visualize=True)
+batch = pip(batch, visualize=False)
 
 consumed_time = time() - start_time
 # keep in mind that visualization is a significant overhead, so to take a good measure of
