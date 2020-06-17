@@ -1,5 +1,7 @@
+
 import os
-import sys
+if not os.environ.get('READTHEDOCS'):
+    import sys
 
 import cv2
 import kornia
