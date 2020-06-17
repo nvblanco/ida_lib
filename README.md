@@ -176,6 +176,6 @@ It is an interactive tool developed with the bokeh framework and allows the sele
 
 ## Authors
 
-* **Raquel Vilas** - *Coding work*
+* **Raquel Vilas** - *programming effort*
 * **Nicolás Vila Blanco** - *co-author*
 * **Maria José Carreira Nouche** - *co-author*
