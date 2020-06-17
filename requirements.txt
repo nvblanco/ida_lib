@@ -7,3 +7,4 @@ pandas
 sphinx_rtd_theme
 scikit-image
 sphinx>=1.6.2
+mock

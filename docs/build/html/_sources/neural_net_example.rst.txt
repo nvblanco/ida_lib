@@ -1,7 +1,7 @@
 .. toctree::
    :maxdepth: 2
 
-Pipeline Usage example
+Neural Net example
 ======================
 
 .. code-block:: Python
