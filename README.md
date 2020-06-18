@@ -1,5 +1,5 @@
 <div style="text-align:center">
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/ida_lib/static/icon.png" />
+<img src="https://github.com/raquelvilas18/ida_lib/blob/master/ida_lib/static/little_icon.jpg" />
 </div>
 
 <div style='text-align: justify;'> 
