@@ -28,12 +28,8 @@ extensions = [
     "sphinx_rtd_theme",
 ]
 
+autodoc_mock_imports = ["functools", 'typing', 'numpy', 'torch', 'string', 'cv2', 'kornia', 'ida_lib', 'random', 'abc', 'os', 'bokeh']
 
-import mock
-
-MOCK_MODULES = ['numpy', 'scipy', 'sklearn', 'matplotlib', 'matplotlib.pyplot', 'scipy.interpolate', 'scipy.special', 'math', '__future__', 'toolboxutilities']
-for mod_name in MOCK_MODULES:
-    sys.modules[mod_name] = mock.Mock()
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
