@@ -6,6 +6,7 @@ html_theme = "sphinx_rtd_theme"
 html_logo = 'icon.png'
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.append(os.path.join(os.path.dirname(__name__), '..'))
+_pysrc = os.path.abspath(os.path.join(os.path.abspath(__file__), '..', '..', '..'))
 
 
 # -- Project information -----------------------------------------------------
@@ -28,8 +29,16 @@ extensions = [
     "sphinx_rtd_theme",
 ]
 
+from unittest.mock import MagicMock
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+            return MagicMock()
+
+MOCK_MODULES = ["functools", 'typing', 'numpy', 'torch', 'string', 'cv2', 'kornia', 'random', 'abc', 'os', 'bokeh']
 autodoc_mock_imports = ["functools", 'typing', 'numpy', 'torch', 'string', 'cv2', 'kornia', 'random', 'abc', 'os', 'bokeh']
 
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
