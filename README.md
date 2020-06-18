@@ -1,4 +1,4 @@
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/ida_lib/static/icon.png" alt="tittle" width="70%"/>
+<img style='display: block; margin-left: auto; margin-right: auto;'  src="https://github.com/raquelvilas18/ida_lib/blob/master/ida_lib/static/icon.png" alt="tittle" width="70%"/>
 <div style='text-align: justify;'> 
 
 **IDA LIB (Image Data Augmentation Library)** is a Python library to optimize the task of *Image Data Augmentation*. This tool allows you to convert your input data into a larger and more diverse one in an efficient, fast and easy way.
