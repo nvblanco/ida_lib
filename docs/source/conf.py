@@ -28,7 +28,7 @@ extensions = [
     "sphinx_rtd_theme",
 ]
 
-autodoc_mock_imports = ["functools", 'typing', 'numpy', 'torch', 'string', 'cv2', 'kornia', 'ida_lib', 'random', 'abc', 'os', 'bokeh']
+autodoc_mock_imports = ["functools", 'typing', 'numpy', 'torch', 'string', 'cv2', 'kornia', 'random', 'abc', 'os', 'bokeh']
 
 
 # Add any paths that contain templates here, relative to this directory.
