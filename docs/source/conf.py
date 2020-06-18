@@ -35,8 +35,18 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
             return MagicMock()
 
-MOCK_MODULES = ["functools", 'typing', 'numpy', 'torch', 'string', 'cv2', 'kornia', 'random', 'abc', 'os', 'bokeh']
-MOCK_MODULES = []
+MOCK_MODULES = ["functools",
+                #'typing',
+                'numpy',
+                'torch',
+                'string',
+                'cv2',
+                'kornia',
+                'random',
+                'abc',
+                'os',
+                'bokeh']
+#MOCK_MODULES = []
 autodoc_mock_imports = ["functools", 'typing', 'numpy', 'torch', 'string', 'cv2', 'kornia', 'random', 'abc', 'os', 'bokeh']
 
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
