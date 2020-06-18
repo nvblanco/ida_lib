@@ -47,9 +47,9 @@ MOCK_MODULES = ["functools",
                 'os',
                 'bokeh']
 #MOCK_MODULES = []
-autodoc_mock_imports = ["functools", 'typing', 'numpy', 'torch', 'string', 'cv2', 'kornia', 'random', 'abc', 'os', 'bokeh']
+autodoc_mock_imports = MOCK_MODULES
 
-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+# sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
