@@ -25,6 +25,12 @@ The library is optimized to perform operations in the most efficient way possibl
 * Supports **multiple types of combined data** (images, heat maps, segmentation maps, masks and keypoints)
 * Includes a [**visualization tool**](#visualization) to make easier program debugging and can see the transformation results
 
+## Documentation
+
+You can see the whole project documentation here:
+
+  https://ida-lib.readthedocs.io/en/latest/index.html
+
 ## Getting Started
 
  To use IdaLib in your projects you just need to install it:
@@ -72,11 +78,40 @@ Finally we run the pipeline as many times as necessary:
 transformed_batch = example_pipipeline(batch)
 ```
 
-## Documentation
+##DataLoader
+IDALib includes an object to perform Image Data Augmentation directly on your dataset and feed your neural network.
+It is a Dataloader object like the one in Pycharm but it accepts as an argument the operations of IdaLib
 
-You can see the whole project documentation here:
+To use it, you can use an standart dataset or you can define your custom dataset:
+```
+from torch.utils.data import Dataset
 
-  https://ida-lib.readthedocs.io/en/latest/index.html
+class custom_dataset(Dataset):
+    def __init__(self, csv_file, root_dir):
+    ... # custom init
+
+    def __len__(self):
+    ... # custom len
+
+    def __getitem__(self, idx):
+    ... #custom getitem
+
+dataset = custom_dataset(*params)
+```
+
+And you can already define your DataLoader that implements IdaLib's efficient Image data augmentation, selecting the desired batchhsize, wheter to shufle the data or not, and the pipeline operations
+```
+dataloader = AugmentDataLoader(dataset=custom_dataset,
+                               batch_size=4,
+                               shuffle=True,
+                               pipeline_operations=(
+                                   TranslatePipeline(probability=1, translation=(30, 10)),
+                                   VflipPipeline(probability=0.5),
+                                   ContrastPipeline(probability=0.5, contrast_factor=1),
+                                   RandomShearPipeline(probability=0.5, shear_range=(0, 0.5))),
+                               )
+
+```
 
 
 ## <a name="operations">Transformations</a>
