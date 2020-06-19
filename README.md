@@ -18,12 +18,13 @@ The library is optimized to perform operations in the most efficient way possibl
 ## Features
 
 * [**Multiple fast augmentations**](#operations) based on Kornia an OpenCV libraries
-* **Flexible**
+* **Flexible** and customizable
 * Complete tool, includes support for tasks associated with Pytorch-based neural networks
-  * includes **support for a dataloader to directly feed the neural network** including Image Data Augmentation tool
-  * includes support for a **tool to directly perform the Image Data Augmentation to disk.** To be able to use the increased dataset later and independently of the platform
+  * includes support for **feeding your neural network directly** by doing image data augmentation in the [IDALIb Dataloader](#dataloader)
+  * includes support for a **tool to directly perform the [Image Data Augmentation to disk](#augment_to_disk).** To be able to use the increased dataset later and independently of the platform
 * Supports **multiple types of combined data** (images, heat maps, segmentation maps, masks and keypoints)
 * Includes a [**visualization tool**](#visualization) to make easier program debugging and can see the transformation results
+* 
 
 ## Documentation
 
@@ -166,7 +167,7 @@ It is an interactive tool developed with the bokeh framework and allows the sele
 
 <img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/visualization.png" alt="tittle" width="100%"/>
 
-## IDALib DataLoader Tool
+## <a name="dataloader">IDALib DataLoader Tool</a>
 IDALib includes an object to perform Image Data Augmentation directly on your dataset and feed your neural network.
 It is a Dataloader object like the one in Pycharm but it accepts as an argument the operations of IDALib
 
@@ -202,7 +203,7 @@ dataloader = AugmentDataLoader(dataset=custom_dataset,
 ```
 
 
-## Image Augmentation To Disk Tool
+## <a name=augment_to_disk> Image Augmentation To Disk Tool </a>
 If you really don't want to implement in volatile memory the increased dataset, and you prefer to save it to be able to use it independently from the library you can use the AugmentToDisk.
 
 The way to use it is almost identical to the dataloader. You need a dataset as for the dataloader and define the Pipeline operations you want. Finally, you have to indicate how many elements you want to generate for each input element (samples_per_item), for example, with a value of 5, a dataset is generated 5 times bigger:
