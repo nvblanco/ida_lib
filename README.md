@@ -78,76 +78,6 @@ Finally we run the pipeline as many times as necessary:
 transformed_batch = example_pipipeline(batch)
 ```
 
-## IDALib DataLoader
-IDALib includes an object to perform Image Data Augmentation directly on your dataset and feed your neural network.
-It is a Dataloader object like the one in Pycharm but it accepts as an argument the operations of IDALib
-
-To use it, you can use an standart dataset or you can define your custom dataset:
-```
-from torch.utils.data import Dataset
-
-class custom_dataset(Dataset):
-    def __init__(self, csv_file, root_dir):
-    ... # custom init
-
-    def __len__(self):
-    ... # custom len
-
-    def __getitem__(self, idx):
-    ... #custom getitem
-
-dataset = custom_dataset(*params)
-```
-
-And you can already define your DataLoader that implements IDALib's efficient Image data augmentation, selecting the desired batchsize, wheter to shufle the data or not, and the pipeline operations
-```
-dataloader = AugmentDataLoader(dataset=custom_dataset,
-                               batch_size=4,
-                               shuffle=True,
-                               pipeline_operations=(
-                                   TranslatePipeline(probability=1, translation=(30, 10)),
-                                   VflipPipeline(probability=0.5),
-                                   ContrastPipeline(probability=0.5, contrast_factor=1),
-                                   RandomShearPipeline(probability=0.5, shear_range=(0, 0.5))),
-                               )
-
-```
-
-
-## Image Augmentation To Disk
-If you really don't want to implement in volatile memory the increased dataset, and you prefer to save it to be able to use it independently from the library you can use the AugmentToDisk.
-
-The way to use it is almost identical to the dataloader. You need a dataset as for the dataloader and define the Pipeline operations you want. Finally, you have to indicate how many elements you want to generate for each input element (samples_per_item), for example, with a value of 5, a dataset is generated 5 times bigger:
-
-```
-augmentor = AugmentToDisk(dataset=face_dataset,  # custom dataset that provides the input data
-                          samples_per_item=5,  # number of samples per imput item
-                          operations=(RandomScalePipeline(probability=0.6, scale_range=(0.8, 1.2), center_deviation=20),
-                                     HflipPipeline(probability=0.5),
-                                     RandomContrastPipeline(probability=0.5, contrast_range=(1, 1.5))),
-                          output_csv_path='anotations.csv',
-                          output_path='./augmented_custom')
-```
-You can select other types of parameters that take default values, such as the interpolation mode, the format of the output elements (jpg, png...), the output directory or the csv in which to store metadata such as the coordinates of associated points. Finally you just have to run it and your increased dataset will be stored on disk.
-```
-augmentor()  # Run the augmentation
-```
-
-### Customize
-
-You can customize the format and way your data is saved by overwriting the save_item and final_save methods if you want specific folder or standard structures.
-
-```
-class custom_augmentToDisk(AugmentToDisk):
-  def save_item(self, item: dict, index: int, output_path: str, types_2d: list, other_types: list, element: int):
-        #custom code to save each augmented item
-        
-  def final_save(self):
-        # custom code to execute once  at the end and save files as csv with the metadata of all items
-```
-To more information see the documentation of AugmentToDisk class: 
-https://ida-lib.readthedocs.io/en/latest/ida_lib.image_augmentation.html#module-ida_lib.image_augmentation.augment_to_disk
-
 ## <a name="operations">Transformations</a>
 
 The transformations included in the library are:
@@ -235,6 +165,77 @@ It is an interactive tool developed with the bokeh framework and allows the sele
 * It also includes the targets in the visualization in order to have a complete view of the elements
 
 <img src="https://github.com/raquelvilas18/ida_lib/blob/master/docs/source/visualization.png" alt="tittle" width="100%"/>
+
+## IDALib DataLoader Tool
+IDALib includes an object to perform Image Data Augmentation directly on your dataset and feed your neural network.
+It is a Dataloader object like the one in Pycharm but it accepts as an argument the operations of IDALib
+
+To use it, you can use an standart dataset or you can define your custom dataset:
+```
+from torch.utils.data import Dataset
+
+class custom_dataset(Dataset):
+    def __init__(self, csv_file, root_dir):
+    ... # custom init
+
+    def __len__(self):
+    ... # custom len
+
+    def __getitem__(self, idx):
+    ... #custom getitem
+
+dataset = custom_dataset(*params)
+```
+
+And you can already define your DataLoader that implements IDALib's efficient Image data augmentation, selecting the desired batchsize, wheter to shufle the data or not, and the pipeline operations
+```
+dataloader = AugmentDataLoader(dataset=custom_dataset,
+                               batch_size=4,
+                               shuffle=True,
+                               pipeline_operations=(
+                                   TranslatePipeline(probability=1, translation=(30, 10)),
+                                   VflipPipeline(probability=0.5),
+                                   ContrastPipeline(probability=0.5, contrast_factor=1),
+                                   RandomShearPipeline(probability=0.5, shear_range=(0, 0.5))),
+                               )
+
+```
+
+
+## Image Augmentation To Disk Tool
+If you really don't want to implement in volatile memory the increased dataset, and you prefer to save it to be able to use it independently from the library you can use the AugmentToDisk.
+
+The way to use it is almost identical to the dataloader. You need a dataset as for the dataloader and define the Pipeline operations you want. Finally, you have to indicate how many elements you want to generate for each input element (samples_per_item), for example, with a value of 5, a dataset is generated 5 times bigger:
+
+```
+augmentor = AugmentToDisk(dataset=face_dataset,  # custom dataset that provides the input data
+                          samples_per_item=5,  # number of samples per imput item
+                          operations=(RandomScalePipeline(probability=0.6, scale_range=(0.8, 1.2), center_deviation=20),
+                                     HflipPipeline(probability=0.5),
+                                     RandomContrastPipeline(probability=0.5, contrast_range=(1, 1.5))),
+                          output_csv_path='anotations.csv',
+                          output_path='./augmented_custom')
+```
+You can select other types of parameters that take default values, such as the interpolation mode, the format of the output elements (jpg, png...), the output directory or the csv in which to store metadata such as the coordinates of associated points. Finally you just have to run it and your increased dataset will be stored on disk.
+```
+augmentor()  # Run the augmentation
+```
+
+### Customize
+
+You can customize the format and way your data is saved by overwriting the save_item and final_save methods if you want specific folder or standard structures.
+
+```
+class custom_augmentToDisk(AugmentToDisk):
+  def save_item(self, item: dict, index: int, output_path: str, types_2d: list, other_types: list, element: int):
+        #custom code to save each augmented item
+        
+  def final_save(self):
+        # custom code to execute once  at the end and save files as csv with the metadata of all items
+```
+To more information see the documentation of AugmentToDisk class: 
+https://ida-lib.readthedocs.io/en/latest/ida_lib.image_augmentation.html#module-ida_lib.image_augmentation.augment_to_disk
+
 
 
 ## Built With
