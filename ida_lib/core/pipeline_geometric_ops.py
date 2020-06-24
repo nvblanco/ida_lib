@@ -5,9 +5,9 @@ import kornia
 import torch
 
 from ida_lib.core.pipeline_operations import PipelineOperation
-from ida_lib.global_parameters import ones_torch, identity,  one_torch, device, ones_2_torch
-from ida_lib.operations.geometry_ops_functional import get_translation_matrix, get_scale_matrix, \
-    get_squared_shear_matrix
+from ida_lib.global_parameters import ones_torch, identity, one_torch, device, ones_2_torch
+from ida_lib.operations.geometry_ops_functional import get_translation_matrix, get_squared_shear_matrix, \
+    get_squared_scale_matrix
 
 __all__ = ['HflipPipeline',
            'VflipPipeline',
@@ -31,6 +31,7 @@ class ScalePipeline(PipelineOperation):
         :param center: coordinates of the center of scaling. Default: center of the image
         """
         PipelineOperation.__init__(self, probability=probability, op_type='geometry')
+        self.__class__.__name__ = 'Scale pipeline'
         if center is None:
             self.config = True
             self.center = ones_torch.clone()
@@ -45,7 +46,7 @@ class ScalePipeline(PipelineOperation):
         self.config = False
         self.center[..., 1] = data_info['shape'][-2] // 2
         self.center[..., 0] = data_info['shape'][-3] // 2
-        self.matrix = get_scale_matrix(self.center, self.scale_factor)
+        self.matrix = get_squared_scale_matrix(self.center, self.scale_factor)
 
     def get_op_matrix(self):
         return self.matrix
@@ -143,9 +144,7 @@ class RotatePipeline(PipelineOperation):
             self.center = center
 
     def get_op_matrix(self) -> torch.tensor:
-        return torch.cat(((kornia.geometry.get_rotation_matrix2d(angle=self.degrees.reshape(1), center=self.center,
-                                                                 scale=one_torch.reshape(1))).reshape(2, 3),
-                          self.new_row))
+        return self.matrix
 
     def need_data_info(self) -> bool:
         return self.config
@@ -153,6 +152,10 @@ class RotatePipeline(PipelineOperation):
     def config_parameters(self, data_info: dict):
         self.center[..., 0] = data_info['shape'][-3] // 2  # x
         self.center[..., 1] = data_info['shape'][-2] // 2
+        self.matrix = torch.cat(
+            ((kornia.geometry.get_rotation_matrix2d(angle=self.degrees.reshape(1), center=self.center,
+                                                    scale=one_torch.reshape(1))).reshape(2, 3),
+             self.new_row))
         self.config = False
 
     @staticmethod

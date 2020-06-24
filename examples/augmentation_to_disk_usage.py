@@ -40,7 +40,7 @@ class FaceLandmarksDataset(Dataset):
         landmarks = self.landmarks_frame.iloc[idx, 1:]
         landmarks = np.array([landmarks])
         landmarks = landmarks.astype('float').reshape(-1, 2)
-        sample = {'id': item_id, 'image': image, 'landmarks': landmarks}
+        sample = {'id': item_id, 'image': image, 'keypoints': landmarks}
         return sample
 
 

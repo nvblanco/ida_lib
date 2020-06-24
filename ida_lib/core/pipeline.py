@@ -8,7 +8,7 @@ from ida_lib.core.pipeline_functional import (split_operations_by_type, get_comp
                                               get_compose_matrix,
                                               postprocess_data, switch_point_positions)
 from ida_lib.operations.geometry_ops_functional import own_affine
-from ida_lib.operations.utils import get_principal_type, dtype_to_torch_type
+from ida_lib.operations.utils import get_principal_type, dtype_to_torch_type, add_new_axis
 
 
 class Pipeline(object):
@@ -139,9 +139,10 @@ class Pipeline(object):
             if 'image' in data:
                 lut = get_compose_function(self.color_ops)
                 data['image'] = cv2.LUT(data['image'].astype('uint8'), lut)
+                if len(data['image'].shape) == 2:
+                    data['image'] = add_new_axis(data['image'])
                 for op in self.indep_ops:
                     data['image'] = op.apply_to_image_if_probability(data['image'])
-
             # process data and get compose matrix of geometric  operations
             if self.info_data is None:  # Needs to configure batch information
                 p_data, self.info_data = preprocess_data(data, interpolation=self.interpolation, resize=self.resize)

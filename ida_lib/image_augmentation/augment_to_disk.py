@@ -5,7 +5,7 @@ from torch.utils.data import Dataset
 from tqdm import trange
 
 from ida_lib.core.pipeline import *
-from ida_lib.operations.utils import save_im
+from ida_lib.operations.utils import save_im, get_data_types, generate_dict
 
 
 class AugmentToDisk(object):
@@ -69,7 +69,7 @@ class AugmentToDisk(object):
         Method that implements the way to save to disk each of the generated elements. By default it saves all the
         generated images in the specified path. The samples are organized by name following the form:
             * images:                       <id_image>_<sample number> <extension>
-            * other two-dimensional types:  <id_image>-<data_type>_<sample number> <extension>
+            * other two-dimensional types:  <id_image>_<sample number>-<data_type><extension>
         Annotations on the data, such as labels, or point coordinates are stored in dictionaries that will be written
         when all  the images have been processed.
 
@@ -86,9 +86,13 @@ class AugmentToDisk(object):
             if 'image' in actual_type:
                 name = output_path + '/' + item['id'] + '_' + str(index)
             else:
-                name = output_path + '/' + item['id'] + '-' + actual_type + '_' + str(index)
+                name = output_path + '/' + item['id'] + '_' + str(index) + '-' + actual_type
             save_im(tensor=item[actual_type], title=(name + self.output_extension))
-        self.output_csv.append(dict((label, item[label]) for label in other_types))
+        item['id'] = item['id'] + '_' + str(index)
+        item_csv = {}
+        for label in other_types:
+            item_csv.update(generate_dict(item, label))
+        self.output_csv.append(item_csv)
 
     def final_save(self):
         """
@@ -116,7 +120,7 @@ class AugmentToDisk(object):
             pbar.set_description("Processing image " + str(i) + " of the input dataset ")
             item = [self.dataset[i] for _ in range(self.samples_per_item)]
             augmented = self.pipeline(item)
-            self.types2d, self.other_types = self.pipeline.get_data_types()
+            self.types2d, self.other_types = get_data_types(item[0])
             if self.types2d is None:
                 self.types2d, self.other_types = self.pipeline.get_data_types()
             if isinstance(augmented, dict):

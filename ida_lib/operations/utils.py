@@ -82,6 +82,34 @@ def get_principal_type(data: dict):
             return label
 
 
+def get_data_types(data):
+    bidimensional = []
+    others = []
+    for label in data.keys():
+        nlabel = remove_digits(label)
+        if nlabel in ('image', 'mask', 'segmap', 'heatmap'):
+            bidimensional.append(label)
+        else:
+            others.append(label)
+    return bidimensional, others
+
+
+def generate_dict(item, label):
+    if label == 'keypoints':
+        coordinates = {}
+        num_points = item[label].shape[0]
+        if torch.is_tensor(item[label]):
+            item[label] = item[label].cpu().numpy()
+        for point in range(num_points):
+            point_name_x = 'keypoints_' + str(point) + '_x'
+            point_name_y = 'keypoints_' + str(point) + '_y'
+            coordinates[point_name_x] = item[label][point, 0]
+            coordinates[point_name_y] = item[label][point, 1]
+        return dict(coordinates)
+    else:
+        return {label: item[label]}
+
+
 def save_im(tensor, title):
     tensor = tensor.cpu()
     img = kornia.tensor_to_image(tensor.byte())

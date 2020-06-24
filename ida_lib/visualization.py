@@ -1,5 +1,5 @@
-
 import os
+
 if not os.environ.get('READTHEDOCS'):
     import sys
 

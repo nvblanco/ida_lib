@@ -4,7 +4,7 @@ import torch
 
 from ida_lib.core.pipeline import Pipeline
 from ida_lib.core.pipeline_geometric_ops import ScalePipeline, ShearPipeline, RandomScalePipeline, \
-    RandomShearPipeline, TranslatePipeline, RandomTranslatePipeline, HflipPipeline, RandomRotatePipeline,\
+    RandomShearPipeline, TranslatePipeline, RandomTranslatePipeline, HflipPipeline, RandomRotatePipeline, \
     VflipPipeline, RotatePipeline
 from ida_lib.core.pipeline_local_ops import GaussianNoisePipeline, BlurPipeline, GaussianBlurPipeline, \
     PoissonNoisePipeline, SaltAndPepperNoisePipeline, SpekleNoisePipeline

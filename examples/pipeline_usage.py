@@ -13,11 +13,12 @@ import numpy as np
 
 from ida_lib.core.pipeline import *
 from ida_lib.core.pipeline_geometric_ops import *
+from ida_lib.core.pipeline_pixel_ops import GammaPipeline, ContrastPipeline
 
 data_type = np.uint8
 
 # Read the example image
-img: np.ndarray = cv2.imread('../micky.jpg', )
+img: np.ndarray = cv2.imread('./micky.jpg', )
 # opencv read in format BGR but IDALib works on RGB
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 #img = img.astype('float32')  # Example of bits per pixel used
@@ -58,6 +59,7 @@ random_coordinates = np.random.randint(1, short_size, number_of_points * 2).resh
 data = {'image': img, 'keypoints': random_coordinates, 'mask1': mask_example1, 'mask2': mask_example2,
         'heatmap': heatmap_complete, 'target': 'mickey'}
 
+
 # For this example we are going to use the same identical input element but repeated n times to create a batch so we
 # can see the different transformations
 samples = 10
@@ -74,8 +76,9 @@ pip = Pipeline(interpolation='nearest',
                    HflipPipeline(probability=0.6, exchange_points=[(0, 5), (1, 6)]),
                    RandomRotatePipeline(probability=0.4, degrees_range=(-20, 20))))
 
+
 # pass the batch through the pipeline and visualize the transformations
-batch = pip(batch, visualize=False)
+batch = pip(batch, visualize=True)
 
 consumed_time = time() - start_time
 # keep in mind that visualization is a significant overhead, so to take a good measure of

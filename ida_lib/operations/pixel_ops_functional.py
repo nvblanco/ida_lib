@@ -7,6 +7,7 @@ import numpy as np
 import torch
 
 from . import utils
+from .utils import add_new_axis
 from ..visualization import plot_image_transformation
 
 
@@ -274,13 +275,15 @@ def _resize_image(image, new_size):
 def apply_gaussian_noise(image, var=20):
     g_noise = np.zeros((image.shape[0], image.shape[1], 1), dtype=image.dtype)
     cv2.randn(g_noise, 50, 20)
-    if image.shape[2] != 1:
+    if len(image.shape) == 3 and image.shape[2] != 1:
         g_noise = np.concatenate((g_noise, g_noise, g_noise), axis=2)
     g_noise = (g_noise * var).astype(image.dtype)
     return cv2.add(image, g_noise)
 
 
 def apply_salt_and_pepper_noise(image, amount=0.05, s_vs_p=0.5):
+    if len(image.shape) == 2:
+        image = add_new_axis(image)
     if not utils.is_a_normalized_image(image):
         salt = 255
     else:
