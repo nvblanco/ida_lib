@@ -14,9 +14,9 @@ from ida_lib.core.pipeline_pixel_ops import ContrastPipeline, BrightnessPipeline
 operations_probability = 1
 dtype = np.uint8
 samples = 10
-shape = (250,250)
+shape = (750, 750)
 
-
+# double definition
 pipeline_operations = [
             HflipPipeline(probability = operations_probability),
             VflipPipeline(probability = operations_probability),
@@ -24,12 +24,17 @@ pipeline_operations = [
             ShearPipeline(probability = operations_probability, shear = (shape[0] // 10, shape[1]//10)),
             ScalePipeline(probability = operations_probability, scale_factor = 1.2),
             TranslatePipeline(probability = operations_probability,translation = (shape[0] // 10, shape[1]//10)),
-            BlurPipeline(probability = operations_probability),
-            GaussianBlurPipeline(probability = operations_probability),
-            GaussianNoisePipeline(probability=operations_probability),
-            PoissonNoisePipeline(probability = operations_probability),
-            SaltAndPepperNoisePipeline(probability = operations_probability),
-            SpekleNoisePipeline(probability= operations_probability),
+            ContrastPipeline(probability = operations_probability, contrast_factor = 1.2),
+            BrightnessPipeline(probability = operations_probability, brightness_factor=1.3),
+            GammaPipeline(probability=operations_probability, gamma_factor = 1),
+            NormalizePipeline(probability=operations_probability),
+            DenormalizePipeline(probability = operations_probability),
+            HflipPipeline(probability = operations_probability),
+            VflipPipeline(probability = operations_probability),
+            RotatePipeline(probability = operations_probability, degrees = 20),
+            ShearPipeline(probability = operations_probability, shear = (shape[0] // 10, shape[1]//10)),
+            ScalePipeline(probability = operations_probability, scale_factor = 1.2),
+            TranslatePipeline(probability = operations_probability,translation = (shape[0] // 10, shape[1]//10)),
             ContrastPipeline(probability = operations_probability, contrast_factor = 1.2),
             BrightnessPipeline(probability = operations_probability, brightness_factor=1.3),
             GammaPipeline(probability=operations_probability, gamma_factor = 1),
@@ -89,7 +94,7 @@ def func_resolution():
     batch = generate_images_batch(1, (1,1))
     pip(batch) #avoid diferences in meassurements
     print("time according to resolution\n------------------------------\nBatchsize\ttime per item\ttime per pixel")
-    for shape in [(50,50),(100,100),(250,250), (500,500)]:
+    for shape in [(50,50),(100,100),(250,250), (500,500), (750,750)]:
         t = 0
         for i in range(samples):
             batch = generate_images_batch(batchsize,shape)
@@ -107,7 +112,7 @@ def func_resolution_bilinear():
     batch = generate_images_batch(1, (1,1))
     pip(batch) #avoid diferences in meassurements
     print("time according to resolution\n------------------------------\nBatchsize\ttime per item\ttime per pixel")
-    for shape in [(50,50),(100,100),(250,250), (500,500)]:
+    for shape in [(50,50),(100,100),(250,250), (500,500), (750,750), (1000,1000)]:
         t = 0
         for i in range(samples):
             batch = generate_images_batch(batchsize,shape)
@@ -160,7 +165,7 @@ def func_number_masks():
                    pipeline_operations=operations)
     batch = generate_image_and_masks_batch(batchsize, shape, 1)
     pip(batch)  # avoid diferences in meassurements
-    for n_masks in range(1, 18, 2):
+    for n_masks in range(1, 11):
         t = 0
         for i in range(samples):
             batch = generate_image_and_masks_batch(batchsize, shape, n_masks)
@@ -171,5 +176,8 @@ def func_number_masks():
             t += timeit.timeit(lambda: pip(batch), number=1)
         t = t / samples
         print(str(n_masks) + '\t' + str(t / batchsize))
+
+for i in range(10):
+    func_resolution_bilinear()
 
 

@@ -29,35 +29,7 @@ extensions = [
     "sphinx_rtd_theme",
 ]
 
-from unittest.mock import MagicMock
-class Mock(MagicMock):
-    @classmethod
-    def __getattr__(cls, name):
-            return MagicMock()
 
-class BaseGeometry(object):
-    pass
-
-MOCK_MODULES = ["functools",
-                #'typing',
-                'numpy',
-                'torch',
-                'string',
-                #'cv2',
-                'kornia',
-                'random',
-                #'abc',
-                'os',
-                'bokeh']
-#MOCK_MODULES = []
-autodoc_mock_imports = MOCK_MODULES
-
-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
-
-# sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
-
-# Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
