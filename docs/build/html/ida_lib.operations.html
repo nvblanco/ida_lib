@@ -181,7 +181,7 @@
 <span id="ida-lib-operations-geometry-ops-functional-module"></span><h2>ida_lib.operations.geometry_ops_functional module<a class="headerlink" href="#module-ida_lib.operations.geometry_ops_functional" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.affine_compose_data">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">affine_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.affine_compose_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">affine_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.affine_compose_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -197,12 +197,12 @@
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.affine_coordinates_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">affine_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">matrix_transformation</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.affine_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">affine_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">matrix_transformation</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.affine_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.affine_image">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">affine_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'bilinear'</span></em>, <em class="sig-param"><span class="n">padding_mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'zeros'</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.affine_image" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">affine_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'bilinear'</span></em>, <em class="sig-param"><span class="n">padding_mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'zeros'</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.affine_image" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -212,32 +212,32 @@
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.get_rotation_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_rotation_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_rotation_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_rotation_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_rotation_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.get_scale_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_scale_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>torch.tensor<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_scale_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_scale_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union[float, None._VariableFunctionsClass.tensor]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_scale_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.get_shear_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_shear_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shear_factor</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_shear_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_shear_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shear_factor</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_shear_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.get_squared_scale_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_squared_scale_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>torch.tensor<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_squared_scale_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_squared_scale_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union[float, None._VariableFunctionsClass.tensor]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_squared_scale_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.get_squared_shear_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_squared_shear_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shear_factor</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_squared_shear_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_squared_shear_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shear_factor</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_squared_shear_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.get_translation_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_translation_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_translation_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">get_translation_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.get_translation_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -255,12 +255,12 @@
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.hflip_coordinates_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">hflip_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">width</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.hflip_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">hflip_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">width</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.hflip_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.hflip_image">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">hflip_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.hflip_image" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">hflip_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.hflip_image" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -303,7 +303,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.rotate_compose_data">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">rotate_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.rotate_compose_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">rotate_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.rotate_compose_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -320,18 +320,18 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.rotate_coordinates_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">rotate_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.rotate_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">rotate_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.rotate_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.rotate_image">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">rotate_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.rotate_image" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">rotate_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.rotate_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>mode</p>
 </dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.scale_compose_data">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">scale_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>torch.tensor<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>torch.tensor<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.scale_compose_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">scale_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union[float, None._VariableFunctionsClass.tensor]</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">Optional[None._VariableFunctionsClass.tensor]</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.scale_compose_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -348,12 +348,12 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.scale_coordinates_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">scale_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.scale_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">scale_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.scale_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.scale_image">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">scale_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.scale_image" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">scale_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.scale_image" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -374,17 +374,17 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.shear_coordinates_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">shear_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.shear_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">shear_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.shear_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.shear_image">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">shear_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">shear_factor</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.shear_image" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">shear_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">shear_factor</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.shear_image" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.translate_compose_data">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">translate_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>torch.tensor<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.translate_compose_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">translate_compose_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">Union[int, None._VariableFunctionsClass.tensor]</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.translate_compose_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -400,12 +400,12 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.translate_coordinates_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">translate_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.translate_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">translate_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix_coordinates</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.translate_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.translate_image">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">translate_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.translate_image" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">translate_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.translate_image" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -423,12 +423,12 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.vflip_coordinates_matrix">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">vflip_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">height</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.vflip_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">vflip_coordinates_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">height</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.vflip_coordinates_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="ida_lib.operations.geometry_ops_functional.vflip_image">
-<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">vflip_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">torch.tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.vflip_image" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.geometry_ops_functional.</code><code class="sig-name descname">vflip_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.operations.geometry_ops_functional.vflip_image" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -494,7 +494,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.pixel_ops_functional.blur">
-<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">blur</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">blur_size</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.blur" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">blur</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">blur_size</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.blur" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -510,7 +510,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.pixel_ops_functional.change_brightness">
-<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">change_brightness</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">brightness</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.change_brightness" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">change_brightness</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">brightness</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.change_brightness" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the brightness of the input image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -530,7 +530,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.pixel_ops_functional.change_contrast">
-<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">change_contrast</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">contrast</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.change_contrast" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">change_contrast</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">contrast</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.change_contrast" title="Permalink to this definition">¶</a></dt>
 <dd><p>:param image  : input image to be transformed
 :param contrast: modification factor to be applied to the image contrast</p>
 <blockquote>
@@ -549,7 +549,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.pixel_ops_functional.change_gamma">
-<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">change_gamma</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">gamma</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.change_gamma" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">change_gamma</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">gamma</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.change_gamma" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -568,7 +568,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.pixel_ops_functional.gaussian_blur">
-<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">gaussian_blur</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">blur_size</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.gaussian_blur" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">gaussian_blur</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">blur_size</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.gaussian_blur" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -584,7 +584,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.pixel_ops_functional.gaussian_noise">
-<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">gaussian_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">var</span><span class="o">=</span><span class="default_value">20</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.gaussian_noise" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">gaussian_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">var</span><span class="o">=</span><span class="default_value">20</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.gaussian_noise" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -639,7 +639,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.pixel_ops_functional.histogram_equalization">
-<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">histogram_equalization</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.histogram_equalization" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">histogram_equalization</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.histogram_equalization" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>img</strong> – input image to be transformed</p>
@@ -652,7 +652,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.pixel_ops_functional.normalize_image">
-<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">normalize_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">norm_type</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">cv2.NORM_MINMAX</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.normalize_image" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">normalize_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">norm_type</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">32</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.normalize_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Normalize the input image</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -670,7 +670,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.pixel_ops_functional.poisson_noise">
-<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">poisson_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.poisson_noise" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">poisson_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.poisson_noise" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>image</strong> – input image to be transformed</p>
@@ -691,7 +691,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.pixel_ops_functional.salt_and_pepper_noise">
-<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">salt_and_pepper_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">amount</span></em>, <em class="sig-param"><span class="n">s_vs_p</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.salt_and_pepper_noise" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">salt_and_pepper_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">amount</span></em>, <em class="sig-param"><span class="n">s_vs_p</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.salt_and_pepper_noise" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -708,7 +708,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.pixel_ops_functional.spekle_noise">
-<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">spekle_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">mean</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">var</span><span class="o">=</span><span class="default_value">0.01</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>dict<span class="p">, </span>torch.tensor<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.spekle_noise" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.pixel_ops_functional.</code><code class="sig-name descname">spekle_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n">Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]</span></em>, <em class="sig-param"><span class="n">mean</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">var</span><span class="o">=</span><span class="default_value">0.01</span></em><span class="sig-paren">)</span> &#x2192; Union[dict, None._VariableFunctionsClass.tensor, numpy.ndarray]<a class="headerlink" href="#ida_lib.operations.pixel_ops_functional.spekle_noise" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -766,7 +766,7 @@ single matrix multiplication is performed.</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.transforms.affine">
-<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">affine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.transforms.affine" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.transforms.</code><code class="sig-name descname">affine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">visualize</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#ida_lib.operations.transforms.affine" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
 <div><p>Applies affine transformation to the data</p>
 </div></blockquote>
@@ -1158,7 +1158,7 @@ image are altered</p>
 
 <dl class="py function">
 <dt id="ida_lib.operations.utils.round_torch">
-<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">round_torch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arr</span><span class="p">:</span> <span class="n">torch.tensor</span></em>, <em class="sig-param"><span class="n">n_digits</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.round_torch" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.operations.utils.</code><code class="sig-name descname">round_torch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arr</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span></em>, <em class="sig-param"><span class="n">n_digits</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.operations.utils.round_torch" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">

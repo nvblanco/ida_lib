@@ -238,7 +238,7 @@ random_rotate_pipeline(probability=0.2, degrees_range=(-50, 50), center_deviatio
 <span id="ida-lib-core-pipeline-functional-module"></span><h2>ida_lib.core.pipeline_functional module<a class="headerlink" href="#module-ida_lib.core.pipeline_functional" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="ida_lib.core.pipeline_functional.get_compose_matrix">
-<code class="sig-prename descclassname">ida_lib.core.pipeline_functional.</code><code class="sig-name descname">get_compose_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">operations</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">data_info</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.core.pipeline_functional.get_compose_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ida_lib.core.pipeline_functional.</code><code class="sig-name descname">get_compose_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">operations</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">data_info</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.core.pipeline_functional.get_compose_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the transformation matrix composed by the multiplication in order of
 the input operations (according to their probability)
 If data_info is not None, go through the operations by entering the necessary information about the images
@@ -352,7 +352,7 @@ separating the matrix into the different 2d input data and point coordinates.</p
 
 <dl class="py method">
 <dt id="ida_lib.core.pipeline_geometric_ops.HflipPipeline.get_op_matrix">
-<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.HflipPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.HflipPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -379,7 +379,7 @@ separating the matrix into the different 2d input data and point coordinates.</p
 
 <dl class="py method">
 <dt id="ida_lib.core.pipeline_geometric_ops.VflipPipeline.get_op_matrix">
-<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.VflipPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.VflipPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -396,7 +396,7 @@ separating the matrix into the different 2d input data and point coordinates.</p
 
 <dl class="py class">
 <dt id="ida_lib.core.pipeline_geometric_ops.RotatePipeline">
-<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">RotatePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">torch.tensor</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RotatePipeline" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">RotatePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">degrees</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RotatePipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
 <p>Rotate the input image-mask-keypoints and 2d data by the input degrees</p>
 <dl class="py method">
@@ -406,7 +406,7 @@ separating the matrix into the different 2d input data and point coordinates.</p
 
 <dl class="py method">
 <dt id="ida_lib.core.pipeline_geometric_ops.RotatePipeline.get_op_matrix">
-<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RotatePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RotatePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -428,7 +428,7 @@ separating the matrix into the different 2d input data and point coordinates.</p
 <p>Shear the input image-mask-keypoints and 2d data by the input shear factor</p>
 <dl class="py method">
 <dt id="ida_lib.core.pipeline_geometric_ops.ShearPipeline.get_op_matrix">
-<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ShearPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ShearPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -445,7 +445,7 @@ separating the matrix into the different 2d input data and point coordinates.</p
 
 <dl class="py class">
 <dt id="ida_lib.core.pipeline_geometric_ops.ScalePipeline">
-<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">ScalePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tuple<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">torch.tensor</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ScalePipeline" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">ScalePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tuple<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.ScalePipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
 <p>Scale the input image-mask-keypoints and 2d data by the input scaling value</p>
 <dl class="py method">
@@ -477,7 +477,7 @@ separating the matrix into the different 2d input data and point coordinates.</p
 <p>Translate the input image-mask-keypoints and 2d data by the input translation</p>
 <dl class="py method">
 <dt id="ida_lib.core.pipeline_geometric_ops.TranslatePipeline.get_op_matrix">
-<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.TranslatePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.TranslatePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -494,7 +494,7 @@ separating the matrix into the different 2d input data and point coordinates.</p
 
 <dl class="py class">
 <dt id="ida_lib.core.pipeline_geometric_ops.RandomScalePipeline">
-<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">RandomScalePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">scale_range</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">keep_aspect</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">center_deviation</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">torch.tensor</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomScalePipeline" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">RandomScalePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">scale_range</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">keep_aspect</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">center_deviation</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomScalePipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
 <p>Scale the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range</p>
 <dl class="py method">
@@ -504,7 +504,7 @@ separating the matrix into the different 2d input data and point coordinates.</p
 
 <dl class="py method">
 <dt id="ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.get_op_matrix">
-<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -521,7 +521,7 @@ separating the matrix into the different 2d input data and point coordinates.</p
 
 <dl class="py class">
 <dt id="ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline">
-<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">RandomRotatePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">degrees_range</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">center_deviation</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">torch.tensor</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ida_lib.core.pipeline_geometric_ops.</code><code class="sig-name descname">RandomRotatePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">degrees_range</span><span class="p">:</span> <span class="n">tuple</span></em>, <em class="sig-param"><span class="n">probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">center_deviation</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">center</span><span class="p">:</span> <span class="n">None._VariableFunctionsClass.tensor</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ida_lib.core.pipeline_operations.PipelineOperation" title="ida_lib.core.pipeline_operations.PipelineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ida_lib.core.pipeline_operations.PipelineOperation</span></code></a></p>
 <p>Rotate the input image-mask-keypoints and 2d data by a random scaling value calculated within the input range</p>
 <dl class="py method">
@@ -531,7 +531,7 @@ separating the matrix into the different 2d input data and point coordinates.</p
 
 <dl class="py method">
 <dt id="ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.get_op_matrix">
-<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -553,7 +553,7 @@ separating the matrix into the different 2d input data and point coordinates.</p
 <p>Shear the input image-mask-keypoints and 2d data by a random shear value calculated within the input range</p>
 <dl class="py method">
 <dt id="ida_lib.core.pipeline_geometric_ops.RandomShearPipeline.get_op_matrix">
-<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; torch.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomShearPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_op_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None._VariableFunctionsClass.tensor<a class="headerlink" href="#ida_lib.core.pipeline_geometric_ops.RandomShearPipeline.get_op_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">

@@ -72,7 +72,7 @@
 
 
 \title{IdaLib}
-\date{Jun 15, 2020}
+\date{Jun 24, 2020}
 \release{0.0.1}
 \author{Raquel Vilas}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -91,6 +91,7 @@
 
 
 IdaLib (Image Data Augmentation Library) is a library dedicated to the task of Image Data Augmentation in a fast, simple, efficient and flexible way
+This library allows you to convert your input data into a larger and more diverse one to perform a better train of your Neural Network
 
 
 \chapter{Features}
@@ -114,15 +115,11 @@ Supports multiple types of combined data (images, heat maps, segmentation maps, 
 \label{\detokenize{index:instalation}}
 You can use pip to install Ida\sphinxhyphen{}Lib
 
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{pip} \PYG{n}{install} \PYG{n}{ida}\PYG{o}{\PYGZhy{}}\PYG{n}{lib}
-\end{sphinxVerbatim}
+\sphinxcode{\sphinxupquote{pip install ida\sphinxhyphen{}lib}}
 
 If you want to get the latest version of the code before it is released on PyPI you can install the library from GitHub:
 
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{pip} \PYG{n}{install} \PYG{o}{\PYGZhy{}}\PYG{n}{U} \PYG{n}{git}\PYG{o}{+}\PYG{n}{https}\PYG{p}{:}\PYG{o}{/}\PYG{o}{/}\PYG{n}{github}\PYG{o}{.}\PYG{n}{com}\PYG{o}{/}\PYG{n}{raquelvilas18}\PYG{o}{/}\PYG{n}{ida\PYGZus{}lib}
-\end{sphinxVerbatim}
+\sphinxcode{\sphinxupquote{pip install \sphinxhyphen{}U git+https://github.com/raquelvilas18/ida\_lib}}
 
 
 \chapter{Contents}
@@ -134,7 +131,8 @@ If you want to get the latest version of the code before it is released on PyPI 
 \subsection{Functionalities}
 \label{\detokenize{overview:functionalities}}
 The functionalities on which IdaLib focuses are:
-\begin{itemize}
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
 \item {} 
 Offering a \sphinxstylestrong{wide variety of image transformations}.
 
@@ -173,30 +171,123 @@ Offer a \sphinxstylestrong{Dataloader} object (as a generator) that integrates t
 \item {} 
 Offer a tool to perform \sphinxstylestrong{Image Data Augmentation directly to disk} in order to use the increased dataset directly in future situations
 
+\end{enumerate}
+
+
+\subsection{First steps}
+\label{\detokenize{overview:first-steps}}
+The central object of ida lib is its pipeline. To use it, just decide which PipelineOperations we want it to include. All other parameters are optional.
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{example\PYGZus{}pipipeline} \PYG{o}{=} \PYG{n}{Pipeline}\PYG{p}{(}\PYG{n}{pipeline\PYGZus{}operations}\PYG{o}{=}\PYG{p}{(}
+                     \PYG{n}{ScalePipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{,} \PYG{n}{scale\PYGZus{}factor}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)}\PYG{p}{,}
+                     \PYG{n}{ShearPipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mf}{0.3}\PYG{p}{,} \PYG{n}{shear}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mf}{0.2}\PYG{p}{,} \PYG{l+m+mf}{0.2}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,}
+                     \PYG{n}{TranslatePipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mf}{0.4}\PYG{p}{,} \PYG{n}{translation}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{50}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,}
+                     \PYG{n}{HflipPipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mf}{0.6}\PYG{p}{,} \PYG{n}{exchange\PYGZus{}points}\PYG{o}{=}\PYG{p}{[}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{)}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{)}\PYG{p}{]}\PYG{p}{)}\PYG{p}{,}
+                     \PYG{n}{RandomRotatePipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mf}{0.4}\PYG{p}{,} \PYG{n}{degrees\PYGZus{}range}\PYG{o}{=}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{)}\PYG{p}{)}
+                     \PYG{p}{)}
+                     \PYG{p}{)}
+\end{sphinxVerbatim}
+
+The pipelineOperations can be divided into 2 groups:
+\begin{itemize}
+\item {} 
+the \sphinxstylestrong{classic operations}, where you indicate exactly the parameters of the operation (for example \sphinxcode{\sphinxupquote{\textasciigrave{}RotatePipeline(degrees=20)\textasciigrave{}}} ). In {[}transformations{]}(\#operations) you can see what each one of them does
+
+\item {} 
+and the \sphinxstylestrong{Random pipelineOPerations}, where what you define is a range of possible parameters, and each time the operation is applied it will take a different value within this range (\sphinxcode{\sphinxupquote{RandomRotatePipeline(degrees\_range=(\sphinxhyphen{}20,30)}})
+
 \end{itemize}
 
+Once you have defined your pipeline, you can pass through it your batch data to be transformed.
 
-\subsection{Transformations}
-\label{\detokenize{overview:transformations}}
+\begin{sphinxadmonition}{warning}{Warning:}
+Remember that the entry for the pipeline must be composed of Python dicts. To be treated correctly, each dict’s element must be associated with its type (images with ‘image1’, ‘image2’…; masks with ‘mask1’, ‘mask67’…):
+\end{sphinxadmonition}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{data1} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{image}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{img1}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{keypoints}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{random\PYGZus{}coordinates}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{mask}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{mask\PYGZus{}example1}\PYG{p}{\PYGZcb{}}
+\PYG{n}{data2} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{image}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{img2}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{keypoints2}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{random\PYGZus{}coordinates2}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{mask}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{mask\PYGZus{}example2}\PYG{p}{\PYGZcb{}}
+\PYG{n}{data3} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{image}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{img3}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{keypoints3}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{random\PYGZus{}coordinates3}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{mask}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{mask\PYGZus{}example3}\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{batch} \PYG{o}{=} \PYG{p}{[}\PYG{n}{data1}\PYG{p}{,} \PYG{n}{data2}\PYG{p}{,} \PYG{n}{data3}\PYG{p}{]}
+\end{sphinxVerbatim}
+
+Finally we run the pipeline as many times as necessary:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{transformed\PYGZus{}batch} \PYG{o}{=} \PYG{n}{example\PYGZus{}pipipeline}\PYG{p}{(}\PYG{n}{batch}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+
+\subsection{Visualization tool}
+\label{\detokenize{overview:visualization-tool}}
+Ida Lib includes a tool to visualize the transformations to facilitate code debugging.
+It is an interactive tool developed with the bokeh framework and allows the selection of the data to be displayed in the image.
+\begin{itemize}
+\item {} 
+The color code is used to differentiate each element and identify it in all the images.
+
+\item {} 
+The dots are numbered in order to see their order
+
+\item {} 
+Allows to compare different transformations obtained by the pipeline
+
+\item {} 
+It also includes the targets in the visualization in order to have a complete view of the elements
+
+\end{itemize}
+
+\noindent{\hspace*{\fill}\sphinxincludegraphics[width=1.200\linewidth]{{visualization}.png}\hspace*{\fill}}
+
+\begin{sphinxadmonition}{note}{Note:}
+To test the visualization tool you can try this example:
+\sphinxurl{https://github.com/raquelvilas18/ida\_lib/blob/master/examples/pipeline\_usage.py}
+\end{sphinxadmonition}
+
+\begin{sphinxadmonition}{warning}{Warning:}
+For the visualization tool a bokeh server is deployed; therefore it is only possible to have one open execution.
+It is important to close previous runs in order to open new windows
+\end{sphinxadmonition}
+
+
+\section{Transformations}
+\label{\detokenize{transformations:transformations}}\label{\detokenize{transformations::doc}}
 The transformations included in the library are:
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\sphinxstylestrong{hflip}: horizontal flipping the image
 
-1. \sphinxstylestrong{hflip}:
-horizontal flipping the image
+\end{enumerate}
 
 \noindent{\hspace*{\fill}\sphinxincludegraphics[width=0.500\linewidth]{{hflip}.png}\hspace*{\fill}}
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\setcounter{enumi}{1}
+\item {} 
+\sphinxstylestrong{vflip}: vertical flipping the image
 
-2. \sphinxstylestrong{vflip}:
-vertical flipping the image
+\end{enumerate}
 
 \noindent{\hspace*{\fill}\sphinxincludegraphics[width=0.500\linewidth]{{vflip}.png}\hspace*{\fill}}
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\setcounter{enumi}{2}
+\item {} 
+\sphinxstylestrong{Affine}:carry out the transformation expressed in the operation matrix
 
-3. \sphinxstylestrong{Affine}:
-carry out the transformation expressed in the operation matrix
+\end{enumerate}
 
 \noindent{\hspace*{\fill}\sphinxincludegraphics[width=0.500\linewidth]{{affine}.png}\hspace*{\fill}}
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\setcounter{enumi}{3}
+\item {} 
+\sphinxstylestrong{Rotate}:rotate the image by the indicated degrees counterclockwise
 
-4. \sphinxstylestrong{Rotate}:
-rotate the image by the indicated degrees counterclockwise
+\end{enumerate}
 
 \noindent{\hspace*{\fill}\sphinxincludegraphics[width=0.500\linewidth]{{rotate}.png}\hspace*{\fill}}
 \begin{enumerate}
@@ -311,38 +402,6 @@ It is applied by adding the image multiplied by the noise matrix \sphinxhyphen{}
 \noindent{\hspace*{\fill}\sphinxincludegraphics[width=0.500\linewidth]{{gaussian_blur}.png}\hspace*{\fill}}
 
 
-\subsection{Visualization tool}
-\label{\detokenize{overview:visualization-tool}}
-Ida Lib includes a tool to visualize the transformations to facilitate code debugging.
-It is an interactive tool developed with the bokeh framework and allows the selection of the data to be displayed in the image.
-\begin{itemize}
-\item {} 
-The color code is used to differentiate each element and identify it in all the images.
-
-\item {} 
-The dots are numbered in order to see their order
-
-\item {} 
-Allows to compare different transformations obtained by the pipeline
-
-\item {} 
-It also includes the targets in the visualization in order to have a complete view of the elements
-
-\end{itemize}
-
-\noindent{\hspace*{\fill}\sphinxincludegraphics[width=1.200\linewidth]{{visualization}.png}\hspace*{\fill}}
-
-\begin{sphinxadmonition}{note}{Note:}
-To test the visualization tool you can try this example:
-\sphinxurl{https://github.com/raquelvilas18/ida\_lib/blob/master/examples/pipeline\_usage.py}
-\end{sphinxadmonition}
-
-\begin{sphinxadmonition}{warning}{Warning:}
-For the visualization tool a bokeh server is deployed; therefore it is only possible to have one open execution.
-It is important to close previous runs in order to open new windows
-\end{sphinxadmonition}
-
-
 \section{API}
 \label{\detokenize{ida_lib:api}}\label{\detokenize{ida_lib::doc}}
 
@@ -433,7 +492,7 @@ Returns the tuple of data types identified on the input data
 \label{\detokenize{ida_lib.core:module-ida_lib.core.pipeline_functional}}\label{\detokenize{ida_lib.core:ida-lib-core-pipeline-functional-module}}\index{module@\spxentry{module}!ida\_lib.core.pipeline\_functional@\spxentry{ida\_lib.core.pipeline\_functional}}\index{ida\_lib.core.pipeline\_functional@\spxentry{ida\_lib.core.pipeline\_functional}!module@\spxentry{module}}\index{get\_compose\_matrix() (in module ida\_lib.core.pipeline\_functional)@\spxentry{get\_compose\_matrix()}\spxextra{in module ida\_lib.core.pipeline\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_functional.get_compose_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_functional.}}\sphinxbfcode{\sphinxupquote{get\_compose\_matrix}}}{\emph{\DUrole{n}{operations}\DUrole{p}{:} \DUrole{n}{list}}, \emph{\DUrole{n}{data\_info}\DUrole{p}{:} \DUrole{n}{Optional\DUrole{p}{{[}}dict\DUrole{p}{{]}}} \DUrole{o}{=} \DUrole{default_value}{None}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_functional.get_compose_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_functional.}}\sphinxbfcode{\sphinxupquote{get\_compose\_matrix}}}{\emph{\DUrole{n}{operations}\DUrole{p}{:} \DUrole{n}{list}}, \emph{\DUrole{n}{data\_info}\DUrole{p}{:} \DUrole{n}{Optional\DUrole{p}{{[}}dict\DUrole{p}{{]}}} \DUrole{o}{=} \DUrole{default_value}{None}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 Returns the transformation matrix composed by the multiplication in order of
 the input operations (according to their probability)
 If data\_info is not None, go through the operations by entering the necessary information about the images
@@ -588,7 +647,7 @@ Horizontally flip the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and
 \index{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.HflipPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.HflipPipeline method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.HflipPipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.HflipPipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.HflipPipeline method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.HflipPipeline method}}
@@ -622,7 +681,7 @@ Vertically flip the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2
 \index{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.VflipPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.VflipPipeline method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.VflipPipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.VflipPipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.VflipPipeline method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.VflipPipeline method}}
@@ -643,7 +702,7 @@ Vertically flip the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2
 \index{RotatePipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{RotatePipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RotatePipeline}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_geometric\_ops.}}\sphinxbfcode{\sphinxupquote{RotatePipeline}}}{\emph{\DUrole{n}{degrees}\DUrole{p}{:} \DUrole{n}{int}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor} \DUrole{o}{=} \DUrole{default_value}{None}}, \emph{\DUrole{n}{probability}\DUrole{p}{:} \DUrole{n}{float} \DUrole{o}{=} \DUrole{default_value}{1}}}{}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RotatePipeline}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_geometric\_ops.}}\sphinxbfcode{\sphinxupquote{RotatePipeline}}}{\emph{\DUrole{n}{degrees}\DUrole{p}{:} \DUrole{n}{int}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor} \DUrole{o}{=} \DUrole{default_value}{None}}, \emph{\DUrole{n}{probability}\DUrole{p}{:} \DUrole{n}{float} \DUrole{o}{=} \DUrole{default_value}{1}}}{}
 Bases: {\hyperref[\detokenize{ida_lib.core:ida_lib.core.pipeline_operations.PipelineOperation}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_operations.PipelineOperation}}}}}
 
 Rotate the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data by the input degrees
@@ -656,7 +715,7 @@ Rotate the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data by
 \index{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.RotatePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RotatePipeline method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RotatePipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RotatePipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.RotatePipeline method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RotatePipeline method}}
@@ -684,7 +743,7 @@ Shear the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data by 
 \index{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.ShearPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.ShearPipeline method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.ShearPipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.ShearPipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.ShearPipeline static method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.ShearPipeline static method}}
@@ -705,7 +764,7 @@ Shear the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data by 
 \index{ScalePipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{ScalePipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.ScalePipeline}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_geometric\_ops.}}\sphinxbfcode{\sphinxupquote{ScalePipeline}}}{\emph{\DUrole{n}{scale\_factor}\DUrole{p}{:} \DUrole{n}{Union\DUrole{p}{{[}}float\DUrole{p}{, }tuple\DUrole{p}{{]}}}}, \emph{\DUrole{n}{probability}\DUrole{p}{:} \DUrole{n}{float} \DUrole{o}{=} \DUrole{default_value}{1}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor} \DUrole{o}{=} \DUrole{default_value}{None}}}{}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.ScalePipeline}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_geometric\_ops.}}\sphinxbfcode{\sphinxupquote{ScalePipeline}}}{\emph{\DUrole{n}{scale\_factor}\DUrole{p}{:} \DUrole{n}{Union\DUrole{p}{{[}}float\DUrole{p}{, }tuple\DUrole{p}{{]}}}}, \emph{\DUrole{n}{probability}\DUrole{p}{:} \DUrole{n}{float} \DUrole{o}{=} \DUrole{default_value}{1}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor} \DUrole{o}{=} \DUrole{default_value}{None}}}{}
 Bases: {\hyperref[\detokenize{ida_lib.core:ida_lib.core.pipeline_operations.PipelineOperation}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_operations.PipelineOperation}}}}}
 
 Scale the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data by the input scaling value
@@ -746,7 +805,7 @@ Translate the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data
 \index{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.TranslatePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.TranslatePipeline method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.TranslatePipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.TranslatePipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.TranslatePipeline static method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.TranslatePipeline static method}}
@@ -767,7 +826,7 @@ Translate the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data
 \index{RandomScalePipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{RandomScalePipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RandomScalePipeline}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_geometric\_ops.}}\sphinxbfcode{\sphinxupquote{RandomScalePipeline}}}{\emph{\DUrole{n}{probability}\DUrole{p}{:} \DUrole{n}{float}}, \emph{\DUrole{n}{scale\_range}\DUrole{p}{:} \DUrole{n}{tuple}}, \emph{\DUrole{n}{keep\_aspect}\DUrole{p}{:} \DUrole{n}{bool} \DUrole{o}{=} \DUrole{default_value}{True}}, \emph{\DUrole{n}{center\_deviation}\DUrole{p}{:} \DUrole{n}{int} \DUrole{o}{=} \DUrole{default_value}{None}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor} \DUrole{o}{=} \DUrole{default_value}{None}}}{}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RandomScalePipeline}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_geometric\_ops.}}\sphinxbfcode{\sphinxupquote{RandomScalePipeline}}}{\emph{\DUrole{n}{probability}\DUrole{p}{:} \DUrole{n}{float}}, \emph{\DUrole{n}{scale\_range}\DUrole{p}{:} \DUrole{n}{tuple}}, \emph{\DUrole{n}{keep\_aspect}\DUrole{p}{:} \DUrole{n}{bool} \DUrole{o}{=} \DUrole{default_value}{True}}, \emph{\DUrole{n}{center\_deviation}\DUrole{p}{:} \DUrole{n}{int} \DUrole{o}{=} \DUrole{default_value}{None}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor} \DUrole{o}{=} \DUrole{default_value}{None}}}{}
 Bases: {\hyperref[\detokenize{ida_lib.core:ida_lib.core.pipeline_operations.PipelineOperation}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_operations.PipelineOperation}}}}}
 
 Scale the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data by a random scaling value calculated within the input range
@@ -780,7 +839,7 @@ Scale the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data by 
 \index{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.RandomScalePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomScalePipeline method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RandomScalePipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.RandomScalePipeline method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomScalePipeline method}}
@@ -801,7 +860,7 @@ Scale the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data by 
 \index{RandomRotatePipeline (class in ida\_lib.core.pipeline\_geometric\_ops)@\spxentry{RandomRotatePipeline}\spxextra{class in ida\_lib.core.pipeline\_geometric\_ops}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_geometric\_ops.}}\sphinxbfcode{\sphinxupquote{RandomRotatePipeline}}}{\emph{\DUrole{n}{degrees\_range}\DUrole{p}{:} \DUrole{n}{tuple}}, \emph{\DUrole{n}{probability}\DUrole{p}{:} \DUrole{n}{float} \DUrole{o}{=} \DUrole{default_value}{1}}, \emph{\DUrole{n}{center\_deviation}\DUrole{p}{:} \DUrole{n}{int} \DUrole{o}{=} \DUrole{default_value}{None}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor} \DUrole{o}{=} \DUrole{default_value}{None}}}{}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_geometric\_ops.}}\sphinxbfcode{\sphinxupquote{RandomRotatePipeline}}}{\emph{\DUrole{n}{degrees\_range}\DUrole{p}{:} \DUrole{n}{tuple}}, \emph{\DUrole{n}{probability}\DUrole{p}{:} \DUrole{n}{float} \DUrole{o}{=} \DUrole{default_value}{1}}, \emph{\DUrole{n}{center\_deviation}\DUrole{p}{:} \DUrole{n}{int} \DUrole{o}{=} \DUrole{default_value}{None}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor} \DUrole{o}{=} \DUrole{default_value}{None}}}{}
 Bases: {\hyperref[\detokenize{ida_lib.core:ida_lib.core.pipeline_operations.PipelineOperation}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{ida\_lib.core.pipeline\_operations.PipelineOperation}}}}}
 
 Rotate the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data by a random scaling value calculated within the input range
@@ -814,7 +873,7 @@ Rotate the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data by
 \index{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.RandomRotatePipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomRotatePipeline method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RandomRotatePipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.RandomRotatePipeline method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomRotatePipeline method}}
@@ -842,7 +901,7 @@ Shear the input image\sphinxhyphen{}mask\sphinxhyphen{}keypoints and 2d data by 
 \index{get\_op\_matrix() (ida\_lib.core.pipeline\_geometric\_ops.RandomShearPipeline method)@\spxentry{get\_op\_matrix()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomShearPipeline method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RandomShearPipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.core:ida_lib.core.pipeline_geometric_ops.RandomShearPipeline.get_op_matrix}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_op\_matrix}}}{}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{need\_data\_info() (ida\_lib.core.pipeline\_geometric\_ops.RandomShearPipeline static method)@\spxentry{need\_data\_info()}\spxextra{ida\_lib.core.pipeline\_geometric\_ops.RandomShearPipeline static method}}
@@ -1394,7 +1453,7 @@ inner dataset is an internal class that uses the DataAugmentDataLoader to add th
 \label{\detokenize{ida_lib.operations:module-ida_lib.operations.geometry_ops_functional}}\label{\detokenize{ida_lib.operations:ida-lib-operations-geometry-ops-functional-module}}\index{module@\spxentry{module}!ida\_lib.operations.geometry\_ops\_functional@\spxentry{ida\_lib.operations.geometry\_ops\_functional}}\index{ida\_lib.operations.geometry\_ops\_functional@\spxentry{ida\_lib.operations.geometry\_ops\_functional}!module@\spxentry{module}}\index{affine\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{affine\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.affine_compose_data}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{affine\_compose\_data}}}{\emph{\DUrole{n}{data}\DUrole{p}{:} \DUrole{n}{dict}}, \emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ dict}}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.affine_compose_data}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{affine\_compose\_data}}}{\emph{\DUrole{n}{data}\DUrole{p}{:} \DUrole{n}{dict}}, \emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ dict}}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{data}} \textendash{} dict of elements to be transformed
@@ -1414,13 +1473,13 @@ transformed data
 \index{affine\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{affine\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.affine_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{affine\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix\_coordinates}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{matrix\_transformation}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.affine_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{affine\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix\_coordinates}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{matrix\_transformation}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{affine\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{affine\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.affine_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{affine\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{interpolation}\DUrole{p}{:} \DUrole{n}{str} \DUrole{o}{=} \DUrole{default_value}{\textquotesingle{}bilinear\textquotesingle{}}}, \emph{\DUrole{n}{padding\_mode}\DUrole{p}{:} \DUrole{n}{str} \DUrole{o}{=} \DUrole{default_value}{\textquotesingle{}zeros\textquotesingle{}}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.affine_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{affine\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{interpolation}\DUrole{p}{:} \DUrole{n}{str} \DUrole{o}{=} \DUrole{default_value}{\textquotesingle{}bilinear\textquotesingle{}}}, \emph{\DUrole{n}{padding\_mode}\DUrole{p}{:} \DUrole{n}{str} \DUrole{o}{=} \DUrole{default_value}{\textquotesingle{}zeros\textquotesingle{}}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{config\_scale\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{config\_scale\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
@@ -1432,37 +1491,37 @@ transformed data
 \index{get\_rotation\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{get\_rotation\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.get_rotation_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{get\_rotation\_matrix}}}{\emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{degrees}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.get_rotation_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{get\_rotation\_matrix}}}{\emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{degrees}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{}
 \end{fulllineitems}
 
 \index{get\_scale\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{get\_scale\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.get_scale_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{get\_scale\_matrix}}}{\emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{scale\_factor}\DUrole{p}{:} \DUrole{n}{Union{[}float, None.\_VariableFunctions.tensor{]}}}}{}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.get_scale_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{get\_scale\_matrix}}}{\emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{scale\_factor}\DUrole{p}{:} \DUrole{n}{Union{[}float, None.\_VariableFunctionsClass.tensor{]}}}}{}
 \end{fulllineitems}
 
 \index{get\_shear\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{get\_shear\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.get_shear_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{get\_shear\_matrix}}}{\emph{\DUrole{n}{shear\_factor}\DUrole{p}{:} \DUrole{n}{tuple}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.get_shear_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{get\_shear\_matrix}}}{\emph{\DUrole{n}{shear\_factor}\DUrole{p}{:} \DUrole{n}{tuple}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{get\_squared\_scale\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{get\_squared\_scale\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.get_squared_scale_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{get\_squared\_scale\_matrix}}}{\emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{scale\_factor}\DUrole{p}{:} \DUrole{n}{Union{[}float, None.\_VariableFunctions.tensor{]}}}}{}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.get_squared_scale_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{get\_squared\_scale\_matrix}}}{\emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{scale\_factor}\DUrole{p}{:} \DUrole{n}{Union{[}float, None.\_VariableFunctionsClass.tensor{]}}}}{}
 \end{fulllineitems}
 
 \index{get\_squared\_shear\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{get\_squared\_shear\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.get_squared_shear_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{get\_squared\_shear\_matrix}}}{\emph{\DUrole{n}{shear\_factor}\DUrole{p}{:} \DUrole{n}{tuple}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.get_squared_shear_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{get\_squared\_shear\_matrix}}}{\emph{\DUrole{n}{shear\_factor}\DUrole{p}{:} \DUrole{n}{tuple}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{get\_translation\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{get\_translation\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.get_translation_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{get\_translation\_matrix}}}{\emph{\DUrole{n}{translation}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.get_translation_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{get\_translation\_matrix}}}{\emph{\DUrole{n}{translation}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{hflip\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{hflip\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
@@ -1482,13 +1541,13 @@ transformed data
 \index{hflip\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{hflip\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.hflip_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{hflip\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{width}\DUrole{p}{:} \DUrole{n}{int}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.hflip_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{hflip\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{width}\DUrole{p}{:} \DUrole{n}{int}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{hflip\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{hflip\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.hflip_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{hflip\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.hflip_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{hflip\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{own\_affine() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{own\_affine()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
@@ -1543,7 +1602,7 @@ processed data
 \index{rotate\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{rotate\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.rotate_compose_data}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{rotate\_compose\_data}}}{\emph{\DUrole{n}{data}\DUrole{p}{:} \DUrole{n}{dict}}, \emph{\DUrole{n}{degrees}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.rotate_compose_data}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{rotate\_compose\_data}}}{\emph{\DUrole{n}{data}\DUrole{p}{:} \DUrole{n}{dict}}, \emph{\DUrole{n}{degrees}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{data}} \textendash{} dict of elements to be transformed
@@ -1566,13 +1625,13 @@ transformed data
 \index{rotate\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{rotate\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.rotate_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{rotate\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix\_coordinates}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.rotate_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{rotate\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix\_coordinates}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{rotate\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{rotate\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.rotate_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{rotate\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{degrees}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.rotate_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{rotate\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{degrees}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 mode
 
 \end{fulllineitems}
@@ -1580,7 +1639,7 @@ mode
 \index{scale\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{scale\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.scale_compose_data}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{scale\_compose\_data}}}{\emph{\DUrole{n}{data}\DUrole{p}{:} \DUrole{n}{dict}}, \emph{\DUrole{n}{scale\_factor}\DUrole{p}{:} \DUrole{n}{Union{[}float, None.\_VariableFunctions.tensor{]}}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{Optional{[}None.\_VariableFunctions.tensor{]}} \DUrole{o}{=} \DUrole{default_value}{None}}}{{ $\rightarrow$ dict}}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.scale_compose_data}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{scale\_compose\_data}}}{\emph{\DUrole{n}{data}\DUrole{p}{:} \DUrole{n}{dict}}, \emph{\DUrole{n}{scale\_factor}\DUrole{p}{:} \DUrole{n}{Union{[}float, None.\_VariableFunctionsClass.tensor{]}}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{Optional{[}None.\_VariableFunctionsClass.tensor{]}} \DUrole{o}{=} \DUrole{default_value}{None}}}{{ $\rightarrow$ dict}}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{data}} \textendash{} dict of elements to be transformed
@@ -1603,13 +1662,13 @@ transformed data
 \index{scale\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{scale\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.scale_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{scale\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix\_coordinates}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.scale_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{scale\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix\_coordinates}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{scale\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{scale\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.scale_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{scale\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{scale\_factor}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.scale_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{scale\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{scale\_factor}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{center}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{shear\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{shear\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
@@ -1635,19 +1694,19 @@ transformed data
 \index{shear\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{shear\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.shear_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{shear\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix\_coordinates}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.shear_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{shear\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix\_coordinates}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{shear\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{shear\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.shear_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{shear\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{shear\_factor}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.shear_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{shear\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{shear\_factor}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{translate\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{translate\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.translate_compose_data}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{translate\_compose\_data}}}{\emph{\DUrole{n}{data}\DUrole{p}{:} \DUrole{n}{dict}}, \emph{\DUrole{n}{translation}\DUrole{p}{:} \DUrole{n}{Union{[}int, None.\_VariableFunctions.tensor{]}}}}{{ $\rightarrow$ dict}}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.translate_compose_data}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{translate\_compose\_data}}}{\emph{\DUrole{n}{data}\DUrole{p}{:} \DUrole{n}{dict}}, \emph{\DUrole{n}{translation}\DUrole{p}{:} \DUrole{n}{Union{[}int, None.\_VariableFunctionsClass.tensor{]}}}}{{ $\rightarrow$ dict}}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{data}} \textendash{} dict of elements to be transformed
@@ -1667,13 +1726,13 @@ transformed data
 \index{translate\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{translate\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.translate_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{translate\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix\_coordinates}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{translation}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.translate_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{translate\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix\_coordinates}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{translation}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{translate\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{translate\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.translate_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{translate\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{translation}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.translate_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{translate\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{translation}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{vflip\_compose\_data() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{vflip\_compose\_data()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
@@ -1693,13 +1752,13 @@ transformed data
 \index{vflip\_coordinates\_matrix() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{vflip\_coordinates\_matrix()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.vflip_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{vflip\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{height}\DUrole{p}{:} \DUrole{n}{int}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.vflip_coordinates_matrix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{vflip\_coordinates\_matrix}}}{\emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{height}\DUrole{p}{:} \DUrole{n}{int}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 \index{vflip\_image() (in module ida\_lib.operations.geometry\_ops\_functional)@\spxentry{vflip\_image()}\spxextra{in module ida\_lib.operations.geometry\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.vflip_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{vflip\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}}{{ $\rightarrow$ None.\_VariableFunctions.tensor}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.geometry_ops_functional.vflip_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.geometry\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{vflip\_image}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}}{{ $\rightarrow$ None.\_VariableFunctionsClass.tensor}}
 \end{fulllineitems}
 
 
@@ -1780,7 +1839,7 @@ Applies the input operation to the image using a LUT
 \index{blur() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{blur()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.blur}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{blur}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{blur\_size}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.blur}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{blur}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{blur\_size}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{img}} \textendash{} input image to be transformed
@@ -1800,7 +1859,7 @@ returns the transformed image
 \index{change\_brightness() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{change\_brightness()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.change_brightness}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{change\_brightness}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{brightness}\DUrole{p}{:} \DUrole{n}{int}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.change_brightness}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{change\_brightness}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{brightness}\DUrole{p}{:} \DUrole{n}{int}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}
 Change the brightness of the input image.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -1825,7 +1884,7 @@ transformed image
 \index{change\_contrast() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{change\_contrast()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.change_contrast}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{change\_contrast}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{contrast}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.change_contrast}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{change\_contrast}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{contrast}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}
 :param image  : input image to be transformed
 :param contrast: modification factor to be applied to the image contrast
 \begin{itemize}
@@ -1850,7 +1909,7 @@ returns the transformed image
 \index{change\_gamma() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{change\_gamma()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.change_gamma}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{change\_gamma}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{gamma}\DUrole{p}{:} \DUrole{n}{float}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.change_gamma}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{change\_gamma}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{gamma}\DUrole{p}{:} \DUrole{n}{float}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{image}} \textendash{} input image to be transformed
@@ -1873,7 +1932,7 @@ returns the transformed image
 \index{gaussian\_blur() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{gaussian\_blur()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.gaussian_blur}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{gaussian\_blur}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{blur\_size}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.gaussian_blur}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{gaussian\_blur}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{blur\_size}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{img}} \textendash{} input image to be transformed
@@ -1893,7 +1952,7 @@ returns the transformed image
 \index{gaussian\_noise() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{gaussian\_noise()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.gaussian_noise}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{gaussian\_noise}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{var}\DUrole{o}{=}\DUrole{default_value}{20}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.gaussian_noise}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{gaussian\_noise}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{var}\DUrole{o}{=}\DUrole{default_value}{20}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{image}} \textendash{} input image to be transformed
@@ -1955,7 +2014,7 @@ Returns the lambda function of the gamma adjust operation
 \index{histogram\_equalization() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{histogram\_equalization()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.histogram_equalization}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{histogram\_equalization}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.histogram_equalization}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{histogram\_equalization}}}{\emph{\DUrole{n}{img}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
 \sphinxstyleliteralstrong{\sphinxupquote{img}} \textendash{} input image to be transformed
 
@@ -1992,7 +2051,7 @@ normalized image
 \index{poisson\_noise() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{poisson\_noise()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.poisson_noise}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{poisson\_noise}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.poisson_noise}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{poisson\_noise}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
 \sphinxstyleliteralstrong{\sphinxupquote{image}} \textendash{} input image to be transformed
 
@@ -2016,7 +2075,7 @@ Decorator that prepares the input data to apply the transformation that only aff
 \index{salt\_and\_pepper\_noise() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{salt\_and\_pepper\_noise()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.salt_and_pepper_noise}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{salt\_and\_pepper\_noise}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{amount}}, \emph{\DUrole{n}{s\_vs\_p}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.salt_and_pepper_noise}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{salt\_and\_pepper\_noise}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{amount}}, \emph{\DUrole{n}{s\_vs\_p}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{image}} \textendash{} input image to be transformed
@@ -2039,7 +2098,7 @@ returns the transformed image
 \index{spekle\_noise() (in module ida\_lib.operations.pixel\_ops\_functional)@\spxentry{spekle\_noise()}\spxextra{in module ida\_lib.operations.pixel\_ops\_functional}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.spekle_noise}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{spekle\_noise}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{mean}\DUrole{o}{=}\DUrole{default_value}{0}}, \emph{\DUrole{n}{var}\DUrole{o}{=}\DUrole{default_value}{0.01}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctions.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.pixel_ops_functional.spekle_noise}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.pixel\_ops\_functional.}}\sphinxbfcode{\sphinxupquote{spekle\_noise}}}{\emph{\DUrole{n}{image}\DUrole{p}{:} \DUrole{n}{Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}, \emph{\DUrole{n}{mean}\DUrole{o}{=}\DUrole{default_value}{0}}, \emph{\DUrole{n}{var}\DUrole{o}{=}\DUrole{default_value}{0.01}}}{{ $\rightarrow$ Union{[}dict, None.\_VariableFunctionsClass.tensor, numpy.ndarray{]}}}~\begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{image}} \textendash{} input image to be transformed
@@ -2113,7 +2172,7 @@ transformed data
 \index{affine() (in module ida\_lib.operations.transforms)@\spxentry{affine()}\spxextra{in module ida\_lib.operations.transforms}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.transforms.affine}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.transforms.}}\sphinxbfcode{\sphinxupquote{affine}}}{\emph{\DUrole{n}{data}\DUrole{p}{:} \DUrole{n}{dict}}, \emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{visualize}\DUrole{p}{:} \DUrole{n}{bool} \DUrole{o}{=} \DUrole{default_value}{False}}}{{ $\rightarrow$ dict}}~\begin{quote}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.transforms.affine}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.transforms.}}\sphinxbfcode{\sphinxupquote{affine}}}{\emph{\DUrole{n}{data}\DUrole{p}{:} \DUrole{n}{dict}}, \emph{\DUrole{n}{matrix}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{visualize}\DUrole{p}{:} \DUrole{n}{bool} \DUrole{o}{=} \DUrole{default_value}{False}}}{{ $\rightarrow$ dict}}~\begin{quote}
 
 Applies affine transformation to the data
 \end{quote}
@@ -2638,7 +2697,7 @@ torch.type
 \index{round\_torch() (in module ida\_lib.operations.utils)@\spxentry{round\_torch()}\spxextra{in module ida\_lib.operations.utils}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.utils.round_torch}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.utils.}}\sphinxbfcode{\sphinxupquote{round\_torch}}}{\emph{\DUrole{n}{arr}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctions.tensor}}, \emph{\DUrole{n}{n\_digits}\DUrole{p}{:} \DUrole{n}{int} \DUrole{o}{=} \DUrole{default_value}{3}}}{}
+\phantomsection\label{\detokenize{ida_lib.operations:ida_lib.operations.utils.round_torch}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{ida\_lib.operations.utils.}}\sphinxbfcode{\sphinxupquote{round\_torch}}}{\emph{\DUrole{n}{arr}\DUrole{p}{:} \DUrole{n}{None.\_VariableFunctionsClass.tensor}}, \emph{\DUrole{n}{n\_digits}\DUrole{p}{:} \DUrole{n}{int} \DUrole{o}{=} \DUrole{default_value}{3}}}{}
 \end{fulllineitems}
 
 \index{save\_im() (in module ida\_lib.operations.utils)@\spxentry{save\_im()}\spxextra{in module ida\_lib.operations.utils}}
@@ -2966,10 +3025,334 @@ You can find all the examples here:
 \end{sphinxVerbatim}
 
 
-\subsubsection{Pipeline Usage example}
-\label{\detokenize{neural_net_example:pipeline-usage-example}}\label{\detokenize{neural_net_example::doc}}
+\subsubsection{Neural Net example}
+\label{\detokenize{neural_net_example:neural-net-example}}\label{\detokenize{neural_net_example::doc}}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{\PYGZus{}\PYGZus{}future\PYGZus{}\PYGZus{}} \PYG{k+kn}{import} \PYG{n}{print\PYGZus{}function}
 
+\PYG{k+kn}{import} \PYG{n+nn}{os}
+\PYG{k+kn}{import} \PYG{n+nn}{os}\PYG{n+nn}{.}\PYG{n+nn}{path}
+\PYG{k+kn}{import} \PYG{n+nn}{sys}
+\PYG{k+kn}{import} \PYG{n+nn}{torch}
+\PYG{k+kn}{import} \PYG{n+nn}{torch}\PYG{n+nn}{.}\PYG{n+nn}{optim} \PYG{k}{as} \PYG{n+nn}{optim}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib}\PYG{n+nn}{.}\PYG{n+nn}{pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{torch}\PYG{n+nn}{.}\PYG{n+nn}{nn} \PYG{k}{as} \PYG{n+nn}{nn}
+\PYG{k+kn}{import} \PYG{n+nn}{torch}\PYG{n+nn}{.}\PYG{n+nn}{nn}\PYG{n+nn}{.}\PYG{n+nn}{functional} \PYG{k}{as} \PYG{n+nn}{F}
+
+\PYG{k+kn}{from} \PYG{n+nn}{ida\PYGZus{}lib}\PYG{n+nn}{.}\PYG{n+nn}{core}\PYG{n+nn}{.}\PYG{n+nn}{pipeline\PYGZus{}geometric\PYGZus{}ops} \PYG{k+kn}{import} \PYG{n}{HflipPipeline}\PYG{p}{,} \PYG{n}{RandomShearPipeline}\PYG{p}{,} \PYGZbs{}
+    \PYG{n}{RandomRotatePipeline}
+\PYG{k+kn}{from} \PYG{n+nn}{ida\PYGZus{}lib}\PYG{n+nn}{.}\PYG{n+nn}{core}\PYG{n+nn}{.}\PYG{n+nn}{pipeline\PYGZus{}pixel\PYGZus{}ops} \PYG{k+kn}{import} \PYG{n}{NormalizePipeline}\PYG{p}{,} \PYG{n}{RandomContrastPipeline}
+\PYG{k+kn}{from} \PYG{n+nn}{ida\PYGZus{}lib}\PYG{n+nn}{.}\PYG{n+nn}{image\PYGZus{}augmentation}\PYG{n+nn}{.}\PYG{n+nn}{data\PYGZus{}loader} \PYG{k+kn}{import} \PYG{n}{AugmentDataLoader}
+
+\PYG{k+kn}{import} \PYG{n+nn}{kornia}
+\PYG{k}{if} \PYG{n}{sys}\PYG{o}{.}\PYG{n}{version\PYGZus{}info}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{:}
+    \PYG{k+kn}{import} \PYG{n+nn}{cPickle} \PYG{k}{as} \PYG{n+nn}{pickle}
+\PYG{k}{else}\PYG{p}{:}
+    \PYG{k+kn}{import} \PYG{n+nn}{pickle}
+
+\PYG{k+kn}{import} \PYG{n+nn}{torch}\PYG{n+nn}{.}\PYG{n+nn}{utils}\PYG{n+nn}{.}\PYG{n+nn}{data} \PYG{k}{as} \PYG{n+nn}{data}
+\PYG{k+kn}{from} \PYG{n+nn}{torchvision}\PYG{n+nn}{.}\PYG{n+nn}{datasets}\PYG{n+nn}{.}\PYG{n+nn}{utils} \PYG{k+kn}{import} \PYG{n}{download\PYGZus{}url}\PYG{p}{,} \PYG{n}{check\PYGZus{}integrity}
+
+\PYG{l+s+sd}{\PYGZsq{}\PYGZsq{}\PYGZsq{}https://pytorch.org/tutorials/beginner/blitz/cifar10\PYGZus{}tutorial.html\PYGZsh{}define\PYGZhy{}a\PYGZhy{}convolutional\PYGZhy{}neural\PYGZhy{}network\PYGZsq{}\PYGZsq{}\PYGZsq{}}
+
+\PYG{c+c1}{\PYGZsh{} create a custom cifar Dataset to read the data}
+\PYG{k}{class} \PYG{n+nc}{custom\PYGZus{}CIFAR10}\PYG{p}{(}\PYG{n}{data}\PYG{o}{.}\PYG{n}{Dataset}\PYG{p}{)}\PYG{p}{:}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}`CIFAR10 \PYGZlt{}https://www.cs.toronto.edu/\PYGZti{}kriz/cifar.html\PYGZgt{}`\PYGZus{} Dataset.}
+
+\PYG{l+s+sd}{    Args:}
+\PYG{l+s+sd}{        root (string): Root directory of dataset where directory}
+\PYG{l+s+sd}{            ``cifar\PYGZhy{}10\PYGZhy{}batches\PYGZhy{}py`` exists.}
+\PYG{l+s+sd}{        train (bool, optional): If True, creates dataset from training set, otherwise}
+\PYG{l+s+sd}{            creates from test set.}
+\PYG{l+s+sd}{        transform (callable, optional): A function/transform that  takes in an PIL image}
+\PYG{l+s+sd}{            and returns a transformed version. E.g, ``transforms.RandomCrop``}
+\PYG{l+s+sd}{        target\PYGZus{}transform (callable, optional): A function/transform that takes in the}
+\PYG{l+s+sd}{            target and transforms it.}
+\PYG{l+s+sd}{        download (bool, optional): If true, downloads the dataset from the internet and}
+\PYG{l+s+sd}{            puts it in root directory. If dataset is already downloaded, it is not}
+\PYG{l+s+sd}{            downloaded again.}
+
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{base\PYGZus{}folder} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{cifar\PYGZhy{}10\PYGZhy{}batches\PYGZhy{}py}\PYG{l+s+s1}{\PYGZsq{}}
+    \PYG{n}{url} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{http://www.cs.toronto.edu/\PYGZti{}kriz/cifar\PYGZhy{}10\PYGZhy{}python.tar.gz}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{n}{filename} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{cifar\PYGZhy{}10\PYGZhy{}python.tar.gz}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{n}{tgz\PYGZus{}md5} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{c58f30108f718f92721af3b95e74349a}\PYG{l+s+s1}{\PYGZsq{}}
+    \PYG{n}{train\PYGZus{}list} \PYG{o}{=} \PYG{p}{[}
+        \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{data\PYGZus{}batch\PYGZus{}1}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{c99cafc152244af753f735de768cd75f}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}
+        \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{data\PYGZus{}batch\PYGZus{}2}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{d4bba439e000b95fd0a9bffe97cbabec}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}
+        \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{data\PYGZus{}batch\PYGZus{}3}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{54ebc095f3ab1f0389bbae665268c751}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}
+        \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{data\PYGZus{}batch\PYGZus{}4}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{634d18415352ddfa80567beed471001a}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}
+        \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{data\PYGZus{}batch\PYGZus{}5}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{482c414d41f54cd18b22e5b47cb7c3cb}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}
+    \PYG{p}{]}
+
+    \PYG{n}{test\PYGZus{}list} \PYG{o}{=} \PYG{p}{[}
+        \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{test\PYGZus{}batch}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{40351d587109b95175f43aff81a1287e}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,}
+    \PYG{p}{]}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{root}\PYG{p}{,} \PYG{n}{train}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                 \PYG{n}{transform}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{target\PYGZus{}transform}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
+                 \PYG{n}{download}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}\PYG{p}{:}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{root} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{expanduser}\PYG{p}{(}\PYG{n}{root}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{transform} \PYG{o}{=} \PYG{n}{transform}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{target\PYGZus{}transform} \PYG{o}{=} \PYG{n}{target\PYGZus{}transform}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train} \PYG{o}{=} \PYG{n}{train}  \PYG{c+c1}{\PYGZsh{} training set or test set}
+
+        \PYG{k}{if} \PYG{n}{download}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{download}\PYG{p}{(}\PYG{p}{)}
+
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}check\PYGZus{}integrity}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+            \PYG{k}{raise} \PYG{n+ne}{RuntimeError}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Dataset not found or corrupted.}\PYG{l+s+s1}{\PYGZsq{}} \PYG{o}{+}
+                               \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{ You can use download=True to download it}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} now load the picked numpy arrays}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}data} \PYG{o}{=} \PYG{p}{[}\PYG{p}{]}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}labels} \PYG{o}{=} \PYG{p}{[}\PYG{p}{]}
+            \PYG{k}{for} \PYG{n}{fentry} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}list}\PYG{p}{:}
+                \PYG{n}{f} \PYG{o}{=} \PYG{n}{fentry}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+                \PYG{n}{file} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{root}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{base\PYGZus{}folder}\PYG{p}{,} \PYG{n}{f}\PYG{p}{)}
+                \PYG{n}{fo} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{file}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{rb}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+                \PYG{k}{if} \PYG{n}{sys}\PYG{o}{.}\PYG{n}{version\PYGZus{}info}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{:}
+                    \PYG{n}{entry} \PYG{o}{=} \PYG{n}{pickle}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{n}{fo}\PYG{p}{)}
+                \PYG{k}{else}\PYG{p}{:}
+                    \PYG{n}{entry} \PYG{o}{=} \PYG{n}{pickle}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{n}{fo}\PYG{p}{,} \PYG{n}{encoding}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{latin1}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}data}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{entry}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{data}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
+                \PYG{k}{if} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{labels}\PYG{l+s+s1}{\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{entry}\PYG{p}{:}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}labels} \PYG{o}{+}\PYG{o}{=} \PYG{n}{entry}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{labels}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}
+                \PYG{k}{else}\PYG{p}{:}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}labels} \PYG{o}{+}\PYG{o}{=} \PYG{n}{entry}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{fine\PYGZus{}labels}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}
+                \PYG{n}{fo}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
+
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}data} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{concatenate}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}data}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}data} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}data}\PYG{o}{.}\PYG{n}{reshape}\PYG{p}{(}\PYG{p}{(}\PYG{l+m+mi}{50000}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{32}\PYG{p}{,} \PYG{l+m+mi}{32}\PYG{p}{)}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}data} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}data}\PYG{o}{.}\PYG{n}{transpose}\PYG{p}{(}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} convert to HWC}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{f} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{test\PYGZus{}list}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+            \PYG{n}{file} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{root}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{base\PYGZus{}folder}\PYG{p}{,} \PYG{n}{f}\PYG{p}{)}
+            \PYG{n}{fo} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{file}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{rb}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+            \PYG{k}{if} \PYG{n}{sys}\PYG{o}{.}\PYG{n}{version\PYGZus{}info}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{:}
+                \PYG{n}{entry} \PYG{o}{=} \PYG{n}{pickle}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{n}{fo}\PYG{p}{)}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{entry} \PYG{o}{=} \PYG{n}{pickle}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{n}{fo}\PYG{p}{,} \PYG{n}{encoding}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{latin1}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{test\PYGZus{}data} \PYG{o}{=} \PYG{n}{entry}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{data}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}
+            \PYG{k}{if} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{labels}\PYG{l+s+s1}{\PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{entry}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{test\PYGZus{}labels} \PYG{o}{=} \PYG{n}{entry}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{labels}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{test\PYGZus{}labels} \PYG{o}{=} \PYG{n}{entry}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{fine\PYGZus{}labels}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}
+            \PYG{n}{fo}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{test\PYGZus{}data} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{test\PYGZus{}data}\PYG{o}{.}\PYG{n}{reshape}\PYG{p}{(}\PYG{p}{(}\PYG{l+m+mi}{10000}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{32}\PYG{p}{,} \PYG{l+m+mi}{32}\PYG{p}{)}\PYG{p}{)}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{test\PYGZus{}data} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{test\PYGZus{}data}\PYG{o}{.}\PYG{n}{transpose}\PYG{p}{(}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} convert to HWC}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}getitem\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{index}\PYG{p}{)}\PYG{p}{:}
+        \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Args:}
+\PYG{l+s+sd}{            index (int): Index}
+
+\PYG{l+s+sd}{        Returns:}
+\PYG{l+s+sd}{            tuple: (image, target) where target is index of the target class.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train}\PYG{p}{:}
+            \PYG{n}{img}\PYG{p}{,} \PYG{n}{target} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}data}\PYG{p}{[}\PYG{n}{index}\PYG{p}{]}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}labels}\PYG{p}{[}\PYG{n}{index}\PYG{p}{]}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{img}\PYG{p}{,} \PYG{n}{target} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{test\PYGZus{}data}\PYG{p}{[}\PYG{n}{index}\PYG{p}{]}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{test\PYGZus{}labels}\PYG{p}{[}\PYG{n}{index}\PYG{p}{]}
+
+        \PYG{n}{item} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{image}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{img}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{target}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{n}{target}\PYG{p}{\PYGZcb{}}
+        \PYG{k}{return} \PYG{n}{item}  \PYG{c+c1}{\PYGZsh{} modified to return a dict instead of a tuple}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}len\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)}\PYG{p}{:}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train}\PYG{p}{:}
+            \PYG{k}{return} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}data}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{k}{return} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{test\PYGZus{}data}\PYG{p}{)}
+
+    \PYG{k}{def} \PYG{n+nf}{\PYGZus{}check\PYGZus{}integrity}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)}\PYG{p}{:}
+        \PYG{n}{root} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{root}
+        \PYG{k}{for} \PYG{n}{fentry} \PYG{o+ow}{in} \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{train\PYGZus{}list} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{test\PYGZus{}list}\PYG{p}{)}\PYG{p}{:}
+            \PYG{n}{filename}\PYG{p}{,} \PYG{n}{md5} \PYG{o}{=} \PYG{n}{fentry}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{n}{fentry}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+            \PYG{n}{fpath} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{root}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{base\PYGZus{}folder}\PYG{p}{,} \PYG{n}{filename}\PYG{p}{)}
+            \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{check\PYGZus{}integrity}\PYG{p}{(}\PYG{n}{fpath}\PYG{p}{,} \PYG{n}{md5}\PYG{p}{)}\PYG{p}{:}
+                \PYG{k}{return} \PYG{k+kc}{False}
+        \PYG{k}{return} \PYG{k+kc}{True}
+
+    \PYG{k}{def} \PYG{n+nf}{download}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)}\PYG{p}{:}
+        \PYG{k+kn}{import} \PYG{n+nn}{tarfile}
+
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}check\PYGZus{}integrity}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Files already downloaded and verified}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+            \PYG{k}{return}
+
+        \PYG{n}{root} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{root}
+        \PYG{n}{download\PYGZus{}url}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{url}\PYG{p}{,} \PYG{n}{root}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{filename}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tgz\PYGZus{}md5}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} extract file}
+        \PYG{n}{cwd} \PYG{o}{=} \PYG{n}{os}\PYG{o}{.}\PYG{n}{getcwd}\PYG{p}{(}\PYG{p}{)}
+        \PYG{n}{tar} \PYG{o}{=} \PYG{n}{tarfile}\PYG{o}{.}\PYG{n}{open}\PYG{p}{(}\PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{root}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{filename}\PYG{p}{)}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{r:gz}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{os}\PYG{o}{.}\PYG{n}{chdir}\PYG{p}{(}\PYG{n}{root}\PYG{p}{)}
+        \PYG{n}{tar}\PYG{o}{.}\PYG{n}{extractall}\PYG{p}{(}\PYG{p}{)}
+        \PYG{n}{tar}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
+        \PYG{n}{os}\PYG{o}{.}\PYG{n}{chdir}\PYG{p}{(}\PYG{n}{cwd}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}auxiliar function to plot batches images}
+\PYG{k}{def} \PYG{n+nf}{plot\PYGZus{}tuple\PYGZus{}batch}\PYG{p}{(}\PYG{n}{images}\PYG{p}{,} \PYG{n}{labels}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{batch\PYGZus{}size} \PYG{o}{=} \PYG{n}{images}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{images} \PYG{o}{=} \PYG{n}{images}\PYG{o}{.}\PYG{n}{cpu}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{labels} \PYG{o}{=} \PYG{n}{labels}\PYG{o}{.}\PYG{n}{cpu}\PYG{p}{(}\PYG{p}{)}
+
+    \PYG{n}{fig}\PYG{p}{,} \PYG{n}{axs} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{subplots}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{batch\PYGZus{}size}\PYG{p}{,} \PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{16}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{)}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{batch\PYGZus{}size}\PYG{p}{)}\PYG{p}{:}
+        \PYG{n}{axs}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{axis}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{off}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+        \PYG{n}{axs}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{n}{classes}\PYG{p}{[}\PYG{n}{labels}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{item}\PYG{p}{(}\PYG{p}{)}\PYG{p}{]}\PYG{p}{)}
+        \PYG{n}{img}\PYG{p}{:} \PYG{n}{np}\PYG{o}{.}\PYG{n}{ndarray} \PYG{o}{=} \PYG{n}{kornia}\PYG{o}{.}\PYG{n}{tensor\PYGZus{}to\PYGZus{}image}\PYG{p}{(}\PYG{p}{(}\PYG{n}{images}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{*} \PYG{l+m+mi}{255}\PYG{p}{)}\PYG{o}{.}\PYG{n}{byte}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+        \PYG{n}{axs}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{n}{img}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} initialize train dataset}
+\PYG{n}{trainset} \PYG{o}{=} \PYG{n}{custom\PYGZus{}CIFAR10}\PYG{p}{(}\PYG{n}{root}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{train}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                          \PYG{n}{download}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} define the cnn model}
+\PYG{k}{class} \PYG{n+nc}{Net}\PYG{p}{(}\PYG{n}{nn}\PYG{o}{.}\PYG{n}{Module}\PYG{p}{)}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{)}\PYG{p}{:}
+        \PYG{n+nb}{super}\PYG{p}{(}\PYG{n}{Net}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{p}{)}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{conv1} \PYG{o}{=} \PYG{n}{nn}\PYG{o}{.}\PYG{n}{Conv2d}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{pool} \PYG{o}{=} \PYG{n}{nn}\PYG{o}{.}\PYG{n}{MaxPool2d}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{conv2} \PYG{o}{=} \PYG{n}{nn}\PYG{o}{.}\PYG{n}{Conv2d}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{,} \PYG{l+m+mi}{16}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fc1} \PYG{o}{=} \PYG{n}{nn}\PYG{o}{.}\PYG{n}{Linear}\PYG{p}{(}\PYG{l+m+mi}{16} \PYG{o}{*} \PYG{l+m+mi}{5} \PYG{o}{*} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fc2} \PYG{o}{=} \PYG{n}{nn}\PYG{o}{.}\PYG{n}{Linear}\PYG{p}{(}\PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{84}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fc3} \PYG{o}{=} \PYG{n}{nn}\PYG{o}{.}\PYG{n}{Linear}\PYG{p}{(}\PYG{l+m+mi}{84}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{)}
+
+    \PYG{k}{def} \PYG{n+nf}{forward}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{x}\PYG{p}{)}\PYG{p}{:}
+        \PYG{n}{x} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{pool}\PYG{p}{(}\PYG{n}{F}\PYG{o}{.}\PYG{n}{relu}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{conv1}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+        \PYG{n}{x} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{pool}\PYG{p}{(}\PYG{n}{F}\PYG{o}{.}\PYG{n}{relu}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{conv2}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+        \PYG{n}{x} \PYG{o}{=} \PYG{n}{x}\PYG{o}{.}\PYG{n}{view}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{16} \PYG{o}{*} \PYG{l+m+mi}{5} \PYG{o}{*} \PYG{l+m+mi}{5}\PYG{p}{)}
+        \PYG{n}{x} \PYG{o}{=} \PYG{n}{F}\PYG{o}{.}\PYG{n}{relu}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fc1}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}
+        \PYG{n}{x} \PYG{o}{=} \PYG{n}{F}\PYG{o}{.}\PYG{n}{relu}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fc2}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}
+        \PYG{n}{x} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fc3}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{x}
+
+\PYG{c+c1}{\PYGZsh{} def train loop}
+\PYG{k}{def} \PYG{n+nf}{train}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{net} \PYG{o}{=} \PYG{n}{Net}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{net} \PYG{o}{=} \PYG{n}{net}\PYG{o}{.}\PYG{n}{cuda}\PYG{p}{(}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Configure parameters}
+    \PYG{n}{criterion} \PYG{o}{=} \PYG{n}{nn}\PYG{o}{.}\PYG{n}{CrossEntropyLoss}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{optimizer} \PYG{o}{=} \PYG{n}{optim}\PYG{o}{.}\PYG{n}{SGD}\PYG{p}{(}\PYG{n}{net}\PYG{o}{.}\PYG{n}{parameters}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,} \PYG{n}{lr}\PYG{o}{=}\PYG{l+m+mf}{0.001}\PYG{p}{,} \PYG{n}{momentum}\PYG{o}{=}\PYG{l+m+mf}{0.9}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} TRAIN}
+    \PYG{k+kn}{from} \PYG{n+nn}{time} \PYG{k+kn}{import} \PYG{n}{time}
+    \PYG{n}{start\PYGZus{}time} \PYG{o}{=} \PYG{n}{time}\PYG{p}{(}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{epoch} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{:}  \PYG{c+c1}{\PYGZsh{} loop over the dataset multiple times}
+        \PYG{n}{running\PYGZus{}loss} \PYG{o}{=} \PYG{l+m+mf}{0.0}
+        \PYG{k}{for} \PYG{n}{i}\PYG{p}{,} \PYG{n}{data} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{trainloader}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} get the inputs; data is a list of [inputs, labels]}
+            \PYG{n}{inputs}\PYG{p}{,} \PYG{n}{labels} \PYG{o}{=} \PYG{n}{data}
+            \PYG{n}{inputs} \PYG{o}{=} \PYG{p}{(}\PYG{n}{inputs}\PYG{o}{.}\PYG{n}{float}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+            \PYG{n}{labels} \PYG{o}{=} \PYG{n}{labels}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{cuda}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+            \PYG{n}{optimizer}\PYG{o}{.}\PYG{n}{zero\PYGZus{}grad}\PYG{p}{(}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} forward + backward + optimize}
+            \PYG{n}{outputs} \PYG{o}{=} \PYG{n}{net}\PYG{p}{(}\PYG{n}{inputs}\PYG{p}{)}
+            \PYG{n}{loss} \PYG{o}{=} \PYG{n}{criterion}\PYG{p}{(}\PYG{n}{outputs}\PYG{p}{,} \PYG{n}{labels}\PYG{p}{)}
+            \PYG{n}{loss}\PYG{o}{.}\PYG{n}{backward}\PYG{p}{(}\PYG{p}{)}
+            \PYG{n}{optimizer}\PYG{o}{.}\PYG{n}{step}\PYG{p}{(}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} print statistics}
+            \PYG{n}{running\PYGZus{}loss} \PYG{o}{+}\PYG{o}{=} \PYG{n}{loss}\PYG{o}{.}\PYG{n}{item}\PYG{p}{(}\PYG{p}{)}
+            \PYG{k}{if} \PYG{n}{i} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{2000} \PYG{o}{==} \PYG{l+m+mi}{1999}\PYG{p}{:}  \PYG{c+c1}{\PYGZsh{} print every 2000 mini\PYGZhy{}batches}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{[}\PYG{l+s+si}{\PYGZpc{}d}\PYG{l+s+s1}{, }\PYG{l+s+si}{\PYGZpc{}5d}\PYG{l+s+s1}{] loss: }\PYG{l+s+si}{\PYGZpc{}.3f}\PYG{l+s+s1}{\PYGZsq{}} \PYG{o}{\PYGZpc{}}
+                      \PYG{p}{(}\PYG{n}{epoch} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{running\PYGZus{}loss} \PYG{o}{/} \PYG{l+m+mi}{2000}\PYG{p}{)}\PYG{p}{)}
+                \PYG{n}{running\PYGZus{}loss} \PYG{o}{=} \PYG{l+m+mf}{0.0}
+    \PYG{n}{consumed\PYGZus{}time} \PYG{o}{=} \PYG{n}{time}\PYG{p}{(}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{start\PYGZus{}time}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{consumed\PYGZus{}time}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Finished Training}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{torch}\PYG{o}{.}\PYG{n}{save}\PYG{p}{(}\PYG{n}{net}\PYG{o}{.}\PYG{n}{state\PYGZus{}dict}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,} \PYG{n}{PATH}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}def test loop}
+\PYG{k}{def} \PYG{n+nf}{test}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{images}\PYG{p}{,} \PYG{n}{labels} \PYG{o}{=} \PYG{n}{dataiter}\PYG{o}{.}\PYG{n}{next}\PYG{p}{(}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} print images}
+    \PYG{n}{plot\PYGZus{}tuple\PYGZus{}batch}\PYG{p}{(}\PYG{n}{images}\PYG{p}{,} \PYG{n}{labels}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{GroundTruth: }\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{ }\PYG{l+s+s1}{\PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+si}{\PYGZpc{}5s}\PYG{l+s+s1}{\PYGZsq{}} \PYG{o}{\PYGZpc{}} \PYG{n}{classes}\PYG{p}{[}\PYG{n}{labels}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{]} \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{net} \PYG{o}{=} \PYG{n}{Net}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{net} \PYG{o}{=} \PYG{n}{net}\PYG{o}{.}\PYG{n}{cuda}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{net}\PYG{o}{.}\PYG{n}{load\PYGZus{}state\PYGZus{}dict}\PYG{p}{(}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{n}{PATH}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{outputs} \PYG{o}{=} \PYG{n}{net}\PYG{p}{(}\PYG{n}{images}\PYG{p}{)}
+    \PYG{n}{\PYGZus{}}\PYG{p}{,} \PYG{n}{predicted} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{n}{outputs}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Predicted: }\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{ }\PYG{l+s+s1}{\PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+si}{\PYGZpc{}5s}\PYG{l+s+s1}{\PYGZsq{}} \PYG{o}{\PYGZpc{}} \PYG{n}{classes}\PYG{p}{[}\PYG{n}{predicted}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{]}
+                                  \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{class\PYGZus{}correct} \PYG{o}{=} \PYG{n+nb}{list}\PYG{p}{(}\PYG{l+m+mf}{0.} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{class\PYGZus{}total} \PYG{o}{=} \PYG{n+nb}{list}\PYG{p}{(}\PYG{l+m+mf}{0.} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{p}{)}
+    \PYG{k}{with} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{no\PYGZus{}grad}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+        \PYG{k}{for} \PYG{n}{data} \PYG{o+ow}{in} \PYG{n}{testloader}\PYG{p}{:}
+            \PYG{n}{images}\PYG{p}{,} \PYG{n}{labels} \PYG{o}{=} \PYG{n}{data}
+            \PYG{n}{labels} \PYG{o}{=} \PYG{n}{labels}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{cuda}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+            \PYG{n}{outputs} \PYG{o}{=} \PYG{n}{net}\PYG{p}{(}\PYG{n}{images}\PYG{p}{)}
+            \PYG{n}{\PYGZus{}}\PYG{p}{,} \PYG{n}{predicted} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{n}{outputs}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}
+            \PYG{n}{c} \PYG{o}{=} \PYG{p}{(}\PYG{n}{predicted} \PYG{o}{==} \PYG{n}{labels}\PYG{p}{)}\PYG{o}{.}\PYG{n}{squeeze}\PYG{p}{(}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{p}{:}
+                \PYG{n}{label} \PYG{o}{=} \PYG{n}{labels}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}
+                \PYG{n}{class\PYGZus{}correct}\PYG{p}{[}\PYG{n}{label}\PYG{p}{]} \PYG{o}{+}\PYG{o}{=} \PYG{n}{c}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{item}\PYG{p}{(}\PYG{p}{)}
+                \PYG{n}{class\PYGZus{}total}\PYG{p}{[}\PYG{n}{label}\PYG{p}{]} \PYG{o}{+}\PYG{o}{=} \PYG{l+m+mi}{1}
+
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Accuracy of }\PYG{l+s+si}{\PYGZpc{}5s}\PYG{l+s+s1}{ : }\PYG{l+s+si}{\PYGZpc{}2d}\PYG{l+s+s1}{ }\PYG{l+s+si}{\PYGZpc{}\PYGZpc{}}\PYG{l+s+s1}{\PYGZsq{}} \PYG{o}{\PYGZpc{}} \PYG{p}{(}
+            \PYG{n}{classes}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{,} \PYG{l+m+mi}{100} \PYG{o}{*} \PYG{n}{class\PYGZus{}correct}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{/} \PYG{n}{class\PYGZus{}total}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Create the dataloader with ida\PYGZus{}lib augmentations}
+\PYG{n}{trainloader} \PYG{o}{=} \PYG{n}{AugmentDataLoader}\PYG{p}{(}\PYG{n}{dataset}\PYG{o}{=}\PYG{n}{trainset}\PYG{p}{,}
+                                \PYG{n}{batch\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{4}\PYG{p}{,}
+                                \PYG{n}{shuffle}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                                \PYG{n}{resize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{,} \PYG{l+m+mi}{500}\PYG{p}{)}\PYG{p}{,}
+                                \PYG{n}{pipeline\PYGZus{}operations}\PYG{o}{=}\PYG{p}{(}\PYG{n}{NormalizePipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{,}
+                                                     \PYG{n}{HflipPipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{,}
+                                                     \PYG{n}{RandomRotatePipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{degrees\PYGZus{}range}\PYG{o}{=}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{15}\PYG{p}{,} \PYG{l+m+mi}{15}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,}
+                                                     \PYG{n}{RandomContrastPipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{contrast\PYGZus{}range}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mf}{0.8}\PYG{p}{,} \PYG{l+m+mf}{1.2}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,}
+                                                     \PYG{n}{RandomShearPipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{shear\PYGZus{}range}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{0.5}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,}
+                                \PYG{n}{interpolation}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bilinear}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                \PYG{n}{padding\PYGZus{}mode}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{zeros}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                \PYG{n}{output\PYGZus{}format}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{tuple}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                \PYG{n}{output\PYGZus{}type}\PYG{o}{=}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{float32}
+                                \PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} initialize test dataset}
+\PYG{n}{testset} \PYG{o}{=} \PYG{n}{custom\PYGZus{}CIFAR10}\PYG{p}{(}\PYG{n}{root}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./data}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{train}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,}
+                         \PYG{n}{download}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Create the dataloader with ida\PYGZus{}lib augmentations}
+\PYG{n}{testloader} \PYG{o}{=} \PYG{n}{AugmentDataLoader}\PYG{p}{(}\PYG{n}{dataset}\PYG{o}{=}\PYG{n}{testset}\PYG{p}{,}
+                               \PYG{n}{batch\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{4}\PYG{p}{,}
+                               \PYG{n}{shuffle}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,}
+                               \PYG{n}{pipeline\PYGZus{}operations}\PYG{o}{=}\PYG{p}{(}\PYG{n}{NormalizePipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{,}
+                                                    \PYG{n}{HflipPipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{)}\PYG{p}{,}
+                                                    \PYG{n}{RandomRotatePipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mf}{0.8}\PYG{p}{,} \PYG{n}{degrees\PYGZus{}range}\PYG{o}{=}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{15}\PYG{p}{,} \PYG{l+m+mi}{15}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,}
+                                                    \PYG{n}{RandomContrastPipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{contrast\PYGZus{}range}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mf}{0.8}\PYG{p}{,} \PYG{l+m+mf}{1.2}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,}
+                                                    \PYG{n}{RandomShearPipeline}\PYG{p}{(}\PYG{n}{probability}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{shear\PYGZus{}range}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{0.5}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,}
+                               \PYG{n}{interpolation}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bilinear}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                               \PYG{n}{padding\PYGZus{}mode}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{zeros}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                               \PYG{n}{output\PYGZus{}format}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{tuple}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                               \PYG{n}{output\PYGZus{}type}\PYG{o}{=}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{float32}
+                               \PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} clases}
+\PYG{n}{classes} \PYG{o}{=} \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{plane}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{car}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bird}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{cat}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+           \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{deer}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{dog}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{frog}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{horse}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{ship}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{truck}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} path to save weights}
+\PYG{n}{PATH} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{./cifar\PYGZus{}net2.pth}\PYG{l+s+s1}{\PYGZsq{}}
+
+
+\PYG{c+c1}{\PYGZsh{} get some random training images}
+\PYG{n}{dataiter} \PYG{o}{=} \PYG{n+nb}{iter}\PYG{p}{(}\PYG{n}{trainloader}\PYG{p}{)}
+\PYG{n}{images}\PYG{p}{,} \PYG{n}{labels} \PYG{o}{=} \PYG{n}{dataiter}\PYG{o}{.}\PYG{n}{next}\PYG{p}{(}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} plot some items of train}
+\PYG{n}{plot\PYGZus{}tuple\PYGZus{}batch}\PYG{p}{(}\PYG{n}{images}\PYG{p}{,} \PYG{n}{labels}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} train the net}
+\PYG{n}{train}\PYG{p}{(}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} test the results}
+\PYG{n}{test}\PYG{p}{(}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 
@@ -2983,6 +3366,48 @@ You can find all the examples here:
 
 \item {} 
 \DUrole{xref,std,std-ref}{search}
+
+\end{itemize}
+
+
+\section{Built with}
+\label{\detokenize{index:built-with}}\begin{itemize}
+\item {} 
+\sphinxhref{https://pytorch.org/}{Pytorch}.  \sphinxhyphen{} The machine learning framework used
+
+\end{itemize}
+\begin{itemize}
+\item {} 
+\sphinxhref{https://bokeh.org/}{Bokeh}. \sphinxhyphen{} The visualization library used
+
+\end{itemize}
+\begin{itemize}
+\item {} 
+\sphinxhref{https://kornia.github.io/}{Kornia}.  \sphinxhyphen{} computer vision library that is used as a base for transformations
+
+\end{itemize}
+\begin{itemize}
+\item {} 
+\sphinxhref{https://bokeh.org/}{OpenCV}.  \sphinxhyphen{} computer vision library that is used as a base for transformations
+
+\end{itemize}
+\begin{itemize}
+\item {} 
+\sphinxhref{https://www.jetbrains.com/es-es/pycharm/}{Pycharm}. \sphinxhyphen{} Development IDE
+
+\end{itemize}
+
+
+\section{Acknowledgements}
+\label{\detokenize{index:acknowledgements}}\begin{itemize}
+\item {} 
+\sphinxstylestrong{Nicolás Vila Blanco} : project co\sphinxhyphen{}author
+
+\item {} 
+\sphinxstylestrong{María José Carreira Nouche}: project co\sphinxhyphen{}author
+
+\item {} 
+\sphinxstylestrong{CITiUS}: support company
 
 \end{itemize}
 

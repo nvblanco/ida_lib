@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.6.15)  15 JUN 2020 15:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.6.15)  24 JUN 2020 13:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1159,7 +1159,7 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
 ] [2
 
 ]
-<icon.png, id=109, 770.88pt x 450.18187pt>
+<icon.png, id=124, 770.88pt x 450.18187pt>
 LaTeX Font Info:    Try loading font information for T1+pcr on input line 89.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
@@ -1174,7 +1174,7 @@ Package pdftex.def Info: icon.png  used on input line 89.
 
 ]
 Chapter 1.
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 98.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 99.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [3] [4
@@ -1185,1689 +1185,1756 @@ Chapter 2.
 
 ]
 Chapter 3.
-<hflip.png, id=139, 1050.92625pt x 499.8675pt>
-File: hflip.png Graphic file (type png)
-<use hflip.png>
-Package pdftex.def Info: hflip.png  used on input line 186.
-(pdftex.def)             Requested size: 234.8775pt x 111.71785pt.
 [7]
-<vflip.png, id=144, 1046.91125pt x 501.875pt>
-File: vflip.png Graphic file (type png)
-<use vflip.png>
-Package pdftex.def Info: vflip.png  used on input line 191.
-(pdftex.def)             Requested size: 234.8775pt x 112.59535pt.
-<affine.png, id=145, 1050.92625pt x 501.875pt>
-File: affine.png Graphic file (type png)
-<use affine.png>
-Package pdftex.def Info: affine.png  used on input line 196.
-(pdftex.def)             Requested size: 234.8775pt x 112.16652pt.
-<rotate.png, id=146, 1050.92625pt x 499.8675pt>
-File: rotate.png Graphic file (type png)
-<use rotate.png>
-Package pdftex.def Info: rotate.png  used on input line 201.
-(pdftex.def)             Requested size: 234.8775pt x 111.71785pt.
-<shear.png, id=147, 1048.91875pt x 503.8825pt>
-File: shear.png Graphic file (type png)
-<use shear.png>
-Package pdftex.def Info: shear.png  used on input line 210.
-(pdftex.def)             Requested size: 234.8775pt x 112.83046pt.
- [8 <./hflip.png> <./vflip.png> <./affine.png> <./rotate.png>]
-<scale.png, id=153, 1051.93pt x 506.89375pt>
-File: scale.png Graphic file (type png)
-<use scale.png>
-Package pdftex.def Info: scale.png  used on input line 219.
-(pdftex.def)             Requested size: 234.8775pt x 113.1799pt.
-<translate.png, id=154, 1051.93pt x 501.875pt>
-File: translate.png Graphic file (type png)
-<use translate.png>
-Package pdftex.def Info: translate.png  used on input line 228.
-(pdftex.def)             Requested size: 234.8775pt x 112.0593pt.
-<gamma.png, id=155, 1054.94125pt x 496.85625pt>
-File: gamma.png Graphic file (type png)
-<use gamma.png>
-Package pdftex.def Info: gamma.png  used on input line 237.
-(pdftex.def)             Requested size: 234.8775pt x 110.62029pt.
-<contrast.png, id=156, 1050.92625pt x 495.8525pt>
-File: contrast.png Graphic file (type png)
-<use contrast.png>
-Package pdftex.def Info: contrast.png  used on input line 246.
-(pdftex.def)             Requested size: 234.8775pt x 110.82051pt.
- [9 <./shear.png> <./scale.png> <./translate.png> <./gamma.png>]
-<brightness.png, id=167, 1052.93375pt x 508.90125pt>
-File: brightness.png Graphic file (type png)
-<use brightness.png>
-Package pdftex.def Info: brightness.png  used on input line 255.
-(pdftex.def)             Requested size: 234.8775pt x 113.51942pt.
-<equalization.png, id=168, 1051.93pt x 500.87125pt>
-File: equalization.png Graphic file (type png)
-<use equalization.png>
-Package pdftex.def Info: equalization.png  used on input line 264.
-(pdftex.def)             Requested size: 234.8775pt x 111.83517pt.
-<gaussian_noise.png, id=169, 1054.94125pt x 507.8975pt>
-File: gaussian_noise.png Graphic file (type png)
-<use gaussian_noise.png>
-Package pdftex.def Info: gaussian_noise.png  used on input line 269.
-(pdftex.def)             Requested size: 234.8775pt x 113.07852pt.
-<salt_pepper_noise.png, id=170, 1053.9375pt x 500.87125pt>
-File: salt_pepper_noise.png Graphic file (type png)
-<use salt_pepper_noise.png>
-Package pdftex.def Info: salt_pepper_noise.png  used on input line 278.
-(pdftex.def)             Requested size: 234.8775pt x 111.62119pt.
- [10 <./contrast.png> <./brightness.png> <./equalization.png> <./gaussian_noise
-.png>]
-<spekle_noise.png, id=178, 1049.9225pt x 513.92pt>
-File: spekle_noise.png Graphic file (type png)
-<use spekle_noise.png>
-Package pdftex.def Info: spekle_noise.png  used on input line 284.
-(pdftex.def)             Requested size: 234.8775pt x 114.96829pt.
-<poisson_noise.png, id=179, 1050.92625pt x 507.8975pt>
-File: poisson_noise.png Graphic file (type png)
-<use poisson_noise.png>
-Package pdftex.def Info: poisson_noise.png  used on input line 293.
-(pdftex.def)             Requested size: 234.8775pt x 113.51251pt.
-<blur.png, id=180, 1049.9225pt x 511.9125pt>
-File: blur.png Graphic file (type png)
-<use blur.png>
-Package pdftex.def Info: blur.png  used on input line 302.
-(pdftex.def)             Requested size: 234.8775pt x 114.5192pt.
-<gaussian_blur.png, id=181, 1055.945pt x 501.875pt>
-File: gaussian_blur.png Graphic file (type png)
-<use gaussian_blur.png>
-Package pdftex.def Info: gaussian_blur.png  used on input line 311.
-(pdftex.def)             Requested size: 234.8775pt x 111.63045pt.
- [11 <./salt_pepper_noise.png> <./spekle_noise.png> <./poisson_noise.png> <./bl
-ur.png>]
-<visualization.png, id=189, 1295.84125pt x 665.48625pt>
+LaTeX Font Info:    Try loading font information for TS1+pcr on input line 1.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1pcr.fd
+File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
+)
+Underfull \hbox (badness 5133) in paragraph at lines 198--199
+[]\T1/ptm/m/n/10 and the \T1/ptm/b/n/10 Ran-dom pipeli-ne-OP-er-a-tions\T1/ptm/
+m/n/10 , where what you de-fine is a range of pos-si-ble pa-ram-e-
+ []
+
+
+Underfull \hbox (badness 5231) in paragraph at lines 198--199
+\T1/ptm/m/n/10 ters, and each time the op-er-a-tion is ap-plied it will take a 
+dif-fer-ent value within this range
+ []
+
+<visualization.png, id=165, 1295.84125pt x 665.48625pt>
 File: visualization.png Graphic file (type png)
 <use visualization.png>
-Package pdftex.def Info: visualization.png  used on input line 333.
+Package pdftex.def Info: visualization.png  used on input line 242.
 (pdftex.def)             Requested size: 469.74525pt x 241.2402pt.
- [12 <./gaussian_blur.png> <./visualization.png>]
+[8]
+<hflip.png, id=171, 1050.92625pt x 499.8675pt>
+File: hflip.png Graphic file (type png)
+<use hflip.png>
+Package pdftex.def Info: hflip.png  used on input line 265.
+(pdftex.def)             Requested size: 234.8775pt x 111.71785pt.
+<vflip.png, id=172, 1046.91125pt x 501.875pt>
+File: vflip.png Graphic file (type png)
+<use vflip.png>
+Package pdftex.def Info: vflip.png  used on input line 274.
+(pdftex.def)             Requested size: 234.8775pt x 112.59535pt.
+ [9 <./visualization.png> <./hflip.png>]
+<affine.png, id=182, 1050.92625pt x 501.875pt>
+File: affine.png Graphic file (type png)
+<use affine.png>
+Package pdftex.def Info: affine.png  used on input line 283.
+(pdftex.def)             Requested size: 234.8775pt x 112.16652pt.
+<rotate.png, id=183, 1050.92625pt x 499.8675pt>
+File: rotate.png Graphic file (type png)
+<use rotate.png>
+Package pdftex.def Info: rotate.png  used on input line 292.
+(pdftex.def)             Requested size: 234.8775pt x 111.71785pt.
+<shear.png, id=184, 1048.91875pt x 503.8825pt>
+File: shear.png Graphic file (type png)
+<use shear.png>
+Package pdftex.def Info: shear.png  used on input line 301.
+(pdftex.def)             Requested size: 234.8775pt x 112.83046pt.
+<scale.png, id=185, 1051.93pt x 506.89375pt>
+File: scale.png Graphic file (type png)
+<use scale.png>
+Package pdftex.def Info: scale.png  used on input line 310.
+(pdftex.def)             Requested size: 234.8775pt x 113.1799pt.
+ [10 <./vflip.png> <./affine.png> <./rotate.png> <./shear.png>]
+<translate.png, id=194, 1051.93pt x 501.875pt>
+File: translate.png Graphic file (type png)
+<use translate.png>
+Package pdftex.def Info: translate.png  used on input line 319.
+(pdftex.def)             Requested size: 234.8775pt x 112.0593pt.
+<gamma.png, id=195, 1054.94125pt x 496.85625pt>
+File: gamma.png Graphic file (type png)
+<use gamma.png>
+Package pdftex.def Info: gamma.png  used on input line 328.
+(pdftex.def)             Requested size: 234.8775pt x 110.62029pt.
+<contrast.png, id=196, 1050.92625pt x 495.8525pt>
+File: contrast.png Graphic file (type png)
+<use contrast.png>
+Package pdftex.def Info: contrast.png  used on input line 337.
+(pdftex.def)             Requested size: 234.8775pt x 110.82051pt.
+<brightness.png, id=197, 1052.93375pt x 508.90125pt>
+File: brightness.png Graphic file (type png)
+<use brightness.png>
+Package pdftex.def Info: brightness.png  used on input line 346.
+(pdftex.def)             Requested size: 234.8775pt x 113.51942pt.
+ [11 <./scale.png> <./translate.png> <./gamma.png> <./contrast.png>]
+<equalization.png, id=206, 1051.93pt x 500.87125pt>
+File: equalization.png Graphic file (type png)
+<use equalization.png>
+Package pdftex.def Info: equalization.png  used on input line 355.
+(pdftex.def)             Requested size: 234.8775pt x 111.83517pt.
+<gaussian_noise.png, id=207, 1054.94125pt x 507.8975pt>
+File: gaussian_noise.png Graphic file (type png)
+<use gaussian_noise.png>
+Package pdftex.def Info: gaussian_noise.png  used on input line 360.
+(pdftex.def)             Requested size: 234.8775pt x 113.07852pt.
+<salt_pepper_noise.png, id=208, 1053.9375pt x 500.87125pt>
+File: salt_pepper_noise.png Graphic file (type png)
+<use salt_pepper_noise.png>
+Package pdftex.def Info: salt_pepper_noise.png  used on input line 369.
+(pdftex.def)             Requested size: 234.8775pt x 111.62119pt.
+<spekle_noise.png, id=209, 1049.9225pt x 513.92pt>
+File: spekle_noise.png Graphic file (type png)
+<use spekle_noise.png>
+Package pdftex.def Info: spekle_noise.png  used on input line 375.
+(pdftex.def)             Requested size: 234.8775pt x 114.96829pt.
+ [12 <./brightness.png> <./equalization.png> <./gaussian_noise.png> <./salt_pep
+per_noise.png>]
+<poisson_noise.png, id=216, 1050.92625pt x 507.8975pt>
+File: poisson_noise.png Graphic file (type png)
+<use poisson_noise.png>
+Package pdftex.def Info: poisson_noise.png  used on input line 384.
+(pdftex.def)             Requested size: 234.8775pt x 113.51251pt.
+<blur.png, id=217, 1049.9225pt x 511.9125pt>
+File: blur.png Graphic file (type png)
+<use blur.png>
+Package pdftex.def Info: blur.png  used on input line 393.
+(pdftex.def)             Requested size: 234.8775pt x 114.5192pt.
+<gaussian_blur.png, id=218, 1055.945pt x 501.875pt>
+File: gaussian_blur.png Graphic file (type png)
+<use gaussian_blur.png>
+Package pdftex.def Info: gaussian_blur.png  used on input line 402.
+(pdftex.def)             Requested size: 234.8775pt x 111.63045pt.
+ [13 <./spekle_noise.png> <./poisson_noise.png> <./blur.png> <./gaussian_blur.p
+ng>]
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 362.
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 421.
 
-Overfull \hbox (6.97041pt too wide) in paragraph at lines 403--411
+Overfull \hbox (6.97041pt too wide) in paragraph at lines 462--470
 []\T1/ptm/m/n/10 translate_pipeline(probability=0.5,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 403--411
+Underfull \hbox (badness 10000) in paragraph at lines 462--470
 \T1/ptm/m/n/10 con-trast_pipeline(probability=0.5, con-trast_factor=1), ran-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 403--411
+Underfull \hbox (badness 10000) in paragraph at lines 462--470
 \T1/ptm/m/n/10 dom_brightness_pipeline(probability=0.2, bright-ness_range=(1.5,
  1.6)), ran-
  []
 
-[13]
-Underfull \hbox (badness 10000) in paragraph at lines 436--436
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 495--495
 []\T1/ptm/m/it/10 operations: list\T1/ptm/m/n/10 , \T1/ptm/m/it/10 data_info:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 436--436
+Underfull \hbox (badness 10000) in paragraph at lines 495--495
 \T1/ptm/m/it/10 Op-tional[dict] = None\T1/pcr/m/n/10 ) $\OMS/cmsy/m/n/10 !$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 461--461
+Overfull \hbox (17.78323pt too wide) in paragraph at lines 495--495
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 520--520
 []\T1/ptm/m/it/10 operations: list\T1/pcr/m/n/10 ) $\OMS/cmsy/m/n/10 !$
  []
 
 
-Underfull \hbox (badness 6995) in paragraph at lines 534--534
+Underfull \hbox (badness 6995) in paragraph at lines 593--593
 []\T1/ptm/m/it/10 batch: list\T1/ptm/m/n/10 , \T1/ptm/m/it/10 batch_info: dict\
 T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 6927) in paragraph at lines 534--534
+Underfull \hbox (badness 6927) in paragraph at lines 593--593
 \T1/ptm/m/it/10 data_original: Op-tional[list] =
  []
 
-[14]
+[15]
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 579.
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 638.
 
-Underfull \hbox (badness 10000) in paragraph at lines 612--612
+Underfull \hbox (badness 10000) in paragraph at lines 671--671
 []\T1/ptm/m/it/10 probability: float\T1/ptm/m/n/10 , \T1/ptm/m/it/10 ex-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 646--646
+Underfull \hbox (badness 10000) in paragraph at lines 705--705
 []\T1/ptm/m/it/10 degrees: int\T1/ptm/m/n/10 , \T1/ptm/m/it/10 cen-ter:
  []
 
 
-Overfull \hbox (27.0938pt too wide) in paragraph at lines 646--646
-\T1/ptm/m/it/10 None._VariableFunctions.tensor
+Overfull \hbox (49.3234pt too wide) in paragraph at lines 705--705
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor
  []
 
-[15]
-Underfull \hbox (badness 10000) in paragraph at lines 708--708
+[16]
+Underfull \hbox (badness 10000) in paragraph at lines 767--767
 \T1/ptm/m/it/10 tu-ple]\T1/ptm/m/n/10 , \T1/ptm/m/it/10 prob-a-bil-ity:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 708--708
+Underfull \hbox (badness 10000) in paragraph at lines 767--767
 \T1/ptm/m/it/10 float = 1\T1/ptm/m/n/10 , \T1/ptm/m/it/10 cen-ter:
  []
 
 
-Overfull \hbox (21.0938pt too wide) in paragraph at lines 708--708
-\T1/ptm/m/it/10 None._VariableFunctions.tensor
+Overfull \hbox (43.3234pt too wide) in paragraph at lines 767--767
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor
  []
 
 
-Underfull \hbox (badness 6510) in paragraph at lines 742--742
+Underfull \hbox (badness 6510) in paragraph at lines 801--801
 []\T1/ptm/m/it/10 translation: tu-ple\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (57.0938pt too wide) in paragraph at lines 770--770
-\T1/ptm/m/it/10 None._VariableFunctions.tensor
+Overfull \hbox (79.3234pt too wide) in paragraph at lines 829--829
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor
  []
 
-[16]
-Underfull \hbox (badness 10000) in paragraph at lines 804--804
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 863--863
 []\T1/ptm/m/it/10 degrees_range:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 804--804
+Underfull \hbox (badness 10000) in paragraph at lines 863--863
 \T1/ptm/m/it/10 tu-ple\T1/ptm/m/n/10 , \T1/ptm/m/it/10 prob-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 804--804
+Underfull \hbox (badness 10000) in paragraph at lines 863--863
 \T1/ptm/m/it/10 a-bil-ity: float
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 804--804
+Underfull \hbox (badness 10000) in paragraph at lines 863--863
 \T1/ptm/m/it/10 = 1\T1/ptm/m/n/10 , \T1/ptm/m/it/10 cen-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 804--804
+Underfull \hbox (badness 10000) in paragraph at lines 863--863
 \T1/ptm/m/it/10 ter_deviation:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 804--804
+Underfull \hbox (badness 10000) in paragraph at lines 863--863
 \T1/ptm/m/it/10 int = None\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 804--804
+Underfull \hbox (badness 10000) in paragraph at lines 863--863
 \T1/ptm/m/it/10 cen-ter:
  []
 
 
-Overfull \hbox (63.0938pt too wide) in paragraph at lines 804--804
-\T1/ptm/m/it/10 None._VariableFunctions.tensor
+Overfull \hbox (85.3234pt too wide) in paragraph at lines 863--863
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 866--866
+Underfull \hbox (badness 10000) in paragraph at lines 925--925
 []\T1/ptm/m/it/10 probability:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 866--866
+Underfull \hbox (badness 10000) in paragraph at lines 925--925
 \T1/ptm/m/it/10 float\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 866--866
+Underfull \hbox (badness 10000) in paragraph at lines 925--925
 \T1/ptm/m/it/10 trans-la-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 866--866
+Underfull \hbox (badness 10000) in paragraph at lines 925--925
 \T1/ptm/m/it/10 tion_range:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 866--866
+Underfull \hbox (badness 10000) in paragraph at lines 925--925
 \T1/ptm/m/it/10 tu-ple\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (59.98395pt too wide) in paragraph at lines 866--866
+Overfull \hbox (59.98395pt too wide) in paragraph at lines 925--925
 \T1/ptm/m/it/10 same_translation_on_axis:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 866--866
+Underfull \hbox (badness 10000) in paragraph at lines 925--925
 \T1/ptm/m/it/10 bool =
  []
 
-[17]
-Overfull \hbox (3.49445pt too wide) in paragraph at lines 990--990
+[18]
+Overfull \hbox (3.49445pt too wide) in paragraph at lines 1049--1049
 []\T1/ptm/m/it/10 probability=1\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 990--990
+Underfull \hbox (badness 10000) in paragraph at lines 1049--1049
 \T1/ptm/m/it/10 tional[float]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 990--990
+Underfull \hbox (badness 10000) in paragraph at lines 1049--1049
 \T1/ptm/m/it/10 = 0.01\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 990--990
+Underfull \hbox (badness 10000) in paragraph at lines 1049--1049
 \T1/ptm/m/it/10 tional[float]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1013--1013
+Underfull \hbox (badness 10000) in paragraph at lines 1072--1072
 []\T1/ptm/m/it/10 probability: float
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1013--1013
+Underfull \hbox (badness 10000) in paragraph at lines 1072--1072
 \T1/ptm/m/it/10 = 1\T1/ptm/m/n/10 , \T1/ptm/m/it/10 mean: Op-
  []
 
-[18]
-Underfull \hbox (badness 10000) in paragraph at lines 1094--1094
+[19]
+Underfull \hbox (badness 10000) in paragraph at lines 1153--1153
 []\T1/ptm/m/it/10 contrast_range:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1144--1144
+Underfull \hbox (badness 10000) in paragraph at lines 1203--1203
 []\T1/ptm/m/it/10 probability:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1144--1144
+Underfull \hbox (badness 10000) in paragraph at lines 1203--1203
 \T1/ptm/m/it/10 float\T1/ptm/m/n/10 , \T1/ptm/m/it/10 bright-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1144--1144
+Underfull \hbox (badness 10000) in paragraph at lines 1203--1203
 \T1/ptm/m/it/10 ness_range:
  []
 
-[19] [20]
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+[20] [21]
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 []\T1/ptm/m/it/10 dataset:
  []
 
 
-Overfull \hbox (61.34349pt too wide) in paragraph at lines 1272--1272
+Overfull \hbox (61.34349pt too wide) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 torch.utils.data.dataset.Dataset\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 sam-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 ples_per_item:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 Op-tional[int]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 = 2\T1/ptm/m/n/10 , \T1/ptm/m/it/10 to-
  []
 
 
-Overfull \hbox (14.91412pt too wide) in paragraph at lines 1272--1272
+Overfull \hbox (14.91412pt too wide) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 tal_output_samples:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 Op-tional[int]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 = None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 op-
  []
 
 
-Underfull \hbox (badness 6625) in paragraph at lines 1272--1272
+Underfull \hbox (badness 6625) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 er-a-tions: Op-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 tional[list] =
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 in-ter-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 po-la-tion: str
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 = \TS1/ptm/m/it/10 '\T1/ptm/m/it/10 bi-lin-ear\TS1/ptm/m/it/10 
 '\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 padding_mode:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 str = \TS1/ptm/m/it/10 '\T1/ptm/m/it/10 ze-ros\TS1/ptm/m/it/10 
 '\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 re-size: Op-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 tional[tuple]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 = None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 out-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 put_extension:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 put_csv_path:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 str = \TS1/ptm/m/it/10 '\T1/ptm/m/it/10 an-no-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 ta-tions.csv\TS1/ptm/m/it/10 '\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 out-put_path:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1272
+Underfull \hbox (badness 10000) in paragraph at lines 1331--1331
 \T1/ptm/m/it/10 str = \TS1/ptm/m/it/10 '\T1/ptm/m/it/10 ./aug-
  []
 
-[21]
-Underfull \hbox (badness 10000) in paragraph at lines 1351--1351
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 1410--1410
 []\T1/ptm/m/it/10 batch_size\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1351--1351
+Underfull \hbox (badness 10000) in paragraph at lines 1410--1410
 \T1/ptm/m/it/10 dataset:
  []
 
 
-Overfull \hbox (61.34349pt too wide) in paragraph at lines 1351--1351
+Overfull \hbox (61.34349pt too wide) in paragraph at lines 1410--1410
 \T1/ptm/m/it/10 torch.utils.data.dataset.Dataset\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1351--1351
+Underfull \hbox (badness 10000) in paragraph at lines 1410--1410
 \T1/ptm/m/it/10 shuf-fle=True\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (43.45404pt too wide) in paragraph at lines 1351--1351
+Overfull \hbox (43.45404pt too wide) in paragraph at lines 1410--1410
 \T1/ptm/m/it/10 pipeline_operations=None\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1351--1351
+Underfull \hbox (badness 10000) in paragraph at lines 1410--1410
 \T1/ptm/m/it/10 re-size=None\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1351--1351
+Underfull \hbox (badness 10000) in paragraph at lines 1410--1410
 \T1/ptm/m/it/10 in-ter-po-la-tion:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1351--1351
+Underfull \hbox (badness 10000) in paragraph at lines 1410--1410
 \T1/ptm/m/it/10 padding_mode:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1351--1351
+Underfull \hbox (badness 10000) in paragraph at lines 1410--1410
 \T1/ptm/m/it/10 str = \TS1/ptm/m/it/10 '\T1/ptm/m/it/10 ze-ros\TS1/ptm/m/it/10 
 '\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1351--1351
+Underfull \hbox (badness 10000) in paragraph at lines 1410--1410
 \T1/ptm/m/it/10 out-put_format:
  []
 
 
-Overfull \hbox (9.11406pt too wide) in paragraph at lines 1351--1351
+Overfull \hbox (9.11406pt too wide) in paragraph at lines 1410--1410
 \T1/ptm/m/it/10 tional[torch.dtype]
  []
 
-[22]
-Underfull \hbox (badness 10000) in paragraph at lines 1397--1397
+[23]
+Underfull \hbox (badness 10000) in paragraph at lines 1456--1456
 []\T1/ptm/m/it/10 data: dict\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1397--1397
+Underfull \hbox (badness 10000) in paragraph at lines 1456--1456
 \T1/ptm/m/it/10 ma-trix:
  []
 
 
-Overfull \hbox (69.32376pt too wide) in paragraph at lines 1397--1397
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (91.55336pt too wide) in paragraph at lines 1456--1456
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Overfull \hbox (50.534pt too wide) in paragraph at lines 1417--1417
+Overfull \hbox (50.534pt too wide) in paragraph at lines 1476--1476
 []\T1/ptm/m/it/10 matrix_coordinates:
  []
 
 
-Overfull \hbox (101.5938pt too wide) in paragraph at lines 1417--1417
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (123.8234pt too wide) in paragraph at lines 1476--1476
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1417--1417
+Underfull \hbox (badness 10000) in paragraph at lines 1476--1476
 \T1/ptm/m/it/10 ma-
  []
 
 
-Overfull \hbox (51.3239pt too wide) in paragraph at lines 1417--1417
+Overfull \hbox (51.3239pt too wide) in paragraph at lines 1476--1476
 \T1/ptm/m/it/10 trix_transformation:
  []
 
 
-Overfull \hbox (105.32376pt too wide) in paragraph at lines 1417--1417
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (127.55336pt too wide) in paragraph at lines 1476--1476
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1417--1417
+Underfull \hbox (badness 10000) in paragraph at lines 1476--1476
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (98.1137pt too wide) in paragraph at lines 1417--1417
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (119.78323pt too wide) in paragraph at lines 1476--1476
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1423--1423
+Underfull \hbox (badness 10000) in paragraph at lines 1482--1482
 []\T1/ptm/m/it/10 img:
  []
 
 
-Overfull \hbox (23.5938pt too wide) in paragraph at lines 1423--1423
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (45.8234pt too wide) in paragraph at lines 1482--1482
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1423--1423
+Underfull \hbox (badness 10000) in paragraph at lines 1482--1482
 \T1/ptm/m/it/10 ma-trix:
  []
 
 
-Overfull \hbox (23.5938pt too wide) in paragraph at lines 1423--1423
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (45.8234pt too wide) in paragraph at lines 1482--1482
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1423--1423
+Underfull \hbox (badness 10000) in paragraph at lines 1482--1482
 \T1/ptm/m/it/10 ear\TS1/ptm/m/it/10 '\T1/ptm/m/n/10 , \T1/ptm/m/it/10 padding_m
 ode:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1423--1423
+Underfull \hbox (badness 10000) in paragraph at lines 1482--1482
 \T1/ptm/m/it/10 str = \TS1/ptm/m/it/10 '\T1/ptm/m/it/10 ze-ros\TS1/ptm/m/it/10 
 '\T1/pcr/m/n/10 ) $\OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (20.1137pt too wide) in paragraph at lines 1423--1423
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (41.78323pt too wide) in paragraph at lines 1482--1482
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1429--1429
+Underfull \hbox (badness 10000) in paragraph at lines 1488--1488
 []\T1/ptm/m/it/10 scale_factor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1435--1435
+Underfull \hbox (badness 10000) in paragraph at lines 1494--1494
 []\T1/ptm/m/it/10 center:
  []
 
 
-Overfull \hbox (65.5938pt too wide) in paragraph at lines 1435--1435
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (87.8234pt too wide) in paragraph at lines 1494--1494
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1435--1435
+Underfull \hbox (badness 10000) in paragraph at lines 1494--1494
 \T1/ptm/m/it/10 de-grees:
  []
 
 
-Overfull \hbox (69.32376pt too wide) in paragraph at lines 1435--1435
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 ) 
+Overfull \hbox (91.55336pt too wide) in paragraph at lines 1494--1494
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 ) 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1441--1441
+Underfull \hbox (badness 10000) in paragraph at lines 1500--1500
 []\T1/ptm/m/it/10 center:
  []
 
 
-Overfull \hbox (47.5938pt too wide) in paragraph at lines 1441--1441
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (69.8234pt too wide) in paragraph at lines 1500--1500
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1441--1441
+Underfull \hbox (badness 10000) in paragraph at lines 1500--1500
 \T1/ptm/m/it/10 scale_factor:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1441--1441
+Underfull \hbox (badness 10000) in paragraph at lines 1500--1500
 \T1/ptm/m/it/10 Union[float,
  []
 
 
-Overfull \hbox (54.98369pt too wide) in paragraph at lines 1441--1441
-\T1/ptm/m/it/10 None._VariableFunctions.tensor]\T1/pcr/m/n/10 ) 
+Overfull \hbox (77.21329pt too wide) in paragraph at lines 1500--1500
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor]\T1/pcr/m/n/10 ) 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1447--1447
+Underfull \hbox (badness 10000) in paragraph at lines 1506--1506
 []\T1/ptm/m/it/10 shear_factor:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1447--1447
+Underfull \hbox (badness 10000) in paragraph at lines 1506--1506
 \T1/ptm/m/it/10 tu-ple\T1/pcr/m/n/10 ) $\OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (44.1137pt too wide) in paragraph at lines 1447--1447
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (65.78323pt too wide) in paragraph at lines 1506--1506
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1453--1453
+Underfull \hbox (badness 10000) in paragraph at lines 1512--1512
 []\T1/ptm/m/it/10 center:
  []
 
 
-Overfull \hbox (95.5938pt too wide) in paragraph at lines 1453--1453
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (117.8234pt too wide) in paragraph at lines 1512--1512
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (16.01425pt too wide) in paragraph at lines 1453--1453
+Overfull \hbox (16.01425pt too wide) in paragraph at lines 1512--1512
 \T1/ptm/m/it/10 scale_factor:
  []
 
 
-Overfull \hbox (12.41466pt too wide) in paragraph at lines 1453--1453
+Overfull \hbox (12.41466pt too wide) in paragraph at lines 1512--1512
 \T1/ptm/m/it/10 Union[float,
  []
 
 
-Overfull \hbox (102.98369pt too wide) in paragraph at lines 1453--1453
-\T1/ptm/m/it/10 None._VariableFunctions.tensor]\T1/pcr/m/n/10 ) 
+Overfull \hbox (125.21329pt too wide) in paragraph at lines 1512--1512
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor]\T1/pcr/m/n/10 ) 
  []
 
-[23]
-Overfull \hbox (17.68431pt too wide) in paragraph at lines 1459--1459
+[24]
+Overfull \hbox (17.68431pt too wide) in paragraph at lines 1518--1518
 []\T1/ptm/m/it/10 shear_factor:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1459--1459
+Underfull \hbox (badness 10000) in paragraph at lines 1518--1518
 \T1/ptm/m/it/10 tu-ple\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1459--1459
+Underfull \hbox (badness 10000) in paragraph at lines 1518--1518
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (92.1137pt too wide) in paragraph at lines 1459--1459
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (113.78323pt too wide) in paragraph at lines 1518--1518
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1465--1465
+Underfull \hbox (badness 10000) in paragraph at lines 1524--1524
 []\T1/ptm/m/it/10 translation:
  []
 
 
-Overfull \hbox (87.32376pt too wide) in paragraph at lines 1465--1465
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (109.55336pt too wide) in paragraph at lines 1524--1524
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1465--1465
+Underfull \hbox (badness 10000) in paragraph at lines 1524--1524
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (80.1137pt too wide) in paragraph at lines 1465--1465
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (101.78323pt too wide) in paragraph at lines 1524--1524
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1485--1485
+Underfull \hbox (badness 10000) in paragraph at lines 1544--1544
 []\T1/ptm/m/it/10 matrix:
  []
 
 
-Overfull \hbox (95.5938pt too wide) in paragraph at lines 1485--1485
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (117.8234pt too wide) in paragraph at lines 1544--1544
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1485--1485
+Underfull \hbox (badness 10000) in paragraph at lines 1544--1544
 \T1/ptm/m/it/10 width:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1485--1485
+Underfull \hbox (badness 10000) in paragraph at lines 1544--1544
 \T1/ptm/m/it/10 int\T1/pcr/m/n/10 ) $\OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (92.1137pt too wide) in paragraph at lines 1485--1485
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (113.78323pt too wide) in paragraph at lines 1544--1544
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1491--1491
+Underfull \hbox (badness 10000) in paragraph at lines 1550--1550
 []\T1/ptm/m/it/10 img:
  []
 
 
-Overfull \hbox (21.32376pt too wide) in paragraph at lines 1491--1491
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (43.55336pt too wide) in paragraph at lines 1550--1550
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1491--1491
+Underfull \hbox (badness 10000) in paragraph at lines 1550--1550
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (14.1137pt too wide) in paragraph at lines 1491--1491
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (35.78323pt too wide) in paragraph at lines 1550--1550
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 5741) in paragraph at lines 1497--1497
+Underfull \hbox (badness 5741) in paragraph at lines 1556--1556
 []\T1/ptm/m/it/10 tensor: torch.Tensor\T1/ptm/m/n/10 , \T1/ptm/m/it/10 ma-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1497--1497
+Underfull \hbox (badness 10000) in paragraph at lines 1556--1556
 \T1/ptm/m/it/10 trix: torch.Tensor\T1/ptm/m/n/10 , \T1/ptm/m/it/10 in-ter-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1546--1546
+Underfull \hbox (badness 10000) in paragraph at lines 1605--1605
 []\T1/ptm/m/it/10 data: dict\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1546--1546
+Underfull \hbox (badness 10000) in paragraph at lines 1605--1605
 \T1/ptm/m/it/10 de-grees:
  []
 
 
-Overfull \hbox (65.5938pt too wide) in paragraph at lines 1546--1546
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (87.8234pt too wide) in paragraph at lines 1605--1605
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1546--1546
+Underfull \hbox (badness 10000) in paragraph at lines 1605--1605
 \T1/ptm/m/it/10 cen-ter:
  []
 
 
-Overfull \hbox (69.32376pt too wide) in paragraph at lines 1546--1546
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 ) 
+Overfull \hbox (91.55336pt too wide) in paragraph at lines 1605--1605
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 ) 
  []
 
-[24]
-Overfull \hbox (50.534pt too wide) in paragraph at lines 1569--1569
+[25]
+Overfull \hbox (50.534pt too wide) in paragraph at lines 1628--1628
 []\T1/ptm/m/it/10 matrix_coordinates:
  []
 
 
-Overfull \hbox (101.5938pt too wide) in paragraph at lines 1569--1569
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (123.8234pt too wide) in paragraph at lines 1628--1628
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1569--1569
+Underfull \hbox (badness 10000) in paragraph at lines 1628--1628
 \T1/ptm/m/it/10 ma-trix:
  []
 
 
-Overfull \hbox (105.32376pt too wide) in paragraph at lines 1569--1569
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (127.55336pt too wide) in paragraph at lines 1628--1628
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1569--1569
+Underfull \hbox (badness 10000) in paragraph at lines 1628--1628
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (98.1137pt too wide) in paragraph at lines 1569--1569
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (119.78323pt too wide) in paragraph at lines 1628--1628
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1575--1575
+Underfull \hbox (badness 10000) in paragraph at lines 1634--1634
 []\T1/ptm/m/it/10 img:
  []
 
 
-Overfull \hbox (23.5938pt too wide) in paragraph at lines 1575--1575
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (45.8234pt too wide) in paragraph at lines 1634--1634
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1575--1575
+Underfull \hbox (badness 10000) in paragraph at lines 1634--1634
 \T1/ptm/m/it/10 de-grees:
  []
 
 
-Overfull \hbox (23.5938pt too wide) in paragraph at lines 1575--1575
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (45.8234pt too wide) in paragraph at lines 1634--1634
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1575--1575
+Underfull \hbox (badness 10000) in paragraph at lines 1634--1634
 \T1/ptm/m/it/10 cen-ter:
  []
 
 
-Overfull \hbox (27.32376pt too wide) in paragraph at lines 1575--1575
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (49.55336pt too wide) in paragraph at lines 1634--1634
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1575--1575
+Underfull \hbox (badness 10000) in paragraph at lines 1634--1634
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (20.1137pt too wide) in paragraph at lines 1575--1575
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (41.78323pt too wide) in paragraph at lines 1634--1634
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1583--1583
+Underfull \hbox (badness 10000) in paragraph at lines 1642--1642
 []\T1/ptm/m/it/10 data: dict\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1583--1583
+Underfull \hbox (badness 10000) in paragraph at lines 1642--1642
 \T1/ptm/m/it/10 scale_factor:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1583--1583
+Underfull \hbox (badness 10000) in paragraph at lines 1642--1642
 \T1/ptm/m/it/10 Union[float,
  []
 
 
-Overfull \hbox (63.48369pt too wide) in paragraph at lines 1583--1583
-\T1/ptm/m/it/10 None._VariableFunctions.tensor]\T1/ptm/m/n/10 ,
+Overfull \hbox (85.71329pt too wide) in paragraph at lines 1642--1642
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor]\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1583--1583
+Underfull \hbox (badness 10000) in paragraph at lines 1642--1642
 \T1/ptm/m/it/10 cen-ter: Op-
  []
 
 
-Overfull \hbox (88.21326pt too wide) in paragraph at lines 1583--1583
-\T1/ptm/m/it/10 tional[None._VariableFunctions.tensor]
+Overfull \hbox (110.44286pt too wide) in paragraph at lines 1642--1642
+\T1/ptm/m/it/10 tional[None._VariableFunctionsClass.tensor]
  []
 
 
-Overfull \hbox (44.534pt too wide) in paragraph at lines 1606--1606
+Overfull \hbox (44.534pt too wide) in paragraph at lines 1665--1665
 []\T1/ptm/m/it/10 matrix_coordinates:
  []
 
 
-Overfull \hbox (95.5938pt too wide) in paragraph at lines 1606--1606
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (117.8234pt too wide) in paragraph at lines 1665--1665
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1606--1606
+Underfull \hbox (badness 10000) in paragraph at lines 1665--1665
 \T1/ptm/m/it/10 ma-trix:
  []
 
 
-Overfull \hbox (99.32376pt too wide) in paragraph at lines 1606--1606
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (121.55336pt too wide) in paragraph at lines 1665--1665
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1606--1606
+Underfull \hbox (badness 10000) in paragraph at lines 1665--1665
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (92.1137pt too wide) in paragraph at lines 1606--1606
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (113.78323pt too wide) in paragraph at lines 1665--1665
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1612--1612
+Underfull \hbox (badness 10000) in paragraph at lines 1671--1671
 []\T1/ptm/m/it/10 img:
  []
 
 
-Overfull \hbox (17.5938pt too wide) in paragraph at lines 1612--1612
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (39.8234pt too wide) in paragraph at lines 1671--1671
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1612--1612
+Underfull \hbox (badness 10000) in paragraph at lines 1671--1671
 \T1/ptm/m/it/10 scale_factor:
  []
 
 
-Overfull \hbox (17.5938pt too wide) in paragraph at lines 1612--1612
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (39.8234pt too wide) in paragraph at lines 1671--1671
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1612--1612
+Underfull \hbox (badness 10000) in paragraph at lines 1671--1671
 \T1/ptm/m/it/10 cen-ter:
  []
 
 
-Overfull \hbox (21.32376pt too wide) in paragraph at lines 1612--1612
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (43.55336pt too wide) in paragraph at lines 1671--1671
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1612--1612
+Underfull \hbox (badness 10000) in paragraph at lines 1671--1671
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (14.1137pt too wide) in paragraph at lines 1612--1612
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (35.78323pt too wide) in paragraph at lines 1671--1671
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
-[25]
-Underfull \hbox (badness 10000) in paragraph at lines 1618--1618
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 1677--1677
 []\T1/ptm/m/it/10 data: dict\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1618--1618
+Underfull \hbox (badness 10000) in paragraph at lines 1677--1677
 \T1/ptm/m/it/10 shear_factor:
  []
 
 
-Overfull \hbox (44.534pt too wide) in paragraph at lines 1638--1638
+Overfull \hbox (44.534pt too wide) in paragraph at lines 1697--1697
 []\T1/ptm/m/it/10 matrix_coordinates:
  []
 
 
-Overfull \hbox (95.5938pt too wide) in paragraph at lines 1638--1638
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (117.8234pt too wide) in paragraph at lines 1697--1697
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1638--1638
+Underfull \hbox (badness 10000) in paragraph at lines 1697--1697
 \T1/ptm/m/it/10 ma-trix:
  []
 
 
-Overfull \hbox (99.32376pt too wide) in paragraph at lines 1638--1638
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (121.55336pt too wide) in paragraph at lines 1697--1697
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1638--1638
+Underfull \hbox (badness 10000) in paragraph at lines 1697--1697
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (92.1137pt too wide) in paragraph at lines 1638--1638
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (113.78323pt too wide) in paragraph at lines 1697--1697
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1644--1644
+Underfull \hbox (badness 10000) in paragraph at lines 1703--1703
 []\T1/ptm/m/it/10 img:
  []
 
 
-Overfull \hbox (17.5938pt too wide) in paragraph at lines 1644--1644
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (39.8234pt too wide) in paragraph at lines 1703--1703
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1644--1644
+Underfull \hbox (badness 10000) in paragraph at lines 1703--1703
 \T1/ptm/m/it/10 shear_factor:
  []
 
 
-Overfull \hbox (21.32376pt too wide) in paragraph at lines 1644--1644
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (43.55336pt too wide) in paragraph at lines 1703--1703
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1644--1644
+Underfull \hbox (badness 10000) in paragraph at lines 1703--1703
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (14.1137pt too wide) in paragraph at lines 1644--1644
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (35.78323pt too wide) in paragraph at lines 1703--1703
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1650--1650
+Underfull \hbox (badness 10000) in paragraph at lines 1709--1709
 \T1/ptm/m/it/10 trans-la-tion:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1650--1650
+Underfull \hbox (badness 10000) in paragraph at lines 1709--1709
 \T1/ptm/m/it/10 Union[int,
  []
 
 
-Overfull \hbox (90.98369pt too wide) in paragraph at lines 1650--1650
-\T1/ptm/m/it/10 None._VariableFunctions.tensor]\T1/pcr/m/n/10 )
+Overfull \hbox (113.21329pt too wide) in paragraph at lines 1709--1709
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor]\T1/pcr/m/n/10 )
  []
 
 
-Overfull \hbox (68.534pt too wide) in paragraph at lines 1670--1670
+Overfull \hbox (68.534pt too wide) in paragraph at lines 1729--1729
 []\T1/ptm/m/it/10 matrix_coordinates:
  []
 
 
-Overfull \hbox (119.5938pt too wide) in paragraph at lines 1670--1670
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (141.8234pt too wide) in paragraph at lines 1729--1729
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (10.98474pt too wide) in paragraph at lines 1670--1670
+Overfull \hbox (10.98474pt too wide) in paragraph at lines 1729--1729
 \T1/ptm/m/it/10 trans-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1670--1670
+Underfull \hbox (badness 10000) in paragraph at lines 1729--1729
 \T1/ptm/m/it/10 la-
  []
 
 
-Overfull \hbox (6.13475pt too wide) in paragraph at lines 1670--1670
+Overfull \hbox (6.13475pt too wide) in paragraph at lines 1729--1729
 \T1/ptm/m/it/10 tion:
  []
 
 
-Overfull \hbox (123.32376pt too wide) in paragraph at lines 1670--1670
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (145.55336pt too wide) in paragraph at lines 1729--1729
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1670--1670
+Underfull \hbox (badness 10000) in paragraph at lines 1729--1729
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (116.1137pt too wide) in paragraph at lines 1670--1670
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (137.78323pt too wide) in paragraph at lines 1729--1729
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1676--1676
+Underfull \hbox (badness 10000) in paragraph at lines 1735--1735
 []\T1/ptm/m/it/10 img:
  []
 
 
-Overfull \hbox (41.5938pt too wide) in paragraph at lines 1676--1676
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (63.8234pt too wide) in paragraph at lines 1735--1735
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1676--1676
+Underfull \hbox (badness 10000) in paragraph at lines 1735--1735
 \T1/ptm/m/it/10 trans-la-tion:
  []
 
 
-Overfull \hbox (45.32376pt too wide) in paragraph at lines 1676--1676
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (67.55336pt too wide) in paragraph at lines 1735--1735
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1676--1676
+Underfull \hbox (badness 10000) in paragraph at lines 1735--1735
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (38.1137pt too wide) in paragraph at lines 1676--1676
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (59.78323pt too wide) in paragraph at lines 1735--1735
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
-[26]
-Underfull \hbox (badness 10000) in paragraph at lines 1696--1696
+[27]
+Underfull \hbox (badness 10000) in paragraph at lines 1755--1755
 []\T1/ptm/m/it/10 matrix:
  []
 
 
-Overfull \hbox (95.5938pt too wide) in paragraph at lines 1696--1696
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/ptm/m/n/10 ,
+Overfull \hbox (117.8234pt too wide) in paragraph at lines 1755--1755
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1696--1696
+Underfull \hbox (badness 10000) in paragraph at lines 1755--1755
 \T1/ptm/m/it/10 height:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1696--1696
+Underfull \hbox (badness 10000) in paragraph at lines 1755--1755
 \T1/ptm/m/it/10 int\T1/pcr/m/n/10 ) $\OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (92.1137pt too wide) in paragraph at lines 1696--1696
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (113.78323pt too wide) in paragraph at lines 1755--1755
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1702--1702
+Underfull \hbox (badness 10000) in paragraph at lines 1761--1761
 []\T1/ptm/m/it/10 img:
  []
 
 
-Overfull \hbox (21.32376pt too wide) in paragraph at lines 1702--1702
-\T1/ptm/m/it/10 None._VariableFunctions.tensor\T1/pcr/m/n/10 )
+Overfull \hbox (43.55336pt too wide) in paragraph at lines 1761--1761
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1702--1702
+Underfull \hbox (badness 10000) in paragraph at lines 1761--1761
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (14.1137pt too wide) in paragraph at lines 1702--1702
-\T1/ptm/m/n/10 None._VariableFunctions.tensor 
+Overfull \hbox (35.78323pt too wide) in paragraph at lines 1761--1761
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1743--1743
+Underfull \hbox (badness 10000) in paragraph at lines 1802--1802
 []\T1/ptm/m/it/10 function\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1743--1743
+Underfull \hbox (badness 10000) in paragraph at lines 1802--1802
 \T1/ptm/m/it/10 im-age:
  []
 
 
-Overfull \hbox (29.92482pt too wide) in paragraph at lines 1743--1743
+Overfull \hbox (29.92482pt too wide) in paragraph at lines 1802--1802
 \T1/ptm/m/it/10 numpy.ndarray\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1743--1743
+Underfull \hbox (badness 10000) in paragraph at lines 1802--1802
 \OMS/cmsy/m/n/10 !$
  []
 
 
-Overfull \hbox (23.3148pt too wide) in paragraph at lines 1743--1743
+Overfull \hbox (23.3148pt too wide) in paragraph at lines 1802--1802
 \T1/ptm/m/n/10 numpy.ndarray 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1771--1771
+Underfull \hbox (badness 10000) in paragraph at lines 1830--1830
 []\T1/ptm/m/it/10 image\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (19.99487pt too wide) in paragraph at lines 1771--1771
+Overfull \hbox (19.99487pt too wide) in paragraph at lines 1830--1830
 \T1/ptm/m/it/10 amount=0.05\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (15.71474pt too wide) in paragraph at lines 1771--1771
+Overfull \hbox (15.71474pt too wide) in paragraph at lines 1830--1830
 \T1/ptm/m/it/10 s_vs_p=0.5\T1/pcr/m/n/10 ) 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1777--1777
+Underfull \hbox (badness 10000) in paragraph at lines 1836--1836
 []\T1/ptm/m/it/10 image\T1/ptm/m/n/10 , \T1/ptm/m/it/10 mean=0\T1/ptm/m/n/10 ,
  []
 
-[27]
-Underfull \hbox (badness 10000) in paragraph at lines 1783--1783
+[28]
+Underfull \hbox (badness 10000) in paragraph at lines 1842--1842
 []\T1/ptm/m/it/10 img: Union[dict,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1783--1783
-\T1/ptm/m/it/10 None._VariableFunctions.tensor,
+Underfull \hbox (badness 10000) in paragraph at lines 1842--1842
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1783--1783
-\T1/ptm/m/n/10 None._VariableFunctions.tensor,
+Underfull \hbox (badness 10000) in paragraph at lines 1842--1842
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1803--1803
+Underfull \hbox (badness 10000) in paragraph at lines 1862--1862
 []\T1/ptm/m/it/10 image: Union[dict,
  []
 
 
-Overfull \hbox (34.4838pt too wide) in paragraph at lines 1803--1803
-\T1/ptm/m/it/10 None._VariableFunctions.tensor,
+Overfull \hbox (56.7134pt too wide) in paragraph at lines 1862--1862
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1803--1803
+Underfull \hbox (badness 10000) in paragraph at lines 1862--1862
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1803--1803
+Underfull \hbox (badness 10000) in paragraph at lines 1862--1862
 \T1/ptm/m/it/10 bright-ness: int\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1803--1803
+Underfull \hbox (badness 10000) in paragraph at lines 1862--1862
 \OMS/cmsy/m/n/10 !$ \T1/ptm/m/n/10 Union[dict,
  []
 
 
-Overfull \hbox (34.21378pt too wide) in paragraph at lines 1803--1803
-\T1/ptm/m/n/10 None._VariableFunctions.tensor,
+Overfull \hbox (55.88332pt too wide) in paragraph at lines 1862--1862
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1828--1828
+Underfull \hbox (badness 10000) in paragraph at lines 1887--1887
 []\T1/ptm/m/it/10 image: Union[dict,
  []
 
 
-Overfull \hbox (22.4838pt too wide) in paragraph at lines 1828--1828
-\T1/ptm/m/it/10 None._VariableFunctions.tensor,
+Overfull \hbox (44.7134pt too wide) in paragraph at lines 1887--1887
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1828--1828
+Underfull \hbox (badness 10000) in paragraph at lines 1887--1887
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 , \T1/ptm/m/it/10 con-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1828--1828
+Underfull \hbox (badness 10000) in paragraph at lines 1887--1887
 \T1/ptm/m/it/10 trast\T1/pcr/m/n/10 ) $\OMS/cmsy/m/n/10 !$ \T1/ptm/m/n/10 Union
 [dict,
  []
 
 
-Overfull \hbox (22.21378pt too wide) in paragraph at lines 1828--1828
-\T1/ptm/m/n/10 None._VariableFunctions.tensor,
+Overfull \hbox (43.88332pt too wide) in paragraph at lines 1887--1887
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1853--1853
+Underfull \hbox (badness 10000) in paragraph at lines 1912--1912
 []\T1/ptm/m/it/10 image: Union[dict,
  []
 
 
-Overfull \hbox (4.4838pt too wide) in paragraph at lines 1853--1853
-\T1/ptm/m/it/10 None._VariableFunctions.tensor,
+Overfull \hbox (26.7134pt too wide) in paragraph at lines 1912--1912
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1853--1853
+Underfull \hbox (badness 10000) in paragraph at lines 1912--1912
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 , \T1/ptm/m/it/10 gamma:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1853--1853
+Underfull \hbox (badness 10000) in paragraph at lines 1912--1912
 \T1/ptm/m/it/10 float\T1/pcr/m/n/10 ) $\OMS/cmsy/m/n/10 !$ \T1/ptm/m/n/10 Union
 [dict,
  []
 
 
-Overfull \hbox (4.21378pt too wide) in paragraph at lines 1853--1853
-\T1/ptm/m/n/10 None._VariableFunctions.tensor,
+Overfull \hbox (25.88332pt too wide) in paragraph at lines 1912--1912
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor,
  []
 
-[28]
-Underfull \hbox (badness 10000) in paragraph at lines 1876--1876
+[29]
+Underfull \hbox (badness 10000) in paragraph at lines 1935--1935
 []\T1/ptm/m/it/10 img: Union[dict,
  []
 
 
-Overfull \hbox (10.4838pt too wide) in paragraph at lines 1876--1876
-\T1/ptm/m/it/10 None._VariableFunctions.tensor,
+Overfull \hbox (32.7134pt too wide) in paragraph at lines 1935--1935
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1876--1876
+Underfull \hbox (badness 10000) in paragraph at lines 1935--1935
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1876--1876
+Underfull \hbox (badness 10000) in paragraph at lines 1935--1935
 \T1/ptm/m/it/10 blur_size\T1/pcr/m/n/10 ) $\OMS/cmsy/m/n/10 !$ \T1/ptm/m/n/10 U
 nion[dict,
  []
 
 
-Overfull \hbox (10.21378pt too wide) in paragraph at lines 1876--1876
-\T1/ptm/m/n/10 None._VariableFunctions.tensor,
+Overfull \hbox (31.88332pt too wide) in paragraph at lines 1935--1935
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1896--1896
+Underfull \hbox (badness 10000) in paragraph at lines 1955--1955
 []\T1/ptm/m/it/10 image: Union[dict,
  []
 
 
-Overfull \hbox (16.4838pt too wide) in paragraph at lines 1896--1896
-\T1/ptm/m/it/10 None._VariableFunctions.tensor,
+Overfull \hbox (38.7134pt too wide) in paragraph at lines 1955--1955
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1896--1896
+Underfull \hbox (badness 10000) in paragraph at lines 1955--1955
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1896--1896
+Underfull \hbox (badness 10000) in paragraph at lines 1955--1955
 \T1/ptm/m/it/10 var=20\T1/pcr/m/n/10 ) $\OMS/cmsy/m/n/10 !$ \T1/ptm/m/n/10 Unio
 n[dict,
  []
 
 
-Overfull \hbox (16.21378pt too wide) in paragraph at lines 1896--1896
-\T1/ptm/m/n/10 None._VariableFunctions.tensor,
+Overfull \hbox (37.88332pt too wide) in paragraph at lines 1955--1955
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1916--1916
+Underfull \hbox (badness 10000) in paragraph at lines 1975--1975
 []\T1/ptm/m/it/10 brightness:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1958--1958
+Underfull \hbox (badness 10000) in paragraph at lines 2017--2017
 []\T1/ptm/m/it/10 img:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1958--1958
+Underfull \hbox (badness 10000) in paragraph at lines 2017--2017
 \T1/ptm/m/it/10 Union[dict,
  []
 
 
-Overfull \hbox (64.4838pt too wide) in paragraph at lines 1958--1958
-\T1/ptm/m/it/10 None._VariableFunctions.tensor,
+Overfull \hbox (86.7134pt too wide) in paragraph at lines 2017--2017
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Overfull \hbox (3.81471pt too wide) in paragraph at lines 1958--1958
+Overfull \hbox (3.81471pt too wide) in paragraph at lines 2017--2017
 \T1/ptm/m/it/10 numpy.ndarray]\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1958--1958
+Underfull \hbox (badness 10000) in paragraph at lines 2017--2017
 \OMS/cmsy/m/n/10 !$ \T1/ptm/m/n/10 Union[dict,
  []
 
 
-Overfull \hbox (64.21378pt too wide) in paragraph at lines 1958--1958
-\T1/ptm/m/n/10 None._VariableFunctions.tensor,
+Overfull \hbox (85.88332pt too wide) in paragraph at lines 2017--2017
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1972--1972
+Underfull \hbox (badness 10000) in paragraph at lines 2031--2031
 []\T1/ptm/m/it/10 img: numpy.ndarray\T1/ptm/m/n/10 ,
  []
 
-[29]
-Underfull \hbox (badness 10000) in paragraph at lines 1980--1982
+[30]
+Underfull \hbox (badness 10000) in paragraph at lines 2039--2041
 []\T1/pcr/b/n/10 norm_type \T1/ptm/m/n/10 ^^U opencv nor-mal-iza-tion type (` c
 v2.NORM_MINMAX'
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1980--1982
+Underfull \hbox (badness 10000) in paragraph at lines 2039--2041
 []\T1/ptm/b/n/10 |[]\T1/ptm/m/n/10 cv2.NORM_HAMMING []\T1/ptm/b/n/10 |[]\T1/ptm
 /m/n/10 cv2.NORM_HAMMING2 []\T1/ptm/b/n/10 |[]\T1/ptm/m/n/10 cv2.NORM_INF
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1995--1995
+Underfull \hbox (badness 10000) in paragraph at lines 2054--2054
 []\T1/ptm/m/it/10 image: Union[dict,
  []
 
 
-Overfull \hbox (10.4838pt too wide) in paragraph at lines 1995--1995
-\T1/ptm/m/it/10 None._VariableFunctions.tensor,
+Overfull \hbox (32.7134pt too wide) in paragraph at lines 2054--2054
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1995--1995
+Underfull \hbox (badness 10000) in paragraph at lines 2054--2054
 \T1/ptm/m/it/10 numpy.ndarray]\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1995--1995
+Underfull \hbox (badness 10000) in paragraph at lines 2054--2054
 \OMS/cmsy/m/n/10 !$ \T1/ptm/m/n/10 Union[dict,
  []
 
 
-Overfull \hbox (10.21378pt too wide) in paragraph at lines 1995--1995
-\T1/ptm/m/n/10 None._VariableFunctions.tensor,
+Overfull \hbox (31.88332pt too wide) in paragraph at lines 2054--2054
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2019--2019
+Underfull \hbox (badness 10000) in paragraph at lines 2078--2078
 []\T1/ptm/m/it/10 image:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2019--2019
+Underfull \hbox (badness 10000) in paragraph at lines 2078--2078
 \T1/ptm/m/it/10 Union[dict,
  []
 
 
-Overfull \hbox (58.4838pt too wide) in paragraph at lines 2019--2019
-\T1/ptm/m/it/10 None._VariableFunctions.tensor,
+Overfull \hbox (80.7134pt too wide) in paragraph at lines 2078--2078
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2019--2019
+Underfull \hbox (badness 10000) in paragraph at lines 2078--2078
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2019--2019
+Underfull \hbox (badness 10000) in paragraph at lines 2078--2078
 \OMS/cmsy/m/n/10 !$ \T1/ptm/m/n/10 Union[dict,
  []
 
 
-Overfull \hbox (58.21378pt too wide) in paragraph at lines 2019--2019
-\T1/ptm/m/n/10 None._VariableFunctions.tensor,
+Overfull \hbox (79.88332pt too wide) in paragraph at lines 2078--2078
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2042--2042
+Underfull \hbox (badness 10000) in paragraph at lines 2101--2101
 []\T1/ptm/m/it/10 image: Union[dict,
  []
 
 
-Overfull \hbox (4.4838pt too wide) in paragraph at lines 2042--2042
-\T1/ptm/m/it/10 None._VariableFunctions.tensor,
+Overfull \hbox (26.7134pt too wide) in paragraph at lines 2101--2101
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2042--2042
+Underfull \hbox (badness 10000) in paragraph at lines 2101--2101
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 , \T1/ptm/m/it/10 mean=0\T1/ptm/m/
 n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2042--2042
+Underfull \hbox (badness 10000) in paragraph at lines 2101--2101
 \T1/ptm/m/it/10 var=0.01\T1/pcr/m/n/10 ) $\OMS/cmsy/m/n/10 !$ \T1/ptm/m/n/10 Un
 ion[dict,
  []
 
 
-Overfull \hbox (4.21378pt too wide) in paragraph at lines 2042--2042
-\T1/ptm/m/n/10 None._VariableFunctions.tensor,
+Overfull \hbox (25.88332pt too wide) in paragraph at lines 2101--2101
+\T1/ptm/m/n/10 None._VariableFunctionsClass.tensor,
  []
 
-[30] [31]
-Underfull \hbox (badness 10000) in paragraph at lines 2248--2248
+[31]
+Underfull \hbox (badness 10000) in paragraph at lines 2175--2175
+[]\T1/ptm/m/it/10 data: dict\T1/ptm/m/n/10 , \T1/ptm/m/it/10 ma-trix:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2175--2175
+\T1/ptm/m/it/10 None._VariableFunctionsClass.tensor\T1/ptm/m/n/10 , \T1/ptm/m/i
+t/10 vi-su-al-ize:
+ []
+
+[32]
+Underfull \hbox (badness 10000) in paragraph at lines 2307--2307
 []\T1/ptm/m/it/10 data: Union[dict, torch.Tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2248--2248
+Underfull \hbox (badness 10000) in paragraph at lines 2307--2307
 \T1/ptm/m/it/10 = False\T1/pcr/m/n/10 ) $\OMS/cmsy/m/n/10 !$ \T1/ptm/m/n/10 Uni
 on[dict, torch.Tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2290--2290
+Underfull \hbox (badness 10000) in paragraph at lines 2349--2349
 []\T1/ptm/m/it/10 data: Union[dict, torch.Tensor,
  []
 
 
-Underfull \hbox (badness 6252) in paragraph at lines 2290--2290
+Underfull \hbox (badness 6252) in paragraph at lines 2349--2349
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 , \T1/ptm/m/it/10 con-trast: float
 \T1/ptm/m/n/10 , \T1/ptm/m/it/10 vi-
  []
 
-[32]
-Underfull \hbox (badness 10000) in paragraph at lines 2317--2317
+[33]
+Underfull \hbox (badness 10000) in paragraph at lines 2376--2376
 []\T1/ptm/m/it/10 data: Union[dict, torch.Tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2317--2317
+Underfull \hbox (badness 10000) in paragraph at lines 2376--2376
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 , \T1/ptm/m/it/10 bright=1\T1/ptm/
 m/n/10 , \T1/ptm/m/it/10 vi-su-al-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2357--2357
+Underfull \hbox (badness 10000) in paragraph at lines 2416--2416
 []\T1/ptm/m/it/10 data: Union[dict, torch.Tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2381--2381
+Underfull \hbox (badness 10000) in paragraph at lines 2440--2440
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 , \T1/ptm/m/it/10 var=0.5\T1/ptm/m
 /n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2381--2381
+Underfull \hbox (badness 10000) in paragraph at lines 2440--2440
 \T1/ptm/m/it/10 vi-su-al-ize: bool = False\T1/pcr/m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2381--2381
+Underfull \hbox (badness 10000) in paragraph at lines 2440--2440
 \OMS/cmsy/m/n/10 !$ \T1/ptm/m/n/10 Union[dict, torch.Tensor,
  []
 
-[33]
-Underfull \hbox (badness 10000) in paragraph at lines 2408--2408
+[34]
+Underfull \hbox (badness 10000) in paragraph at lines 2467--2467
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 , \T1/ptm/m/it/10 vi-su-al-ize:
  []
 
 
-Underfull \hbox (badness 7221) in paragraph at lines 2430--2430
+Underfull \hbox (badness 7221) in paragraph at lines 2489--2489
 []\T1/ptm/m/it/10 data: Union[dict, torch.Tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2430--2430
+Underfull \hbox (badness 10000) in paragraph at lines 2489--2489
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 , \T1/ptm/m/it/10 mean=0\T1/ptm/m/
 n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2430--2430
+Underfull \hbox (badness 10000) in paragraph at lines 2489--2489
 \T1/ptm/m/it/10 var=0.01\T1/ptm/m/n/10 , \T1/ptm/m/it/10 vi-su-al-ize: bool =
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2458--2458
+Underfull \hbox (badness 10000) in paragraph at lines 2517--2517
 []\T1/ptm/m/it/10 data: Union[dict,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2458--2458
+Underfull \hbox (badness 10000) in paragraph at lines 2517--2517
 \T1/ptm/m/it/10 torch.Tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2458--2458
+Underfull \hbox (badness 10000) in paragraph at lines 2517--2517
 \T1/ptm/m/it/10 numpy.ndarray]\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2458--2458
+Underfull \hbox (badness 10000) in paragraph at lines 2517--2517
 \T1/ptm/m/it/10 amount=0.05\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2458--2458
+Underfull \hbox (badness 10000) in paragraph at lines 2517--2517
 \T1/ptm/m/it/10 s_vs_p=0.5\T1/ptm/m/n/10 , \T1/ptm/m/it/10 vi-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2458--2458
+Underfull \hbox (badness 10000) in paragraph at lines 2517--2517
 \T1/ptm/m/it/10 su-al-ize: bool =
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2458--2458
+Underfull \hbox (badness 10000) in paragraph at lines 2517--2517
 \T1/ptm/m/n/10 torch.Tensor,
  []
 
-[34]
-Underfull \hbox (badness 10000) in paragraph at lines 2481--2481
+[35]
+Underfull \hbox (badness 10000) in paragraph at lines 2540--2540
 []\T1/ptm/m/it/10 data: Union[dict, torch.Tensor, numpy.ndarray]\T1/ptm/m/n/10 
 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2506--2506
+Underfull \hbox (badness 10000) in paragraph at lines 2565--2565
 []\T1/ptm/m/it/10 data: Union[dict, torch.Tensor,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2611--2611
+Underfull \hbox (badness 10000) in paragraph at lines 2670--2670
 []\T1/ptm/m/it/10 keypoints\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2611--2611
+Underfull \hbox (badness 10000) in paragraph at lines 2670--2670
 \T1/ptm/m/it/10 re-
  []
 
 
-Overfull \hbox (28.99411pt too wide) in paragraph at lines 2611--2611
+Overfull \hbox (28.99411pt too wide) in paragraph at lines 2670--2670
 \T1/ptm/m/it/10 size_factor=None\T1/pcr/m/n/10 ) 
  []
 
-[35]
+[36]
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <9> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 2714.
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 2773.
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <9> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 2723.
-LaTeX Font Info:    Try loading font information for TS1+pcr on input line 2734
-.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1pcr.fd
-File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
-)
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 2782.
 LaTeX Font Info:    Font shape `TS1/pcr/m/it' in size <9> not available
-(Font)              Font shape `TS1/pcr/m/sl' tried instead on input line 2737.
+(Font)              Font shape `TS1/pcr/m/sl' tried instead on input line 2796.
 
- [36]
-Underfull \vbox (badness 10000) detected at line 2800
+ [37]
+Underfull \vbox (badness 10000) detected at line 2859
  []
 
 
-Overfull \vbox (13.68169pt too high) detected at line 2800
+Overfull \vbox (13.68169pt too high) detected at line 2859
  []
 
-[37] [38]
-Underfull \vbox (badness 10000) detected at line 2894
+[38] [39]
+Underfull \vbox (badness 10000) detected at line 2953
  []
 
 
-Overfull \vbox (2.68169pt too high) detected at line 2894
+Overfull \vbox (2.68169pt too high) detected at line 2953
  []
 
-[39] [40] [41] [42
+[40] [41] [42]
+Underfull \vbox (badness 10000) detected at line 3356
+ []
 
-]
+
+Overfull \vbox (2.68169pt too high) detected at line 3356
+ []
+
+[43]
+Underfull \vbox (badness 10000) detected at line 3356
+ []
+
+
+Overfull \vbox (2.68169pt too high) detected at line 3356
+ []
+
+[44]
+Underfull \vbox (badness 10000) detected at line 3356
+ []
+
+
+Overfull \vbox (2.68169pt too high) detected at line 3356
+ []
+
+[45]
+Underfull \vbox (badness 10000) detected at line 3356
+ []
+
+
+Overfull \vbox (2.68169pt too high) detected at line 3356
+ []
+
+[46]
+Underfull \vbox (badness 10000) detected at line 3356
+ []
+
+
+Overfull \vbox (2.68169pt too high) detected at line 3356
+ []
+
+[47] [48]
 Chapter 4.
-[43] [44
+[49
+
+] [50
 
 ]
-Overfull \hbox (24.6225pt too wide) in paragraph at lines 3002--3003
+Overfull \hbox (24.6225pt too wide) in paragraph at lines 3427--3428
 []\T1/pcr/m/n/10 ida_lib.image_augmentation.augment_to_disk\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (0.6225pt too wide) in paragraph at lines 3003--3004
+Overfull \hbox (0.6225pt too wide) in paragraph at lines 3428--3429
 []\T1/pcr/m/n/10 ida_lib.image_augmentation.data_loader\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (24.6225pt too wide) in paragraph at lines 3005--3006
+Overfull \hbox (24.6225pt too wide) in paragraph at lines 3430--3431
 []\T1/pcr/m/n/10 ida_lib.operations.geometry_ops_functional\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (6.6225pt too wide) in paragraph at lines 3006--3007
+Overfull \hbox (6.6225pt too wide) in paragraph at lines 3431--3432
 []\T1/pcr/m/n/10 ida_lib.operations.pixel_ops_functional\T1/ptm/m/n/10 ,
  []
 
-[45
+[51
 
 
-] (./idalib.ind [46
+] (./idalib.ind [52
 
 
 ]
@@ -3106,7 +3173,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 70--72
 []\T1/pcr/m/n/10 change_contrast() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule
  []
 
-[47
+[53
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 72--74
@@ -3415,7 +3482,7 @@ Overfull \hbox (81.13019pt too wide) in paragraph at lines 165--167
 ipeline_local_ops.PoissonNoisePipeline
  []
 
-[48]
+[54]
 Overfull \hbox (110.01006pt too wide) in paragraph at lines 167--169
 []\T1/pcr/m/n/10 get_op_matrix() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 ida_lib.core.p
 ipeline_local_ops.SaltAndPepperNoisePipeline
@@ -3656,7 +3723,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 266--268
 ule
  []
 
-[49]
+[55]
 Underfull \hbox (badness 10000) in paragraph at lines 270--272
 []\T1/pcr/m/n/10 inject_spekle_noise() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-u
 le
@@ -3877,7 +3944,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 368--370
 []\T1/pcr/m/n/10 RandomScalePipeline \T1/ptm/m/n/10 (\T1/ptm/m/it/10 class in
  []
 
-[50]
+[56]
 Underfull \hbox (badness 10000) in paragraph at lines 370--372
 []\T1/pcr/m/n/10 RandomShearPipeline \T1/ptm/m/n/10 (\T1/ptm/m/it/10 class in
  []
@@ -4190,7 +4257,7 @@ Overfull \hbox (43.21028pt too wide) in paragraph at lines 456--458
 ipeline
  []
 
-[51]
+[57]
 Underfull \hbox (badness 10000) in paragraph at lines 458--460
 []\T1/pcr/m/n/10 transform_function()
  []
@@ -4274,25 +4341,25 @@ Underfull \hbox (badness 10000) in paragraph at lines 479--481
 []\T1/pcr/m/n/10 VflipPipeline \T1/ptm/m/n/10 (\T1/ptm/m/it/10 class in
  []
 
-[52
+[58
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3014.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3014.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3439.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3439.
  (./idalib.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3014.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3014.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3439.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3439.
 
 Package rerunfilecheck Info: File `idalib.out' has not changed.
-(rerunfilecheck)             Checksum: D13294AD35EE792925F21E0EBD762158;1930.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3014.
+(rerunfilecheck)             Checksum: C916A1222BBBFB96A0FE1043A4A96DC0;2286.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3439.
  ) 
 Here is how much of TeX's memory you used:
- 14340 strings out of 494923
- 211902 string characters out of 6180742
- 447917 words of memory out of 5000000
- 17008 multiletter control sequences out of 15000+600000
- 55316 words of font info for 80 fonts, out of 8000000 for 9000
+ 14368 strings out of 494923
+ 212206 string characters out of 6180742
+ 790671 words of memory out of 5000000
+ 17017 multiletter control sequences out of 15000+600000
+ 55609 words of font info for 81 fonts, out of 8000000 for 9000
  15 hyphenation exceptions out of 8191
  37i,12n,45p,1787b,603s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
@@ -4307,10 +4374,10 @@ texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
 times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.p
 fb>
-Output written on idalib.pdf (56 pages, 10994979 bytes).
+Output written on idalib.pdf (62 pages, 11014885 bytes).
 PDF statistics:
- 975 PDF objects out of 1000 (max. 8388607)
- 870 compressed objects within 9 object streams
- 305 named destinations out of 1000 (max. 500000)
- 244 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1034 PDF objects out of 1200 (max. 8388607)
+ 922 compressed objects within 10 object streams
+ 324 named destinations out of 1000 (max. 500000)
+ 268 words of extra memory for PDF output out of 10000 (max. 10000000)
 
