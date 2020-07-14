@@ -44,16 +44,14 @@ MOCK_MODULES = ["functools",
                 'numpy',
                 'torch',
                 'string',
-                #'cv2',
+                'cv2',
                 'kornia',
-                'random',
-                #'abc',
-                'os',
-                'bokeh']
+                'random']
+                #'abc']
 #MOCK_MODULES = []
 autodoc_mock_imports = MOCK_MODULES
 
-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+#sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 

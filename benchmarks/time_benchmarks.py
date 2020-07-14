@@ -142,7 +142,7 @@ def func_keypoints():
     samples = 10
     batchsize = 10
     print("time according to operations\n------------------------------\nNum_points\ttime per item")
-    for n_points in range(1,1000,30):
+    for n_points in range(1,2000,200):
         operations = get_n_operations(5)
         pip = Pipeline(interpolation='nearest',
                        pipeline_operations=operations)
@@ -152,7 +152,7 @@ def func_keypoints():
         for i in range(samples):
             batch = generate_image_and_keypoints_batch(batchsize, shape, n_points)
             t += timeit.timeit(lambda:pip(batch), number = 1)
-        t = t/samples
+        t = (t/samples)*1000
         print(str(n_points) + '\t' + str(t/batchsize))
 
 
@@ -178,6 +178,6 @@ def func_number_masks():
         print(str(n_masks) + '\t' + str(t / batchsize))
 
 for i in range(10):
-    func_resolution_bilinear()
+    func_keypoints()
 
 
