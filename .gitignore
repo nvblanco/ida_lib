@@ -1,2 +1,13 @@
-# Project exclude paths
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
 /venv/
+
+# Eggs
+*.egg-info/
+
+# Sphinx
+docs/_build/
