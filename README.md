@@ -1,6 +1,4 @@
-<div style="text-align:center">
-<img src="https://github.com/raquelvilas18/ida_lib/blob/master/ida_lib/static/little_icon.jpg" />
-</div>
+![logo](https://github.com/raquelvilas18/ida_lib/blob/master/ida_lib/static/little_icon.jpg)
 
 <div style='text-align: justify;'> 
 
@@ -10,7 +8,7 @@ Ida Lib allows a wide variety of operations to be performed in order to provide 
 
 The library is optimized to perform operations in the most efficient way possible, thus reducing the overload on other processes (such as the training process of a neural network). In addition, it allows the **joint transformation of different types and combinations of data types** in a flexible and correct way, including the processing of:
 * Images
-* Poin's coordinates
+* Point's coordinates
 * Masks
 * Segmentation maps
 * Heatmaps
@@ -20,11 +18,10 @@ The library is optimized to perform operations in the most efficient way possibl
 * [**Multiple fast augmentations**](#operations) based on Kornia an OpenCV libraries
 * **Flexible** and customizable
 * Complete tool, includes support for tasks associated with Pytorch-based neural networks
-  * includes support for **feeding your neural network directly** by doing image data augmentation in the [IDALIb Dataloader](#dataloader)
-  * includes support for a **tool to directly perform the [Image Data Augmentation to disk](#augment_to_disk).** To be able to use the increased dataset later and independently of the platform
+* includes support for **feeding your neural network directly** by doing image data augmentation in the [IDALIb Dataloader](#dataloader)
+* includes support for a **tool to directly perform the [Image Data Augmentation to disk](#augment_to_disk).** To be able to use the increased dataset later and independently of the platform
 * Supports **multiple types of combined data** (images, heat maps, segmentation maps, masks and keypoints)
 * Includes a [**visualization tool**](#visualization) to make easier program debugging and can see the transformation results
-* 
 
 ## Documentation
 
@@ -62,7 +59,7 @@ example_pipipeline = Pipeline(pipeline_operations=(
 ```
 The pipelineOperations can be divided into 2 groups:
 * the classic operations, where you indicate exactly the parameters of the operation (for example ```RotatePipeline(degrees=20)``` ). In [transformations](#operations) you can see what each one of them does
-* and the Random pipelineOPerations, where what you define is a range of possible parameters, and each time the operation is applied it will take a different value within this range (RandomRotatePipeline(degrees_range=(-20,30))
+* and the Random pipelineOperations, where what you define is a range of possible parameters, and each time the operation is applied it will take a different value within this range (RandomRotatePipeline(degrees_range=(-20,30))
 
 Once you have defined your pipeline, you can pass through it your batch data to be transformed. Remember that the entry for the pipeline must be composed of dictionary type data. For each element to be treated correctly it must be associated with its type (images with 'image1', 'image2'...; masks with 'mask1', 'mask67'...):
 ```
