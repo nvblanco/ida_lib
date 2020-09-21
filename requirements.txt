@@ -1,8 +1,8 @@
 opencv-python>=4.2
-numpy==1.18.4
-bokeh==2.0.1
-kornia==0.3.1
-torch==1.5.0
+numpy>=1.18.0
+bokeh>=2.0.0
+kornia>=0.3.1
+torch>=1.5.0
 pandas
 sphinx_rtd_theme
 scikit-image
