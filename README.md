@@ -1,4 +1,4 @@
-![logo](https://github.com/raquelvilas18/ida_lib/blob/master/ida_lib/static/little_icon.jpg)
+![logo](https://raw.githubusercontent.com/nvblanco/ida_lib/master/ida_lib/static/little_icon.jpg)
 
 <div style='text-align: justify;'> 
 
